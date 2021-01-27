@@ -2,12 +2,13 @@ var express = require('express');
 var router = express.Router();
 
 router.post('/login', function (req, res, next) {
-    let email = req.headers.email;
-    let password = req.headers.password;
+    let email = req.body.email;
+    let password = req.body.password;
     if (email === 'thusuong@gmail.com' && password === 'thusuongtk') {
         res.json({
-            status: 200,
-            message: 'Login success!.'
+            status: 'success',
+            userType: 'admin',
+            id: '1234'
         });
     } else {
         res.json({
