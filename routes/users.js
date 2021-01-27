@@ -1,21 +1,28 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
-router.get('/login', function(req, res, next) {
-  res.send('{status:success, id: 123, name: Anh}');
+router.post('/login', function (req, res, next) {
+    let email = req.headers.email;
+    let password = req.headers.password;
+    if (email === 'thusuong@gmail.com' && password === 'thusuongtk') {
+        res.json({
+            status: 200,
+            message: 'Login success!.'
+        });
+    } else {
+        res.json({
+            status: 404,
+            message: 'Not found.'
+        });
+    }
 });
 
-/* GET users listing. */
-router.get('/register', function(req, res, next) {
-  res.send('api for user register');
+router.get('/changePassword', function (req, res, next) {
+    res.send('api for changePassword');
 });
 
-/* GET users listing. */
-router.get('/logout', function(req, res, next) {
-  res.send('api for user logout');
+router.get('/logout', function (req, res, next) {
+    res.send('api for user logout');
 });
-
-
 
 module.exports = router;
