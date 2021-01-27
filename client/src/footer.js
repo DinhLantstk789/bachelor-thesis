@@ -1,12 +1,15 @@
-import './App.css';
 import {Component, Fragment} from 'react';
 
 class Footer extends Component {
-    render(){
+    render() {
         return (
-            <div>
-                this is the footer.
-            </div>
+            <Fragment>
+                <div className="copyright footer_bottom">
+                    <div className="container">
+                        2013 © Metronic. ALL Rights Reserved.
+                    </div>
+                </div>
+            </Fragment>
         )
     }
 }
