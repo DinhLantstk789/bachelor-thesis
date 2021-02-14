@@ -2,13 +2,6 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/add', function(req, res, next) {
-    let itemType = req.body.itemType;
-    let title = req.body.title;
-    let abstract = req.body.abstract;
-    let creators = [];
-
-
-
 
 });
 

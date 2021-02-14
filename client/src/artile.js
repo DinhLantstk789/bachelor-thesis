@@ -21,7 +21,7 @@ class Article extends Component {
     onDepositClicked = (event) => {
         this.setState({currentStep: 4});
     }
-    onArticleTypeChanged = function(newType) {
+    onArticleTypeChanged = (newType) => {
         this.setState({type: newType});
     }
 
