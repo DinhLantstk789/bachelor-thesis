@@ -25,12 +25,13 @@ class Article extends Component {
         this.setState({type: newType});
     }
 
+
     render() {
         let currentComponent = null;
         let step = ''
         switch (this.state.currentStep) {
             case 1:
-                currentComponent = <ArticleType type={this.state.type} goiHamNayKhiThayDoiRadio={this.onArticleTypeChanged}/>;
+                currentComponent = <ArticleType type={this.state.type} onArticleTypeChanged={this.onArticleTypeChanged}/>;
                 step = 'Type';
                 break;
             case 2:
@@ -46,11 +47,10 @@ class Article extends Component {
                 step = 'Deposit';
                 break;
         }
-
         return (
             <Fragment>
                 <div className="panel panel-info col-md-6">
-                    <button onClick={this.onTypeClicked}>Type</button>
+                    <button className="btn default green-stripe" onClick={this.onTypeClicked}><i className="fa fa-user"/>Type</button>
                     ->
                     <button onClick={this.onDetailsClicked}>Details</button> ->
                     <button onClick={this.onSubjectsClicked}>Subjects</button> ->

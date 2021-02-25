@@ -13,7 +13,10 @@ class ArticleDetails extends Component {
         corporateCreators: [{corporateCreator: 'aaa'}, {corporateCreator: 'tb'}],
         editors: [{familyName: '', givenName: '', email: ''}],
         relatedURL: [{URL: 'a', URLType: 'b'}],
-        enteredIdentificationNumber: ''
+        enteredIdentificationNumber: '',
+        funders: [{funder: 'a'}],
+        projects: [{projectName: 'a'}],
+        copyrightHolders: [{holder: ''}]
     }
 
     constructor(props, context) {
@@ -50,6 +53,22 @@ class ArticleDetails extends Component {
         let newRelatedURL = currentRelatedURL.concat({URL: '', URLType: ''});
         this.setState({relatedURL: newRelatedURL});
     }
+    onAddFunder = (event) => {
+        let currentFunder = this.state.funders;
+        let newFunder = currentFunder.concat({funder: ''});
+        this.setState({funders: newFunder});
+    }
+    onAddProject = (event) => {
+        let currentProject = this.state.projects;
+        let newProject = currentProject.concat({projectName: ''});
+        this.setState({projects: newProject})
+    }
+    onAddCopyrightHolder = (event) => {
+        let currentHolder = this.state.copyrightHolders;
+        let newCurrentHolder = currentHolder.concat({holder: ''});
+        this.setState({copyrightHolder: newCurrentHolder});
+    }
+
     onShowEmailAddress = (event) => {
         let emailAddress = document.getElementById('emailAddress');
         if (emailAddress.style.display === "block") {
@@ -109,119 +128,57 @@ class ArticleDetails extends Component {
 
     render() {
         let mainComponent = null;
+        let addComponent = null;
+        let detailComponent = null;
         switch (this.state.type) {
             case 'article':
                 mainComponent =
                     <div>
-                        <div className="form-group">
-                            <label className="col-md-3 control-label">Monograph Type</label>
-                            <div className="col-md-9">
-                                <div className="a">
-                                    <div className="radio-list">
-                                        <label>
-                                            <div className="radio">
-                                        <span className="checked">
-                                            <input type="radio" name="techReport" value="yes" checked="checked"/>
-                                        </span>
-                                            </div>
-                                            Technical Report
-                                        </label>
-                                        <label>
-                                            <div className="radio">
-                                        <span className="checked">
-                                            <input type="radio" name="techReport" value="no" checked=""/>
-                                        </span>
-                                            </div>
-                                            Project Report
-                                        </label>
-                                        <label>
-                                            <div className="radio">
+                        <label className="col-md-3 control-label">Refereed</label>
+                        <div className="col-md-9">
+                            <div className="a">
+                                <div className="radio-list">
+                                    <label>
+                                        <div className="radio">
                                                 <span className="checked">
-                                                    <input type="radio" name="techReport" value="no"
-                                                           checked=""/>
+                                                    <input type="radio" name="refereed" value="yes" checked="checked"/>
                                                 </span>
-                                            </div>
-                                            Documentation
-                                        </label>
-                                        <label>
-                                            <div className="radio">
+                                        </div>
+                                        Yes,this version has been refereed
+                                    </label>
+                                    <label>
+                                        <div className="radio">
                                                 <span className="checked">
-                                                    <input type="radio" name="techReport" value="no"
-                                                           checked=""/>
+                                                    <input type="radio" name="refereed" value="no" checked=""/>
                                                 </span>
-                                            </div>
-                                            Manual
-                                        </label>
-                                        <label>
-                                            <div className="radio">
-                                                <span className="checked">
-                                                    <input type="radio" name="techReport" value="no"
-                                                           checked=""/>
-                                                </span>
-                                            </div>
-                                            Working Paper
-                                        </label>
-                                        <label>
-                                            <div className="radio">
-                                                <span className="checked">
-                                                    <input type="radio" name="techReport" value="no"
-                                                           checked=""/>
-                                                </span>
-                                            </div>
-                                            Discussion Paper
-                                        </label>
-                                        <label>
-                                            <div className="radio">
-                                                <span className="checked">
-                                                    <input type="radio" name="techReport" value="no"
-                                                           checked=""/>
-                                                </span>
-                                            </div>
-                                            Other
-                                        </label>
-                                    </div>
+                                        </div>
+                                        No, this version has not been refereed
+                                    </label>
                                 </div>
                             </div>
                         </div>
-                        <div className="form-group">
-                            <div><label className=" control-label">Creators</label></div>
-                            {this.state.creators.map((item, index) => (
-                                <span className="add">
-                                        <div className="row">
-                                          <div className="column">
-                                             <input type="text" className="form-control" placeholder='FamilyName'
-                                                    value={item.familyName}/>
-                                          </div>
-                                          <div className="column">
-                                              <input type="text" className="form-control" placeholder='Given Name'
-                                                     value={item.givenName}/>
-                                          </div>
-                                          <div className="column">
-                                              <input type="text" className="form-control" placeholder='Email'
-                                                     value={item.email}/>
-                                          </div>
-                                          <div className="column">
-                                              <input type="text" className="form-control" placeholder='Department'
-                                                     value={item.department}/>
-                                          </div>
-                                    </div>
-                                </span>
-                            ))}
-                            <button onClick={this.onAddCreator}>More input rows</button>
+                        <input type="text" className="form-control" id="journalOrPublication"
+                               placeholder="Enter Journal or Publication Title"/>
+                        <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
+                        <input type="text" className="form-control"
+                               placeholder="Enter ISSN" onChange={this.onTypingISSN}/>
+                        <input type="text" className="form-control"
+                               placeholder="Enter Publisher"/>
+                        <input type="text" className="form-control"
+                               placeholder="Enter Volume"/>
+                        <input type="text" className="form-control"
+                               placeholder="Enter Number"/>
+                        <div className=" control-label">
+                            <label htmlFor="name">Page Rage</label>
+                            <input type="text" id="pageRange" size={8}/>
+                            <label htmlFor="address">to</label>
+                            <input type="text" id="pageRange" size={8}/>
                         </div>
-                        <div className="form-group">
-                            <div><label className=" control-label">Corporate Creators</label></div>
-                            {this.state.corporateCreators.map(item => (
-                                <span className="add">
-                                        <div className="row">
-                                             <input type="text" className="form-control"
-                                                    placeholder='Corporate Creators'
-                                                    value={item.corporateCreator}/>
-                                        </div>
-                                    </span>
-                            ))}
-                            <button onClick={this.onAddCorporateCreator}>More input rows</button>
-                        </div>
+                    </div>
+                break;
+            case 'book-section':
+                mainComponent =
+                    <div>
                         <div className="form-group">
                             <div><label className="control-label">Editors</label></div>
                             {this.state.editors.map(item => (
@@ -244,218 +201,376 @@ class ArticleDetails extends Component {
                             ))}
                             <button onClick={this.onAddEditor}>More input rows</button>
                         </div>
-                        <div className="form-group">
-                            <label>Divisions</label>
-                            <select multiple="" className="form-control" size="3">
-                                <option>Advanced Insitute of Engineering and Technology (AVITECH)</option>
-                                <option>Department of Civil Engineering and Transportation (CET)</option>
-                                <option>Center for Electronics and Telecommunications Research (CETR)</option>
-                                <option>Faculty of Agriculture Technology (FAT)</option>
-                                <option>Faculty of Electronics and Telecommunications (FET)</option>
-                                <option>Faculty of Engineering Mechanics and Automation (FEMA)</option>
-                                <option>Faculty of Engineering Physics and Nanotechnology</option>
-                                <option>Faculty of Information Technology (FIT)</option>
-                                <option>Key Laboratory for Nanotechnology (Nano Lab)</option>
-                                <option>School of Aerospace Engineering (SAE)</option>
-                                <option>Key Laboratory for Smart Integrated Systems (SISLAB)</option>
-                            </select>
-                        </div>
-                        <div className="form-group panel-detail">
-                            <div className="panel-detail"><h4 className="panel-detail">Publication Details</h4>
+                        <label className="col-md-3 control-label">Refereed</label>
+                        <div className="col-md-9">
+                            <div className="a">
+                                <div className="radio-list">
+                                    <label>
+                                        <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" name="refereed" value="yes" checked="checked"/>
+                                                </span>
+                                        </div>
+                                        Yes,this version has been refereed
+                                    </label>
+                                    <label>
+                                        <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" name="refereed" value="no" checked=""/>
+                                                </span>
+                                        </div>
+                                        No, this version has not been refereed
+                                    </label>
+                                </div>
                             </div>
-                            <label className="col-md-3 control-label">Refereed</label>
+                        </div>
+                        <div className=" control-label">
+                            <label htmlFor="name">Page Rage</label>
+                            <input type="text" id="pageRange" size={8}/>
+                            <label htmlFor="address">to</label>
+                            <input type="text" id="pageRange" size={8}/>
+                        </div>
+                        <input type="text" className="form-control" placeholder="Enter Title of Book"/>
+                        <input type="text" className="form-control" placeholder="Enter Volume"/>
+                        <input type="text" className="form-control" placeholder="Enter Place of Publication"/>
+                        <input type="text" className="form-control" placeholder="Enter Publisher"/>
+                        <input type="text" className="form-control" placeholder="Enter Number of Pages"/>
+                        <input type="text" className="form-control" placeholder="Enter Series Name"/>
+                        <input type="text" className="form-control" placeholder="Enter Number"/>
+                        <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
+                        <input type="text" className="form-control"
+                               placeholder="Enter ISBN" onChange={this.onTypingISSN}/>
+                    </div>
+                break;
+            case 'technical-report':
+                mainComponent =
+                    <div>
+                        <input type="text" className="form-control" placeholder="Enter Institution"/>
+                        <input type="text" className="form-control" placeholder="Enter Department"/>
+                        <input type="text" className="form-control" placeholder="Enter Place of Publication"/>
+                        <input type="text" className="form-control" placeholder="Enter Publisher"/>
+                        <input type="text" className="form-control" placeholder="Enter Number of Pages"/>
+                    </div>
+                addComponent =
+                    <div>
+                        <div className="form-group">
+                            <label className="col-md-3 control-label">Monograph Type</label>
                             <div className="col-md-9">
                                 <div className="a">
                                     <div className="radio-list">
                                         <label>
                                             <div className="radio">
-                                                <span className="checked">
-                                                    <input type="radio" name="refereed" value="yes"
-                                                           checked="checked"/>
-                                                </span>
+                                        <span className="checked">
+                                            <input type="radio" value="technical-report" checked="checked"/>
+                                        </span>
                                             </div>
-                                            Yes,this version has been refereed
+                                            Technical Report
+                                        </label>
+                                        <label>
+                                            <div className="radio">
+                                        <span className="checked">
+                                            <input type="radio" value="project-report" checked=""/>
+                                        </span>
+                                            </div>
+                                            Project Report
                                         </label>
                                         <label>
                                             <div className="radio">
                                                 <span className="checked">
-                                                    <input type="radio" name="refereed" value="no"
-                                                           checked=""/>
+                                                    <input type="radio" value="documentation" checked=""/>
                                                 </span>
                                             </div>
-                                            No, this version has not been refereed
+                                            Documentation
+                                        </label>
+                                        <label>
+                                            <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" value="manual" checked=""/>
+                                                </span>
+                                            </div>
+                                            Manual
+                                        </label>
+                                        <label>
+                                            <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" value="working-paper" checked=""/>
+                                                </span>
+                                            </div>
+                                            Working Paper
+                                        </label>
+                                        <label>
+                                            <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" value="discussion-paper" checked=""/>
+                                                </span>
+                                            </div>
+                                            Discussion Paper
+                                        </label>
+                                        <label>
+                                            <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" value="other" checked=""/>
+                                                </span>
+                                            </div>
+                                            Other
                                         </label>
                                     </div>
                                 </div>
                             </div>
-                            <label className="col-md-3 control-label">Status</label>
-                            <div className="col-md-9">
+                        </div>
+                    </div>
+                break;
+            case 'conference-workshop-item':
+                mainComponent =
+                    <div>
+                        <label className="col-md-3 control-label">Refereed</label>
+                        <div className="col-md-9" id="conference">
+                            <div className="a">
                                 <div className="radio-list">
                                     <label>
                                         <div className="radio">
                                                 <span className="checked">
-                                                    <input type="radio" name="status" value="published"
-                                                           checked="checked"/>
+                                                    <input type="radio" name="refereed" value="yes" checked="checked"/>
                                                 </span>
                                         </div>
-                                        Published
+                                        Yes,this version has been refereed
                                     </label>
                                     <label>
                                         <div className="radio">
                                                 <span className="checked">
-                                                    <input type="radio" name="status" value="inPress"
-                                                           checked=""/>
+                                                    <input type="radio" name="refereed" value="no" checked=""/>
                                                 </span>
                                         </div>
-                                        In Press
-                                    </label>
-                                    <label>
-                                        <div className="radio">
-                                                <span className="checked">
-                                                    <input type="radio" name="status" value="submitted"
-                                                           checked=""/>
-                                                </span>
-                                        </div>
-                                        Submitted
-                                    </label>
-                                    <label>
-                                        <div className="radio">
-                                                <span className="checked">
-                                                    <input type="radio" name="status" value="unpublished"
-                                                           checked=""/>
-                                                </span>
-                                        </div>
-                                        Unpublished
+                                        No, this version has not been refereed
                                     </label>
                                 </div>
                             </div>
-                            <input type="text" className="form-control" id="journalOrPublication"
-                                   placeholder="Enter Journal or Publication Title"/>
-                            <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
-                            <input type="text" className="form-control" id="ISSN"
-                                   placeholder="Enter ISSN" onChange={this.onTypingISSN}/>
-                            <input type="text" className="form-control" id="techReport"
-                                   placeholder="Enter Institution"/>
-                            <input type="text" className="form-control" id="publisher"
-                                   placeholder="Enter Publisher"/>
-                            <input type="text" className="form-control" id="officialURL"
-                                   placeholder="Enter Official URL"/>
-                            <input type="text" className="form-control" id="volume"
-                                   placeholder="Enter Volume"/>
-                            <input type="text" className="form-control" id="bookSection"
-                                   placeholder="Enter Place of Publication"/>
-                            <input type="text" className="form-control" id="bookSection"
-                                   placeholder="Enter Number of Pages"/>
-                            <input type="text" className="form-control" id="bookSection"
-                                   placeholder="Enter Series Name"/>
-                            <input type="text" className="form-control" id="number"
-                                   placeholder="Enter Number"/>
-                            <div className=" control-label">
-                                <label htmlFor="name">Page Rage</label>
-                                <input type="number"/>
-                                <label htmlFor="address">to</label>
-                                <input type="number"/>
-                            </div>
-                            <div className="pageRange">
-                                <label htmlFor="name">Date</label>
-                                <input type="date"/>
-                            </div>
-                            <label className="col-md-3 control-label">Date Type</label>
+                        </div>
+                    </div>
+                addComponent =
+                    <div>
+                        <div className="form-group">
+                            <label className="col-md-3 control-label">Presentation Type</label>
                             <div className="col-md-9">
+                                <div className="a">
+                                    <div className="radio-list">
+                                        <label>
+                                            <div className="radio">
+                                        <span className="checked">
+                                            <input type="radio" value="paper" checked="checked"/>
+                                        </span>
+                                            </div>
+                                            Paper
+                                        </label>
+                                        <label>
+                                            <div className="radio">
+                                        <span className="checked">
+                                            <input type="radio" value="lecture" checked=""/>
+                                        </span>
+                                            </div>
+                                            Lecture
+                                        </label>
+                                        <label>
+                                            <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" value="speech"
+                                                           checked=""/>
+                                                </span>
+                                            </div>
+                                            Speech
+                                        </label>
+                                        <label>
+                                            <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" value="poster"
+                                                           checked=""/>
+                                                </span>
+                                            </div>
+                                            Poster
+                                        </label>
+                                        <label>
+                                            <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" value="keynote"
+                                                           checked=""/>
+                                                </span>
+                                            </div>
+                                            Keynote
+                                        </label>
+                                        <label>
+                                            <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" value="other"
+                                                           checked=""/>
+                                                </span>
+                                            </div>
+                                            Other
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                break;
+            case 'book':
+                mainComponent =
+                    <div>
+                        <label className="col-md-3 control-label">Refereed</label>
+                        <div className="col-md-9">
+                            <div className="a">
                                 <div className="radio-list">
                                     <label>
                                         <div className="radio">
                                                 <span className="checked">
-                                                    <input type="radio" name="dateType" value="option1"
-                                                           checked="checked"/>
+                                                    <input type="radio" name="refereed" value="yes" checked="checked"/>
                                                 </span>
                                         </div>
-                                        Unspecified
+                                        Yes,this version has been refereed
                                     </label>
                                     <label>
                                         <div className="radio">
                                                 <span className="checked">
-                                                    <input type="radio" name="dateType" value="option1"
-                                                           checked=""/>
+                                                    <input type="radio" name="refereed" value="no" checked=""/>
                                                 </span>
                                         </div>
-                                        Publication
-                                    </label>
-                                    <label>
-                                        <div className="radio">
-                                                <span className="checked">
-                                                    <input type="radio" name="dateType" value="option1"
-                                                           checked=""/>
-                                                </span>
-                                        </div>
-                                        Submission
-                                    </label>
-                                    <label>
-                                        <div className="radio">
-                                                <span className="checked">
-                                                    <input type="radio" name="dateType" value="option1"
-                                                           checked=""/>
-                                                </span>
-                                        </div>
-                                        Completion
+                                        No, this version has not been refereed
                                     </label>
                                 </div>
                             </div>
-                            <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
-                            <input type="text" className="form-control" id="identification"
-                                   placeholder="Enter Identification Number"
-                                   onChange={this.onTypingIdentificationNumber}/>
-                            <div><label className=" control-label">Corporate Creators</label></div>
-                            {this.state.relatedURL.map(item => (
-                                <span className="addRelatedURLs">
+                        </div>
+                        <input type="text" className="form-control" placeholder="Enter Place of Publication"/>
+                        <input type="text" className="form-control" placeholder="Enter Publisher"/>
+                        <input type="text" className="form-control" placeholder="Enter Number of Pages"/>
+                        <input type="text" className="form-control" placeholder="Enter Series Name"/>
+                        <input type="text" className="form-control" placeholder="Enter Volume"/>
+                        <input type="text" className="form-control" placeholder="Enter Number"/>
+                        <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
+                        <input type="text" className="form-control"
+                               placeholder="Enter ISBN" onChange={this.onTypingISSN}/>
+                    </div>
+                break;
+            case 'thesis':
+                mainComponent =
+                    <div>
+                        <input type="text" className="form-control" placeholder="Enter Institution"/>
+                        <input type="text" className="form-control" placeholder="Enter Department"/>
+                        <input type="text" className="form-control" placeholder="Enter Number of Pages"/>
+                    </div>
+                ;
+                addComponent =
+                    <div>
+                        <div className="form-group">
+                            <label className="col-md-3 control-label">Thesis Type</label>
+                            <div className="col-md-9">
+                                <div className="a">
+                                    <div className="radio-list">
+                                        <label>
+                                            <div className="radio">
+                                        <span className="checked">
+                                            <input type="radio" value="diploma" checked="checked"/>
+                                        </span>
+                                            </div>
+                                            Diploma
+                                        </label>
+                                        <label>
+                                            <div className="radio">
+                                        <span className="checked">
+                                            <input type="radio" value="masters" checked=""/>
+                                        </span>
+                                            </div>
+                                            Masters
+                                        </label>
+                                        <label>
+                                            <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" value="doctoral" checked=""/>
+                                                </span>
+                                            </div>
+                                            Doctoral
+                                        </label>
+                                        <label>
+                                            <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" value="post-doctoral" checked=""/>
+                                                </span>
+                                            </div>
+                                            Post-Doctoral
+                                        </label>
+                                        <label>
+                                            <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" value="other" checked=""/>
+                                                </span>
+                                            </div>
+                                            Other
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                break;
+            case 'patent':
+                mainComponent =
+                    <div>
+                        <input type="text" className="form-control" placeholder="Enter Patent Applicant"/>
+                        <input type="text" className="form-control" placeholder="Enter Number of Pages"/>
+                    </div>
+                ;
+                break;
+            case 'image':
+                mainComponent =
+                    <div>
+                        <input type="text" className="form-control" placeholder="Enter Media of Output"/>
+                        <input type="text" className="form-control" placeholder="Enter Publisher"/>
+                    </div>
+                break;
+            case 'video':
+                mainComponent =
+                    <div>
+                        <input type="text" className="form-control" placeholder="Enter Media of Output"/>
+                        <input type="text" className="form-control" placeholder="Enter Publisher"/>
+                    </div>
+                break;
+            case 'dataset':
+                mainComponent =
+                    <div>
+                        <input type="text" className="form-control" placeholder="Enter Media of Output"/>
+                        <input type="text" className="form-control" placeholder="Enter Publisher"/>
+                    </div>
+                ;
+                break;
+            case 'experiment':
+                mainComponent =
+                    <div>
+                        <p>experiment</p>
+                    </div>
+                break;
+            case 'teaching-resource':
+                mainComponent =
+                    <div>
+                        <div className="form-group">
+                            <div><label className=" control-label">Copyright Holders</label></div>
+                            {this.state.copyrightHolders.map(item => (
+                                <span className="add">
                                         <div className="row">
-                                            <div className="column1">
-                                                <input type="text" className="form-control" placeholder='URL'
-                                                       value={item.URL}/>
-                                            </div>
-                                            <div className="column1">
-                                                <input type="text" className="form-control" placeholder='URL Type'
-                                                       value={item.URLType}/>
-                                            </div>
+                                             <input type="text" className="form-control"
+                                                    placeholder='Copyright Holder'
+                                                    value={item.holder}/>
                                         </div>
                                     </span>
                             ))}
-                            <button onClick={this.onAddRelatedURL}>More input rows</button>
-                        </div>;
+                            <button onClick={this.onAddCopyrightHolder}>More input rows</button>
+                        </div>
+                        <input type="text" className="form-control" placeholder="Enter Publisher"/>
                     </div>
                 break;
-            case 'book-section':
-                mainComponent = <p>book section main component</p>;
-                break;
-            case 'technical-report':
-                mainComponent = <p>technical-report section main component</p>;
-                break;
-            case 'conference-workshop-item':
-                mainComponent = <p>conference-workshop-item section main component</p>;
-                break;
-            case 'book':
-                mainComponent = <p>book section main component</p>;
-                break;
-            case 'thesis':
-                mainComponent = <p>thesis main component</p>;
-                break;
-            case 'patent':
-                mainComponent = <p>patent main component</p>;
-                break;
-            case 'image':
-                mainComponent = <p>image main component</p>;
-                break;
-            case 'video':
-                mainComponent = <p>video main component</p>;
-                break;
-            case 'dataset':
-                mainComponent = <p>dataset main component</p>;
-                break;
-            case 'experiment':
-                mainComponent = <p>experimentmain component</p>;
-                break;
             case 'project-grant':
-                mainComponent = <p>project gtant main component</p>
+                mainComponent =
+                    <div>
+                        <input type="text" className="form-control" placeholder="Enter Place of Publication"/>
+                        <input type="text" className="form-control" placeholder="Enter Publisher"/>
+                    </div>
                 break;
         }
         return (
@@ -470,25 +585,219 @@ class ArticleDetails extends Component {
                                 <textarea className="form-control" id="abstract" rows="4"
                                           placeholder="Enter Abstract"/>
                     </div>
-                    {mainComponent}
+                    {addComponent}
                     <div className="form-group">
-                        <button onClick={this.onShowEmailAddress}>Contact Email Address</button>
+                        <div><label className=" control-label">Creators</label></div>
+                        {this.state.creators.map((item, index) => (
+                            <span className="add">
+                                        <div className="row">
+                                          <div className="column">
+                                             <input type="text" className="form-control" placeholder='FamilyName'
+                                                    value={item.familyName}/>
+                                          </div>
+                                          <div className="column">
+                                              <input type="text" className="form-control" placeholder='Given Name'
+                                                     value={item.givenName}/>
+                                          </div>
+                                          <div className="column">
+                                              <input type="text" className="form-control" placeholder='Email'
+                                                     value={item.email}/>
+                                          </div>
+                                          <div className="column">
+                                              <input type="text" className="form-control" placeholder='Department'
+                                                     value={item.department}/>
+                                          </div>
+                                    </div>
+                                </span>
+                        ))}
+                        <button onClick={this.onAddCreator}>More input rows</button>
+                    </div>
+                    <div className="form-group">
+                        <div><label className=" control-label">Corporate Creators</label></div>
+                        {this.state.corporateCreators.map(item => (
+                            <span className="add">
+                                        <div className="row">
+                                             <input type="text" className="form-control"
+                                                    placeholder='Corporate Creators'
+                                                    value={item.corporateCreator}/>
+                                        </div>
+                                    </span>
+                        ))}
+                        <button onClick={this.onAddCorporateCreator}>More input rows</button>
+                    </div>
+                    <div className="form-group">
+                        <label>Divisions</label>
+                        <select multiple="" className="form-control" size="5">
+                            <option>Advanced Insitute of Engineering and Technology (AVITECH)</option>
+                            <option>Department of Civil Engineering and Transportation (CET)</option>
+                            <option>Center for Electronics and Telecommunications Research (CETR)</option>
+                            <option>Faculty of Agriculture Technology (FAT)</option>
+                            <option>Faculty of Electronics and Telecommunications (FET)</option>
+                            <option>Faculty of Engineering Mechanics and Automation (FEMA)</option>
+                            <option>Faculty of Engineering Physics and Nanotechnology</option>
+                            <option>Faculty of Information Technology (FIT)</option>
+                            <option>Key Laboratory for Nanotechnology (Nano Lab)</option>
+                            <option>School of Aerospace Engineering (SAE)</option>
+                            <option>Key Laboratory for Smart Integrated Systems (SISLAB)</option>
+                        </select>
+                    </div>
+                    <div className="form-group panel-detail">
+                        <div className="panel-detail"><h4 className="panel-detail">Publication Details</h4>
+                        </div>
+                        <label className="col-md-3 control-label">Status</label>
+                        <div className="col-md-9">
+                            <div className="radio-list">
+                                <label>
+                                    <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" name="status" value="published"
+                                                           checked="checked"/>
+                                                </span>
+                                    </div>
+                                    Published
+                                </label>
+                                <label>
+                                    <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" name="status" value="inPress"
+                                                           checked=""/>
+                                                </span>
+                                    </div>
+                                    In Press
+                                </label>
+                                <label>
+                                    <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" name="status" value="submitted"
+                                                           checked=""/>
+                                                </span>
+                                    </div>
+                                    Submitted
+                                </label>
+                                <label>
+                                    <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" name="status" value="unpublished"
+                                                           checked=""/>
+                                                </span>
+                                    </div>
+                                    Unpublished
+                                </label>
+                            </div>
+                        </div>
+                        {mainComponent}
+                        <div className="pageRange">
+                            <label htmlFor="name">Date</label>
+                            <input type="date"/>
+                        </div>
+                        <label className="col-md-3 control-label">Date Type</label>
+                        <div className="col-md-9">
+                            <div className="radio-list">
+                                <label>
+                                    <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" name="dateType" value="option1"
+                                                           checked="checked"/>
+                                                </span>
+                                    </div>
+                                    Unspecified
+                                </label>
+                                <label>
+                                    <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" name="dateType" value="option1"
+                                                           checked=""/>
+                                                </span>
+                                    </div>
+                                    Publication
+                                </label>
+                                <label>
+                                    <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" name="dateType" value="option1"
+                                                           checked=""/>
+                                                </span>
+                                    </div>
+                                    Submission
+                                </label>
+                                <label>
+                                    <div className="radio">
+                                                <span className="checked">
+                                                    <input type="radio" name="dateType" value="option1"
+                                                           checked=""/>
+                                                </span>
+                                    </div>
+                                    Completion
+                                </label>
+                            </div>
+                        </div>
+                        <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
+                        <input type="text" className="form-control" id="identification"
+                               placeholder="Enter Identification Number"
+                               onChange={this.onTypingIdentificationNumber}/>
+                        <input type="text" className="form-control" id="officialURL"
+                               placeholder="Enter Official URL"/>
+                        <div><label className=" control-label">Related URLs</label></div>
+                        {this.state.relatedURL.map(item => (
+                            <span className="addRelatedURLs">
+                                        <div className="row">
+                                            <div className="column1">
+                                                <input type="text" className="form-control" placeholder='URL'
+                                                       value={item.URL}/>
+                                            </div>
+                                            <div className="column1">
+                                                <input type="text" className="form-control" placeholder='URL Type'
+                                                       value={item.URLType}/>
+                                            </div>
+                                        </div>
+                                    </span>
+                        ))}
+                        <button onClick={this.onAddRelatedURL}>More input rows</button>
+                    </div>
+                    <div className="form-group">
+                        <div><label className="control-label">Funders</label></div>
+                        {this.state.funders.map(item => (
+                            <span>
+                                <div className="row">
+                                             <input type="text" className="form-control"
+                                                    placeholder='Enter Funder'
+                                                    value={item.funder}/>
+                                        </div>
+                            </span>
+                        ))}
+                        <button onClick={this.onAddFunder}>More input rows</button>
+                    </div>
+                    <div className="form-group">
+                        <div><label className="control-label">Projects</label></div>
+                        {this.state.projects.map(item => (
+                            <span>
+                                <div className="row">
+                                             <input type="text" className="form-control"
+                                                    placeholder='Enter Project'
+                                                    value={item.projectName}/>
+                                        </div>
+                            </span>
+                        ))}
+                        <button onClick={this.onAddProject}>More input rows</button>
+                    </div>
+                    <div className="form-group">
+                        <button id="setColor" onClick={this.onShowEmailAddress}> Contact Email Address</button>
                         <input type="text" className="form-control" id="emailAddress"/>
                     </div>
                     <div className="form-group">
-                        <button onClick={this.onShowReferences}>References</button>
+                        <button id="setColor" onClick={this.onShowReferences}>References</button>
                         <textarea className="form-control" id="references"/>
                     </div>
                     <div className="form-group">
-                        <button onClick={this.onShowUncontrolledKeyword}>Uncontrolled Keywords</button>
+                        <button id="setColor" onClick={this.onShowUncontrolledKeyword}>Uncontrolled Keywords</button>
                         <textarea className="form-control" id="unKeyword"/>
                     </div>
                     <div className="form-group">
-                        <button onClick={this.onShowAddInformation}>Additional Information</button>
+                        <button id="setColor" onClick={this.onShowAddInformation}>Additional Information</button>
                         <textarea className="form-control" id="addInformation"/>
                     </div>
                     <div className="form-group">
-                        <button onClick={this.onShowComment}>Comments and Suggestions</button>
+                        <button id="setColor" onClick={this.onShowComment}>Comments and Suggestions</button>
                         <textarea className="form-control" id="comment"/>
                     </div>
                     <div className="form-group">

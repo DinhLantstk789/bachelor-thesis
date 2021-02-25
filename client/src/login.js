@@ -36,10 +36,11 @@ class Login extends Component {
             password: this.state.enteredPassword
         }
         axios.post('http://localhost:1234/users/login', credentials).then(res => {
-            let id = res.data.id;
+            let email = res.data.email;
             let userType = res.data.userType;
             if (userType === 'admin') {
                 console.log('hello admin');
+                this.props.onLoginSuccess(email);
             } else if (userType === 'lecturer') {
                 console.log('hello lecturer. Please add new articles.');
             }
@@ -53,7 +54,7 @@ class Login extends Component {
                     <div className="container margin-bottom-40">
                         <div className="row">
                             <div className="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 login-signup-page">
-                                <form onSubmit={this.onSubmit}>
+                                <form  onSubmit={this.onSubmit}>
                                     <h2>Login to your account</h2>
                                     <span>{this.state.emailCheckedResult}</span>
                                     <div className="input-group margin-bottom-20">
