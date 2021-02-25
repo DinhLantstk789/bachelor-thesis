@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 router.post('/login', function (req, res, next) {
     let email = req.body.email;
@@ -8,7 +8,7 @@ router.post('/login', function (req, res, next) {
         res.json({
             status: 'success',
             userType: 'admin',
-            id: '1234'
+            email: email
         });
     } else {
         res.json({
