@@ -28,15 +28,18 @@ class Article extends Component {
 
     render() {
         let currentComponent = null;
+        let id = '';
         let step = ''
         switch (this.state.currentStep) {
             case 1:
                 currentComponent = <ArticleType type={this.state.type} onArticleTypeChanged={this.onArticleTypeChanged}/>;
                 step = 'Type';
+                id = 'active'
                 break;
             case 2:
                 currentComponent = <ArticleDetails type={this.state.type}/>;
                 step = 'Details';
+                id = 'active'
                 break;
             case 3:
                 currentComponent = <ArticleSubjects type={this.state.type}/>;
@@ -50,15 +53,19 @@ class Article extends Component {
         return (
             <Fragment>
                 <div className="panel panel-info col-md-6">
-                    <button className="btn default green-stripe" onClick={this.onTypeClicked}><i className="fa fa-user"/>Type</button>
-                    ->
-                    <button onClick={this.onDetailsClicked}>Details</button> ->
-                    <button onClick={this.onSubjectsClicked}>Subjects</button> ->
-                    <button onClick={this.onDepositClicked}>Deposit</button>
+                    <div className="container">
+                        <ul className="progressbar">
+                            <li className={id} onClick={this.onTypeClicked}>Type</li>
+                            <li className={id} onClick={this.onDetailsClicked}>Details</li>
+                            <li onClick={this.onSubjectsClicked}>Subjects</li>
+                            <li onClick={this.onDepositClicked}>Deposit</li>
+                        </ul>
+                    </div>
                     <div className="panel-heading"><h4>Add Article -- {step}</h4></div>
                     <div className="panel-body">
                         {currentComponent}
                     </div>
+
                 </div>
             </Fragment>
         )

@@ -18,7 +18,6 @@ class Login extends Component {
             this.setState({emailCheckedResult: 'Invalidated email. Please try again.'});
         }
     }
-
     onTypingPassword = (event) => {
         this.setState({enteredPassword: event.target.value});
         let n = event.target.value.length;

@@ -4,10 +4,10 @@ class Footer extends Component {
     render() {
         return (
             <Fragment>
-                <div className="copyright footer_bottom">
-                    <div className="container">
+                <div className="footerA">
+                    <p>
                         2013 © Metronic. ALL Rights Reserved.
-                    </div>
+                    </p>
                 </div>
             </Fragment>
         )
