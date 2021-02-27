@@ -167,7 +167,6 @@ input[type=submit] {
 .container {
     width: 100%;
 }
-
 .progressbar {
     counter-reset: step;
 }
@@ -178,6 +177,7 @@ input[type=submit] {
     position: relative;
     text-align: center;
     cursor: pointer;
+    float: left;
 }
 .progressbar li:before {
     content: counter(step);

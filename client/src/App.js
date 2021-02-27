@@ -13,7 +13,8 @@ class App extends Component {
     }
 
     render() {
-        let mainComponent = this.state.email != null ? <Article/> : <Login onLoginSuccess = {this.onLoginSuccess}/>;
+        // let mainComponent = this.state.email != null ? <Article/> : <Login onLoginSuccess = {this.onLoginSuccess}/>;
+        let mainComponent = <Article/>
         return (
             <div>
                 <Header/>

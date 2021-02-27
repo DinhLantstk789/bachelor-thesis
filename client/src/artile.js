@@ -39,7 +39,6 @@ class Article extends Component {
             case 2:
                 currentComponent = <ArticleDetails type={this.state.type}/>;
                 step = 'Details';
-                id = 'active'
                 break;
             case 3:
                 currentComponent = <ArticleSubjects type={this.state.type}/>;
@@ -54,18 +53,16 @@ class Article extends Component {
             <Fragment>
                 <div className="panel panel-info col-md-6">
                     <div className="container">
-                        <ul className="progressbar">
+                        <ul className="progressbar" style={{marginTop: 20}}>
                             <li className={id} onClick={this.onTypeClicked}>Type</li>
-                            <li className={id} onClick={this.onDetailsClicked}>Details</li>
-                            <li onClick={this.onSubjectsClicked}>Subjects</li>
+                            <li  onClick={this.onDetailsClicked}>Details</li>
+                            <li  onClick={this.onSubjectsClicked}>Subjects</li>
                             <li onClick={this.onDepositClicked}>Deposit</li>
                         </ul>
                     </div>
-                    <div className="panel-heading"><h4>Add Article -- {step}</h4></div>
-                    <div className="panel-body">
+                    <div className="panel-body" style={{marginTop: 20}}>
                         {currentComponent}
                     </div>
-
                 </div>
             </Fragment>
         )
