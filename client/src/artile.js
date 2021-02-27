@@ -6,6 +6,7 @@ import ArticleDeposit from "./articleDeposit";
 
 class Article extends Component {
     state = {
+        loggedUser: null,
         currentStep: 1,
         type: 'article'
     }
@@ -25,6 +26,9 @@ class Article extends Component {
         this.setState({type: newType});
     }
 
+    static getDerivedStateFromProps(newProps, prevState) {
+        return newProps.loggedUser;
+    }
 
     render() {
         let currentComponent = null;

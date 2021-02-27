@@ -12,20 +12,14 @@ class Login extends Component {
 
     onTypingEmail = (event) => {
         this.setState({enteredEmail: event.target.value});
-        if (Validator.validateEmail(event.target.value)) {
-            this.setState({emailCheckedResult: ''});
-        } else {
-            this.setState({emailCheckedResult: 'Invalidated email. Please try again.'});
-        }
+        let msg = Validator.validateEmail(event.target.value) ? '' : 'Invalid email. Please try again.';
+        this.setState({emailCheckedResult: msg});
     }
     onTypingPassword = (event) => {
         this.setState({enteredPassword: event.target.value});
         let n = event.target.value.length;
-        if (n < 8) {
-            this.setState({passwordCheckedResult: 'invalidated password.please try again'});
-        } else {
-            this.setState({passwordCheckedResult: ''});
-        }
+        let msg = n >= 8 ? '' : 'Invalid password. Please try again';
+        this.setState({passwordCheckedResult: msg});
     }
 
     onSubmit = (event) => {
@@ -35,13 +29,11 @@ class Login extends Component {
             password: this.state.enteredPassword
         }
         axios.post('http://localhost:1234/users/login', credentials).then(res => {
-            let email = res.data.email;
-            let userType = res.data.userType;
-            if (userType === 'admin') {
-                console.log('hello admin');
-                this.props.onLoginSuccess(email);
-            } else if (userType === 'lecturer') {
-                console.log('hello lecturer. Please add new articles.');
+            let status = res.data.status;
+            if (status === 0) {
+                this.props.onLoginSuccess(res.data.user);
+            } else {
+                alert(res.data.message);
             }
         })
     }
@@ -68,16 +60,17 @@ class Login extends Component {
                                     <div className="input-group" style={{marginTop: 10, marginBottom: 20}}>
                                         <span className="input-group-addon"><i className="fa fa-lock"/></span>
                                         <input type="password" className="form-control" placeholder="Password" onChange={this.onTypingPassword}/>
-                                        <a href="#" className="login-signup-forgot-link">Forgot?</a>
                                     </div>
 
                                     <div className="row">
-                                        <div className="col-md-8 col-sm-8">
-                                            <div className="checkbox-list pull-left"><label className="checkbox">
-                                                <div className="checker"><span><input type="checkbox"/></span></div>
-                                                Remember me</label></div>
+                                        <div className="col-md-7 col-sm-7">
+                                            <div className="checkbox-list pull-left">
+                                                <label className="checkbox">
+                                                    <input type="checkbox"/>
+                                                    Remember me</label>
+                                            </div>
                                         </div>
-                                        <div className="col-md-4 col-sm-4">
+                                        <div className="col-md-5 col-sm-5">
                                             <button type="submit" className="btn theme-btn pull-right" disabled={isDisabled}>Login
                                             </button>
                                         </div>

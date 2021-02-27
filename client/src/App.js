@@ -6,22 +6,22 @@ import Article from "./artile";
 
 class App extends Component {
     state = {
-        email: null
+        loggedUser: null
     }
-    onLoginSuccess = (email)=>{
-        this.setState({email: email});
+
+    onLoginSuccess = (user) => {
+        this.setState({loggedUser: user});
     }
 
     render() {
-        let header = this.state.email != null ? <Header/> : <span/>;
-        let mainComponent = this.state.email != null ? <Article/> : <Login onLoginSuccess = {this.onLoginSuccess}/>;
-        // let mainComponent = <Article/>
+        let header = this.state.loggedUser != null ? <Header loggedUser={this.state.loggedUser}/> : <span/>;
+        let mainComponent = this.state.loggedUser != null ? <Article loggedUser={this.state.loggedUser}/> : <Login onLoginSuccess={this.onLoginSuccess}/>;
         return (
-            <div>
+            <Fragment>
                 {header}
                 {mainComponent}
                 <Footer/>
-            </div>
+            </Fragment>
         )
     }
 }
