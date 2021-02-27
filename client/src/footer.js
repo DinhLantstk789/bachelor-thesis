@@ -4,9 +4,9 @@ class Footer extends Component {
     render() {
         return (
             <Fragment>
-                <div className="footerA">
+                <div style={{textAlign: "center"}}>
                     <p>
-                        2013 © Metronic. ALL Rights Reserved.
+                        2021 © E-Prints &nbsp;&bull;&nbsp; University of Engineering and Technology
                     </p>
                 </div>
             </Fragment>

@@ -51,17 +51,19 @@ class Article extends Component {
         }
         return (
             <Fragment>
-                <div className="panel panel-info col-md-6">
-                    <div className="container">
-                        <ul className="progressbar" style={{marginTop: 20}}>
-                            <li className={id} onClick={this.onTypeClicked}>Type</li>
-                            <li  onClick={this.onDetailsClicked}>Details</li>
-                            <li  onClick={this.onSubjectsClicked}>Subjects</li>
-                            <li onClick={this.onDepositClicked}>Deposit</li>
-                        </ul>
-                    </div>
-                    <div className="panel-body" style={{marginTop: 20}}>
-                        {currentComponent}
+                <div className='row'>
+                    <div className="panel panel-info col-md-6">
+                        <div className="container">
+                            <ul className="progressbar" style={{marginTop: 20}}>
+                                <li className={id} onClick={this.onTypeClicked}>Type</li>
+                                <li  onClick={this.onDetailsClicked}>Details</li>
+                                <li  onClick={this.onSubjectsClicked}>Subjects</li>
+                                <li onClick={this.onDepositClicked}>Deposit</li>
+                            </ul>
+                        </div>
+                        <div className="panel-body" style={{marginTop: 20}}>
+                            {currentComponent}
+                        </div>
                     </div>
                 </div>
             </Fragment>

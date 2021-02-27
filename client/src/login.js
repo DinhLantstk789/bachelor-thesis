@@ -31,7 +31,7 @@ class Login extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         const credentials = {
-            email:this.state.enteredEmail,
+            email: this.state.enteredEmail,
             password: this.state.enteredPassword
         }
         axios.post('http://localhost:1234/users/login', credentials).then(res => {
@@ -45,39 +45,40 @@ class Login extends Component {
             }
         })
     }
+
     render() {
         let isDisabled = this.state.emailCheckedResult.length !== 0 || this.state.passwordCheckedResult.length !== 0;
         return (
             <Fragment>
-                <div className="page-container">
-                    <div className="container margin-bottom-40">
-                        <div className="row">
-                            <div className="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 login-signup-page">
-                                <form  onSubmit={this.onSubmit}>
-                                    <h2>Login to your account</h2>
+                <div className="page-container" style={{marginTop: 70}}>
+                    <div className="container" style={{marginBottom: 40, textAlign: 'center'}}>
+                        <div className="row" style={{paddingLeft: 170, paddingRight: 170}}>
+                            <div className="col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 login-signup-page">
+                                <form onSubmit={this.onSubmit}>
+                                    <div className='row' style={{textAlign: "center", marginBottom: 25, marginTop: 25}}>
+                                        <img src="images/logo.png" style={{width: 200}}/>
+                                    </div>
+                                    <h2 style={{textAlign: "center", marginBottom: 30}}>Login to your account</h2>
                                     <span>{this.state.emailCheckedResult}</span>
-                                    <div className="input-group margin-bottom-20">
+                                    <div className="input-group" style={{marginTop: 10, marginBottom: 20}}>
                                         <span className="input-group-addon"><i className="fa fa-envelope"/></span>
-                                        <input type="text" className="form-control" placeholder="E-mail"
-                                               onChange={this.onTypingEmail}/>
+                                        <input type="text" className="form-control" placeholder="E-mail" onChange={this.onTypingEmail}/>
                                     </div>
                                     <span>{this.state.passwordCheckedResult}</span>
-                                    <div className="input-group margin-bottom-20">
+                                    <div className="input-group" style={{marginTop: 10, marginBottom: 20}}>
                                         <span className="input-group-addon"><i className="fa fa-lock"/></span>
-                                        <input type="password" className="form-control" placeholder="Password"
-                                               onChange={this.onTypingPassword}/>
+                                        <input type="password" className="form-control" placeholder="Password" onChange={this.onTypingPassword}/>
                                         <a href="#" className="login-signup-forgot-link">Forgot?</a>
                                     </div>
 
                                     <div className="row">
-                                        <div className="col-md-6 col-sm-6">
-                                            <div className="checkbox-list"><label className="checkbox">
+                                        <div className="col-md-8 col-sm-8">
+                                            <div className="checkbox-list pull-left"><label className="checkbox">
                                                 <div className="checker"><span><input type="checkbox"/></span></div>
                                                 Remember me</label></div>
                                         </div>
-                                        <div className="col-md-6 col-sm-6">
-                                            <button type="submit" className="btn theme-btn pull-right"
-                                                    disabled={isDisabled}>Login
+                                        <div className="col-md-4 col-sm-4">
+                                            <button type="submit" className="btn theme-btn pull-right" disabled={isDisabled}>Login
                                             </button>
                                         </div>
                                     </div>
