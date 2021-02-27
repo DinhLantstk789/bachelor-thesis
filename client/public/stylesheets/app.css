@@ -79,7 +79,7 @@ input[type=date]{
 #conference{
     margin-right: fill;
 }
-input[type=submit] {  
+input[type=submit] {
     background-color: #4CAF50;
     color: white;
     padding: 12px 20px;
@@ -105,11 +105,6 @@ input[type=submit] {
     text-align: center;
 }
 
-.navbar {
-    overflow: hidden;
-    background-color: #0d638f;
-}
-
 .navbar a {
     float: left;
     font-size: 15px;
@@ -121,7 +116,6 @@ input[type=submit] {
 
 .dropdown {
     float: left;
-    overflow: hidden;
 }
 
 .dropdown .dropbtn {

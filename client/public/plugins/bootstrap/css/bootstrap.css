@@ -3374,7 +3374,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .input-group-addon {
   padding: 6px 12px;
-  font-size: 50px;
+  font-size: 14px;
   font-weight: normal;
   line-height: 1;
   color: #555;
@@ -3395,7 +3395,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .input-group-addon input[type="radio"],
 .input-group-addon input[type="checkbox"] {
-  margin-top: 0px;
+  margin-top: 0;
 }
 .input-group .form-control:first-child,
 .input-group-addon:first-child,
