@@ -3,12 +3,14 @@ import ArticleType from "./articleType";
 import ArticleDetails from "./articleDetails";
 import ArticleSubjects from "./articleSubjects";
 import ArticleDeposit from "./articleDeposit";
+import axios from "axios";
 
 class Article extends Component {
     state = {
         loggedUser: null,
         currentStep: 1,
-        type: 'article'
+        type: 'article',
+        articles: 'get sample'
     }
     onTypeClicked = (event) => {
         this.setState({currentStep: 1});
@@ -27,8 +29,27 @@ class Article extends Component {
     }
 
     static getDerivedStateFromProps(newProps, prevState) {
-        return newProps.loggedUser;
+        return {loggedUser: newProps.loggedUser};
     }
+
+    onSampleClicked = () => {
+        let requestConfigs = {
+            headers: {
+                token: this.state.loggedUser.accessToken
+            }
+        }
+        axios.get('http://localhost:1234/article/fetch', requestConfigs).then(res => {
+            let status = res.data.status;
+            if (status === 0) {
+                let articlesSample = '';
+                articlesSample = res.data.articles[0]['name'] + ' ' + res.data.articles[1]['name'];
+                this.setState({articles: articlesSample});
+            } else {
+                alert(res.data.message);
+            }
+        })
+    }
+
 
     render() {
         let currentComponent = null;
@@ -63,6 +84,7 @@ class Article extends Component {
                                 <li  onClick={this.onDetailsClicked}>Details</li>
                                 <li  onClick={this.onSubjectsClicked}>Subjects</li>
                                 <li onClick={this.onDepositClicked}>Deposit</li>
+                                <li onClick={this.onSampleClicked}>{this.state.articles}</li>
                             </ul>
                         </div>
                         <div className="panel-body" style={{marginTop: 20}}>

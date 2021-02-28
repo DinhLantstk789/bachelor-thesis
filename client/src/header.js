@@ -1,4 +1,5 @@
 import {Component, Fragment} from 'react';
+import axios from "axios";
 
 class Header extends Component {
     state = {
@@ -30,7 +31,7 @@ class Header extends Component {
                         <div className="navbar-collapse collapse">
                             <ul className="nav navbar-nav">
                                 <li className="dropdown">
-                                    <a className="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false" href="#">
+                                    <a onClick={this.onSampleClicked} className="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false" href="#">
                                         Home
                                         <i className="fa fa-angle-down"/>
                                     </a>

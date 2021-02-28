@@ -1,8 +1,7 @@
-const configs = require('../utils/configs')
+const configs = require('../utils/configs');
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken')
-
+const jwt = require('jsonwebtoken');
 
 router.post('/login', (req, res) => {
     let email = req.body.email;
