@@ -7,7 +7,8 @@ const jwt = require('jsonwebtoken')
 router.post('/login', (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
-    if (email === 'thusuong@gmail.com' && password === 'thusuongtk') {
+    console.log(email, password);
+    if (email === 'thusuong@gmail.com' && password === '093bc05d41e789745d2de76ac318cd2d6ca8d85a56c341c88994673d08db581b') {
         let user = {
             email: email,
             name: 'Thu Suong',

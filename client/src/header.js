@@ -10,7 +10,8 @@ class Header extends Component {
     }
 
     render() {
-        alert(this.state.loggedUser.name + ' ' + this.state.loggedUser.email + ' ' + this.state.loggedUser.accessToken);
+        let dropdown = 'dropdown';
+        let dropdownActive = 'dropdown active';
         return (
             <Fragment>
                 <div className="header navbar navbar-default navbar-static-top">
@@ -31,7 +32,7 @@ class Header extends Component {
                                 <li className="dropdown">
                                     <a className="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false" href="#">
                                         Home
-                                        <i className="fa fa-angle-down"></i>
+                                        <i className="fa fa-angle-down"/>
                                     </a>
                                     <ul className="dropdown-menu">
                                         <li><a href="index.html">Home Default</a></li>
@@ -40,40 +41,26 @@ class Header extends Component {
                                     </ul>
                                 </li>
 
-                                <li className="dropdown">
+                                <li className={dropdown}>
                                     <a className="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false" href="#">
-                                        Pages
+                                        About
                                         <i className="fa fa-angle-down"/>
                                     </a>
                                     <ul className="dropdown-menu">
                                         <li><a href="page_about.html">About Us</a></li>
-                                        <li><a href="page_services.html">Services</a></li>
-                                        <li><a href="page_prices.html">Prices</a></li>
                                         <li><a href="page_contacts.html">Contact</a></li>
                                     </ul>
                                 </li>
-                                <li className="dropdown active">
+                                <li className={dropdownActive}>
                                     <a className="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false" href="#">
-                                        Features
+                                        Browse
                                         <i className="fa fa-angle-down"/>
                                     </a>
                                     <ul className="dropdown-menu">
-                                        <li><a href="feature_typography.html">Typography</a></li>
-                                        <li className="active"><a href="feature_buttons.html">Buttons</a></li>
-                                        <li><a href="feature_forms.html">Forms</a></li>
-                                        <li><a href="feature_icons.html">Icons</a></li>
-                                    </ul>
-                                </li>
-                                <li className="dropdown">
-                                    <a className="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false" href="#">
-                                        Portfolio
-                                        <i className="fa fa-angle-down"/>
-                                    </a>
-                                    <ul className="dropdown-menu">
-                                        <li><a href="portfolio_4.html">Portfolio 4</a></li>
-                                        <li><a href="portfolio_3.html">Portfolio 3</a></li>
-                                        <li><a href="portfolio_2.html">Portfolio 2</a></li>
-                                        <li><a href="portfolio_item.html">Portfolio Item</a></li>
+                                        <li><a href="feature_typography.html">Browse by Year</a></li>
+                                        <li className="active"><a href="feature_buttons.html">Browse by Subject</a></li>
+                                        <li><a href="feature_forms.html">Browse by Division</a></li>
+                                        <li><a href="feature_icons.html">Browse by Author</a></li>
                                     </ul>
                                 </li>
                                 <li className="dropdown">

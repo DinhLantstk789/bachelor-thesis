@@ -1,6 +1,7 @@
 import {Component, Fragment} from 'react';
 import Validator from "./validator";
 import axios from "axios";
+import {sha256} from 'js-sha256';
 
 class Login extends Component {
     state = {
@@ -26,7 +27,7 @@ class Login extends Component {
         event.preventDefault();
         const credentials = {
             email: this.state.enteredEmail,
-            password: this.state.enteredPassword
+            password: sha256(this.state.enteredPassword)
         }
         axios.post('http://localhost:1234/users/login', credentials).then(res => {
             let status = res.data.status;
@@ -63,14 +64,14 @@ class Login extends Component {
                                     </div>
 
                                     <div className="row">
-                                        <div className="col-md-7 col-sm-7">
+                                        <div className="col-md-7 col-sm-7" style={{paddingLeft: 0, paddingRight: 0}}>
                                             <div className="checkbox-list pull-left">
                                                 <label className="checkbox">
-                                                    <input type="checkbox"/>
+                                                    <div className="checker"><span className=""><input type="checkbox"/></span></div>
                                                     Remember me</label>
                                             </div>
                                         </div>
-                                        <div className="col-md-5 col-sm-5">
+                                        <div className="col-md-5 col-sm-5" style={{paddingLeft: 0, paddingRight: 0}}>
                                             <button type="submit" className="btn theme-btn pull-right" disabled={isDisabled}>Login
                                             </button>
                                         </div>
