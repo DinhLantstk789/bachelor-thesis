@@ -1,15 +1,12 @@
 import {Component, Fragment} from 'react';
+import {CardFooter} from "shards-react";
 
 class Footer extends Component {
     render() {
         return (
-            <Fragment>
-                <div style={{textAlign: "center"}}>
-                    <p>
-                        2021 © E-Prints &nbsp;&bull;&nbsp; University of Engineering and Technology
-                    </p>
-                </div>
-            </Fragment>
+            <CardFooter style={{textAlign: 'center'}}>
+                2021 © E-Prints &nbsp;&bull;&nbsp; UET VNU
+            </CardFooter>
         )
     }
 }

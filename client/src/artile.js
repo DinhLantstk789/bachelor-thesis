@@ -4,6 +4,7 @@ import ArticleDetails from "./articleDetails";
 import ArticleSubjects from "./articleSubjects";
 import ArticleDeposit from "./articleDeposit";
 import axios from "axios";
+import {Button} from "shards-react";
 
 class Article extends Component {
     state = {
@@ -57,7 +58,8 @@ class Article extends Component {
         let step = ''
         switch (this.state.currentStep) {
             case 1:
-                currentComponent = <ArticleType type={this.state.type} onArticleTypeChanged={this.onArticleTypeChanged}/>;
+                currentComponent =
+                    <ArticleType type={this.state.type} onArticleTypeChanged={this.onArticleTypeChanged}/>;
                 step = 'Type';
                 id = 'active'
                 break;
@@ -76,22 +78,14 @@ class Article extends Component {
         }
         return (
             <Fragment>
-                <div className='row'>
-                    <div className="panel panel-info col-md-6">
-                        <div className="container">
-                            <ul className="progressbar" style={{marginTop: 20}}>
-                                <li className={id} onClick={this.onTypeClicked}>Type</li>
-                                <li  onClick={this.onDetailsClicked}>Details</li>
-                                <li  onClick={this.onSubjectsClicked}>Subjects</li>
-                                <li onClick={this.onDepositClicked}>Deposit</li>
-                                <li onClick={this.onSampleClicked}>{this.state.articles}</li>
-                            </ul>
-                        </div>
-                        <div className="panel-body" style={{marginTop: 20}}>
-                            {currentComponent}
-                        </div>
-                    </div>
+                <div className="example">
+                    <Button theme="secondary" onClick={this.onTypeClicked}>Type</Button>
+                    <Button theme="success" onClick={this.onDetailsClicked}>Details</Button>
+                    <Button theme="info" onClick={this.onSubjectsClicked}>Subject</Button>
+                    <Button theme="warning" onClick={this.onDepositClicked}>Deposit</Button>
+                    <Button theme="danger" onClick={this.onSampleClicked}>{this.state.articles}</Button>
                 </div>
+                {currentComponent}
             </Fragment>
         )
     }
