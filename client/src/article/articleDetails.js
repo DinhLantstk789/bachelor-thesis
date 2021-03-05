@@ -1,6 +1,6 @@
 import {Component, Fragment} from 'react';
 import {Card, CardBody, CardHeader, Col, FormInput, Row, FormRadio} from "shards-react";
-import Article from "./artile";
+import Article from "./article";
 import RefereedArticle from "../refereedArticle";
 
 class ArticleDetails extends Component {
@@ -20,7 +20,7 @@ class ArticleDetails extends Component {
         selectedStatus: '',
         selectedDateType: '',
         selectedMonoType: '',
-        selectedThesisType:''
+        selectedThesisType: ''
     }
 
     constructor(props) {
@@ -49,6 +49,7 @@ class ArticleDetails extends Component {
             selectedMonoType: monoType
         });
     }
+
     changeThesisType(thesisType) {
         this.setState({
             selectedMonoType: thesisType
@@ -382,9 +383,9 @@ class ArticleDetails extends Component {
             case 'thesis':
                 mainComponent =
                     <div>
-                        <FormInput placeholder="Enter Institution"style={{marginTop: 10}}/>
-                        <FormInput placeholder="Enter Department"style={{marginTop: 10}}/>
-                        <FormInput placeholder="Enter Number of Pages"style={{marginTop: 10}}/>
+                        <FormInput placeholder="Enter Institution" style={{marginTop: 10}}/>
+                        <FormInput placeholder="Enter Department" style={{marginTop: 10}}/>
+                        <FormInput placeholder="Enter Number of Pages" style={{marginTop: 10}}/>
                     </div>
                 ;
                 addComponent =
@@ -442,30 +443,30 @@ class ArticleDetails extends Component {
             case 'patent':
                 mainComponent =
                     <div>
-                        <FormInput placeholder="Enter Patent Applicant" style={{marginTop:10}}/>
-                        <FormInput placeholder="Enter Number of Pages"style={{marginTop:10}}/>
+                        <FormInput placeholder="Enter Patent Applicant" style={{marginTop: 10}}/>
+                        <FormInput placeholder="Enter Number of Pages" style={{marginTop: 10}}/>
                     </div>
                 ;
                 break;
             case 'image':
                 mainComponent =
                     <div>
-                        <FormInput placeholder="Enter Media of Output"style={{marginTop:10}}/>
-                        <FormInput placeholder="Enter Publisher"style={{marginTop:10}}/>
+                        <FormInput placeholder="Enter Media of Output" style={{marginTop: 10}}/>
+                        <FormInput placeholder="Enter Publisher" style={{marginTop: 10}}/>
                     </div>
                 break;
             case 'video':
                 mainComponent =
                     <div>
-                        <FormInput  placeholder="Enter Media of Output"style={{marginTop:10}}/>
-                        <FormInput placeholder="Enter Publisher"style={{marginTop:10}}/>
+                        <FormInput placeholder="Enter Media of Output" style={{marginTop: 10}}/>
+                        <FormInput placeholder="Enter Publisher" style={{marginTop: 10}}/>
                     </div>
                 break;
             case 'dataset':
                 mainComponent =
                     <div>
-                        <FormInput  placeholder="Enter Media of Output"style={{marginTop:10}}/>
-                        <FormInput placeholder="Enter Publisher"style={{marginTop:10}}/>
+                        <FormInput placeholder="Enter Media of Output" style={{marginTop: 10}}/>
+                        <FormInput placeholder="Enter Publisher" style={{marginTop: 10}}/>
                     </div>
                 ;
                 break;
@@ -479,7 +480,7 @@ class ArticleDetails extends Component {
                             <span>
                                 <Row>
                                     <Col sm={8}>
-                                          <FormInput placeholder='Copyright Holder'value={item.holder}/>
+                                          <FormInput placeholder='Copyright Holder' value={item.holder}/>
                                     </Col>
                                     <Col sm={4}>
                                         <button onClick={this.onAddCopyrightHolder}>More</button>
@@ -490,14 +491,14 @@ class ArticleDetails extends Component {
 
                         ))}
 
-                        <FormInput  placeholder="Enter Publisher" style={{marginTop:10}}/>
+                        <FormInput placeholder="Enter Publisher" style={{marginTop: 10}}/>
                     </div>
                 break;
             case 'project-grant':
                 mainComponent =
                     <div>
-                        <FormInput placeholder="Enter Place of Publication" style={{marginTop:10}}/>
-                        <FormInput  placeholder="Enter Publisher"style={{marginTop:10}}/>
+                        <FormInput placeholder="Enter Place of Publication" style={{marginTop: 10}}/>
+                        <FormInput placeholder="Enter Publisher" style={{marginTop: 10}}/>
                     </div>
                 break;
         }

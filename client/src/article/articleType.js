@@ -12,7 +12,6 @@ class ArticleType extends Component {
         super(props);
     }
 
-
     render() {
         return (
             <Fragment>
@@ -35,31 +34,31 @@ class ArticleType extends Component {
                         tooltip: 'A chapter or section in a book'
                     }, {
                         name: 'Book',
-                        id:'book',
+                        id: 'book',
                         tooltip: 'A chapter or section in a book'
                     }, {
                         name: 'Thesis',
-                        id:'thesis',
+                        id: 'thesis',
                         tooltip: 'A chapter or section in a book'
                     }, {
                         name: 'Patent',
-                        id:'patent',
+                        id: 'patent',
                         tooltip: 'A chapter or section in a book'
                     }, {
                         name: 'Image',
-                        id:'image',
+                        id: 'image',
                         tooltip: 'A chapter or section in a book'
                     }, {
                         name: 'Video',
-                        id:'video',
+                        id: 'video',
                         tooltip: 'A chapter or section in a book'
                     }, {
                         name: 'Dataset',
-                        id:'dataset',
+                        id: 'dataset',
                         tooltip: 'A chapter or section in a book'
                     }, {
                         name: 'Experiment',
-                        id:'experiment',
+                        id: 'experiment',
                         tooltip: 'A chapter or section in a book'
                     }, {
                         name: 'Teaching Resource',
@@ -67,7 +66,7 @@ class ArticleType extends Component {
                         tooltip: 'A chapter or section in a book'
                     }, {
                         name: 'Project-Grant',
-                        id:'project-grant',
+                        id: 'project-grant',
                         tooltip: 'A chapter or section in a book'
                     }]} onSelected={(selectedId) => {
                         this.props.onArticleTypeChanged(selectedId);

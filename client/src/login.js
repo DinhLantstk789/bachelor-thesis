@@ -1,5 +1,5 @@
 import {Component, Fragment} from 'react';
-import Validator from "./validator";
+import Validator from "./utils/validator";
 import axios from "axios";
 import {sha256} from 'js-sha256';
 import {
