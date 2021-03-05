@@ -1,0 +1,27 @@
+#buttonStyle{
+    width: 80px;
+    border-radius: 20px;
+    marginTop: 20;
+    background-color:green;
+    fontSize: 20;
+    color: white;
+}
+#menuNav{
+    top:0px;
+    display: block;
+    position: relative;
+    height:120px;
+    margin-bottom: 50px;
+    background-color:white;
+    border-bottom-style: solid;
+    border-width: 0.1em;
+    border-bottom-color: steelblue;
+
+}
+#dropdown{
+    margin-top: 30px;
+    font-size: 18px;
+    background-color: white;
+    color: steelblue;
+    border-style: none;
+}

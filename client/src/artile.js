@@ -5,7 +5,7 @@ import ArticleSubjects from "./articleSubjects";
 import ArticleDeposit from "./articleDeposit";
 import axios from "axios";
 import {Button} from "shards-react";
-
+import MyStepper from "./stepper"
 class Article extends Component {
     state = {
         loggedUser: null,
@@ -78,6 +78,7 @@ class Article extends Component {
         }
         return (
             <Fragment>
+                {/*<MyStepper/>*/}
                 <div className="example">
                     <Button theme="secondary" onClick={this.onTypeClicked}>Type</Button>
                     <Button theme="success" onClick={this.onDetailsClicked}>Details</Button>

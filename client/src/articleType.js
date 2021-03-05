@@ -1,133 +1,177 @@
 import {Component, Fragment} from 'react';
-import {Tooltip, FormRadio} from "shards-react";
+import {Tooltip, FormRadio, Row} from "shards-react";
+import Button from "@material-ui/core/Button";
 
 class ArticleType extends Component {
     state = {
         type: 'article',
-        articleOpen: false,
-        bookSectionOpen: false
+        articleOpen: false, bookOpen: false,
+        bookSectionOpen: false,
     }
 
-    constructor(props, context) {
-        super(props, context);
-        this.state.type = this.props.type;
+    constructor(props) {
+        super(props);
+        this.onTypeRadioChanged = this.onTypeRadioChanged.bind(this);
+        this.toggle = this.toggle.bind(this);
+
     }
 
-    onTypeRadioChanged = (newType) => {
-        // this.props.onArticleTypeChanged(newType);
-        // this.setState({type: newType});
+    onTypeRadioChanged(newType) {
+        this.setState({
+            type: newType
+        });
+        this.props.onArticleTypeChanged(newType);
+    }
+
+    toggle(pos) {
+        const newState = {};
+        newState[pos] = !this.state[pos];
+        this.setState({...this.state, ...newState});
     }
 
     render() {
         return (
             <Fragment>
-                <div className="form-group">
-                    <div className="a">
-                        <FormRadio
-                            id="articleLabel"
-                            checked={this.state.type === 'article'}
-                            onChange={this.onTypeRadioChanged('article')}>
-                            Article
-                        </FormRadio>
-
+                <div style={{marginTop: 30}}>
+                    <div>
+                        <label id="article" style={{paddingRight: 10}}>
+                            <FormRadio
+                                name="typeArticle"
+                                checked={this.state.type === "article"}
+                                onChange={() => {
+                                    this.onTypeRadioChanged("article");
+                                }}>
+                                Article
+                            </FormRadio>
+                        </label>
                         <Tooltip
+                            placement="right" style={{maxWidth: 900}}
                             open={this.state.articleOpen}
-                            target="#articleLabel"
-                            toggle={() => {
-                                this.setState({
-                                    articleOpen: !this.state.articleOpen
-                                });
-                            }}>
-                            An article in a journal, magazine, newspaper. Not necessarily
-                            peer-reviewed. May be an electronic-only medium, such as an online journal or news
-                            website
+                            target="#article"
+                            toggle={() => this.toggle("articleOpen")}>
+                            An article in a journal, magazine, newspaper. Not necessarily peer-reviewed
                         </Tooltip>
-
-                        <FormRadio
-                            id="bookSectionLabel"
-                            checked={this.state.type === 'book'}
-                            onChange={this.onTypeRadioChanged('book')}>
-                            Book Section
-                        </FormRadio>
-
-                        <Tooltip
-                            open={this.state.bookSectionOpen}
-                            target="#bookSectionLabel"
-                            toggle={() => {
-                                this.setState({
-                                    bookSectionOpen: !this.state.bookSectionOpen
-                                });
-                            }}>
-                            A chapter or section in a book.
-                        </Tooltip>
-                        <label>
-                            <input type="radio" value="technical-report"
-                                   checked={this.state.type === 'technical-report'}/>
-                            Technical Report
-                        </label>
-                        <p id='p-type'>A monograph. This may be a technical report, project report,
-                            documentation, manual, working paper or discussion paper.</p>
-                        <label>
-                            <input type="radio" value="conference-workshop-item"
-                                   checked={this.state.type === 'conference-workshop-item'}/>
-                            Conference or Workshop Item
-                        </label>
-                        <p id='p-type'>A paper, poster, speech, lecture or presentation given at a conference,
-                            workshop
-                            or other event. If the conference item has been published in a journal or book
-                            then please use "Book Section" or "Article" instead.</p>
-                        <label>
-                            <input type="radio" value="book" checked={this.state.type === 'book'}/>
-                            Book
-                        </label>
-                        <p id='p-type'>A book or a conference volume.</p>
-                        <label>
-                            <input type="radio" value="thesis" checked={this.state.type === 'thesis'}/>
-                            Thesis
-                        </label>
-                        <p id='p-type'>A thesis or dissertation.</p>
-                        <label>
-                            <input type="radio" value="patent" checked={this.state.type === 'patent'}/>
-                            Patent
-                        </label>
-                        <p id='p-type'>A published patent. Do not include as yet unpublished patent
-                            applications.</p>
-                        <label>
-                            <input type="radio" value="image" checked={this.state.type === 'image'}/>
-                            Image
-                        </label>
-                        <p id='p-type'>A digital photograph or visual image.</p>
-                        <label>
-                            <input type="radio" value="video" checked={this.state.type === 'video'}/>
-                            Video
-                        </label>
-                        <p id='p-type'>A digital video.</p>
-                        <label>
-                            <input type="radio" value="dataset" checked={this.state.type === 'dataset'}/>
-                            Dataset
-                        </label>
-                        <p id='p-type'>A bounded collection of quantitative data (e.g. spreadsheet or XML data
-                            file).</p>
-                        <label>
-                            <input type="radio" value="experiment" checked={this.state.type === 'experiment'}/>
-                            Experiment
-                        </label>
-                        <p id='p-type'> Experimental data with intermediate analyses and summary results.</p>
-                        <label>
-                            <input type="radio" value="teaching-resource"
-                                   checked={this.state.type === 'teaching-resource'}/>
-                            Teaching-Resource
-                        </label>
-                        <p id='p-type'>Lecture notes, exercises, exam papers or course syllabuses.</p>
-                        <label>
-                            <input type="radio" value="project-grant"
-                                   checked={this.state.type === 'project-grant'}/>
-                            Project/Grant
-                        </label>
-                        <p id='p-type'> Something within the scope of the repository, but not covered by the
-                            other categories. </p>
                     </div>
+                    <div>
+                        <label id="bookSection" style={{paddingRight: 10}}>
+                            <FormRadio
+                                name="typeArticle"
+                                checked={this.state.type === "book-section"}
+                                onChange={() => {
+                                    this.onTypeRadioChanged("book-section");
+                                }}>
+                                Book-section
+                            </FormRadio>
+                        </label>
+                    </div>
+                    <Tooltip
+                        placement="right" style={{maxWidth: 900}}
+                        open={this.state.bookOpen}
+                        target="#bookSection"
+                        toggle={() => this.toggle("bookOpen")}>
+                        A chapter or section in a book
+                    </Tooltip>
+
+                    <FormRadio
+                        name="typeArticle"
+                        checked={this.state.type === "technical-report"}
+                        onChange={() => {
+                            this.onTypeRadioChanged("technical-report");
+                        }}>
+                        Technical-Report
+                    </FormRadio>
+                    <FormRadio
+                        name="typeArticle"
+                        checked={this.state.type === "conference-workshop-item"}
+                        onChange={() => {
+                            this.onTypeRadioChanged("conference-workshop-item");
+                        }}
+                    >
+                        Conference or Workshop Item
+                    </FormRadio>
+                    <FormRadio
+                        name="typeArticle"
+                        checked={this.state.type === "book"}
+                        onChange={() => {
+                            this.onTypeRadioChanged("book");
+                        }}
+                    >
+                        Book
+                    </FormRadio>
+                    <FormRadio
+                        name="typeArticle"
+                        checked={this.state.type === "thesis"}
+                        onChange={() => {
+                            this.onTypeRadioChanged("thesis");
+                        }}
+                    >
+                        Thesis
+                    </FormRadio>
+                    <FormRadio
+                        name="typeArticle"
+                        checked={this.state.type === "patent"}
+                        onChange={() => {
+                            this.onTypeRadioChanged("patent");
+                        }}
+                    >
+                        Patent
+                    </FormRadio>
+                    <FormRadio
+                        name="typeArticle"
+                        checked={this.state.type === "image"}
+                        onChange={() => {
+                            this.onTypeRadioChanged("image");
+                        }}
+                    >
+                        Image
+                    </FormRadio>
+                    <FormRadio
+                        name="typeArticle"
+                        checked={this.state.type === "video"}
+                        onChange={() => {
+                            this.onTypeRadioChanged("video");
+                        }}
+                    >
+                        Video
+                    </FormRadio>
+                    <FormRadio
+                        name="typeArticle"
+                        checked={this.state.type === "dataset"}
+                        onChange={() => {
+                            this.onTypeRadioChanged("dataset");
+                        }}
+                    >
+                        Dataset
+                    </FormRadio>
+                    <FormRadio
+                        name="typeArticle"
+                        checked={this.state.type === "experiment"}
+                        onChange={() => {
+                            this.onTypeRadioChanged("experiment");
+                        }}
+                    >
+                        Experiment
+                    </FormRadio>
+                    <FormRadio
+                        name="typeArticle"
+                        checked={this.state.type === "teaching-resource"}
+                        onChange={() => {
+                            this.onTypeRadioChanged("teaching-resource");
+                        }}
+                    >
+                        Teaching Resource
+                    </FormRadio>
+                    <FormRadio
+                        name="typeArticle"
+                        checked={this.state.type === "project-grant"}
+                        onChange={() => {
+                            this.onTypeRadioChanged("project-grant");
+                        }}
+                    >
+                        Project/Grant
+                    </FormRadio>
                 </div>
+
             </Fragment>
         )
     }

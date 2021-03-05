@@ -1,5 +1,6 @@
 import {Component, Fragment} from 'react';
 import axios from "axios";
+import { Alert } from "shards-react";
 
 class Header extends Component {
     state = {
@@ -15,6 +16,12 @@ class Header extends Component {
         let dropdownActive = 'dropdown active';
         return (
             <Fragment>
+                <Alert theme="primary">
+                Alert - Primary Theme (default) -{" "}
+                <a className="alert-link" href="#">
+                    Example Link
+                </a>
+            </Alert>
                 <div className="header navbar navbar-default navbar-static-top">
                     <div className="container" style={{paddingLeft: 60, paddingRight: 60}}>
                         <div className="navbar-header">
