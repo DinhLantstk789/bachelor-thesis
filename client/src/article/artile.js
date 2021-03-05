@@ -5,7 +5,9 @@ import ArticleSubjects from "./articleSubjects";
 import ArticleDeposit from "./articleDeposit";
 import axios from "axios";
 import {Button} from "shards-react";
-import MyStepper from "./stepper"
+import MyStepper from "../stepper"
+import RadioGroup from "../radioGroup";
+
 class Article extends Component {
     state = {
         loggedUser: null,

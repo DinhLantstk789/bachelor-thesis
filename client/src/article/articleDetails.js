@@ -1,7 +1,7 @@
 import {Component, Fragment} from 'react';
 import {Card, CardBody, CardHeader, Col, FormInput, Row, FormRadio} from "shards-react";
 import Article from "./artile";
-import RefereedArticle from "./refereedArticle";
+import RefereedArticle from "../refereedArticle";
 
 class ArticleDetails extends Component {
     state = {

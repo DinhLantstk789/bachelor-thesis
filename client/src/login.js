@@ -65,8 +65,8 @@ class Login extends Component {
         return (
             <Fragment>
                 <Row>
-                    <Col xs={4} md={4} sm={4}/>
-                    <Col xs={4} md={4} sm={4} style={{paddingLeft: 60, paddingRight: 60}}>
+                    <Col xs={2} md={4} sm={2}/>
+                    <Col xs={8} md={4} sm={8} style={{paddingLeft: 60, paddingRight: 60}}>
                         <form>
                             <Card style={{marginTop: 100}}>
                                 <CardBody style={{paddingLeft: 40, paddingRight: 40}}>
@@ -124,7 +124,7 @@ class Login extends Component {
                             </Card>
                         </form>
                     </Col>
-                    <Col xs={4} md={4} sm={4}/>
+                    <Col xs={2} md={4} sm={2}/>
                 </Row>
             </Fragment>
 

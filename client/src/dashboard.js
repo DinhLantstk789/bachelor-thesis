@@ -9,7 +9,7 @@ import {
     Dropdown, DropdownToggle, DropdownMenu, DropdownItem
 } from "shards-react";
 import Footer from "./footer";
-import Article from "./artile";
+import Article from "./article/artile";
 
 class Dashboard extends Component {
     state = {
