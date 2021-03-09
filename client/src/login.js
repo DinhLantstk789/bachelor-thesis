@@ -77,7 +77,7 @@ class Login extends Component {
                                         account</h4>
                                     <p style={{
                                         textAlign: 'center',
-                                        marginBottom: 10
+                                        marginBottom: 10,color:"red"
                                     }}>{this.state.emailCheckedResult}</p>
                                     <InputGroup className="mb-2">
                                         <InputGroupAddon type="prepend">
@@ -88,7 +88,7 @@ class Login extends Component {
                                     </InputGroup>
                                     <p style={{
                                         textAlign: 'center',
-                                        marginBottom: 10
+                                        marginBottom: 10,color:"red"
                                     }}>{this.state.passwordCheckedResult}</p>
                                     <InputGroup className="mb-2">
                                         <InputGroupAddon type="prepend">

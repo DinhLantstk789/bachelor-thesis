@@ -8,7 +8,10 @@ class RadioGroup extends Component {
 
     constructor(props) {
         super(props);
-        this.state.selectedId = this.props.radioArray[0].id;
+    }
+
+    componentDidMount() {
+        this.setState({selectedId: this.props.selectedId});
     }
 
     toggle = (pos) => {
@@ -21,7 +24,7 @@ class RadioGroup extends Component {
         return (
             <Fragment>
                 {this.props.radioArray.map((radioElement) => (
-                    <div>
+                    <div style={this.props.inline ? {display: "inline", marginRight: 5} : {display: ""}}>
                         <label id={radioElement.id} style={{paddingRight: 10}}>
                             <FormRadio
                                 name={radioElement.id}

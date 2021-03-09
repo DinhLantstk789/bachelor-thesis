@@ -5,14 +5,11 @@ import ArticleSubjects from "./articleSubjects";
 import ArticleDeposit from "./articleDeposit";
 import axios from "axios";
 import {Button} from "shards-react";
-import MyStepper from "../stepper"
-import RadioGroup from "../radioGroup";
 
 class Article extends Component {
     state = {
         loggedUser: null,
         currentStep: 1,
-        type: 'article',
         articles: 'get sample'
     }
     onTypeClicked = (event) => {
@@ -57,28 +54,24 @@ class Article extends Component {
         let step = ''
         switch (this.state.currentStep) {
             case 1:
-                currentComponent =
-                    <ArticleType type={this.state.type} onArticleTypeChanged={(newType) => {
-                        this.setState({type: newType});
-                    }}/>;
+                currentComponent = <ArticleType/>;
                 step = 'Type';
                 break;
             case 2:
-                currentComponent = <ArticleDetails type={this.state.type}/>;
+                currentComponent = <ArticleDetails/>;
                 step = 'Details';
                 break;
             case 3:
-                currentComponent = <ArticleSubjects type={this.state.type}/>;
+                currentComponent = <ArticleSubjects/>;
                 step = 'Subject';
                 break;
             case 4:
-                currentComponent = <ArticleDeposit type={this.state.type}/>;
+                currentComponent = <ArticleDeposit/>;
                 step = 'Deposit';
                 break;
         }
         return (
             <Fragment>
-                {/*<MyStepper/>*/}
                 <div className="example">
                     <Button theme="secondary" onClick={this.onTypeClicked}>Type</Button>
                     <Button theme="success" onClick={this.onDetailsClicked}>Details</Button>

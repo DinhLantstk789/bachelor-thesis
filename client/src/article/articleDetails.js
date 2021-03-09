@@ -2,10 +2,12 @@ import {Component, Fragment} from 'react';
 import {Card, CardBody, CardHeader, Col, FormInput, Row, FormRadio} from "shards-react";
 import Article from "./article";
 import RefereedArticle from "../refereedArticle";
+import RadioGroup from "../radioGroup";
+import {connect} from "react-redux";
+
 
 class ArticleDetails extends Component {
     state = {
-        type: 'article',
         titleCheckedResult: '',
         enteredTitle: '',
         creators: [{familyName: 'B', givenName: ' .', email: 'a@gmail.com', department: ''}],
@@ -16,45 +18,14 @@ class ArticleDetails extends Component {
         enteredIdentificationNumber: '',
         funders: [{funder: 'a'}],
         projects: [{projectName: 'a'}],
-        copyrightHolders: [{holder: ''}],
-        selectedStatus: '',
-        selectedDateType: '',
-        selectedMonoType: '',
-        selectedThesisType: ''
+        copyrightHolders: [{holder: ''}]
+
     }
 
     constructor(props) {
         super(props);
-        this.state.type = this.props.type;
-        this.changeStatus = this.changeStatus.bind(this.state.selectedStatus);
-        this.changeDate = this.changeDate.bind(this.state.selectedDateType);
-        this.changeMonoType = this.changeMonoType.bind(this.state.selectedMonoType);
-        this.changeThesisType = this.changeThesisType.bind(this.state.selectedThesisType);
     }
 
-    changeStatus(status) {
-        this.setState({
-            selectedSport: status
-        });
-    }
-
-    changeDate(date) {
-        this.setState({
-            selectedDateType: date
-        });
-    }
-
-    changeMonoType(monoType) {
-        this.setState({
-            selectedMonoType: monoType
-        });
-    }
-
-    changeThesisType(thesisType) {
-        this.setState({
-            selectedMonoType: thesisType
-        });
-    }
 
     onTypingTitle = (event) => {
         this.setState({enteredTitle: event.target.value});
@@ -163,7 +134,7 @@ class ArticleDetails extends Component {
         let mainComponent = null;
         let addComponent = null;
         let detailComponent = null;
-        switch (this.state.type) {
+        switch (this.props.type) {
             case 'article':
                 mainComponent =
                     <div>
@@ -234,69 +205,22 @@ class ArticleDetails extends Component {
                     <div>
                         <label style={{marginTop: 10}}>Monograph Type</label>
                         <div style={{marginLeft: 130}}>
-                            <FormRadio
-                                name="refereed"
-                                checked={this.state.selectedMonoType === "technical-report"}
-                                onChange={() => {
-                                    this.changeMonoType("technical-report");
-                                }}
-                            >
-                                Technical Report
-                            </FormRadio>
-                            <FormRadio
-                                name="refereed"
-                                checked={this.state.selectedMonoType === "project-report"}
-                                onChange={() => {
-                                    this.changeMonoType("project-report");
-                                }}
-                            >
-                                Project Report
-                            </FormRadio>
-                            <FormRadio
-                                name="refereed"
-                                checked={this.state.selectedMonoType === "documentation"}
-                                onChange={() => {
-                                    this.changeMonoType("documentation");
-                                }}
-                            >
-                                Documentation
-                            </FormRadio>
-                            <FormRadio
-                                name="refereed"
-                                checked={this.state.selectedMonoType === "manual"}
-                                onChange={() => {
-                                    this.changeMonoType("manual");
-                                }}
-                            >
-                                Manual
-                            </FormRadio>
-                            <FormRadio
-                                name="refereed"
-                                checked={this.state.selectedMonoType === "working-paper"}
-                                onChange={() => {
-                                    this.changeMonoType("working-paper");
-                                }}
-                            >
-                                Working Paper
-                            </FormRadio>
-                            <FormRadio
-                                name="refereed"
-                                checked={this.state.selectedMonoType === "discussion-paper"}
-                                onChange={() => {
-                                    this.changeMonoType("discussion-paper");
-                                }}
-                            >
-                                Discussion Paper
-                            </FormRadio>
-                            <FormRadio
-                                name="refereed"
-                                checked={this.state.selectedMonoType === "other"}
-                                onChange={() => {
-                                    this.changeMonoType("other");
-                                }}
-                            >
-                                Other
-                            </FormRadio>
+                            <RadioGroup enableTooltip={false} inline={true} radioArray={[{
+                                name: 'Technical Report', id: 'technical-reportMonoType',
+                            }, {
+                                name: 'Project Report', id: 'project-reportMonoType',
+                            }, {
+                                name: 'Documentation', id: 'documentationMonoType',
+                            }, {
+                                name: 'Manual', id: 'manualMonoType',
+                            }, {
+                                name: 'Working Paper', id: 'working-paperMonoType',
+                            }, {
+                                name: 'Discussion Paper', id: 'discussion-paperMonoType',
+                            }, {
+                                name: 'Other', id: 'otherMonoType',
+                            }]} onSelected={() => {
+                            }}/>
                         </div>
                     </div>
                 break;
@@ -307,62 +231,23 @@ class ArticleDetails extends Component {
                     </div>
                 addComponent =
                     <div>
+
                         <label style={{marginTop: 10}}>Presentation Type</label>
-                        <div>
-                            <FormRadio
-                                name="refereed" inline
-                                checked={this.state.selectedMonoType === "paper"}
-                                onChange={() => {
-                                    this.changeMonoType("paper");
-                                }}
-                            >
-                                Paper
-                            </FormRadio>
-                            <FormRadio
-                                name="refereed" inline
-                                checked={this.state.selectedMonoType === "lecture"}
-                                onChange={() => {
-                                    this.changeMonoType("lecture");
-                                }}
-                            >
-                                Lecture
-                            </FormRadio>
-                            <FormRadio
-                                name="refereed" inline
-                                checked={this.state.selectedMonoType === "speech"}
-                                onChange={() => {
-                                    this.changeMonoType("speech");
-                                }}
-                            >
-                                Speech
-                            </FormRadio>
-                            <FormRadio
-                                name="refereed" inline
-                                checked={this.state.selectedMonoType === "poster"}
-                                onChange={() => {
-                                    this.changeMonoType("poster");
-                                }}
-                            >
-                                Poster
-                            </FormRadio>
-                            <FormRadio
-                                name="refereed" inline
-                                checked={this.state.selectedMonoType === "keynote"}
-                                onChange={() => {
-                                    this.changeMonoType("keynote");
-                                }}
-                            >
-                                Keynote
-                            </FormRadio>
-                            <FormRadio
-                                name="refereed" inline
-                                checked={this.state.selectedMonoType === "other"}
-                                onChange={() => {
-                                    this.changeMonoType("other");
-                                }}
-                            >
-                                Other
-                            </FormRadio>
+                        <div style={{marginLeft: 130}}>
+                            <RadioGroup enableTooltip={false} inline={true} radioArray={[{
+                                name: 'Paper', id: 'paper',
+                            }, {
+                                name: 'Lecture', id: 'lecture',
+                            }, {
+                                name: 'Speech', id: 'speech',
+                            }, {
+                                name: 'Poster', id: 'poster',
+                            }, {
+                                name: 'Keynote', id: 'keynote',
+                            }, {
+                                name: 'Other', id: 'otherConference',
+                            }]} onSelected={() => {
+                            }}/>
                         </div>
                     </div>
                 break;
@@ -391,52 +276,19 @@ class ArticleDetails extends Component {
                 addComponent =
                     <div>
                         <label style={{marginTop: 10}}>Thesis Type</label>
-                        <div>
-                            <FormRadio
-                                name="refereed" inline
-                                checked={this.state.selectedThesisType === "diploma"}
-                                onChange={() => {
-                                    this.changeThesisType("diploma");
-                                }}
-                            >
-                                Diploma
-                            </FormRadio>
-                            <FormRadio
-                                name="refereed" inline
-                                checked={this.state.selectedThesisType === "master"}
-                                onChange={() => {
-                                    this.changeThesisType("master");
-                                }}
-                            >
-                                Masters
-                            </FormRadio>
-                            <FormRadio
-                                name="refereed" inline
-                                checked={this.state.selectedThesisType === "doctoral"}
-                                onChange={() => {
-                                    this.changeThesisType("doctoral");
-                                }}
-                            >
-                                Doctoral
-                            </FormRadio>
-                            <FormRadio
-                                name="refereed" inline
-                                checked={this.state.selectedThesisType === "post-doctoral"}
-                                onChange={() => {
-                                    this.changeThesisType("post-doctoral");
-                                }}
-                            >
-                                Post-Doctoral
-                            </FormRadio>
-                            <FormRadio
-                                name="refereed" inline
-                                checked={this.state.selectedThesisType === "other"}
-                                onChange={() => {
-                                    this.changeThesisType("other");
-                                }}
-                            >
-                                Other
-                            </FormRadio>
+                        <div style={{marginLeft: 130}}>
+                            <RadioGroup enableTooltip={false} inline={true} radioArray={[{
+                                name: 'Diploma', id: 'diploma',
+                            }, {
+                                name: 'Masters', id: 'masters',
+                            }, {
+                                name: 'Doctoral', id: 'doctoral',
+                            }, {
+                                name: 'Post-Doctoral', id: 'Post-Doctoral',
+                            }, {
+                                name: 'Other', id: 'otherThesis',
+                            }]} onSelected={() => {
+                            }}/>
                         </div>
                     </div>
                 break;
@@ -552,47 +404,17 @@ class ArticleDetails extends Component {
                         </CardHeader>
                         <CardBody>
                             <div><label className=" control-label">Status</label></div>
-                            <div>
-                                <FormRadio
-                                    inline
-                                    name="sport"
-                                    checked={this.state.selectedStatus === "published"}
-                                    onChange={() => {
-                                        this.changeStatus("published");
-                                    }}
-                                >
-                                    Published
-                                </FormRadio>
-                                <FormRadio
-                                    inline
-                                    name="sport"
-                                    checked={this.state.selectedStatus === "in-press"}
-                                    onChange={() => {
-                                        this.changeStatus("in-press");
-                                    }}
-                                >
-                                    In Press
-                                </FormRadio>
-                                <FormRadio
-                                    inline
-                                    name="sport"
-                                    checked={this.state.selectedStatus === "submitted"}
-                                    onChange={() => {
-                                        this.changeStatus("submitted");
-                                    }}
-                                >
-                                    Submitted
-                                </FormRadio>
-                                <FormRadio
-                                    inline
-                                    name="sport"
-                                    checked={this.state.selectedStatus === "unpublished"}
-                                    onChange={() => {
-                                        this.changeStatus("unpublished");
-                                    }}
-                                >
-                                    Unpublished
-                                </FormRadio>
+                            <div style={{marginLeft: 70}}>
+                                <RadioGroup enableTooltip={false} inline={true} radioArray={[{
+                                    name: 'Published', id: 'published',
+                                }, {
+                                    name: 'In Press', id: 'inPress',
+                                }, {
+                                    name: 'Submitted', id: 'submitted',
+                                }, {
+                                    name: 'Unpublished', id: 'unPublished',
+                                }]} onSelected={() => {
+                                }}/>
                             </div>
                             {mainComponent}
                             <Row style={{marginTop: 10}}>
@@ -600,47 +422,17 @@ class ArticleDetails extends Component {
                                 <FormInput placeholder="My form input" type="date" style={{width: 200}}/>
                             </Row>
                             <div><label className=" control-label">Date Type</label></div>
-                            <div>
-                                <FormRadio
-                                    inline
-                                    name="sport"
-                                    checked={this.state.selectedStatus === "published"}
-                                    onChange={() => {
-                                        this.changeStatus("published");
-                                    }}
-                                >
-                                    Unspecified
-                                </FormRadio>
-                                <FormRadio
-                                    inline
-                                    name="sport"
-                                    checked={this.state.selectedStatus === "in-press"}
-                                    onChange={() => {
-                                        this.changeStatus("in-press");
-                                    }}
-                                >
-                                    Publication
-                                </FormRadio>
-                                <FormRadio
-                                    inline
-                                    name="sport"
-                                    checked={this.state.selectedStatus === "submitted"}
-                                    onChange={() => {
-                                        this.changeStatus("submitted");
-                                    }}
-                                >
-                                    Submission
-                                </FormRadio>
-                                <FormRadio
-                                    inline
-                                    name="sport"
-                                    checked={this.state.selectedStatus === "unpublished"}
-                                    onChange={() => {
-                                        this.changeStatus("unpublished");
-                                    }}
-                                >
-                                    Completion
-                                </FormRadio>
+                            <div style={{marginLeft: 70}}>
+                                <RadioGroup enableTooltip={false} inline={true} radioArray={[{
+                                    name: 'Unspecified', id: 'unSpecified',
+                                }, {
+                                    name: 'Publication', id: 'publication',
+                                }, {
+                                    name: 'Submission', id: 'submission',
+                                }, {
+                                    name: 'Completion', id: 'completion',
+                                }]} onSelected={() => {
+                                }}/>
                             </div>
                             <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
                             <FormInput placeholder="Identification Number" onChange={this.onTypingIdentificationNumber} style={{marginTop: 10}}/>
@@ -714,4 +506,8 @@ class ArticleDetails extends Component {
     }
 }
 
-export default ArticleDetails;
+let mapStateToProps = (store) => {
+    return {type: store.article.articleType};
+}
+let mapDispatchToProps = {};
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleDetails);
