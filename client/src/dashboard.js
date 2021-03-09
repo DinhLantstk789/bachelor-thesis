@@ -11,15 +11,8 @@ import {
 import Footer from "./footer";
 import Article from "./article/article";
 
+
 class Dashboard extends Component {
-    state = {
-        loggedUser: null
-    }
-
-    static getDerivedStateFromProps(newProps, prevState) {
-        return {loggedUser: newProps.loggedUser};
-    }
-
     constructor(props) {
         super(props);
         this.state = {open: false};
@@ -66,7 +59,7 @@ class Dashboard extends Component {
                     <Col>
                         <Card style={{margin: 30}}>
                             <CardBody>
-                                <Article loggedUser={this.state.loggedUser}/>
+                                <Article/>
                             </CardBody>
                             <Footer/>
                         </Card>

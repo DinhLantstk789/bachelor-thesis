@@ -1,16 +1,13 @@
 const initialState = {
-    loggedUser: {
-        id: null, email: null, name: null, accessToken: null
-    }
+    loggedUser: null
 };
 
 export default (state = initialState, action) => {
-    if (action.type === 'SAVE_LOGGED_USER') {
-        const payload = action.payload;
-        console.log('Stored into Redux', payload.loggedUser);
+    if (action.type === 'LOGIN_USER') {
+        const data = action.data;
         return {
             ...state,
-            loggedUser: payload.loggedUser
+            loggedUser: data.loggedUser
         }
     }
     return state;

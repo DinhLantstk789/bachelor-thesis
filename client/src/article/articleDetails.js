@@ -1,6 +1,5 @@
 import {Component, Fragment} from 'react';
 import {Card, CardBody, CardHeader, Col, FormInput, Row, FormRadio} from "shards-react";
-import Article from "./article";
 import RefereedArticle from "../refereedArticle";
 import RadioGroup from "../radioGroup";
 import {connect} from "react-redux";
@@ -458,20 +457,20 @@ class ArticleDetails extends Component {
                     <div><label className="control-label">Funders</label></div>
                     {this.state.funders.map(item => (
                         <span>
-                                <Row>
-                                    <Col sm={8}><FormInput placeholder="Funder" value={item.funder}/></Col>
-                                    <Col sm={4}><button onClick={this.onAddFunder} id="buttonStyle">More</button></Col>
-                                </Row>
-                            </span>
+                            <Row>
+                                <Col sm={8}><FormInput placeholder="Funder" value={item.funder}/></Col>
+                                <Col sm={4}><button onClick={this.onAddFunder} id="buttonStyle">More</button></Col>
+                            </Row>
+                        </span>
                     ))}
                     <div><label className="control-label">Projects</label></div>
                     {this.state.projects.map(item => (
                         <span>
-                                <Row>
-                                    <Col sm={8}><FormInput placeholder="Project" value={item.projectName}/></Col>
-                                    <Col sm={4}><button onClick={this.onAddProject} id="buttonStyle">More</button></Col>
-                                </Row>
-                            </span>
+                            <Row>
+                                <Col sm={8}><FormInput placeholder="Project" value={item.projectName}/></Col>
+                                <Col sm={4}><button onClick={this.onAddProject} id="buttonStyle">More</button></Col>
+                            </Row>
+                        </span>
                     ))}
                     <div>
                         <button onClick={this.onShowEmailAddress} style={{marginTop: 20, borderRadius: 15, backgroundColor: "dark"}}> Contact Email Address

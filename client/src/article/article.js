@@ -8,7 +8,6 @@ import {Button} from "shards-react";
 
 class Article extends Component {
     state = {
-        loggedUser: null,
         currentStep: 1,
         articles: 'get sample'
     }
@@ -24,11 +23,6 @@ class Article extends Component {
     onDepositClicked = (event) => {
         this.setState({currentStep: 4});
     }
-
-    static getDerivedStateFromProps(newProps, prevState) {
-        return {loggedUser: newProps.loggedUser};
-    }
-
     onSampleClicked = () => {
         let requestConfigs = {
             headers: {

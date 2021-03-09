@@ -7,14 +7,14 @@ import {
     InputGroupText,
     InputGroupAddon,
     FormInput, Card,
-    CardHeader,
     CardTitle, FormCheckbox,
-    CardImg,
     CardBody,
-    CardFooter,
     Button, Container, Row, Col
 } from "shards-react";
 import Footer from "./footer";
+import {saveLoggedUser} from "./redux/actions";
+import {connect} from "react-redux";
+
 
 class Login extends Component {
     state = {
@@ -53,7 +53,7 @@ class Login extends Component {
         axios.post('http://localhost:1234/users/login', credentials).then(res => {
             let status = res.data.status;
             if (status === 0) {
-                this.props.onLoginSuccess(res.data.user);
+                this.props.saveLoggedUser(res.data.user);
             } else {
                 this.setState({errorResponse: res.data.message});
             }
@@ -132,4 +132,6 @@ class Login extends Component {
     }
 }
 
-export default Login;
+let mapStateToProps = null;
+let mapDispatchToProps = {saveLoggedUser};
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
