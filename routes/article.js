@@ -2,12 +2,11 @@ const configs = require('../utils/configs');
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const dbman = require("../utils/dbman");
 
 router.get('/fetch', function (req, res) {
     let accessToken = req.headers['token'];
-    if (accessToken === null) {
-        return res.json({status: 1, message: 'Missing access token.'});
-    }
+    if (accessToken === null) return res.json({status: 1, message: 'Missing access token.'});
     jwt.verify(accessToken, configs.SECRET, function (err, decoded) {
         if (err) {
             console.error(err);

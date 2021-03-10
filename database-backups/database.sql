@@ -6,15 +6,15 @@ CREATE TABLE users (
 	department TEXT NOT NULL,
 	address TEXT,
 	user_type TEXT,
-	registration_date TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-	last_login TIMESAMPTZ,
-	db_created_on TIMESTAMPTZ,
-	db_updated_on TIMESTAMPTZ,
+	registration_date TIMESTAMP NOT NULL DEFAULT NOW(),
+	last_login TIMESTAMP,
+	db_created_on TIMESTAMP,
+	db_updated_on TIMESTAMP,
 	PRIMARY KEY(id)
 );
 
 CREATE TYPE person AS (family_name text, given_name text, email text, division text);
-CREATE TYPE related_url AS (url TEXT,url_type TEXT);
+CREATE TYPE related_url AS (url TEXT, url_type TEXT);
 
 CREATE TABLE articles (
 	id serial,
@@ -35,7 +35,7 @@ CREATE TABLE articles (
 	number_of_pages INTEGER,
 	number INTEGER,
 	page_range INTEGER[2],
-	date TIMESTAMPTZ,
+	date TIMESTAMP,
 	date_type TEXT,
 	identification_number TEXT,
 	series_name TEXT,
@@ -48,8 +48,8 @@ CREATE TABLE articles (
 	additional_infor TEXT,
 	comments_and_suggestions TEXT,
 	is_approved BOOLEAN DEFAULT FALSE,
-	db_created_on TIMESTAMPTZ,
-	db_updated_on TIMESTAMPTZ,
+	db_created_on TIMESTAMP,
+	db_updated_on TIMESTAMP,
 	PRIMARY KEY (id)
 );
 
@@ -57,7 +57,7 @@ CREATE TABLE user_article (
 	id serial,
 	user_id INTEGER,
 	article_id INTEGER,
-	db_created_on TIMESTAMPTZ,
-	db_updated_on TIMESTAMPTZ,
+	db_created_on TIMESTAMP,
+	db_updated_on TIMESTAMP,
 	PRIMARY KEY(id)
 );

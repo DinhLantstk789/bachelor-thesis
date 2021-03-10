@@ -10,6 +10,7 @@ import {
 } from "shards-react";
 import Footer from "./footer";
 import Article from "./article/article";
+import ArticleDetails from "./article/articleDetails";
 
 
 class Dashboard extends Component {
@@ -59,7 +60,7 @@ class Dashboard extends Component {
                     <Col>
                         <Card style={{margin: 30}}>
                             <CardBody>
-                                <Article/>
+                                <ArticleDetails/>
                             </CardBody>
                             <Footer/>
                         </Card>

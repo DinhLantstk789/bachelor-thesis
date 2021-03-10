@@ -1,44 +1,25 @@
 import {Component, Fragment} from 'react';
 import {FormRadio} from "shards-react";
+import RadioGroup from "./radioGroup";
 
 class RefereedArticle extends Component {
-    state={
+    state = {
         selectedRefereed: ''
     }
-    constructor(props) {
-        super(props);
-        this.changeRefereed = this.changeRefereed.bind(this)
-    }
-    changeRefereed(refereed) {
-        this.setState({
-            selectedRefereed: refereed
-        });
-    }
+
     render() {
         return (
             <Fragment>
-                <label>Refereed</label>
                 <div>
-                    <FormRadio
-                        inline
-                        name="refereed"
-                        checked={this.state.selectedStatus === "yes"}
-                        onChange={() => {
-                            this.changeStatus("yes");
-                        }}
-                    >
-                        Yes, this version has been refereed.
-                    </FormRadio>
-                    <FormRadio
-                        inline
-                        name="refereed"
-                        checked={this.state.selectedStatus === "no"}
-                        onChange={() => {
-                            this.changeStatus("no");
-                        }}
-                    >
-                        No, this version has not been refereed.
-                    </FormRadio>
+                    <h6 style={{marginRight: 20,display:"inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Refereed:</h6>
+                    <RadioGroup inline={true} enableTooltip={false} radioArray={[{
+                        name: 'Yes, this version has been refereed.',
+                        id: 'yes'
+                    }, {
+                        name: 'No, this version has not been refereed.',
+                        id: 'no'
+                    }]} onSelected={() => {
+                    }}/>
                 </div>
             </Fragment>
 

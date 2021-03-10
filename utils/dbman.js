@@ -1,15 +1,15 @@
 const seq = require('sequelize');
+const {QueryTypes} = require('sequelize');
 const dbConfigs = {
     dialect: 'postgres',
-    port: 6969,
+    port: 5432,
     dialectOptions: {socketPath: '/tmp/.s.PGSQL.5432'}
 };
-const {QueryTypes} = require('sequelize');
-const eprintSeq = new seq.Sequelize('eprint', 'postgres', null, dbConfigs);
+const eprints = new seq.Sequelize('eprints', 'postgres', null, dbConfigs);
 
 module.exports = {
-    sample: async () => {
-        const users = await eprintSeq.query("SELECT * FROM user", {type: QueryTypes.SELECT});
+    fetchAllArticles: async () => {
+        const users = await eprints.query("SELECT * FROM articles WHERE status = 'Published';", {type: QueryTypes.SELECT});
         console.log(users);
     }
 }

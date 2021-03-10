@@ -1,8 +1,6 @@
 import {Component, Fragment} from 'react';
 import ArticleType from "./articleType";
 import ArticleDetails from "./articleDetails";
-import ArticleSubjects from "./articleSubjects";
-import ArticleDeposit from "./articleDeposit";
 import axios from "axios";
 import {Button} from "shards-react";
 
@@ -16,12 +14,6 @@ class Article extends Component {
     }
     onDetailsClicked = (event) => {
         this.setState({currentStep: 2});
-    }
-    onSubjectsClicked = (event) => {
-        this.setState({currentStep: 3});
-    }
-    onDepositClicked = (event) => {
-        this.setState({currentStep: 4});
     }
     onSampleClicked = () => {
         let requestConfigs = {
@@ -44,7 +36,6 @@ class Article extends Component {
 
     render() {
         let currentComponent = null;
-        let id = '';
         let step = ''
         switch (this.state.currentStep) {
             case 1:
@@ -55,24 +46,9 @@ class Article extends Component {
                 currentComponent = <ArticleDetails/>;
                 step = 'Details';
                 break;
-            case 3:
-                currentComponent = <ArticleSubjects/>;
-                step = 'Subject';
-                break;
-            case 4:
-                currentComponent = <ArticleDeposit/>;
-                step = 'Deposit';
-                break;
         }
         return (
             <Fragment>
-                <div className="example">
-                    <Button theme="secondary" onClick={this.onTypeClicked}>Type</Button>
-                    <Button theme="success" onClick={this.onDetailsClicked}>Details</Button>
-                    <Button theme="info" onClick={this.onSubjectsClicked}>Subject</Button>
-                    <Button theme="warning" onClick={this.onDepositClicked}>Deposit</Button>
-                    <Button theme="danger" onClick={this.onSampleClicked}>{this.state.articles}</Button>
-                </div>
                 {currentComponent}
             </Fragment>
         )

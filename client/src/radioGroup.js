@@ -37,7 +37,7 @@ class RadioGroup extends Component {
                             </FormRadio>
                         </label>
                         {this.props.enableTooltip ? <Tooltip
-                            placement="right" style={{maxWidth: 900}}
+                            placement="top" style={{maxWidth: 900}}
                             open={this.state[radioElement.id + 'Open']}
                             target={"#" + radioElement.id}
                             toggle={() => this.toggle(radioElement.id + 'Open')}>
