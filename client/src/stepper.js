@@ -6,7 +6,7 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ArticleType from "./article/articleType";
-import ArticleDetails from "./article/articleDetails";
+import ArticleDetails from "./article/article";
 import ArticleSubjects from "./article/articleSubjects";
 import ArticleDeposit from "./article/articleDeposit";
 
