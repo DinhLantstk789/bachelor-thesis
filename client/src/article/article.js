@@ -1,9 +1,9 @@
 import {Component, Fragment} from 'react';
 import {Card, Button, FormTextarea, CardBody, CardHeader, Col, FormInput, Row, FormRadio} from "shards-react";
-import RefereedArticle from "../refereedArticle";
+import ReferredArticle from "./referredArticle";
 import RadioGroup from "../radioGroup";
 import {connect} from "react-redux";
-import Subject from "../subject";
+import Subject from "./subject";
 import validator from "../utils/validator";
 import ArticleType from "./articleType";
 import axios from "axios";
@@ -122,7 +122,7 @@ class Article extends Component {
         switch (this.props.type) {
             case 'article':
                 mainComponent = <div>
-                    <RefereedArticle/>
+                    <ReferredArticle/>
                     <FormInput type="text" placeholder="Enter Journal or Publication Title" style={{marginTop: 10}}/>
                     <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
                     <FormInput type="text" placeholder="Enter Publisher" style={{marginTop: 10}}/>
@@ -147,7 +147,7 @@ class Article extends Component {
                 break;
             case 'book-section':
                 mainComponent = <div>
-                    <RefereedArticle/>
+                    <ReferredArticle/>
                     <Row style={{marginTop: 10}}>
                         <h6 style={{marginLeft: 13, marginRight: 30, display: "inline"}}>Page Range</h6>
                         <FormInput type="number" size={"sm"} style={{width: 70}}/>
@@ -219,7 +219,7 @@ class Article extends Component {
                 </div>
                 break;
             case 'conference-workshop-item':
-                mainComponent = <div><RefereedArticle/></div>
+                mainComponent = <div><ReferredArticle/></div>
                 addComponent = <div style={{marginTop: 20}}>
                     <h6 style={{marginRight: 38, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Presentation Type:</h6>
                     <RadioGroup enableTooltip={false} inline={true} radioArray={[{
@@ -240,7 +240,7 @@ class Article extends Component {
                 break;
             case 'book':
                 mainComponent = <div>
-                    <RefereedArticle/>
+                    <ReferredArticle/>
                     <FormInput placeholder="Enter Place of Publication" style={{marginTop: 10}}/>
                     <FormInput placeholder="Enter Publisher" style={{marginTop: 10}}/>
                     <FormInput placeholder="Enter Number of Pages" style={{marginTop: 10}}/>

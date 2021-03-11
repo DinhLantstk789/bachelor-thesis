@@ -1,8 +1,8 @@
 import {Component, Fragment} from 'react';
 import {FormRadio} from "shards-react";
-import RadioGroup from "./radioGroup";
+import RadioGroup from "../radioGroup";
 
-class RefereedArticle extends Component {
+class ReferredArticle extends Component {
     state = {
         selectedRefereed: ''
     }
@@ -11,7 +11,7 @@ class RefereedArticle extends Component {
         return (
             <Fragment>
                 <div>
-                    <h6 style={{marginRight: 20,display:"inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Refereed:</h6>
+                    <h6 style={{marginRight: 20, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Refereed:</h6>
                     <RadioGroup inline={true} enableTooltip={false} radioArray={[{
                         name: 'Yes, this version has been refereed.',
                         id: 'yes'
@@ -27,4 +27,4 @@ class RefereedArticle extends Component {
     }
 }
 
-export default RefereedArticle;
+export default ReferredArticle;
