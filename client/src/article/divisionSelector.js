@@ -21,7 +21,6 @@ class DivisionSelector extends Component {
         newState[division] = !this.state[division];
         this.setState({...this.state, ...newState});
     }
-
     render() {
         return (
             <Fragment>
