@@ -8,6 +8,7 @@ import validator from "../utils/validator";
 import ArticleType from "./articleType";
 import axios from "axios";
 import ContentLoader, {BulletList, Code, List} from "react-content-loader";
+import DivisionSelector from "./divisionSelector";
 
 
 class Article extends Component {
@@ -22,7 +23,6 @@ class Article extends Component {
         enteredIdentificationNumber: '',
         funders: [{funder: ''}],
         projects: [{projectName: ''}],
-        copyrightHolders: [{holder: ''}],
         showEmailAddress: false,
         isComponentLoading: false,
         currentType: 'article'
@@ -55,43 +55,13 @@ class Article extends Component {
     onTypingIdentificationNumber = (event) => {
         this.setState({enteredIdentificationNumber: event.target.value});
     }
-    onAddCreator = (event) => {
-        let currentCreator = this.state.creators;
-        let newCreators = currentCreator.concat({familyName: '', givenName: '', email: '', department: ''});
-        this.setState({creators: newCreators});
-    }
-    onAddCorporateCreator = (event) => {
-        let currentCorporateCreator = this.state.corporateCreators;
-        let newCurrentCreators = currentCorporateCreator.concat({corporateCreator: ''});
-        this.setState({corporateCreators: newCurrentCreators});
-    }
-    onAddEditor = (event) => {
-        let currentEditor = this.state.editors;
-        let newEditor = currentEditor.concat({familyName: '', givenName: '', email: ''});
-        this.setState({editors: newEditor});
-    }
-    onAddRelatedURL = (event) => {
-        let currentRelatedURL = this.state.relatedURL;
-        let newRelatedURL = currentRelatedURL.concat({URL: '', URLType: ''});
-        this.setState({relatedURL: newRelatedURL});
-    }
-    onAddFunder = (event) => {
-        let currentFunder = this.state.funders;
-        let newFunder = currentFunder.concat({funder: ''});
-        this.setState({funders: newFunder});
-    }
-    onAddProject = (event) => {
-        let currentProject = this.state.projects;
-        let newProject = currentProject.concat({projectName: ''});
-        this.setState({projects: newProject})
-    }
-    onAddCopyrightHolder = (event) => {
-        let currentHolder = this.state.copyrightHolders;
-        let newCurrentHolder = currentHolder.concat({holder: ''});
-        this.setState({copyrightHolder: newCurrentHolder});
+
+    onAdd(stateName, newData) {
+        let current = this.state[stateName];
+        let newState = current.concat(newData);
+        this.setState({[stateName]: newState});
     }
 
-    /* add array list ??? */
     validate = () => {
         let ErrorMessage = "";
         if (this.state.enteredTitle.length === 0 || this.state.enteredISSN.length === 0 ||
@@ -107,7 +77,6 @@ class Article extends Component {
             this.setState({ErrorMessage: ""});
         }
     }
-
 
     render() {
         let mainComponent = null;
@@ -138,7 +107,7 @@ class Article extends Component {
                         </Col>
                     </Row>
                     <Row style={{marginTop: 10}}>
-                        <h6 style={{marginLeft: 13, marginRight: 30, display: "inline"}}>Page Range</h6>
+                        <h6 style={{marginLeft: 13, marginRight: 30, marginTop: 2, display: "inline"}}>Page Range</h6>
                         <FormInput type="number" size={"sm"} style={{width: 70}}/>
                         <label style={{marginRight: 15, marginLeft: 15}}>to</label>
                         <FormInput type="number" size={"sm"} style={{width: 70}}/>
@@ -155,18 +124,28 @@ class Article extends Component {
                         <FormInput type="number" size={"sm"} style={{width: 70}}/>
                     </Row>
                     <FormInput type="text" placeholder="Enter Title of Book" style={{marginTop: 10}}/>
-                    <FormInput type="text" placeholder="Enter Volume" style={{marginTop: 10}}/>
                     <FormInput type="text" placeholder="Enter Place of Publication" style={{marginTop: 10}}/>
                     <FormInput type="text" placeholder="Enter Publisher" style={{marginTop: 10}}/>
                     <FormInput type="text" placeholder="Enter Number of Pages" style={{marginTop: 10}}/>
                     <FormInput type="text" placeholder="Enter Series Name" style={{marginTop: 10}}/>
-                    <FormInput type="text" placeholder="Enter Number" style={{marginTop: 10}}/>
                     <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
-                    <FormInput type="text" className="form-control"
-                               placeholder="Enter ISBN" onChange={this.onTypingISSN} style={{marginTop: 10}}/>
+                    <Row style={{marginTop: 10}}>
+                        <Col style={{marginLeft: 0, marginRight: -10}}>
+                            <FormInput type="text" placeholder="Enter ISBN" onChange={this.onTypingISSN}/>
+                        </Col>
+                        <Col style={{marginLeft: -10, marginRight: -10}}>
+                            <FormInput type="text" placeholder="Enter Volume"/>
+                        </Col>
+                        <Col style={{marginLeft: -10, marginRight: 0}}>
+                            <FormInput type="text" placeholder="Enter Number"/>
+                        </Col>
+                    </Row>
+
                 </div>
                 detailComponent = <div>
-                    <div style={{marginTop: 20}}><h6>Editors &nbsp;<i className='fa fa-plus-circle' onClick={this.onAddEditor}/></h6></div>
+                    <div style={{marginTop: 20}}><h6>Editors &nbsp;<i className='fa fa-plus-circle' onClick={() => {
+                        this.onAdd('editors', {familyName: '', givenName: '', email: ''})
+                    }}/></h6></div>
                     {this.state.editors.map((item, index) => (
                         <Row style={{marginTop: 10}}>
                             <Col style={{marginRight: -10}}><FormInput placeholder="Family Name" value={item.familyName} valid={item.familyName.length > 5} onChange={(e) => {
@@ -196,31 +175,29 @@ class Article extends Component {
                     <FormInput placeholder="Enter Publisher" style={{marginTop: 10}}/>
                     <FormInput placeholder="Enter Number of Pages" style={{marginTop: 10}}/>
                 </div>
-                addComponent = <div>
-                    <h6 style={{marginTop: 10, display: "inline"}}>Monograph Type</h6>
-                    <div style={{marginLeft: 130}}>
-                        <RadioGroup enableTooltip={false} inline={true} radioArray={[{
-                            name: 'Technical Report', id: 'technical-reportMonoType',
-                        }, {
-                            name: 'Project Report', id: 'project-reportMonoType',
-                        }, {
-                            name: 'Documentation', id: 'documentationMonoType',
-                        }, {
-                            name: 'Manual', id: 'manualMonoType',
-                        }, {
-                            name: 'Working Paper', id: 'working-paperMonoType',
-                        }, {
-                            name: 'Discussion Paper', id: 'discussion-paperMonoType',
-                        }, {
-                            name: 'Other', id: 'otherMonoType',
-                        }]} onSelected={() => {
-                        }}/>
-                    </div>
+                addComponent = <div style={{marginTop: 20, marginBottom: -10}}>
+                    <h6 style={{display: "inline", marginRight: 20}}><i className='fa fa-star' style={{marginRight: 10}}/>Monograph Type</h6>
+                    <RadioGroup enableTooltip={false} inline={true} radioArray={[{
+                        name: 'Technical Report', id: 'technical-reportMonoType',
+                    }, {
+                        name: 'Project Report', id: 'project-reportMonoType',
+                    }, {
+                        name: 'Documentation', id: 'documentationMonoType',
+                    }, {
+                        name: 'Manual', id: 'manualMonoType',
+                    }, {
+                        name: 'Working Paper', id: 'working-paperMonoType',
+                    }, {
+                        name: 'Discussion Paper', id: 'discussion-paperMonoType',
+                    }, {
+                        name: 'Other', id: 'otherMonoType',
+                    }]} onSelected={() => {
+                    }}/>
                 </div>
                 break;
             case 'conference-workshop-item':
                 mainComponent = <div><ReferredArticle/></div>
-                addComponent = <div style={{marginTop: 20}}>
+                addComponent = <div style={{marginTop: 20, marginBottom: -10}}>
                     <h6 style={{marginRight: 38, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Presentation Type:</h6>
                     <RadioGroup enableTooltip={false} inline={true} radioArray={[{
                         name: 'Paper', id: 'paper',
@@ -245,10 +222,18 @@ class Article extends Component {
                     <FormInput placeholder="Enter Publisher" style={{marginTop: 10}}/>
                     <FormInput placeholder="Enter Number of Pages" style={{marginTop: 10}}/>
                     <FormInput placeholder="Enter Series Name" style={{marginTop: 10}}/>
-                    <FormInput placeholder="Enter Volume" style={{marginTop: 10}}/>
-                    <FormInput placeholder="Enter Number" style={{marginTop: 10}}/>
                     <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
-                    <FormInput placeholder="Enter ISBN" onChange={this.onTypingISSN} style={{marginTop: 10}}/>
+                    <Row style={{marginTop: 10}}>
+                        <Col style={{marginLeft: 0, marginRight: -10}}>
+                            <FormInput type="text" placeholder="Enter ISBN" onChange={this.onTypingISSN}/>
+                        </Col>
+                        <Col style={{marginLeft: -10, marginRight: -10}}>
+                            <FormInput type="text" placeholder="Enter Volume"/>
+                        </Col>
+                        <Col style={{marginLeft: -10, marginRight: 0}}>
+                            <FormInput type="text" placeholder="Enter Number"/>
+                        </Col>
+                    </Row>
                 </div>
                 break;
             case 'thesis':
@@ -257,22 +242,20 @@ class Article extends Component {
                     <FormInput placeholder="Enter Department" style={{marginTop: 10}}/>
                     <FormInput placeholder="Enter Number of Pages" style={{marginTop: 10}}/>
                 </div>
-                addComponent = <div>
-                    <h6 style={{marginTop: 10, display: "inline"}}>Thesis Type</h6>
-                    <div style={{marginLeft: 130}}>
-                        <RadioGroup enableTooltip={false} inline={true} radioArray={[{
-                            name: 'Diploma', id: 'diploma',
-                        }, {
-                            name: 'Masters', id: 'masters',
-                        }, {
-                            name: 'Doctoral', id: 'doctoral',
-                        }, {
-                            name: 'Post-Doctoral', id: 'Post-Doctoral',
-                        }, {
-                            name: 'Other', id: 'otherThesis',
-                        }]} onSelected={() => {
-                        }}/>
-                    </div>
+                addComponent = <div style={{marginTop: 20, marginBottom: -10}}>
+                    <h6 style={{marginTop: 10, marginRight: 20, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Thesis Type:</h6>
+                    <RadioGroup enableTooltip={false} inline={true} radioArray={[{
+                        name: 'Diploma', id: 'diploma',
+                    }, {
+                        name: 'Masters', id: 'masters',
+                    }, {
+                        name: 'Doctoral', id: 'doctoral',
+                    }, {
+                        name: 'Post-Doctoral', id: 'Post-Doctoral',
+                    }, {
+                        name: 'Other', id: 'otherThesis',
+                    }]} onSelected={() => {
+                    }}/>
                 </div>
                 break;
             case 'patent':
@@ -304,18 +287,7 @@ class Article extends Component {
                 break;
             case 'teaching-resource':
                 mainComponent = <div>
-                    {this.state.copyrightHolders.map(item => (
-                        <span>
-                            <Row>
-                                <Col sm={8}>
-                                      <FormInput placeholder='Copyright Holder' value={item.holder}/>
-                                </Col>
-                                <Col sm={4}>
-                                    <button onClick={this.onAddCopyrightHolder}><i className='fa fa-plus-circle'/></button>
-                                </Col>
-                            </Row>
-                        </span>
-                    ))}
+                    <FormInput placeholder="Copyright Holder"/>
                     <FormInput placeholder="Enter Publisher" style={{marginTop: 10}}/>
                 </div>
                 break;
@@ -331,7 +303,9 @@ class Article extends Component {
             <FormInput placeholder="Title" onChange={this.onTypingTitle} style={{marginTop: 10}}/>
             <FormTextarea placeholder="Abstract" style={{marginTop: 10}}/>
             {addComponent}
-            <div style={{marginTop: 20}}><h6>Creators &nbsp;<i className='fa fa-plus-circle' onClick={this.onAddCreator}/></h6></div>
+            <div style={{marginTop: 20}}><h6>Creators &nbsp;<i className='fa fa-plus-circle' onClick={() => {
+                this.onAdd('creators', {familyName: '', givenName: '', email: '', department: ''});
+            }}/></h6></div>
             {this.state.creators.map((item, index) => (
                 <Row style={{marginTop: 10}}>
                     <Col style={{marginRight: -10}}><FormInput placeholder="Family Name" value={item.familyName} valid={item.familyName.length > 5} onChange={(e) => {
@@ -356,7 +330,9 @@ class Article extends Component {
                     }}/></Col>
                 </Row>
             ))}
-            <div style={{marginTop: 20}}><h6>Corporate Creators &nbsp;<i className='fa fa-plus-circle' onClick={this.onAddCorporateCreator}/></h6></div>
+            <div style={{marginTop: 20}}><h6>Corporate Creators &nbsp;<i className='fa fa-plus-circle' onClick={() => {
+                this.onAdd('corporateCreators', {corporateCreator: ''});
+            }}/></h6></div>
             {this.state.corporateCreators.map((item, index) => (
                 <Row style={{marginTop: 10}}>
                     <Col><FormInput placeholder="Corporate Creators" value={item.corporateCreator} valid={item.corporateCreator.length > 5} onChange={(e) => {
@@ -367,27 +343,14 @@ class Article extends Component {
                 </Row>
             ))}
             {detailComponent}
-            <h6 style={{marginTop: 15}}>Divisions</h6>
-            <select multiple="" className="form-control" size="7">
-                <option>Advanced Institute of Engineering and Technology (AVITECH)</option>
-                <option>Department of Civil Engineering and Transportation (CET)</option>
-                <option>Center for Electronics and Telecommunications Research (CETR)</option>
-                <option>Faculty of Agriculture Technology (FAT)</option>
-                <option>Faculty of Electronics and Telecommunications (FET)</option>
-                <option>Faculty of Engineering Mechanics and Automation (FEMA)</option>
-                <option>Faculty of Engineering Physics and Nanotechnology</option>
-                <option>Faculty of Information Technology (FIT)</option>
-                <option>Key Laboratory for Nanotechnology (Nano Lab)</option>
-                <option>School of Aerospace Engineering (SAE)</option>
-                <option>Key Laboratory for Smart Integrated Systems (SISLAB)</option>
-            </select>
+            <DivisionSelector/>
             <Card style={{marginTop: 30}}>
                 <CardHeader>
                     <label style={{fontSize: 20}}>Publication Details</label>
                 </CardHeader>
                 <CardBody>
                     <div>
-                        <h6 style={{marginRight: 38, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Status:</h6>
+                        <h6 style={{marginRight: 41, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Status:</h6>
                         <RadioGroup enableTooltip={false} inline={true} radioArray={[{
                             name: 'Published', id: 'published',
                         }, {
@@ -400,12 +363,9 @@ class Article extends Component {
                         }}/>
                     </div>
                     {mainComponent}
-                    <Row style={{marginTop: 10}}>
-                        <h6 style={{marginLeft: 13, marginRight: 80, display: "inline"}}>Date</h6>
-                        <FormInput placeholder="My form input" type="date" style={{width: 200}}/>
-                    </Row>
                     <div style={{marginTop: 10}}>
-                        <h6 style={{marginRight: 10, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Date Type:</h6>
+                        <h6 style={{marginRight: 10, display: "inline", marginTop: 10}}><i className='fa fa-star' style={{marginRight: 10}}/>Date Type:</h6>
+                        <span style={{marginTop: 10}}>
                         <RadioGroup enableTooltip={false} inline={true} radioArray={[{
                             name: 'Unspecified', id: 'unSpecified',
                         }, {
@@ -416,45 +376,50 @@ class Article extends Component {
                             name: 'Completion', id: 'completion',
                         }]} onSelected={() => {
                         }}/>
+                        </span>
+                        <h6 style={{marginTop: 10, marginLeft: 20, marginRight: 20, display: "inline"}}>Date</h6>
+                        <FormInput placeholder="My form input" type="date" style={{width: 200, display: 'inline'}}/>
                     </div>
                     <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
                     <FormInput placeholder="Identification Number" onChange={this.onTypingIdentificationNumber} style={{marginTop: 10}}/>
                     <FormInput placeholder="Official URL" style={{marginTop: 10}}/>
-                    <div style={{marginTop: 20}}><h6 style={{display: "inline"}}>Related URLs &nbsp;<i className='fa fa-plus-circle' onClick={this.onAddRelatedURL}/></h6></div>
+                    <div style={{marginTop: 20}}><h6 style={{display: "inline"}}>Related URLs &nbsp;<i className='fa fa-plus-circle' onClick={() => {
+                        this.onAdd('relatedURL', {URL: '', URLType: ''});
+                    }}/></h6></div>
                     {this.state.relatedURL.map((item, index) => (
-                        <span>
-                                <Row style={{marginTop: 20}}>
-                                    <Col><FormInput placeholder="URL" value={item.URL} valid={item.URL.length > 5} onChange={(e) => {
-                                        let oldState = this.state.relatedURL;
-                                        oldState[index].URL = e.target.value;
-                                        this.setState({relatedURL: oldState});
-                                    }}/></Col>
-                                    <Col><FormInput placeholder="URL" value={item.URLType} valid={item.URLType.length > 5} onChange={(e) => {
-                                        let oldState = this.state.relatedURL;
-                                        oldState[index].URLType = e.target.value;
-                                        this.setState({relatedURL: oldState});
-                                    }}/></Col>
-                                </Row>
-                            </span>
+                        <Row style={{marginTop: 10}}>
+                            <Col style={{marginLeft: 0, marginRight: -10}}><FormInput placeholder="URL" value={item.URL} valid={item.URL.length > 5} onChange={(e) => {
+                                let oldState = this.state.relatedURL;
+                                oldState[index].URL = e.target.value;
+                                this.setState({relatedURL: oldState});
+                            }}/></Col>
+                            <Col style={{marginLeft: -10, marginRight: 0}}><FormInput placeholder="URL" value={item.URLType} valid={item.URLType.length > 5} onChange={(e) => {
+                                let oldState = this.state.relatedURL;
+                                oldState[index].URLType = e.target.value;
+                                this.setState({relatedURL: oldState});
+                            }}/></Col>
+                        </Row>
                     ))}
                 </CardBody>
             </Card>
-            <div style={{marginTop: 20}}><h6 style={{display: "inline"}}>Funders &nbsp;<i className='fa fa-plus-circle' onClick={this.onAddFunder}/></h6></div>
+            <div style={{marginTop: 20}}><h6 style={{display: "inline"}}>Funders &nbsp;<i className='fa fa-plus-circle' onClick={() => {
+                this.onAdd('funders', {funder: ''});
+            }}/></h6></div>
             {this.state.funders.map((item, index) => (
-                <span>
-                            <Row style={{marginTop: 20}}>
-                                <Col><FormInput style={{marginBottom: 10}} placeholder="Funder" value={item.funder} valid={item.funder.length > 5} onChange={(e) => {
-                                    let oldState = this.state.funders;
-                                    oldState[index].funder = e.target.value;
-                                    this.setState({funders: oldState});
-                                }}/></Col>
-                            </Row>
-                        </span>
+                <Row style={{marginTop: 10}}>
+                    <Col><FormInput placeholder="Funder" value={item.funder} valid={item.funder.length > 5} onChange={(e) => {
+                        let oldState = this.state.funders;
+                        oldState[index].funder = e.target.value;
+                        this.setState({funders: oldState});
+                    }}/></Col>
+                </Row>
             ))}
-            <div style={{marginTop: 10}}><h6 style={{display: "inline"}}>Projects &nbsp;<i className='fa fa-plus-circle' onClick={this.onAddProject}/></h6></div>
+            <div style={{marginTop: 20}}><h6 style={{display: "inline"}}>Projects &nbsp;<i className='fa fa-plus-circle' onClick={() => {
+                this.onAdd('projects', {projectName: ''});
+            }}/></h6></div>
             {this.state.projects.map((item, index) => (
-                <Row style={{marginTop: 20}}>
-                    <Col><FormInput style={{marginBottom: 10}} placeholder="Project" value={item.projectName} valid={item.projectName.length > 5} onChange={(e) => {
+                <Row style={{marginTop: 10}}>
+                    <Col><FormInput placeholder="Project" value={item.projectName} valid={item.projectName.length > 5} onChange={(e) => {
                         let oldState = this.state.projects;
                         oldState[index].projectName = e.target.value;
                         this.setState({projects: oldState});

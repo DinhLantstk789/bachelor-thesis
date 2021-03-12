@@ -23,7 +23,7 @@ class Subject extends Component {
         return (
             <Fragment>
                 <div style={{marginTop: 20}}>
-                    <h5>Subjects</h5>
+                    <h6>Subjects</h6>
                     <Row>
                         <Badge style={{marginLeft: 10, marginTop: 10}} pill theme={this.state.enableAerospace ? 'primary' : 'light'} onClick={() => {
                             this.setState({enableAerospace: !this.state.enableAerospace});
