@@ -9,6 +9,7 @@ import ArticleType from "./articleType";
 import axios from "axios";
 import ContentLoader, {BulletList, Code, List} from "react-content-loader";
 import DivisionSelector from "./divisionSelector";
+import BookSectionMain from "./bookSectionMain";
 
 
 class Article extends Component {
@@ -117,30 +118,7 @@ class Article extends Component {
             case 'book-section':
                 mainComponent = <div>
                     <ReferredArticle/>
-                    <Row style={{marginTop: 10}}>
-                        <h6 style={{marginLeft: 13, marginRight: 30, display: "inline"}}>Page Range</h6>
-                        <FormInput type="number" size={"sm"} style={{width: 70}}/>
-                        <label style={{marginRight: 15, marginLeft: 15}}>to</label>
-                        <FormInput type="number" size={"sm"} style={{width: 70}}/>
-                    </Row>
-                    <FormInput type="text" placeholder="Enter Title of Book" style={{marginTop: 10}}/>
-                    <FormInput type="text" placeholder="Enter Place of Publication" style={{marginTop: 10}}/>
-                    <FormInput type="text" placeholder="Enter Publisher" style={{marginTop: 10}}/>
-                    <FormInput type="text" placeholder="Enter Number of Pages" style={{marginTop: 10}}/>
-                    <FormInput type="text" placeholder="Enter Series Name" style={{marginTop: 10}}/>
-                    <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
-                    <Row style={{marginTop: 10}}>
-                        <Col style={{marginLeft: 0, marginRight: -10}}>
-                            <FormInput type="text" placeholder="Enter ISBN" onChange={this.onTypingISSN}/>
-                        </Col>
-                        <Col style={{marginLeft: -10, marginRight: -10}}>
-                            <FormInput type="text" placeholder="Enter Volume"/>
-                        </Col>
-                        <Col style={{marginLeft: -10, marginRight: 0}}>
-                            <FormInput type="text" placeholder="Enter Number"/>
-                        </Col>
-                    </Row>
-
+                    <BookSectionMain/>
                 </div>
                 detailComponent = <div>
                     <div style={{marginTop: 20}}><h6>Editors &nbsp;<i className='fa fa-plus-circle' onClick={() => {
@@ -344,28 +322,25 @@ class Article extends Component {
             ))}
             {detailComponent}
             <DivisionSelector/>
-            <Card style={{marginTop: 30}}>
-                <CardHeader>
-                    <label style={{fontSize: 20}}>Publication Details</label>
-                </CardHeader>
-                <CardBody>
-                    <div>
-                        <h6 style={{marginRight: 41, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Status:</h6>
-                        <RadioGroup enableTooltip={false} inline={true} radioArray={[{
-                            name: 'Published', id: 'published',
-                        }, {
-                            name: 'In Press', id: 'inPress',
-                        }, {
-                            name: 'Submitted', id: 'submitted',
-                        }, {
-                            name: 'Unpublished', id: 'unPublished',
-                        }]} onSelected={() => {
-                        }}/>
-                    </div>
-                    {mainComponent}
-                    <div style={{marginTop: 10}}>
-                        <h6 style={{marginRight: 10, display: "inline", marginTop: 10}}><i className='fa fa-star' style={{marginRight: 10}}/>Date Type:</h6>
-                        <span style={{marginTop: 10}}>
+            <hr style={{marginTop:22,marginBottom:22}}/>
+            <label style={{fontSize: 20,marginBottom:20}}>Publication Details</label>
+            <div>
+                <h6 style={{marginRight: 41, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Status:</h6>
+                <RadioGroup enableTooltip={false} inline={true} radioArray={[{
+                    name: 'Published', id: 'published',
+                }, {
+                    name: 'In Press', id: 'inPress',
+                }, {
+                    name: 'Submitted', id: 'submitted',
+                }, {
+                    name: 'Unpublished', id: 'unPublished',
+                }]} onSelected={() => {
+                }}/>
+            </div>
+            {mainComponent}
+            <div style={{marginTop: 10}}>
+                <h6 style={{marginRight: 10, display: "inline", marginTop: 10}}><i className='fa fa-star' style={{marginRight: 10}}/>Date Type:</h6>
+                <span style={{marginTop: 10}}>
                         <RadioGroup enableTooltip={false} inline={true} radioArray={[{
                             name: 'Unspecified', id: 'unSpecified',
                         }, {
@@ -377,31 +352,30 @@ class Article extends Component {
                         }]} onSelected={() => {
                         }}/>
                         </span>
-                        <h6 style={{marginTop: 10, marginLeft: 20, marginRight: 20, display: "inline"}}>Date</h6>
-                        <FormInput placeholder="My form input" type="date" style={{width: 200, display: 'inline'}}/>
-                    </div>
-                    <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
-                    <FormInput placeholder="Identification Number" onChange={this.onTypingIdentificationNumber} style={{marginTop: 10}}/>
-                    <FormInput placeholder="Official URL" style={{marginTop: 10}}/>
-                    <div style={{marginTop: 20}}><h6 style={{display: "inline"}}>Related URLs &nbsp;<i className='fa fa-plus-circle' onClick={() => {
-                        this.onAdd('relatedURL', {URL: '', URLType: ''});
-                    }}/></h6></div>
-                    {this.state.relatedURL.map((item, index) => (
-                        <Row style={{marginTop: 10}}>
-                            <Col style={{marginLeft: 0, marginRight: -10}}><FormInput placeholder="URL" value={item.URL} valid={item.URL.length > 5} onChange={(e) => {
-                                let oldState = this.state.relatedURL;
-                                oldState[index].URL = e.target.value;
-                                this.setState({relatedURL: oldState});
-                            }}/></Col>
-                            <Col style={{marginLeft: -10, marginRight: 0}}><FormInput placeholder="URL" value={item.URLType} valid={item.URLType.length > 5} onChange={(e) => {
-                                let oldState = this.state.relatedURL;
-                                oldState[index].URLType = e.target.value;
-                                this.setState({relatedURL: oldState});
-                            }}/></Col>
-                        </Row>
-                    ))}
-                </CardBody>
-            </Card>
+                <h6 style={{marginTop: 10, marginLeft: 20, marginRight: 20, display: "inline"}}>Date</h6>
+                <FormInput placeholder="My form input" type="date" style={{width: 200, display: 'inline'}}/>
+            </div>
+            <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
+            <FormInput placeholder="Identification Number" onChange={this.onTypingIdentificationNumber} style={{marginTop: 10}}/>
+            <FormInput placeholder="Official URL" style={{marginTop: 10}}/>
+            <div style={{marginTop: 20}}><h6 style={{display: "inline"}}>Related URLs &nbsp;<i className='fa fa-plus-circle' onClick={() => {
+                this.onAdd('relatedURL', {URL: '', URLType: ''});
+            }}/></h6></div>
+            {this.state.relatedURL.map((item, index) => (
+                <Row style={{marginTop: 10}}>
+                    <Col style={{marginLeft: 0, marginRight: -10}}><FormInput placeholder="URL" value={item.URL} valid={item.URL.length > 5} onChange={(e) => {
+                        let oldState = this.state.relatedURL;
+                        oldState[index].URL = e.target.value;
+                        this.setState({relatedURL: oldState});
+                    }}/></Col>
+                    <Col style={{marginLeft: -10, marginRight: 0}}><FormInput placeholder="URL" value={item.URLType} valid={item.URLType.length > 5} onChange={(e) => {
+                        let oldState = this.state.relatedURL;
+                        oldState[index].URLType = e.target.value;
+                        this.setState({relatedURL: oldState});
+                    }}/></Col>
+                </Row>
+            ))}
+            <hr style={{marginTop:22,marginBottom:22}}/>
             <div style={{marginTop: 20}}><h6 style={{display: "inline"}}>Funders &nbsp;<i className='fa fa-plus-circle' onClick={() => {
                 this.onAdd('funders', {funder: ''});
             }}/></h6></div>
@@ -456,9 +430,9 @@ class Article extends Component {
                               style={{marginTop: 10, display: this.state.showComment ? 'block' : 'none'}}/>
             </div>
             <Subject/>
-            <div>
-                <input type="submit" value="Deposit" style={{width: 150, borderRadius: 20, marginTop: 20, backgroundColor: "green", color: "white", fontSize: 20}}/>
-            </div>
+            <Row className='pull-right'>
+                <Button pill style={{marginTop: 20, marginRight: 20, fontSize: 18}}>Deposit &nbsp;<i className='fa fa-check'/></Button>
+            </Row>
         </div>
         return (
             <Fragment>

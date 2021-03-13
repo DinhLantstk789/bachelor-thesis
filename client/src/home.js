@@ -1,12 +1,9 @@
 import {Component, Fragment} from 'react';
 import {
-    Card,
-    CardBody,
-    Alert, Row, Col, CardImg,
+    Alert, Row, Col,
     Dropdown, DropdownToggle, DropdownMenu, DropdownItem
 } from "shards-react";
 import Footer from "./footer";
-import Article from "./article/article";
 import Dashboard from "./dashboard";
 import Statistics from "./statistics";
 

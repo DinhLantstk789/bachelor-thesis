@@ -4,10 +4,6 @@ import {saveArticleType} from "../redux/actions";
 import {connect} from "react-redux";
 
 class ArticleType extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <Fragment>
@@ -64,9 +60,7 @@ class ArticleType extends Component {
                     name: 'Project-Grant',
                     id: 'project-grant',
                     tooltip: 'Something within the scope of the repository, but not covered by the other categories.'
-                }]} onSelected={(selectedId) => {
-                    this.props.saveArticleType(selectedId);
-                }}/>
+                }]} onSelected={(selectedId) => this.props.saveArticleType(selectedId)}/>
             </Fragment>
         )
     }

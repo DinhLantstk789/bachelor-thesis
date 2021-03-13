@@ -7,7 +7,6 @@ class Dashboard extends Component {
     state = {
         newArticle: false
     }
-
     render() {
         return (
             <Card>
