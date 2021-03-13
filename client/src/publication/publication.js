@@ -10,7 +10,7 @@ import axios from "axios";
 import ContentLoader, {BulletList, Code, List} from "react-content-loader";
 import DivisionSelector from "./divisionSelector";
 import BookSectionMain from "./bookSectionMain";
-
+import {savePublicationTitle} from "../redux/actions";
 
 class Publication extends Component {
     state = {
@@ -277,8 +277,8 @@ class Publication extends Component {
                 break;
         }
         let loadedComponent = <div>
-            <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
-            <FormInput placeholder="Title" onChange={this.onTypingTitle} style={{marginTop: 10}}/>
+            {/*<span style={{color: "red"}}>{this.state.ErrorMessage}</span>*/}
+            <FormInput placeholder="Title" style={{marginTop: 10}} value={this.props.publicationTitle} onChange={(e) => this.props.savePublicationTitle(e.target.value)}/>
             <FormTextarea placeholder="Abstract" style={{marginTop: 10}}/>
             {addComponent}
             <div style={{marginTop: 20}}><h6>Creators &nbsp;<i className='fa fa-plus-circle' onClick={() => {
@@ -322,8 +322,8 @@ class Publication extends Component {
             ))}
             {detailComponent}
             <DivisionSelector/>
-            <hr style={{marginTop:22,marginBottom:22}}/>
-            <label style={{fontSize: 20,marginBottom:20}}>Publication Details</label>
+            <hr style={{marginTop: 22, marginBottom: 22}}/>
+            <label style={{fontSize: 20, marginBottom: 20}}>Publication Details</label>
             <div>
                 <h6 style={{marginRight: 41, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Status:</h6>
                 <RadioGroup enableTooltip={false} inline={true} radioArray={[{
@@ -375,7 +375,7 @@ class Publication extends Component {
                     }}/></Col>
                 </Row>
             ))}
-            <hr style={{marginTop:22,marginBottom:22}}/>
+            <hr style={{marginTop: 22, marginBottom: 22}}/>
             <div style={{marginTop: 20}}><h6 style={{display: "inline"}}>Funders &nbsp;<i className='fa fa-plus-circle' onClick={() => {
                 this.onAdd('funders', {funder: ''});
             }}/></h6></div>
@@ -451,7 +451,7 @@ class Publication extends Component {
 }
 
 let mapStateToProps = (store) => {
-    return {type: store.article.articleType};
+    return {type: store.article.articleType, publicationTitle: store.publication.publicationTitle};
 }
-let mapDispatchToProps = {};
+let mapDispatchToProps = {savePublicationTitle};
 export default connect(mapStateToProps, mapDispatchToProps)(Publication);
