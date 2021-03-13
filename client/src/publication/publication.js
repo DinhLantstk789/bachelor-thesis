@@ -5,14 +5,14 @@ import RadioGroup from "../radioGroup";
 import {connect} from "react-redux";
 import Subject from "./subject";
 import validator from "../utils/validator";
-import ArticleType from "./articleType";
+import ArticleType from "./publicationType";
 import axios from "axios";
 import ContentLoader, {BulletList, Code, List} from "react-content-loader";
 import DivisionSelector from "./divisionSelector";
 import BookSectionMain from "./bookSectionMain";
 
 
-class Article extends Component {
+class Publication extends Component {
     state = {
         titleCheckedResult: '',
         enteredTitle: '',
@@ -454,4 +454,4 @@ let mapStateToProps = (store) => {
     return {type: store.article.articleType};
 }
 let mapDispatchToProps = {};
-export default connect(mapStateToProps, mapDispatchToProps)(Article);
+export default connect(mapStateToProps, mapDispatchToProps)(Publication);

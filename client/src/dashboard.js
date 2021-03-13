@@ -1,6 +1,6 @@
 import {Component} from 'react';
 import {Button, Card, CardBody, CardHeader, Col, Row} from "shards-react";
-import Article from "./article/article";
+import Article from "./publication/publication";
 import Publications from "./publications";
 
 class Dashboard extends Component {

@@ -3,7 +3,7 @@ import RadioGroup from "../radioGroup";
 import {saveArticleType} from "../redux/actions";
 import {connect} from "react-redux";
 
-class ArticleType extends Component {
+class PublicationType extends Component {
     render() {
         return (
             <Fragment>
@@ -70,4 +70,4 @@ let mapStateToProps = (store) => {
     return {selectedId: store.article.articleType};
 }
 let mapDispatchToProps = {saveArticleType};
-export default connect(mapStateToProps, mapDispatchToProps)(ArticleType);
+export default connect(mapStateToProps, mapDispatchToProps)(PublicationType);
