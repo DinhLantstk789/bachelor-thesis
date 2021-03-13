@@ -1,5 +1,5 @@
 import {Component, Fragment} from 'react';
-import {Card, Button, FormTextarea, CardBody, CardHeader, Col, FormInput, Row, FormRadio} from "shards-react";
+import {Button, Col, FormInput, FormTextarea, Row} from "shards-react";
 import ReferredArticle from "./referredArticle";
 import RadioGroup from "../radioGroup";
 import {connect} from "react-redux";
@@ -7,21 +7,17 @@ import Subject from "./subject";
 import validator from "../utils/validator";
 import ArticleType from "./publicationType";
 import axios from "axios";
-import ContentLoader, {BulletList, Code, List} from "react-content-loader";
+import ContentLoader from "react-content-loader";
 import DivisionSelector from "./divisionSelector";
 import BookSectionMain from "./bookSectionMain";
-import {savePublicationTitle} from "../redux/actions";
+import {savePublicationAbstract, savePublicationDate, savePublicationDateType, savePublicationFamilyName, savePublicationId, savePublicationStatus, savePublicationTitle, savePublicationURL} from "../redux/actions";
 
 class Publication extends Component {
     state = {
-        titleCheckedResult: '',
-        enteredTitle: '',
         creators: [{familyName: '', givenName: '', email: '', department: ''}],
-        enteredISSN: '',
         corporateCreators: [{corporateCreator: ''}, {corporateCreator: ''}],
         editors: [{familyName: '', givenName: '', email: ''}],
         relatedURL: [{URL: '', URLType: ''}],
-        enteredIdentificationNumber: '',
         funders: [{funder: ''}],
         projects: [{projectName: ''}],
         showEmailAddress: false,
@@ -45,16 +41,6 @@ class Publication extends Component {
                 alert(res.data.message);
             }
         })
-    }
-
-    onTypingTitle = (event) => {
-        this.setState({enteredTitle: event.target.value});
-    }
-    onTypingISSN = (event) => {
-        this.setState({enteredISSN: event.target.value});
-    }
-    onTypingIdentificationNumber = (event) => {
-        this.setState({enteredIdentificationNumber: event.target.value});
     }
 
     onAdd(stateName, newData) {
@@ -98,7 +84,7 @@ class Publication extends Component {
                     <FormInput type="text" placeholder="Enter Publisher" style={{marginTop: 10}}/>
                     <Row style={{marginTop: 10}}>
                         <Col style={{marginLeft: 0, marginRight: -10}}>
-                            <FormInput type="text" placeholder="Enter ISSN" onChange={this.onTypingISSN}/>
+                            <FormInput type="text" placeholder="Enter ISSN"/>
                         </Col>
                         <Col style={{marginLeft: -10, marginRight: -10}}>
                             <FormInput type="text" placeholder="Enter Volume"/>
@@ -277,19 +263,16 @@ class Publication extends Component {
                 break;
         }
         let loadedComponent = <div>
-            {/*<span style={{color: "red"}}>{this.state.ErrorMessage}</span>*/}
             <FormInput placeholder="Title" style={{marginTop: 10}} value={this.props.publicationTitle} onChange={(e) => this.props.savePublicationTitle(e.target.value)}/>
-            <FormTextarea placeholder="Abstract" style={{marginTop: 10}}/>
+            <FormTextarea placeholder="Abstract" style={{marginTop: 10}} value={this.props.publicationAbstract} onChange={(e) => this.props.savePublicationAbstract(e.target.value)}/>
             {addComponent}
             <div style={{marginTop: 20}}><h6>Creators &nbsp;<i className='fa fa-plus-circle' onClick={() => {
                 this.onAdd('creators', {familyName: '', givenName: '', email: '', department: ''});
             }}/></h6></div>
             {this.state.creators.map((item, index) => (
                 <Row style={{marginTop: 10}}>
-                    <Col style={{marginRight: -10}}><FormInput placeholder="Family Name" value={item.familyName} valid={item.familyName.length > 5} onChange={(e) => {
-                        let oldState = this.state.creators;
-                        oldState[index].familyName = e.target.value;
-                        this.setState({creators: oldState});
+                    <Col style={{marginRight: -10}}><FormInput placeholder="Family Name" value={this.props.familyName} valid={this.props.familyName.length > 5} onChange={(e) => {
+                      this.props.savePublicationFamilyName(e.target.value)
                     }}/></Col>
                     <Col style={{marginLeft: -10, marginRight: -10}}><FormInput placeholder="Given Name" value={item.givenName} valid={item.givenName.length > 5} onChange={(e) => {
                         let oldState = this.state.creators;
@@ -326,7 +309,7 @@ class Publication extends Component {
             <label style={{fontSize: 20, marginBottom: 20}}>Publication Details</label>
             <div>
                 <h6 style={{marginRight: 41, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Status:</h6>
-                <RadioGroup enableTooltip={false} inline={true} radioArray={[{
+                <RadioGroup selectedId={this.props.selectedStatus} enableTooltip={false} inline={true} radioArray={[{
                     name: 'Published', id: 'published',
                 }, {
                     name: 'In Press', id: 'inPress',
@@ -334,14 +317,13 @@ class Publication extends Component {
                     name: 'Submitted', id: 'submitted',
                 }, {
                     name: 'Unpublished', id: 'unPublished',
-                }]} onSelected={() => {
-                }}/>
+                }]} onSelected={(selectedId)=> this.props.savePublicationStatus(selectedId)}/>
             </div>
             {mainComponent}
             <div style={{marginTop: 10}}>
                 <h6 style={{marginRight: 10, display: "inline", marginTop: 10}}><i className='fa fa-star' style={{marginRight: 10}}/>Date Type:</h6>
                 <span style={{marginTop: 10}}>
-                        <RadioGroup enableTooltip={false} inline={true} radioArray={[{
+                        <RadioGroup selectedId={this.props.selectedDateType} enableTooltip={false} inline={true} radioArray={[{
                             name: 'Unspecified', id: 'unSpecified',
                         }, {
                             name: 'Publication', id: 'publication',
@@ -349,15 +331,14 @@ class Publication extends Component {
                             name: 'Submission', id: 'submission',
                         }, {
                             name: 'Completion', id: 'completion',
-                        }]} onSelected={() => {
-                        }}/>
+                        }]} onSelected={(selectedId)=> this.props.savePublicationDateType(selectedId)}/>
                         </span>
                 <h6 style={{marginTop: 10, marginLeft: 20, marginRight: 20, display: "inline"}}>Date</h6>
-                <FormInput placeholder="My form input" type="date" style={{width: 200, display: 'inline'}}/>
+                <FormInput placeholder="My form input" type="date" style={{width: 200, display: 'inline'}}value={this.props.selectedDate} onChange={(e) => this.props.savePublicationDate(e.target.value)}/>
             </div>
             <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
-            <FormInput placeholder="Identification Number" onChange={this.onTypingIdentificationNumber} style={{marginTop: 10}}/>
-            <FormInput placeholder="Official URL" style={{marginTop: 10}}/>
+            <FormInput placeholder="Identification Number" value={this.props.publicationId} onChange={(e) => this.props.savePublicationId(e.target.value)}  style={{marginTop: 10}}/>
+            <FormInput placeholder="Official URL" value={this.props.publicationURL} onChange={(e) => this.props.savePublicationURL(e.target.value)} style={{marginTop: 10}}/>
             <div style={{marginTop: 20}}><h6 style={{display: "inline"}}>Related URLs &nbsp;<i className='fa fa-plus-circle' onClick={() => {
                 this.onAdd('relatedURL', {URL: '', URLType: ''});
             }}/></h6></div>
@@ -451,7 +432,21 @@ class Publication extends Component {
 }
 
 let mapStateToProps = (store) => {
-    return {type: store.article.articleType, publicationTitle: store.publication.publicationTitle};
+    return {
+        type: store.article.articleType,
+        publicationTitle: store.publication.publicationTitle,
+        publicationAbstract: store.publication.publicationAbstract,
+        familyName : store.publication.familyName,
+        selectedStatus:store.publication.selectedStatus,
+        selectedDateType:store.publication.selectedDateType,
+        selectedDate : store.publication.selectedDate,
+        publicationId:store.publication.publicationId,
+        publicationURL:store.publication.publicationURL
+
+    };
 }
-let mapDispatchToProps = {savePublicationTitle};
+let mapDispatchToProps = {
+    savePublicationTitle, savePublicationAbstract,savePublicationFamilyName,
+    savePublicationStatus,savePublicationDateType,savePublicationDate,savePublicationId,savePublicationURL
+};
 export default connect(mapStateToProps, mapDispatchToProps)(Publication);

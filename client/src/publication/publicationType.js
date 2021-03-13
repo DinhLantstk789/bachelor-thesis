@@ -11,7 +11,7 @@ class PublicationType extends Component {
                 <RadioGroup selectedId={this.props.selectedId} enableTooltip={true} inline={true} radioArray={[{
                     name: 'Article',
                     id: 'article',
-                    tooltip: 'An article in a journal, magazine, newspaper. Not necessarily peer-reviewed'
+                    tooltip: 'An article in a journal, magazine, newspaper. Not necessarily peer-reviewed.'
                 }, {
                     name: 'Book section',
                     id: 'book-section',

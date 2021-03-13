@@ -76,4 +76,41 @@ export const savePublicationTitle = (publicationTitle) => ({
     type: 'SAVE_PUBLICATION_TITLE',
     data: {publicationTitle: publicationTitle}
 });
+export const savePublicationAbstract = (publicationAbstract) => ({
+    type: 'SAVE_PUBLICATION_ABSTRACT',
+    data: {publicationAbstract: publicationAbstract}
+});
+export const savePublicationFamilyName = (familyName) => ({
+    type: 'SAVE_PUBLICATION_FAMILY_NAME',
+    data: {familyName: familyName}
+});
+export const savePublicationStatus = (selectedStatus) => ({
+    type: 'SAVE_PUBLICATION_STATUS',
+    data: {selectedStatus: selectedStatus}
+});
+export const savePublicationDateType = (selectedDateType) => ({
+    type: 'SAVE_PUBLICATION_DATE_TYPE',
+    data: {selectedDateType: selectedDateType}
+});
+export const savePublicationRefereed = (selectedRefereed) => ({
+    type: 'SAVE_PUBLICATION_REFEREED',
+    data: {selectedRefereed: selectedRefereed}
+});
+export const savePublicationDate= (selectedDate) => ({
+    type: 'SAVE_PUBLICATION_DATE',
+    data: {selectedDate: selectedDate}
+});
+export const savePublicationId= (publicationId) => ({
+    type: 'SAVE_PUBLICATION_ID',
+    data: {publicationId: publicationId}
+});
+export const savePublicationURL= (publicationURL) => ({
+    type: 'SAVE_PUBLICATION_URL',
+    data: {publicationURL: publicationURL}
+});
+
+
+
+
+
 
