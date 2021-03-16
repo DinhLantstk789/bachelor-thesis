@@ -5,12 +5,6 @@ import validator from "../utils/validator";
 import {savePublicationCreators} from "../redux/actions";
 
 class Creator extends Component {
-    onAdd = () => {
-        let currentCreators = this.props.creators;
-        currentCreators = currentCreators.concat({familyName: '', givenName: '', email: '', department: ''});
-        this.props.savePublicationCreators(currentCreators);
-    }
-
     updateMatchedUser(index) {
         const creatorData = {
             'hungpn@vnu.edu.vn': {email: 'hungpn@vnu.edu.vn', familyName: 'Pham', givenName: 'Ngoc Hung', department: 'FIT'},
@@ -28,43 +22,55 @@ class Creator extends Component {
     render() {
         return (
             <Fragment>
-                <div style={{marginTop: 20}}><h6>Creators &nbsp;<i className='fa fa-plus-circle' onClick={this.onAdd}/></h6></div>
+                <div style={{marginTop: 20}}><h6>Creators &nbsp;<i className='fa fa-plus-circle' onClick={() =>
+                    this.props.savePublicationCreators(this.props.creators.concat({familyName: '', givenName: '', email: '', department: ''}))
+                }/></h6></div>
                 {this.props.creators.map((item, i) => (
                     <Row style={{marginTop: 10}}>
-                        <Col style={{marginRight: -10}}>
-                            <FormInput placeholder="Family Name" value={item.familyName} valid={item.familyName.length > 5} onChange={(e) => {
-                                let creators = this.props.creators;
-                                creators[i].familyName = e.target.value;
-                                this.props.savePublicationCreators(creators);
-                                this.forceUpdate()
-                            }}/>
+                        <Col sm={11}>
+                            <Row>
+                                <Col style={{marginRight: -10}}>
+                                    <FormInput placeholder="Email" value={item.email} valid={validator.validateEmail(item.email)} onChange={(e) => {
+                                        let creators = this.props.creators;
+                                        creators[i].email = e.target.value;
+                                        this.props.savePublicationCreators(creators);
+                                        this.updateMatchedUser(i);
+                                        this.forceUpdate()
+                                    }}/>
+                                </Col>
+                                <Col style={{marginRight: -10, marginLeft: -10}}>
+                                    <FormInput placeholder="Family Name" value={item.familyName} valid={item.familyName.length > 0} onChange={(e) => {
+                                        let creators = this.props.creators;
+                                        creators[i].familyName = e.target.value;
+                                        this.props.savePublicationCreators(creators);
+                                        this.forceUpdate()
+                                    }}/>
+                                </Col>
+                                <Col style={{marginLeft: -10, marginRight: -10}}>
+                                    <FormInput placeholder="Given Name" value={item.givenName} valid={item.givenName.length > 0} onChange={(e) => {
+                                        let creators = this.props.creators;
+                                        creators[i].givenName = e.target.value;
+                                        this.props.savePublicationCreators(creators);
+                                        this.forceUpdate()
+                                    }}/>
+                                </Col>
+                                <Col style={{marginLeft: -10}}>
+                                    <FormInput placeholder="Department" value={item.department} valid={item.department.length > 0} onChange={(e) => {
+                                        let creators = this.props.creators;
+                                        creators[i].department = e.target.value;
+                                        this.props.savePublicationCreators(creators);
+                                        this.forceUpdate()
+                                    }}/>
+                                </Col>
+                            </Row>
                         </Col>
-                        <Col style={{marginLeft: -10, marginRight: -10}}>
-                            <FormInput placeholder="Given Name" value={item.givenName} valid={item.givenName.length > 5} onChange={(e) => {
-                                let creators = this.props.creators;
-                                creators[i].givenName = e.target.value;
-                                this.props.savePublicationCreators(creators);
-                                this.forceUpdate()
-                            }}/>
-                        </Col>
-                        <Col style={{marginLeft: -10, marginRight: -10}}>
-                            <FormInput placeholder="Email" value={item.email} valid={validator.validateEmail(item.email)} onChange={(e) => {
-                                let creators = this.props.creators;
-                                creators[i].email = e.target.value;
-                                this.props.savePublicationCreators(creators);
-                                this.updateMatchedUser(i);
-                                this.forceUpdate()
-                            }}/>
-                        </Col>
-                        <Col style={{marginLeft: -10}}>
-                            <FormInput placeholder="Department" value={item.department} valid={item.department.length > 10} onChange={(e) => {
-                                let creators = this.props.creators;
-                                creators[i].department = e.target.value;
-                                this.props.savePublicationCreators(creators);
-                                this.forceUpdate()
-                            }}/>
+                        <Col sm={1}>
+                            <i className="fa fa-times-circle" style={{fontSize: 22, marginTop: 10}} onClick={() =>
+                                this.props.savePublicationCreators(this.props.creators.filter((value, key) => key !== i))
+                            }/>
                         </Col>
                     </Row>
+
                 ))}
             </Fragment>
         )

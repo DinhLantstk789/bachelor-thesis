@@ -104,7 +104,7 @@ class Login extends Component {
                                         marginBottom: 10
                                     }}>{this.state.errorResponse}</p>
                                     <Row style={{marginTop: 15}}>
-                                        <Col xs={6} md={6} sm={6} className="pull-left" style={{marginTop: 10}}>
+                                        <Col xs={6} md={6} sm={6} className="float-left" style={{marginTop: 10}}>
                                             <FormCheckbox
                                                 checked={this.state.enteredCheckbox}
                                                 onChange={this.onRememberMe}>
@@ -112,7 +112,7 @@ class Login extends Component {
                                             </FormCheckbox>
                                         </Col>
                                         <Col xs={6} md={6} sm={6}>
-                                            <Button type="submit" className="pull-right" onClick={this.onSubmit}
+                                            <Button type="submit" className="float-right" onClick={this.onSubmit}
                                                     disabled={isDisabled} pill
                                                     theme="primary">
                                                 Login &rarr;

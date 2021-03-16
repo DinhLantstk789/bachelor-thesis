@@ -380,7 +380,7 @@ class NewPublication extends Component {
                               style={{marginTop: 10, display: this.state.showComment ? 'block' : 'none'}}/>
             </div>
             <Subject/>
-            <Row className='pull-right'>
+            <Row className='float-right'>
                 <Button pill style={{marginTop: 20, marginRight: 20, fontSize: 18}}>Deposit &nbsp;<i className='fa fa-check'/></Button>
             </Row>
         </div>

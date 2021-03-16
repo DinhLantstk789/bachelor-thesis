@@ -28,11 +28,11 @@ class Home extends Component {
                             <img bottom src="./images/logo.png" style={{width: 180, marginTop: 8, marginLeft: 50}}/>
                         </Col>
                         <Col xs={5} md={5} sm={5}>
-                            <Row className="pull-right">
+                            <Row className="float-right">
                                 <DropdownToggle id="dropdown">Home</DropdownToggle>
                                 <DropdownToggle id="dropdown">About</DropdownToggle>
                                 <Dropdown open={this.state.open} toggle={this.toggle}>
-                                    <DropdownToggle id="dropdown" className="pull-right">Browse <i className={"fa fa-angle-down"}/></DropdownToggle>
+                                    <DropdownToggle id="dropdown" className="float-right">Browse <i className={"fa fa-angle-down"}/></DropdownToggle>
                                     <DropdownMenu>
                                         <DropdownItem>Browse by Year</DropdownItem>
                                         <DropdownItem>Browse by Subject</DropdownItem>
@@ -41,7 +41,7 @@ class Home extends Component {
                                     </DropdownMenu>
                                 </Dropdown>
                                 <Dropdown>
-                                    <DropdownToggle id="dropdown" style={{fontSize: 20, marginRight: 30}} className="pull-right"><i className={"fa fa-user"}/></DropdownToggle>
+                                    <DropdownToggle id="dropdown" style={{fontSize: 20, marginRight: 30}} className="float-right"><i className={"fa fa-user"}/></DropdownToggle>
                                 </Dropdown>
                             </Row>
                         </Col>

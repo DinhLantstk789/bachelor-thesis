@@ -21,7 +21,7 @@ class Dashboard extends Component {
                             </Row>
                         </Col>
                         <Col>
-                            {this.state.newArticle ? '' : <Row className='pull-right'>
+                            {this.state.newArticle ? '' : <Row className='float-right'>
                                 <Button pill style={{marginRight: 15}} onClick={() => this.setState({newArticle: true})}>
                                     New &nbsp;<i className='fa fa-plus'/>
                                 </Button>

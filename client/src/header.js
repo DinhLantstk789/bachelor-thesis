@@ -73,7 +73,7 @@ class Header extends Component {
                                 </li>
                                 <li className="dropdown">
                                     <a className="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0" data-close-others="false" href="#">
-                                        <img className="pull-left" style={{width: 30, marginTop: -5}} src="images/avatar.png"/>
+                                        <img className="float-left" style={{width: 30, marginTop: -5}} src="images/avatar.png"/>
                                     </a>
                                     <ul className="dropdown-menu">
                                         <li><a href="blog.html">{this.state.loggedUser.name}</a></li>
