@@ -84,6 +84,27 @@ export const savePublicationCreators = (creators) => ({
     type: 'SAVE_PUBLICATION_CREATORS',
     data: {creators: creators}
 });
+export const savePublicationEditors = (editors) => ({
+    type: 'SAVE_PUBLICATION_EDITORS',
+    data: {editors: editors}
+});
+export const savePublicationCorporateCreators = (corporateCreators) => ({
+    type: 'SAVE_PUBLICATION_CORPORATE_CREATORS',
+    data: {corporateCreators: corporateCreators}
+});
+export const savePublicationRelatedURL= (relatedURLs) => ({
+    type: 'SAVE_PUBLICATION_RELATED_URL',
+    data: {relatedURLs: relatedURLs}
+});
+export const savePublicationFunders= (funders) => ({
+    type: 'SAVE_PUBLICATION_FUNDERS',
+    data: {funders: funders}
+});
+export const savePublicationProjects= (projects) => ({
+    type: 'SAVE_PUBLICATION_PROJECTS',
+    data: {projects: projects}
+});
+
 export const savePublicationStatus = (selectedStatus) => ({
     type: 'SAVE_PUBLICATION_STATUS',
     data: {selectedStatus: selectedStatus}
@@ -107,6 +128,26 @@ export const savePublicationId= (publicationId) => ({
 export const savePublicationURL= (publicationURL) => ({
     type: 'SAVE_PUBLICATION_URL',
     data: {publicationURL: publicationURL}
+});
+export const savePublicationEmailAddress= (emailAddress) => ({
+    type: 'SAVE_PUBLICATION_EMAIL_ADDRESS',
+    data: {emailAddress: emailAddress}
+});
+export const savePublicationReferences= (references) => ({
+    type: 'SAVE_PUBLICATION_REFERENCES',
+    data: {references: references}
+});
+export const savePublicationUnKeyword= (unKeyword) => ({
+    type: 'SAVE_PUBLICATION_UN_KEYWORD',
+    data: {unKeyword: unKeyword}
+});
+export const savePublicationAddInformation= (addInformation) => ({
+    type: 'SAVE_PUBLICATION_ADD_INFORMATION',
+    data: {addInformation: addInformation}
+});
+export const savePublicationComment= (comment) => ({
+    type: 'SAVE_PUBLICATION_COMMENT',
+    data: {comment: comment}
 });
 
 

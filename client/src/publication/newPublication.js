@@ -4,15 +4,29 @@ import ReferredArticle from "./referredArticle";
 import RadioGroup from "../radioGroup";
 import {connect} from "react-redux";
 import Subject from "./subject";
-import validator from "../utils/validator";
 import ArticleType from "./publicationType";
 import axios from "axios";
 import ContentLoader from "react-content-loader";
 import DivisionSelector from "./divisionSelector";
 import BookSectionMain from "./bookSectionMain";
-import {savePublicationAbstract, savePublicationDate, savePublicationDateType,
-    savePublicationId, savePublicationStatus, savePublicationTitle, savePublicationURL} from "../redux/actions";
+import {
+    savePublicationAbstract, savePublicationAddInformation, savePublicationComment,
+    savePublicationDate,
+    savePublicationDateType,
+    savePublicationEmailAddress,
+    savePublicationId,
+    savePublicationReferences,
+    savePublicationStatus,
+    savePublicationTitle,
+    savePublicationUnKeyword,
+    savePublicationURL
+} from "../redux/actions";
 import Creator from "./creator";
+import CorporateCreators from "../corporateCreators";
+import RelatedURL from "../relatedURL";
+import Funder from "../funder";
+import Project from "../project";
+import Editors from "../editors";
 
 class NewPublication extends Component {
     state = {
@@ -99,30 +113,7 @@ class NewPublication extends Component {
                     <ReferredArticle/>
                     <BookSectionMain/>
                 </div>
-                detailComponent = <div>
-                    <div style={{marginTop: 20}}><h6>Editors &nbsp;<i className='fa fa-plus-circle' onClick={() => {
-                        this.onAdd('editors', {familyName: '', givenName: '', email: ''})
-                    }}/></h6></div>
-                    {this.state.editors.map((item, index) => (
-                        <Row style={{marginTop: 10}}>
-                            <Col style={{marginRight: -10}}><FormInput placeholder="Family Name" value={item.familyName} valid={item.familyName.length > 5} onChange={(e) => {
-                                let oldState = this.state.editors;
-                                oldState[index].familyName = e.target.value;
-                                this.setState({editors: oldState});
-                            }}/></Col>
-                            <Col style={{marginLeft: -10, marginRight: -10}}><FormInput placeholder="Given Name" value={item.givenName} valid={item.givenName.length > 5} onChange={(e) => {
-                                let oldState = this.state.editors;
-                                oldState[index].givenName = e.target.value;
-                                this.setState({editors: oldState});
-                            }}/></Col>
-                            <Col style={{marginLeft: -10}}><FormInput placeholder="Email" value={item.email} valid={validator.validateEmail(item.email)} onChange={(e) => {
-                                let oldState = this.state.editors;
-                                oldState[index].email = e.target.value;
-                                this.setState({editors: oldState});
-                            }}/></Col>
-                        </Row>
-                    ))}
-                </div>
+                detailComponent = <Editors/>
                 break;
             case 'technical-report':
                 mainComponent = <div>
@@ -260,18 +251,7 @@ class NewPublication extends Component {
             <FormTextarea placeholder="Abstract" style={{marginTop: 10}} value={this.props.publicationAbstract} onChange={(e) => this.props.savePublicationAbstract(e.target.value)}/>
             {addComponent}
             <Creator/>
-            <div style={{marginTop: 20}}><h6>Corporate Creators &nbsp;<i className='fa fa-plus-circle' onClick={() => {
-                this.onAdd('corporateCreators', {corporateCreator: ''});
-            }}/></h6></div>
-            {this.state.corporateCreators.map((item, index) => (
-                <Row style={{marginTop: 10}}>
-                    <Col><FormInput placeholder="Corporate Creators" value={item.corporateCreator} valid={item.corporateCreator.length > 5} onChange={(e) => {
-                        let oldState = this.state.corporateCreators;
-                        oldState[index].corporateCreator = e.target.value;
-                        this.setState({corporateCreators: oldState});
-                    }}/></Col>
-                </Row>
-            ))}
+            <CorporateCreators/>
             {detailComponent}
             <DivisionSelector/>
             <hr style={{marginTop: 22, marginBottom: 22}}/>
@@ -300,56 +280,18 @@ class NewPublication extends Component {
                             name: 'Submission', id: 'submission',
                         }, {
                             name: 'Completion', id: 'completion',
-                        }]} onSelected={(selectedId)=> this.props.savePublicationDateType(selectedId)}/>
+                        }]} onSelected={(selectedId) => this.props.savePublicationDateType(selectedId)}/>
                         </span>
                 <h6 style={{marginTop: 10, marginLeft: 20, marginRight: 20, display: "inline"}}>Date</h6>
-                <FormInput placeholder="My form input" type="date" style={{width: 200, display: 'inline'}}value={this.props.selectedDate} onChange={(e) => this.props.savePublicationDate(e.target.value)}/>
+                <FormInput placeholder="My form input" type="date" style={{width: 200, display: 'inline'}} value={this.props.selectedDate} onChange={(e) => this.props.savePublicationDate(e.target.value)}/>
             </div>
             <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
-            <FormInput placeholder="Identification Number" value={this.props.publicationId} onChange={(e) => this.props.savePublicationId(e.target.value)}  style={{marginTop: 10}}/>
+            <FormInput placeholder="Identification Number" value={this.props.publicationId} onChange={(e) => this.props.savePublicationId(e.target.value)} style={{marginTop: 10}}/>
             <FormInput placeholder="Official URL" value={this.props.publicationURL} onChange={(e) => this.props.savePublicationURL(e.target.value)} style={{marginTop: 10}}/>
-            <div style={{marginTop: 20}}><h6 style={{display: "inline"}}>Related URLs &nbsp;<i className='fa fa-plus-circle' onClick={() => {
-                this.onAdd('relatedURL', {URL: '', URLType: ''});
-            }}/></h6></div>
-            {this.state.relatedURL.map((item, index) => (
-                <Row style={{marginTop: 10}}>
-                    <Col style={{marginLeft: 0, marginRight: -10}}><FormInput placeholder="URL" value={item.URL} valid={item.URL.length > 5} onChange={(e) => {
-                        let oldState = this.state.relatedURL;
-                        oldState[index].URL = e.target.value;
-                        this.setState({relatedURL: oldState});
-                    }}/></Col>
-                    <Col style={{marginLeft: -10, marginRight: 0}}><FormInput placeholder="URL" value={item.URLType} valid={item.URLType.length > 5} onChange={(e) => {
-                        let oldState = this.state.relatedURL;
-                        oldState[index].URLType = e.target.value;
-                        this.setState({relatedURL: oldState});
-                    }}/></Col>
-                </Row>
-            ))}
+            <RelatedURL/>
             <hr style={{marginTop: 22, marginBottom: 22}}/>
-            <div style={{marginTop: 20}}><h6 style={{display: "inline"}}>Funders &nbsp;<i className='fa fa-plus-circle' onClick={() => {
-                this.onAdd('funders', {funder: ''});
-            }}/></h6></div>
-            {this.state.funders.map((item, index) => (
-                <Row style={{marginTop: 10}}>
-                    <Col><FormInput placeholder="Funder" value={item.funder} valid={item.funder.length > 5} onChange={(e) => {
-                        let oldState = this.state.funders;
-                        oldState[index].funder = e.target.value;
-                        this.setState({funders: oldState});
-                    }}/></Col>
-                </Row>
-            ))}
-            <div style={{marginTop: 20}}><h6 style={{display: "inline"}}>Projects &nbsp;<i className='fa fa-plus-circle' onClick={() => {
-                this.onAdd('projects', {projectName: ''});
-            }}/></h6></div>
-            {this.state.projects.map((item, index) => (
-                <Row style={{marginTop: 10}}>
-                    <Col><FormInput placeholder="Project" value={item.projectName} valid={item.projectName.length > 5} onChange={(e) => {
-                        let oldState = this.state.projects;
-                        oldState[index].projectName = e.target.value;
-                        this.setState({projects: oldState});
-                    }}/></Col>
-                </Row>
-            ))}
+            <Funder/>
+            <Project/>
             <Row style={{marginTop: 20}}>
                 <Button theme={this.state.showEmailAddress ? 'primary' : 'light'} pill onClick={() => {
                     this.setState({showEmailAddress: !this.state.showEmailAddress});
@@ -368,15 +310,15 @@ class NewPublication extends Component {
                 }} style={{marginLeft: 10}}>Comments and Suggestions</Button>
             </Row>
             <div>
-                <FormInput type="text" id="emailAddress" placeholder="Email Address"
+                <FormInput type="text" id="emailAddress" placeholder="Email Address" value={this.props.emailAddress} onChange={(e) => this.props.savePublicationEmailAddress(e.target.value)}
                            style={{marginTop: 10, display: this.state.showEmailAddress ? 'block' : 'none'}}/>
-                <FormInput type="text" id="references" placeholder="References"
+                <FormInput type="text" id="references" placeholder="References" value={this.props.references} onChange={(e) => this.props.savePublicationReferences(e.target.value)}
                            style={{marginTop: 10, display: this.state.showReferences ? 'block' : 'none'}}/>
-                <FormInput type="text" id="unKeyword" placeholder="Uncontrolled Keywords"
+                <FormInput type="text" id="unKeyword" placeholder="Uncontrolled Keywords" value={this.props.unKeyword} onChange={(e) => this.props.savePublicationUnKeyword(e.target.value)}
                            style={{marginTop: 10, display: this.state.showUncontrolledKeyword ? 'block' : 'none'}}/>
-                <FormInput type="text" id="addInformation" placeholder="Additional Information"
+                <FormInput type="text" id="addInformation" placeholder="Additional Information"value={this.props.addInformation} onChange={(e) => this.props.savePublicationAddInformation(e.target.value)}
                            style={{marginTop: 10, display: this.state.showAddInformation ? 'block' : 'none'}}/>
-                <FormTextarea type="text" id="comment" placeholder="Comments and Suggestions"
+                <FormTextarea type="text" id="comment" placeholder="Comments and Suggestions" value={this.props.comment} onChange={(e) => this.props.savePublicationComment(e.target.value)}
                               style={{marginTop: 10, display: this.state.showComment ? 'block' : 'none'}}/>
             </div>
             <Subject/>
@@ -409,12 +351,19 @@ let mapStateToProps = (store) => {
         selectedDateType:store.publication.selectedDateType,
         selectedDate : store.publication.selectedDate,
         publicationId:store.publication.publicationId,
-        publicationURL:store.publication.publicationURL
+        publicationURL:store.publication.publicationURL,
+        emailAddress:store.publication.emailAddress,
+        references:store.publication.references,
+        unKeyword:store.publication.unKeyword,
+        addInformation:store.publication.addInformation,
+        comment:store.publication.comment
+
 
     };
 }
 let mapDispatchToProps = {
     savePublicationTitle, savePublicationAbstract,
-    savePublicationStatus,savePublicationDateType,savePublicationDate,savePublicationId,savePublicationURL
+    savePublicationStatus,savePublicationDateType,savePublicationDate,savePublicationId,savePublicationURL,
+    savePublicationEmailAddress,savePublicationReferences,savePublicationUnKeyword,savePublicationAddInformation,savePublicationComment
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NewPublication);
