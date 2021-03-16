@@ -10,11 +10,12 @@ import axios from "axios";
 import ContentLoader from "react-content-loader";
 import DivisionSelector from "./divisionSelector";
 import BookSectionMain from "./bookSectionMain";
-import {savePublicationAbstract, savePublicationDate, savePublicationDateType, savePublicationFamilyName, savePublicationId, savePublicationStatus, savePublicationTitle, savePublicationURL} from "../redux/actions";
+import {savePublicationAbstract, savePublicationDate, savePublicationDateType,
+    savePublicationId, savePublicationStatus, savePublicationTitle, savePublicationURL} from "../redux/actions";
+import Creator from "./creator";
 
-class Publication extends Component {
+class NewPublication extends Component {
     state = {
-        creators: [{familyName: '', givenName: '', email: '', department: ''}],
         corporateCreators: [{corporateCreator: ''}, {corporateCreator: ''}],
         editors: [{familyName: '', givenName: '', email: ''}],
         relatedURL: [{URL: '', URLType: ''}],
@@ -49,14 +50,6 @@ class Publication extends Component {
         this.setState({[stateName]: newState});
     }
 
-    validate = () => {
-        let ErrorMessage = "";
-        if (this.state.enteredTitle.length === 0 || this.state.enteredISSN.length === 0 ||
-            this.state.enteredIdentificationNumber.length === 0) {
-            this.setState({ErrorMessage: "Error. The filed is empty."});
-        }
-
-    }
     onclickSubmitted = (event) => {
         event.preventDefault();
         let isValid = this.validate();
@@ -189,7 +182,7 @@ class Publication extends Component {
                     <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
                     <Row style={{marginTop: 10}}>
                         <Col style={{marginLeft: 0, marginRight: -10}}>
-                            <FormInput type="text" placeholder="Enter ISBN" onChange={this.onTypingISSN}/>
+                            <FormInput type="text" placeholder="Enter ISBN" />
                         </Col>
                         <Col style={{marginLeft: -10, marginRight: -10}}>
                             <FormInput type="text" placeholder="Enter Volume"/>
@@ -266,31 +259,7 @@ class Publication extends Component {
             <FormInput placeholder="Title" style={{marginTop: 10}} value={this.props.publicationTitle} onChange={(e) => this.props.savePublicationTitle(e.target.value)}/>
             <FormTextarea placeholder="Abstract" style={{marginTop: 10}} value={this.props.publicationAbstract} onChange={(e) => this.props.savePublicationAbstract(e.target.value)}/>
             {addComponent}
-            <div style={{marginTop: 20}}><h6>Creators &nbsp;<i className='fa fa-plus-circle' onClick={() => {
-                this.onAdd('creators', {familyName: '', givenName: '', email: '', department: ''});
-            }}/></h6></div>
-            {this.state.creators.map((item, index) => (
-                <Row style={{marginTop: 10}}>
-                    <Col style={{marginRight: -10}}><FormInput placeholder="Family Name" value={this.props.familyName} valid={this.props.familyName.length > 5} onChange={(e) => {
-                      this.props.savePublicationFamilyName(e.target.value)
-                    }}/></Col>
-                    <Col style={{marginLeft: -10, marginRight: -10}}><FormInput placeholder="Given Name" value={item.givenName} valid={item.givenName.length > 5} onChange={(e) => {
-                        let oldState = this.state.creators;
-                        oldState[index].givenName = e.target.value;
-                        this.setState({creators: oldState});
-                    }}/></Col>
-                    <Col style={{marginLeft: -10, marginRight: -10}}><FormInput placeholder="Email" value={item.email} valid={validator.validateEmail(item.email)} onChange={(e) => {
-                        let oldState = this.state.creators;
-                        oldState[index].email = e.target.value;
-                        this.setState({creators: oldState});
-                    }}/></Col>
-                    <Col style={{marginLeft: -10}}><FormInput placeholder="Department" value={item.department} valid={item.department.length > 10} onChange={(e) => {
-                        let oldState = this.state.creators;
-                        oldState[index].department = e.target.value;
-                        this.setState({creators: oldState});
-                    }}/></Col>
-                </Row>
-            ))}
+            <Creator/>
             <div style={{marginTop: 20}}><h6>Corporate Creators &nbsp;<i className='fa fa-plus-circle' onClick={() => {
                 this.onAdd('corporateCreators', {corporateCreator: ''});
             }}/></h6></div>
@@ -436,7 +405,6 @@ let mapStateToProps = (store) => {
         type: store.article.articleType,
         publicationTitle: store.publication.publicationTitle,
         publicationAbstract: store.publication.publicationAbstract,
-        familyName : store.publication.familyName,
         selectedStatus:store.publication.selectedStatus,
         selectedDateType:store.publication.selectedDateType,
         selectedDate : store.publication.selectedDate,
@@ -446,7 +414,7 @@ let mapStateToProps = (store) => {
     };
 }
 let mapDispatchToProps = {
-    savePublicationTitle, savePublicationAbstract,savePublicationFamilyName,
+    savePublicationTitle, savePublicationAbstract,
     savePublicationStatus,savePublicationDateType,savePublicationDate,savePublicationId,savePublicationURL
 };
-export default connect(mapStateToProps, mapDispatchToProps)(Publication);
+export default connect(mapStateToProps, mapDispatchToProps)(NewPublication);

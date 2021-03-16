@@ -15,7 +15,7 @@ class Book extends Component {
                 <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
                 <Row style={{marginTop: 10}}>
                     <Col style={{marginLeft: 0, marginRight: -10}}>
-                        <FormInput type="text" placeholder="Enter ISBN" onChange={this.onTypingISSN}/>
+                        <FormInput type="text" placeholder="Enter ISBN" />
                     </Col>
                     <Col style={{marginLeft: -10, marginRight: -10}}>
                         <FormInput type="text" placeholder="Enter Volume"/>

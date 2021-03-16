@@ -16,52 +16,52 @@ class Publications extends Component {
     render() {
         let publications = [
             {
-                title: 'The Evolution of a Cybercrime Market Through two Decades',
-                authors: 'Anh V. Vu, Jack Huges, Ildiko Pete, Ben Collier, Yi Ting Chua, Alice Hutchings'
+                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
+                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
             },
             {
-                title: 'The Evolution of a Cybercrime Market Through two Decades',
-                authors: 'Anh V. Vu, Jack Huges, Ildiko Pete, Ben Collier, Yi Ting Chua, Alice Hutchings'
+                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
+                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
             },
             {
-                title: 'The Evolution of a Cybercrime Market Through two Decades',
-                authors: 'Anh V. Vu, Jack Huges, Ildiko Pete, Ben Collier, Yi Ting Chua, Alice Hutchings'
+                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
+                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
             },
             {
-                title: 'The Evolution of a Cybercrime Market Through two Decades',
-                authors: 'Anh V. Vu, Jack Huges, Ildiko Pete, Ben Collier, Yi Ting Chua, Alice Hutchings'
+                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
+                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
             },
             {
-                title: 'The Evolution of a Cybercrime Market Through two Decades',
-                authors: 'Anh V. Vu, Jack Huges, Ildiko Pete, Ben Collier, Yi Ting Chua, Alice Hutchings'
+                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
+                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
             },
             {
-                title: 'The Evolution of a Cybercrime Market Through two Decades',
-                authors: 'Anh V. Vu, Jack Huges, Ildiko Pete, Ben Collier, Yi Ting Chua, Alice Hutchings'
+                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
+                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
             },
             {
-                title: 'The Evolution of a Cybercrime Market Through two Decades',
-                authors: 'Anh V. Vu, Jack Huges, Ildiko Pete, Ben Collier, Yi Ting Chua, Alice Hutchings'
+                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
+                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
             },
             {
-                title: 'The Evolution of a Cybercrime Market Through two Decades',
-                authors: 'Anh V. Vu, Jack Huges, Ildiko Pete, Ben Collier, Yi Ting Chua, Alice Hutchings'
+                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
+                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
             },
             {
-                title: 'The Evolution of a Cybercrime Market Through two Decades',
-                authors: 'Anh V. Vu, Jack Huges, Ildiko Pete, Ben Collier, Yi Ting Chua, Alice Hutchings'
+                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
+                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
             },
             {
-                title: 'The Evolution of a Cybercrime Market Through two Decades',
-                authors: 'Anh V. Vu, Jack Huges, Ildiko Pete, Ben Collier, Yi Ting Chua, Alice Hutchings'
+                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
+                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
             },
             {
-                title: 'The Evolution of a Cybercrime Market Through two Decades',
-                authors: 'Anh V. Vu, Jack Huges, Ildiko Pete, Ben Collier, Yi Ting Chua, Alice Hutchings'
+                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
+                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
             },
             {
-                title: 'The Evolution of a Cybercrime Market Through two Decades',
-                authors: 'Anh V. Vu, Jack Huges, Ildiko Pete, Ben Collier, Yi Ting Chua, Alice Hutchings'
+                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
+                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
             }
         ]
         let loading = <div>

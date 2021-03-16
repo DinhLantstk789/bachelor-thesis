@@ -29,7 +29,6 @@ class BookSectionMain extends Component {
                 <FormInput type="text" placeholder="Enter Publisher" style={{marginTop: 10}} value={this.props.bookSectionPublisher} onChange={(e) => this.props.saveBookSectionPublisher(e.target.value)}/>
                 <FormInput type="text" placeholder="Enter Number of Pages" style={{marginTop: 10}} value={this.props.bookSectionPageNumber} onChange={(e) => this.props.saveBookSectionPageNumber(e.target.value)}/>
                 <FormInput type="text" placeholder="Enter Series Name" style={{marginTop: 10}} value={this.props.bookSectionSeriesName} onChange={(e) => this.props.saveBookSectionSeriesName(e.target.value)}/>
-                {/*<span style={{color: "red"}}>{this.state.ErrorMessage}</span>*/}
                 <Row style={{marginTop: 10}}>
                     <Col style={{marginLeft: 0, marginRight: -10}}>
                         <FormInput type="text" placeholder="Enter ISBN" value={this.props.bookSectionISBN} onChange={(e) => {

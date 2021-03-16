@@ -13,17 +13,17 @@ class PublicationType extends Component {
                     id: 'article',
                     tooltip: 'An article in a journal, magazine, newspaper. Not necessarily peer-reviewed.'
                 }, {
-                    name: 'Book section',
-                    id: 'book-section',
-                    tooltip: 'A chapter or section in a book'
+                    name: 'Conference or Workshop Item',
+                    id: 'conference-workshop-item',
+                    tooltip: 'A paper, poster,speech,lecture or presentation given at a conference, workshop or other event.'
                 }, {
                     name: 'Technical Report',
                     id: 'technical-report',
                     tooltip: 'A monograph. This maybe a technical report, project report, documentation or discussion paper.'
                 }, {
-                    name: 'Conference or Workshop Item',
-                    id: 'conference-workshop-item',
-                    tooltip: 'A paper, poster,speech,lecture or presentation given at a conference, workshop or other event.'
+                    name: 'Book section',
+                    id: 'book-section',
+                    tooltip: 'A chapter or section in a book'
                 }, {
                     name: 'Book',
                     id: 'book',

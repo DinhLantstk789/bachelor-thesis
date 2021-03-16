@@ -1,13 +1,13 @@
 const initialState = {
     publicationTitle: '',
     publicationAbstract: '',
-    familyName: '',
-    selectedStatus:'',
-    selectedDateType:'',
-    selectedRefereed:'',
-    selectedDate:'',
-    publicationId:'',
-    publicationURL:''
+    creators: [{familyName: '', givenName: '', email: '', department: ''}],
+    selectedStatus: '',
+    selectedDateType: '',
+    selectedRefereed: '',
+    selectedDate: '',
+    publicationId: '',
+    publicationURL: ''
 
 };
 
@@ -26,11 +26,12 @@ export default (state = initialState, action) => {
             publicationAbstract: data.publicationAbstract
         }
     }
-    if (action.type === 'SAVE_PUBLICATION_FAMILY_NAME') {
+    if (action.type === 'SAVE_PUBLICATION_CREATORS') {
         const data = action.data;
+        console.log(data);
         return {
             ...state,
-            familyName: data.familyName
+            creators: data.creators
         }
     }
     if (action.type === 'SAVE_PUBLICATION_STATUS') {

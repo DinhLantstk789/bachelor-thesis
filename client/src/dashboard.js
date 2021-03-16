@@ -1,6 +1,6 @@
 import {Component} from 'react';
 import {Button, Card, CardBody, CardHeader, Col, Row} from "shards-react";
-import Article from "./publication/publication";
+import NewPublication from "./publication/newPublication";
 import Publications from "./publications";
 
 class Dashboard extends Component {
@@ -30,7 +30,7 @@ class Dashboard extends Component {
                     </Row>
                 </CardHeader>
                 <CardBody>
-                    {this.state.newArticle ? <Article/> : <Publications/>}
+                    {this.state.newArticle ? <NewPublication/> : <Publications/>}
                 </CardBody>
             </Card>
         )

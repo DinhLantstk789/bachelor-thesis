@@ -80,9 +80,9 @@ export const savePublicationAbstract = (publicationAbstract) => ({
     type: 'SAVE_PUBLICATION_ABSTRACT',
     data: {publicationAbstract: publicationAbstract}
 });
-export const savePublicationFamilyName = (familyName) => ({
-    type: 'SAVE_PUBLICATION_FAMILY_NAME',
-    data: {familyName: familyName}
+export const savePublicationCreators = (creators) => ({
+    type: 'SAVE_PUBLICATION_CREATORS',
+    data: {creators: creators}
 });
 export const savePublicationStatus = (selectedStatus) => ({
     type: 'SAVE_PUBLICATION_STATUS',
@@ -108,6 +108,7 @@ export const savePublicationURL= (publicationURL) => ({
     type: 'SAVE_PUBLICATION_URL',
     data: {publicationURL: publicationURL}
 });
+
 
 
 
