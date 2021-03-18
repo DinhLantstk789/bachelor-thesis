@@ -149,6 +149,14 @@ export const savePublicationComment= (comment) => ({
     type: 'SAVE_PUBLICATION_COMMENT',
     data: {comment: comment}
 });
+export const savePublicationSubjects= (subjects) => ({
+    type: 'SAVE_PUBLICATION_SUBJECTS',
+    data: {subjects: subjects}
+});
+export const savePublicationDivisions= (divisions) => ({
+    type: 'SAVE_PUBLICATION_DIVISIONS',
+    data: {divisions: divisions}
+});
 
 
 

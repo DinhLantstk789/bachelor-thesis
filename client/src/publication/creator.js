@@ -78,7 +78,6 @@ class Creator extends Component {
 }
 
 let mapStateToProps = (store) => {
-    console.log('passing props', store.publication.creators);
     return {creators: store.publication.creators};
 }
 let mapDispatchToProps = {savePublicationCreators};

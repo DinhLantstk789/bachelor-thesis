@@ -10,7 +10,9 @@ import ContentLoader from "react-content-loader";
 import DivisionSelector from "./divisionSelector";
 import BookSectionMain from "./bookSectionMain";
 import {
-    savePublicationAbstract, savePublicationAddInformation, savePublicationComment,
+    savePublicationAbstract,
+    savePublicationAddInformation,
+    savePublicationComment,
     savePublicationDate,
     savePublicationDateType,
     savePublicationEmailAddress,
@@ -283,7 +285,9 @@ class NewPublication extends Component {
                         }]} onSelected={(selectedId) => this.props.savePublicationDateType(selectedId)}/>
                         </span>
                 <h6 style={{marginTop: 10, marginLeft: 20, marginRight: 20, display: "inline"}}>Date</h6>
-                <FormInput placeholder="My form input" type="date" style={{width: 200, display: 'inline'}} value={this.props.selectedDate} onChange={(e) => this.props.savePublicationDate(e.target.value)}/>
+                <FormInput placeholder="My form input" type="date" style={{width: 200, display: 'inline'}} value={this.props.selectedDate} onChange={(e) => {
+                    this.props.savePublicationDate(e.target.value);
+                }}/>
             </div>
             <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
             <FormInput placeholder="Identification Number" value={this.props.publicationId} onChange={(e) => this.props.savePublicationId(e.target.value)} style={{marginTop: 10}}/>
@@ -323,20 +327,61 @@ class NewPublication extends Component {
             </div>
             <Subject/>
             <Row className='float-right'>
-                <Button pill style={{marginTop: 20, marginRight: 20, fontSize: 18}}>Deposit &nbsp;<i className='fa fa-check'/></Button>
+                <Button pill style={{marginTop: 20, marginRight: 20, fontSize: 18}} onClick={() => {
+                    const body = {
+                        type: this.props.type,
+                        title: this.props.publicationTitle,
+                        publicationAbstract: this.props.publicationAbstract,
+                        creators: this.props.creators,
+                        corporateCreators: this.props.corporateCreators.map(cor => cor.corporateCreator),
+                        divisions: this.props.divisions.filter(div => div.isEnable).map(div => div.name),
+                        selectedStatus: this.props.selectedStatus,
+                        selectedRefereed: this.props.selectedRefereed,
+                        bookSectionFirstPage: this.props.bookSectionFirstPage,
+                        bookSectionEndPage: this.props.bookSectionEndPage,
+                        bookSectionTitle: this.props.bookSectionTitle,
+                        bookSectionPublicationPlace: this.props.bookSectionPublicationPlace,
+                        bookSectionPublisher: this.props.bookSectionPublisher,
+                        bookSectionPageNumber: this.props.bookSectionPageNumber,
+                        bookSectionSeriesName: this.props.bookSectionSeriesName,
+                        bookSectionISBN: this.props.bookSectionISBN,
+                        bookSectionVolume: this.props.bookSectionVolume,
+                        bookSectionNumber: this.props.bookSectionNumber,
+                        subjects: this.props.subjects.filter(sub => sub.isEnable).map(sub => sub.name),
+                        editors: this.props.editors,
+                        selectedDateType: this.props.selectedDateType,
+                        selectedDate: this.props.selectedDate,
+                        publicationId: this.props.publicationId,
+                        publicationURL: this.props.publicationURL,
+                        relatedURLs: this.props.relatedURLs,
+                        funders: this.props.funders.map(f => f.funder),
+                        projects: this.props.projects.map(p => p.projectName),
+                        emailAddress: this.props.emailAddress,
+                        references: this.props.references,
+                        unKeyword: this.props.unKeyword,
+                        addInformation: this.props.addInformation,
+                        comment: this.props.comment
+                    }
+                    axios.post('http://localhost:1234/article/add', body).then(res => {
+                        let status = res.data.status;
+                        if (status === 200) {
+                            console.log('article saved!');
+                        } else {
+                            console.log('error:', res.data.message)
+                        }
+                    })
+                }}>Deposit &nbsp;<i className='fa fa-check'/></Button>
             </Row>
         </div>
         return (
             <Fragment>
-                <form onSubmit={this.onclickSubmitted}>
-                    <ArticleType/>
-                    <br/>
-                    {this.state.isComponentLoading ? <ContentLoader viewBox="0 0 400 160">
-                        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-                            <rect x="0" y={5 + item * 16} rx="5" ry="5" width="400" height="6"/>
-                        ))}
-                    </ContentLoader> : loadedComponent}
-                </form>
+                <ArticleType/>
+                <br/>
+                {this.state.isComponentLoading ? <ContentLoader viewBox="0 0 400 160">
+                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
+                        <rect x="0" y={5 + item * 16} rx="5" ry="5" width="400" height="6"/>
+                    ))}
+                </ContentLoader> : loadedComponent}
             </Fragment>
         )
     }
@@ -347,18 +392,35 @@ let mapStateToProps = (store) => {
         type: store.article.articleType,
         publicationTitle: store.publication.publicationTitle,
         publicationAbstract: store.publication.publicationAbstract,
-        selectedStatus:store.publication.selectedStatus,
-        selectedDateType:store.publication.selectedDateType,
-        selectedDate : store.publication.selectedDate,
-        publicationId:store.publication.publicationId,
-        publicationURL:store.publication.publicationURL,
-        emailAddress:store.publication.emailAddress,
-        references:store.publication.references,
-        unKeyword:store.publication.unKeyword,
-        addInformation:store.publication.addInformation,
-        comment:store.publication.comment
-
-
+        creators: store.publication.creators,
+        corporateCreators: store.publication.corporateCreators,
+        editors: store.publication.editors,
+        selectedStatus: store.publication.selectedStatus,
+        selectedDateType: store.publication.selectedDateType,
+        selectedDate: store.publication.selectedDate,
+        publicationId: store.publication.publicationId,
+        publicationURL: store.publication.publicationURL,
+        emailAddress: store.publication.emailAddress,
+        references: store.publication.references,
+        unKeyword: store.publication.unKeyword,
+        addInformation: store.publication.addInformation,
+        comment: store.publication.comment,
+        subjects: store.publication.subjects,
+        divisions: store.publication.divisions,
+        selectedRefereed: store.publication.selectedRefereed,
+        bookSectionFirstPage: store.bookSection.bookSectionFirstPage,
+        bookSectionEndPage: store.bookSection.bookSectionEndPage,
+        bookSectionTitle: store.bookSection.bookSectionTitle,
+        bookSectionPublicationPlace: store.bookSection.bookSectionPublicationPlace,
+        bookSectionPublisher: store.bookSection.bookSectionPublisher,
+        bookSectionPageNumber: store.bookSection.bookSectionPageNumber,
+        bookSectionSeriesName: store.bookSection.bookSectionSeriesName,
+        bookSectionISBN: store.bookSection.bookSectionISBN,
+        bookSectionVolume: store.bookSection.bookSectionVolume,
+        bookSectionNumber: store.bookSection.bookSectionNumber,
+        relatedURLs: store.publication.relatedURLs,
+        funders: store.publication.funders,
+        projects: store.publication.projects
     };
 }
 let mapDispatchToProps = {

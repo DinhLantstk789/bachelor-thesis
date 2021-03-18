@@ -4,21 +4,41 @@ const initialState = {
     creators: [{familyName: '', givenName: '', email: '', department: ''}],
     corporateCreators:[{corporateCreator:''}],
     editors: [{familyName: '', givenName: '', email: ''}],
-    relatedURLs:[{URL:'',URLType :''}],
-    projects:[{projectName:''}],
-    funders:[{funder:''}],
+    relatedURLs: [{URL: '', URLType: ''}],
+    projects: [{projectName: ''}],
+    funders: [{funder: ''}],
     selectedStatus: '',
     selectedDateType: '',
     selectedRefereed: '',
     selectedDate: '',
     publicationId: '',
     publicationURL: '',
-    emailAddress:'',
-    references:'',
-    unKeyword:'',
-    addInformation:'',
-    comment:''
-
+    emailAddress: '',
+    references: '',
+    unKeyword: '',
+    addInformation: '',
+    comment: '',
+    subjects: [{name: 'Aerospace Engineering', isEnable: false},
+        {name: 'Communications', isEnable: false},
+        {name: 'Electronics and Computer Engineering', isEnable: false},
+        {name: 'Engineering Mechanics', isEnable: false},
+        {name: 'Engineering Physics', isEnable: false},
+        {name: 'ISI-indexed journals', isEnable: false},
+        {name: 'Information Technology (IT)', isEnable: false},
+        {name: 'Scopus-indexed journals', isEnable: false},
+        {name: 'Transportation Technology', isEnable: false},
+        {name: 'Civil Engineering', isEnable: false}],
+    divisions: [{name: 'Advanced Institute of Engineering and Technology (AVITECH)', isEnable: false},
+        {name: ' Department of Civil Engineering and Transportation (CET)', isEnable: false},
+        {name: ' Center for Electronics and Telecommunications Research (CETR)', isEnable: false},
+        {name: ' Faculty of Agriculture Technology (FAT)', isEnable: false},
+        {name: 'Faculty of Electronics and Telecommunications (FET)', isEnable: false},
+        {name: 'Faculty of Engineering Mechanics and Automation (FEMA)', isEnable: false},
+        {name: 'Faculty of Engineering Physics and Nanotechnology (FEPN)', isEnable: false},
+        {name: 'Faculty of Information Technology (FIT)', isEnable: false},
+        {name: 'Key Laboratory for Nanotechnology (Nano Lab)', isEnable: false},
+        {name: 'School of Aerospace Engineering (SAE)', isEnable: false},
+        {name: 'Key Laboratory for Smart Integrated Systems (SISLAB)', isEnable: false}]
 
 };
 
@@ -157,6 +177,21 @@ export default (state = initialState, action) => {
             comment: data.comment
         }
     }
+    if (action.type === 'SAVE_PUBLICATION_SUBJECTS') {
+        const data = action.data;
+        return {
+            ...state,
+            subjects: data.subjects
+        }
+    }
+    if (action.type === 'SAVE_PUBLICATION_DIVISIONS') {
+        const data = action.data;
+        return {
+            ...state,
+            divisions: data.divisions
+        }
+    }
+
     return state;
 
 }
