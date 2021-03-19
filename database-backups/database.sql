@@ -3,15 +3,15 @@ CREATE TABLE users (
     family_name TEXT,
     given_name TEXT,
 	hide_email BOOLEAN NOT NULL DEFAULT TRUE,
-	password TEXT NOT NULL,
-	department TEXT NOT NULL,
-	address TEXT,
+	password TEXT DEFAULT NULL,
+	department TEXT DEFAULT NULL,
+	address TEXT DEFAULT NULL,
 	isAdmin BOOLEAN DEFAULT FALSE,
-	registration_date TIMESTAMP NOT NULL DEFAULT NOW(),
-	last_login TIMESTAMP,
+	registration_date TIMESTAMP DEFAULT NULL,
+	last_login TIMESTAMP DEFAULT NULL,
 	is_approved BOOLEAN DEFAULT FALSE,
 	can_login BOOLEAN DEFAULT FALSE,
-	db_created_on TIMESTAMP,
+	db_created_on TIMESTAMP DEFAULT NOW(),
 	db_updated_on TIMESTAMP,
 	PRIMARY KEY(email)
 );
@@ -50,7 +50,7 @@ CREATE TABLE publication (
 	comments_and_suggestions TEXT,
     subjects TEXT[],
 	is_approved BOOLEAN DEFAULT FALSE,
-	db_created_on TIMESTAMP,
+	db_created_on TIMESTAMP DEFAULT NOW(),
 	db_updated_on TIMESTAMP,
 	PRIMARY KEY (id)
 );
@@ -58,7 +58,7 @@ CREATE TABLE publication (
 CREATE TABLE publication_creator (
     publication_id INTEGER,
     creator_email  TEXT,
-    db_created_on  TIMESTAMP,
+    db_created_on  TIMESTAMP DEFAULT NOW(),
     db_updated_on  TIMESTAMP,
     FOREIGN KEY (publication_id) REFERENCES publication (id),
     FOREIGN KEY (creator_email) REFERENCES users (email),
@@ -67,9 +67,9 @@ CREATE TABLE publication_creator (
 
 CREATE TABLE publication_editor (
     publication_id INTEGER,
-    editor_email   TEXT,
-    db_created_on  TIMESTAMP,
-    db_updated_on  TIMESTAMP,
+    editor_email TEXT,
+    db_created_on TIMESTAMP DEFAULT NOW(),
+    db_updated_on TIMESTAMP,
     FOREIGN KEY (publication_id) REFERENCES publication (id),
     FOREIGN KEY (editor_email) REFERENCES users (email),
     PRIMARY KEY (publication_id, editor_email)
