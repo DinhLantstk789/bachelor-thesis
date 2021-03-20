@@ -1,13 +1,39 @@
 import {Component, Fragment} from 'react';
+import {FormInput} from "shards-react";
+import {saveBookSectionPageNumber, saveBookSectionPublicationPlace, saveBookSectionPublisher, saveBookSectionTitle, saveInstitution,} from "../redux/actions";
+import {connect} from "react-redux";
 
 class TechnicalReport extends Component {
     render() {
         return (
             <Fragment>
-
+                <FormInput placeholder="Enter Institution" style={{marginTop: 10}} value={this.props.institution} onChange={(e) =>
+                    this.props.saveInstitution(e.target.value)}/>
+                <FormInput placeholder="Enter Place of Publication" style={{marginTop: 10}} value={this.props.bookSectionPublicationPlace} onChange={(e) =>
+                    this.props.saveBookSectionPublicationPlace(e.target.value)}/>
+                <FormInput placeholder="Enter Publisher" style={{marginTop: 10}} value={this.props.bookSectionPublisher} onChange={(e) =>
+                    this.props.saveBookSectionPublisher(e.target.value)}/>
+                <FormInput placeholder="Enter Number of Pages" style={{marginTop: 10}} value={this.props.bookSectionPageNumber} onChange={(e) =>
+                    this.props.saveBookSectionPageNumber(e.target.value)}/>
             </Fragment>
         )
     }
 }
 
-export default TechnicalReport;
+let mapStateToProps = (store) => {
+    return {
+        bookSectionTitle: store.bookSection.bookSectionTitle,
+        bookSectionPublicationPlace: store.bookSection.bookSectionPublicationPlace,
+        bookSectionPublisher: store.bookSection.bookSectionPublisher,
+        bookSectionPageNumber: store.bookSection.bookSectionPageNumber,
+        institution:store.technicalReport.institution
+    };
+};
+let mapDispatchToProps = {
+    saveBookSectionTitle,
+    saveBookSectionPublicationPlace,
+    saveBookSectionPublisher,
+    saveBookSectionPageNumber,
+    saveInstitution
+};
+export default connect(mapStateToProps, mapDispatchToProps)(TechnicalReport);

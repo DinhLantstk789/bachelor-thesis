@@ -1,5 +1,5 @@
 import {Component, Fragment} from 'react';
-import {Button, Col, FormInput, FormTextarea, Row} from "shards-react";
+import {Button, FormInput, FormTextarea, Row} from "shards-react";
 import ReferredArticle from "./referredArticle";
 import RadioGroup from "../radioGroup";
 import {connect} from "react-redux";
@@ -10,6 +10,12 @@ import ContentLoader from "react-content-loader";
 import DivisionSelector from "./divisionSelector";
 import BookSectionMain from "./bookSectionMain";
 import {
+    saveCopyrightHolder,
+    saveInstitution,
+    saveMediaOutput,
+    saveMonographType,
+    savePatentApplicant,
+    savePresentationType,
     savePublicationAbstract,
     savePublicationAddInformation,
     savePublicationComment,
@@ -21,7 +27,8 @@ import {
     savePublicationStatus,
     savePublicationTitle,
     savePublicationUnKeyword,
-    savePublicationURL
+    savePublicationURL,
+    saveThesisType
 } from "../redux/actions";
 import Creator from "./creator";
 import CorporateCreators from "./corporateCreators";
@@ -29,14 +36,12 @@ import RelatedURL from "./relatedURL";
 import Funder from "./funder";
 import Project from "./project";
 import Editors from "./editors";
+import Article from "./article";
+import TechnicalReport from "./technicalReport";
+import Book from "./book";
 
 class NewPublication extends Component {
     state = {
-        corporateCreators: [{corporateCreator: ''}, {corporateCreator: ''}],
-        editors: [{familyName: '', givenName: '', email: ''}],
-        relatedURL: [{URL: '', URLType: ''}],
-        funders: [{funder: ''}],
-        projects: [{projectName: ''}],
         showEmailAddress: false,
         isComponentLoading: false,
         currentType: 'article',
@@ -103,26 +108,7 @@ class NewPublication extends Component {
             case 'article':
                 mainComponent = <div>
                     <ReferredArticle/>
-                    <FormInput type="text" placeholder="Enter Journal or Publication Title" style={{marginTop: 10}}/>
-                    <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
-                    <FormInput type="text" placeholder="Enter Publisher" style={{marginTop: 10}}/>
-                    <Row style={{marginTop: 10}}>
-                        <Col style={{marginLeft: 0, marginRight: -10}}>
-                            <FormInput type="text" placeholder="Enter ISSN"/>
-                        </Col>
-                        <Col style={{marginLeft: -10, marginRight: -10}}>
-                            <FormInput type="text" placeholder="Enter Volume"/>
-                        </Col>
-                        <Col style={{marginLeft: -10, marginRight: 0}}>
-                            <FormInput type="text" placeholder="Enter Number"/>
-                        </Col>
-                    </Row>
-                    <Row style={{marginTop: 10}}>
-                        <h6 style={{marginLeft: 13, marginRight: 30, marginTop: 2, display: "inline"}}>Page Range</h6>
-                        <FormInput type="number" size={"sm"} style={{width: 70}}/>
-                        <label style={{marginRight: 15, marginLeft: 15}}>to</label>
-                        <FormInput type="number" size={"sm"} style={{width: 70}}/>
-                    </Row>
+                    <Article/>
                 </div>
                 break;
             case 'book-section':
@@ -134,15 +120,11 @@ class NewPublication extends Component {
                 break;
             case 'technical-report':
                 mainComponent = <div>
-                    <FormInput placeholder="Enter Institution" style={{marginTop: 10}}/>
-                    <FormInput placeholder="Enter Department" style={{marginTop: 10}}/>
-                    <FormInput placeholder="Enter Place of Publication" style={{marginTop: 10}}/>
-                    <FormInput placeholder="Enter Publisher" style={{marginTop: 10}}/>
-                    <FormInput placeholder="Enter Number of Pages" style={{marginTop: 10}}/>
+                    <TechnicalReport/>
                 </div>
                 addComponent = <div style={{marginTop: 20, marginBottom: -10}}>
                     <h6 style={{display: "inline", marginRight: 20}}><i className='fa fa-star' style={{marginRight: 10}}/>Monograph Type</h6>
-                    <RadioGroup enableTooltip={false} inline={true} radioArray={[{
+                    <RadioGroup selectedId={this.props.isMonographType} enableTooltip={false} inline={true} radioArray={[{
                         name: 'Technical Report', id: 'technical-reportMonoType',
                     }, {
                         name: 'Project Report', id: 'project-reportMonoType',
@@ -156,15 +138,14 @@ class NewPublication extends Component {
                         name: 'Discussion Paper', id: 'discussion-paperMonoType',
                     }, {
                         name: 'Other', id: 'otherMonoType',
-                    }]} onSelected={() => {
-                    }}/>
+                    }]} onSelected={(selectedId) => this.props.saveMonographType(selectedId)}/>
                 </div>
                 break;
             case 'conference-workshop-item':
                 mainComponent = <div><ReferredArticle/></div>
                 addComponent = <div style={{marginTop: 20, marginBottom: -10}}>
                     <h6 style={{marginRight: 38, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Presentation Type:</h6>
-                    <RadioGroup enableTooltip={false} inline={true} radioArray={[{
+                    <RadioGroup selectedId={this.props.isPresentationType} enableTooltip={false} inline={true} radioArray={[{
                         name: 'Paper', id: 'paper',
                     }, {
                         name: 'Lecture', id: 'lecture',
@@ -176,40 +157,24 @@ class NewPublication extends Component {
                         name: 'Keynote', id: 'keynote',
                     }, {
                         name: 'Other', id: 'otherConference',
-                    }]} onSelected={() => {
-                    }}/>
+                    }]} onSelected={(selectedId) => this.props.savePresentationType(selectedId)}/>
                 </div>
                 break;
             case 'book':
                 mainComponent = <div>
                     <ReferredArticle/>
-                    <FormInput placeholder="Enter Place of Publication" style={{marginTop: 10}}/>
-                    <FormInput placeholder="Enter Publisher" style={{marginTop: 10}}/>
-                    <FormInput placeholder="Enter Number of Pages" style={{marginTop: 10}}/>
-                    <FormInput placeholder="Enter Series Name" style={{marginTop: 10}}/>
-                    <span style={{color: "red"}}>{this.state.ErrorMessage}</span>
-                    <Row style={{marginTop: 10}}>
-                        <Col style={{marginLeft: 0, marginRight: -10}}>
-                            <FormInput type="text" placeholder="Enter ISBN" />
-                        </Col>
-                        <Col style={{marginLeft: -10, marginRight: -10}}>
-                            <FormInput type="text" placeholder="Enter Volume"/>
-                        </Col>
-                        <Col style={{marginLeft: -10, marginRight: 0}}>
-                            <FormInput type="text" placeholder="Enter Number"/>
-                        </Col>
-                    </Row>
+                    <Book/>
                 </div>
                 break;
             case 'thesis':
                 mainComponent = <div>
-                    <FormInput placeholder="Enter Institution" style={{marginTop: 10}}/>
+                    <FormInput placeholder="Enter Institution" style={{marginTop: 10}} value={this.props.institution} style={{marginTop: 10}} onChange={(e) => this.props.saveInstitution(e.target.value)}/>
                     <FormInput placeholder="Enter Department" style={{marginTop: 10}}/>
-                    <FormInput placeholder="Enter Number of Pages" style={{marginTop: 10}}/>
+                    <FormInput placeholder="Enter Number of Pages" style={{marginTop: 10}} value={this.props.bookSectionPageNumber} style={{marginTop: 10}} onChange={(e) => this.props.saveBookSectionPageNumber(e.target.value)}/>
                 </div>
                 addComponent = <div style={{marginTop: 20, marginBottom: -10}}>
                     <h6 style={{marginTop: 10, marginRight: 20, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Thesis Type:</h6>
-                    <RadioGroup enableTooltip={false} inline={true} radioArray={[{
+                    <RadioGroup selectedId={this.props.isThesisType} enableTooltip={false} inline={true} radioArray={[{
                         name: 'Diploma', id: 'diploma',
                     }, {
                         name: 'Masters', id: 'masters',
@@ -219,32 +184,31 @@ class NewPublication extends Component {
                         name: 'Post-Doctoral', id: 'Post-Doctoral',
                     }, {
                         name: 'Other', id: 'otherThesis',
-                    }]} onSelected={() => {
-                    }}/>
+                    }]} onSelected={(selectedId) => this.props.saveThesisType(selectedId)}/>
                 </div>
                 break;
             case 'patent':
                 mainComponent = <div>
-                    <FormInput placeholder="Enter Patent Applicant" style={{marginTop: 10}}/>
-                    <FormInput placeholder="Enter Number of Pages" style={{marginTop: 10}}/>
+                    <FormInput placeholder="Enter Patent Applicant" style={{marginTop: 10}} value={this.props.patentApplicant} style={{marginTop: 10}} onChange={(e) => this.props.savePatentApplicant(e.target.value)}/>
+                    <FormInput placeholder="Enter Number of Pages" style={{marginTop: 10}} value={this.props.bookSectionPageNumber} style={{marginTop: 10}} onChange={(e) => this.props.saveBookSectionPageNumber(e.target.value)}/>
                 </div>
                 break;
             case 'image':
                 mainComponent = <div>
-                    <FormInput placeholder="Enter Media of Output" style={{marginTop: 10}}/>
+                    <FormInput placeholder="Enter Media of Output" style={{marginTop: 10}} value={this.props.mediaOutput} style={{marginTop: 10}} onChange={(e) => this.props.saveMediaOutput(e.target.value)}/>
                     <FormInput placeholder="Enter Publisher" style={{marginTop: 10}}/>
                 </div>
                 break;
             case 'video':
                 mainComponent = <div>
-                    <FormInput placeholder="Enter Media of Output" style={{marginTop: 10}}/>
-                    <FormInput placeholder="Enter Publisher" style={{marginTop: 10}}/>
+                    <FormInput placeholder="Enter Media of Output" style={{marginTop: 10}} value={this.props.mediaOutput} style={{marginTop: 10}} onChange={(e) => this.props.saveMediaOutput(e.target.value)}/>
+                    <FormInput placeholder="Enter Publisher" style={{marginTop: 10}} value={this.props.bookSectionPublisher} onChange={(e) => this.props.saveBookSectionPublisher(e.target.value)}/>
                 </div>
                 break;
             case 'dataset':
                 mainComponent = <div>
-                    <FormInput placeholder="Enter Media of Output" style={{marginTop: 10}}/>
-                    <FormInput placeholder="Enter Publisher" style={{marginTop: 10}}/>
+                    <FormInput placeholder="Enter Media of Output" style={{marginTop: 10}} value={this.props.mediaOutput} style={{marginTop: 10}} onChange={(e) => this.props.saveMediaOutput(e.target.value)}/>
+                    <FormInput placeholder="Enter Publisher" style={{marginTop: 10}} value={this.props.bookSectionPublisher} onChange={(e) => this.props.saveBookSectionPublisher(e.target.value)}/>
                 </div>
                 break;
             case 'experiment':
@@ -252,14 +216,14 @@ class NewPublication extends Component {
                 break;
             case 'teaching-resource':
                 mainComponent = <div>
-                    <FormInput placeholder="Copyright Holder"/>
-                    <FormInput placeholder="Enter Publisher" style={{marginTop: 10}}/>
+                    <FormInput placeholder="Copyright Holder" value={this.props.copyrightHolder} style={{marginTop: 10}} onChange={(e) => this.props.saveCopyrightHolder(e.target.value)}/>
+                    <FormInput placeholder="Enter Publisher" style={{marginTop: 10}} value={this.props.bookSectionPublisher} onChange={(e) => this.props.saveBookSectionPublisher(e.target.value)}/>
                 </div>
                 break;
             case 'project-grant':
                 mainComponent = <div>
                     <FormInput placeholder="Enter Place of Publication" style={{marginTop: 10}}/>
-                    <FormInput placeholder="Enter Publisher" style={{marginTop: 10}}/>
+                    <FormInput placeholder="Enter Publisher" style={{marginTop: 10}} value={this.props.bookSectionPublisher} onChange={(e) => this.props.saveBookSectionPublisher(e.target.value)}/>
                 </div>
                 break;
         }
@@ -440,12 +404,17 @@ let mapStateToProps = (store) => {
         bookSectionNumber: store.bookSection.bookSectionNumber,
         relatedURLs: store.publication.relatedURLs,
         funders: store.publication.funders,
-        projects: store.publication.projects
+        projects: store.publication.projects,
+        isMonographType: store.technicalReport.isMonographType,
+        isPresentationType: store.conference.isPresentationType,
+        institution: store.technicalReport.institution,
+        isThesisType: store.conference.isThesisType
     };
 }
 let mapDispatchToProps = {
     savePublicationTitle, savePublicationAbstract,
-    savePublicationStatus,savePublicationDateType,savePublicationDate,savePublicationId,savePublicationURL,
-    savePublicationEmailAddress,savePublicationReferences,savePublicationUnKeyword,savePublicationAddInformation,savePublicationComment
+    savePublicationStatus, savePublicationDateType, savePublicationDate, savePublicationId, savePublicationURL,
+    saveMonographType, savePresentationType, saveInstitution, saveThesisType, savePatentApplicant, saveMediaOutput, saveCopyrightHolder,
+    savePublicationEmailAddress, savePublicationReferences, savePublicationUnKeyword, savePublicationAddInformation, savePublicationComment
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NewPublication);

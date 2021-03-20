@@ -18,6 +18,9 @@ const initialState = {
     unKeyword: '',
     addInformation: '',
     comment: '',
+    copyrightHolder:'',
+    mediaOutput:'',
+    patentApplicant:'',
     subjects: [{name: 'Aerospace Engineering', isEnable: false},
         {name: 'Communications', isEnable: false},
         {name: 'Electronics and Computer Engineering', isEnable: false},
@@ -189,6 +192,27 @@ export default (state = initialState, action) => {
         return {
             ...state,
             divisions: data.divisions
+        }
+    }
+    if (action.type === 'SAVE_PUBLICATION_PATENT_APPLICANT') {
+        const data = action.data;
+        return {
+            ...state,
+            patentApplicant: data.patentApplicant
+        }
+    }
+    if (action.type === 'SAVE_PUBLICATION_MEDIA_OUTPUT') {
+        const data = action.data;
+        return {
+            ...state,
+            mediaOutput: data.mediaOutput
+        }
+    }
+    if (action.type === 'SAVE_PUBLICATION_COPYRIGHT_HOLDER') {
+        const data = action.data;
+        return {
+            ...state,
+            copyrightHolder: data.copyrightHolder
         }
     }
 

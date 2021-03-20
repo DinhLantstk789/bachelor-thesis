@@ -5,14 +5,16 @@ export const saveLoggedUser = (user) => ({
         loggedUser: user
     }
 });
-
 /* Article */
+
 export const saveArticleType = (articleType) => ({
     type: 'SAVE_ARTICLE_TYPE',
     data: {
         articleType: articleType
     }
 });
+
+
 
 /* Book section */
 export const saveBookSectionTitle = (bookSectionTitle) => ({
@@ -71,6 +73,26 @@ export const saveBookSectionEndPage = (bookSectionEndPage) => ({
     type: 'SAVE_BOOK_SECTION_END_PAGE',
     data: {bookSectionEndPage: bookSectionEndPage}
 });
+/* Technical Report */
+export const saveInstitution = (institution) => ({
+    type: 'SAVE_INSTITUTION',
+    data: {institution: institution}
+});
+export const saveMonographType = (isMonographType) => ({
+    type: 'SAVE_MONOGRAPH_TYPE',
+    data: {isMonographType: isMonographType}
+});
+/*Conference */
+export const savePresentationType = (isPresentationType) => ({
+    type: 'SAVE_PRESENTATION_TYPE',
+    data: {isPresentationType: isPresentationType}
+});
+/*Thesis */
+export const saveThesisType = (isThesisType) => ({
+    type: 'SAVE_THESIS_TYPE',
+    data: {isThesisType: isThesisType}
+});
+
 /*publication */
 export const savePublicationTitle = (publicationTitle) => ({
     type: 'SAVE_PUBLICATION_TITLE',
@@ -156,6 +178,18 @@ export const savePublicationSubjects= (subjects) => ({
 export const savePublicationDivisions= (divisions) => ({
     type: 'SAVE_PUBLICATION_DIVISIONS',
     data: {divisions: divisions}
+});
+export const savePatentApplicant= (patentApplicant) => ({
+    type: 'SAVE_PUBLICATION_PATENT_APPLICANT',
+    data: {patentApplicant: patentApplicant}
+});
+export const saveMediaOutput= (mediaOutput) => ({
+    type: 'SAVE_PUBLICATION_MEDIA_OUTPUT',
+    data: {mediaOutput: mediaOutput}
+});
+export const saveCopyrightHolder= (copyrightHolder) => ({
+    type: 'SAVE_PUBLICATION_COPYRIGHT_HOLDER',
+    data: {copyrightHolder: copyrightHolder}
 });
 
 

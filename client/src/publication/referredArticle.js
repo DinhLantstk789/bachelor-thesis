@@ -1,7 +1,6 @@
 import {Component, Fragment} from 'react';
-import {FormRadio} from "shards-react";
 import RadioGroup from "../radioGroup";
-import {saveArticleType, savePublicationRefereed} from "../redux/actions";
+import { savePublicationRefereed} from "../redux/actions";
 import {connect} from "react-redux";
 
 class ReferredArticle extends Component {
