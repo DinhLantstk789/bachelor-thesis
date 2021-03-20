@@ -1,7 +1,7 @@
 import {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {Col, FormInput, Row} from "shards-react";
-import { savePublicationProjects} from "./redux/actions";
+import { savePublicationProjects} from "../redux/actions";
 
 class Project extends Component {
     render() {

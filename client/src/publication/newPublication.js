@@ -24,11 +24,11 @@ import {
     savePublicationURL
 } from "../redux/actions";
 import Creator from "./creator";
-import CorporateCreators from "../corporateCreators";
-import RelatedURL from "../relatedURL";
-import Funder from "../funder";
-import Project from "../project";
-import Editors from "../editors";
+import CorporateCreators from "./corporateCreators";
+import RelatedURL from "./relatedURL";
+import Funder from "./funder";
+import Project from "./project";
+import Editors from "./editors";
 
 class NewPublication extends Component {
     state = {
@@ -39,7 +39,8 @@ class NewPublication extends Component {
         projects: [{projectName: ''}],
         showEmailAddress: false,
         isComponentLoading: false,
-        currentType: 'article'
+        currentType: 'article',
+        submissionProgress: 0 /* 0: pending, 1: submitting, 2: success, 3: failed */
     }
 
     onSampleClicked = () => {
@@ -60,11 +61,6 @@ class NewPublication extends Component {
         })
     }
 
-    onAdd(stateName, newData) {
-        let current = this.state[stateName];
-        let newState = current.concat(newData);
-        this.setState({[stateName]: newState});
-    }
 
     onclickSubmitted = (event) => {
         event.preventDefault();
@@ -75,6 +71,25 @@ class NewPublication extends Component {
     }
 
     render() {
+        let submitButtonText;
+        let submitButtonIcon;
+        switch (this.state.submissionProgress) {
+            case 1:
+                submitButtonText = 'Submitting';
+                submitButtonIcon = 'fa fa-spinner';
+                break;
+            case 2:
+                submitButtonText = 'Success';
+                submitButtonIcon = 'fa fa-check';
+                break;
+            case 3:
+                submitButtonText = 'Failed';
+                submitButtonIcon = 'fa fa-exclamation-triangle';
+                break;
+            default:
+                submitButtonText = 'Deposit';
+                submitButtonIcon = 'fa fa-paper-plane';
+        }
         let mainComponent = null;
         let addComponent = null;
         let detailComponent = null;
@@ -362,15 +377,20 @@ class NewPublication extends Component {
                         addInformation: this.props.addInformation,
                         comment: this.props.comment
                     }
+                    this.setState({submissionProgress: 1})
                     axios.post('http://localhost:1234/article/add', body).then(res => {
                         let status = res.data.status;
                         if (status === 200) {
-                            console.log('article saved!');
+                            this.setState({submissionProgress: 2});
+                            setTimeout(() => {
+                                this.props.isAddingPublication(false);
+                            }, 1000);
                         } else {
+                            this.setState({submissionProgress: 3})
                             console.log('error:', res.data.message)
                         }
                     })
-                }}>Deposit &nbsp;<i className='fa fa-check'/></Button>
+                }}>{submitButtonText} &nbsp;<i className={submitButtonIcon}/></Button>
             </Row>
         </div>
         return (

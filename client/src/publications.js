@@ -1,5 +1,5 @@
 import {Component, Fragment} from 'react';
-import {Row, Col} from "shards-react";
+import {Col, FormCheckbox, Row} from "shards-react";
 import {List} from "react-content-loader";
 
 class Publications extends Component {
@@ -82,7 +82,14 @@ class Publications extends Component {
                     <Row className='float-right' style={{marginRight: 10, marginTop: 13}}>
                         <i style={{fontSize: 20}} className='fa fa-eye'/>
                         <i style={{fontSize: 20, marginLeft: 20}} className='fa fa-edit'/>
-                        <i style={{fontSize: 20, marginLeft: 20}} className='fa fa-trash'/>
+                        <i style={{fontSize: 20, marginLeft: 20, marginRight: 20}} className='fa fa-trash'/>
+                        <FormCheckbox
+                            toggle checked={this.state.approved} onChange={() => {
+                            this.setState({
+                                approved: !this.state.approved
+                            });
+                        }}>
+                        </FormCheckbox>
                     </Row>
                 </Col>
             </Row>

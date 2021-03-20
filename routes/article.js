@@ -34,22 +34,22 @@ router.post('/add', (req, res) => {
     let creators = req.body.creators;
     let corporateCreators = req.body.corporateCreators;
     let divisions = req.body.divisions;
-    let selectedStatus = req.body.selectedStatus;
+    let status = req.body.selectedStatus;
     let selectedRefereed = req.body.selectedRefereed;
-    let bookSectionFirstPage = req.body.bookSectionFirstPage;
-    let bookSectionEndPage = req.body.bookSectionEndPage;
+    let firstPage = req.body.bookSectionFirstPage;
+    let endPage = req.body.bookSectionEndPage;
     let bookSectionTitle = req.body.bookSectionTitle;
-    let bookSectionPublicationPlace = req.body.bookSectionPublicationPlace;
-    let bookSectionPublisher = req.body.bookSectionPublisher;
-    let bookSectionPageNumber = req.body.bookSectionPageNumber;
-    let bookSectionSeriesName = req.body.bookSectionSeriesName;
+    let publicationPlace = req.body.bookSectionPublicationPlace;
+    let publisher = req.body.bookSectionPublisher;
+    let pageNumber = req.body.bookSectionPageNumber;
+    let seriesName = req.body.bookSectionSeriesName;
     let bookSectionISBN = req.body.bookSectionISBN;
-    let bookSectionVolume = req.body.bookSectionVolume;
-    let bookSectionNumber = req.body.bookSectionNumber;
+    let volume = req.body.bookSectionVolume;
+    let number = req.body.bookSectionNumber;
     let subjects = req.body.subjects;
     let editors = req.body.editors;
-    let selectedDateType = req.body.selectedDateType;
-    let selectedDate = req.body.selectedDate;
+    let dateType = req.body.selectedDateType;
+    let date = req.body.selectedDate;
     let publicationId = req.body.publicationId;
     let publicationURL = req.body.publicationURL;
     let relatedURLs = req.body.relatedURLs;
@@ -60,20 +60,15 @@ router.post('/add', (req, res) => {
     let unKeyword = req.body.unKeyword;
     let addInformation = req.body.addInformation;
     let comment = req.body.comment;
-    dbman.insertNewPublication(type, title, abstract, creators, corporateCreators, divisions, selectedStatus, selectedRefereed,
-        bookSectionFirstPage, bookSectionEndPage, bookSectionTitle, bookSectionPublicationPlace, bookSectionPublisher,
-        bookSectionPageNumber, bookSectionSeriesName, bookSectionISBN, bookSectionVolume, bookSectionNumber,
-        subjects, editors, selectedDateType, selectedDate, publicationId, publicationURL, relatedURLs, funders, projects,
-        emailAddress, references, unKeyword, addInformation, comment)
-        .then(insertionResult => {
-            console.log(insertionResult)
-            return res.json({status: 200, message: 'Successfully added article.'});
+    setTimeout(() => {
+        dbman.insertNewPublication(type, title, abstract, creators, corporateCreators, divisions, status, selectedRefereed,
+            firstPage, endPage, bookSectionTitle, publicationPlace, publisher,
+            pageNumber, seriesName, bookSectionISBN, volume, number,
+            subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
+            emailAddress, references, unKeyword, addInformation, comment).then(pubId => {
+            return res.json({status: 200, message: 'Successfully added publication:' + pubId.toString()});
         }).catch(console.log);
-});
-
-
-router.get('/info', function (req, res, next) {
-    res.send('{status:success, id: 123, name: Anh}');
+    }, 2000);
 });
 
 module.exports = router;

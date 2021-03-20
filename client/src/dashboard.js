@@ -5,8 +5,12 @@ import Publications from "./publications";
 
 class Dashboard extends Component {
     state = {
-        newArticle: false
+        isAddingPublication: false
     }
+    switchState = (isAddingPublication) => {
+        this.setState({isAddingPublication: isAddingPublication});
+    }
+
     render() {
         return (
             <Card>
@@ -14,15 +18,15 @@ class Dashboard extends Component {
                     <Row>
                         <Col>
                             <Row>
-                                {this.state.newArticle ? <Button pill theme='success' style={{marginRight: 15}} onClick={() => this.setState({newArticle: false})}>
+                                {this.state.isAddingPublication ? <Button pill theme='success' style={{marginRight: 15}} onClick={() => this.setState({isAddingPublication: false})}>
                                     <i className='fa fa-backward'/>&nbsp; Back
                                 </Button> : ''}
-                                <h5 style={{marginTop: 10, marginLeft: 10}}>{this.state.newArticle ? 'New Publication' : 'My Publications'}</h5>
+                                <h5 style={{marginTop: 10, marginLeft: 10}}>{this.state.isAddingPublication ? 'New Publication' : 'My Publications'}</h5>
                             </Row>
                         </Col>
                         <Col>
-                            {this.state.newArticle ? '' : <Row className='float-right'>
-                                <Button pill style={{marginRight: 15}} onClick={() => this.setState({newArticle: true})}>
+                            {this.state.isAddingPublication ? '' : <Row className='float-right'>
+                                <Button pill style={{marginRight: 15}} onClick={() => this.setState({isAddingPublication: true})}>
                                     New &nbsp;<i className='fa fa-plus'/>
                                 </Button>
                             </Row>}
@@ -30,7 +34,7 @@ class Dashboard extends Component {
                     </Row>
                 </CardHeader>
                 <CardBody>
-                    {this.state.newArticle ? <NewPublication/> : <Publications/>}
+                    {this.state.isAddingPublication ? <NewPublication isAddingPublication={this.switchState}/> : <Publications/>}
                 </CardBody>
             </Card>
         )

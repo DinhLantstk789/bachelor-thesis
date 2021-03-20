@@ -1,7 +1,7 @@
 import {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {Col, FormInput, Row} from "shards-react";
-import {savePublicationCorporateCreators} from "./redux/actions";
+import {savePublicationCorporateCreators} from "../redux/actions";
 
 class CorporateCreators extends Component {
 
