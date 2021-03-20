@@ -37,7 +37,26 @@ async function insertCreatorEditor(publication_id, user, linked_table) {
 
 module.exports = {
     fetchAllPublications: async () => {
-        let publications = eprints.query('SELECT id, item_type, title, is_approved  FROM publication;', {bind: [], type: QueryTypes.SELECT});
+        let publications = [];
+        let result = await eprints.query('SELECT id, item_type, title, is_approved  FROM publication;', {bind: [], type: QueryTypes.SELECT});
+        for (const r of result) {
+            let authors = [];
+            let creatorEmailsResult = await eprints.query('SELECT creator_email FROM publication_creator WHERE publication_id = $1;', {bind: [r.id], type: QueryTypes.SELECT});
+            for (const emailResult of creatorEmailsResult) {
+                let creators = await eprints.query('SELECT given_name, family_name FROM users WHERE email = $1;', {bind: [emailResult.creator_email], type: QueryTypes.SELECT});
+                creators.forEach(c => {
+                    authors.push(c.given_name + ' ' + c.family_name)
+                });
+            }
+            publications.push({
+                id: r.id,
+                type: r.item_type,
+                title: r.title,
+                authors: authors,
+                isApproved: r.is_approved
+            })
+        }
+        return publications;
     },
     insertNewPublication: async (type, title, abstract, creators, corporateCreators, divisions, status, referred,
                                  firstPage, endPage, bookSectionTitle, publicationPlace, publisher,

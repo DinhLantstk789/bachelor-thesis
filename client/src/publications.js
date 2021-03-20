@@ -1,78 +1,41 @@
 import {Component, Fragment} from 'react';
-import {Col, FormCheckbox, Row} from "shards-react";
+import {Badge, Col, FormCheckbox, Row} from "shards-react";
 import {List} from "react-content-loader";
+import axios from "axios";
+import {connect} from "react-redux";
 
 class Publications extends Component {
     state = {
-        isLoading: true
+        isLoading: true,
+        publications: []
     }
 
     componentDidMount() {
-        setTimeout(() => {
-            this.setState({isLoading: false});
-        }, 1000);
+        axios.post('http://localhost:1234/article/fetch', {accessToken: this.props.loggedUser.accessToken}).then(res => {
+            let status = res.data.status;
+            if (status === 200) {
+                this.setState({publications: res.data.publications}, () => {
+                    this.setState({isLoading: false});
+                });
+            } else {
+                console.log('error:', res.data.message)
+            }
+        })
     }
 
     render() {
-        let publications = [
-            {
-                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
-                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
-            },
-            {
-                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
-                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
-            },
-            {
-                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
-                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
-            },
-            {
-                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
-                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
-            },
-            {
-                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
-                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
-            },
-            {
-                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
-                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
-            },
-            {
-                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
-                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
-            },
-            {
-                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
-                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
-            },
-            {
-                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
-                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
-            },
-            {
-                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
-                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
-            },
-            {
-                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
-                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
-            },
-            {
-                title: 'Formal Analysis of Database Trigger Systems Using Event-B',
-                authors: 'Le, Hong Anh and To, Van Khanh and Truong, Ninh Thuan'
-            }
-        ]
+
         let loading = <div>
             <List/>
             <List style={{marginTop: 20}}/>
         </div>
-        let result = publications.map(item => (
+        let result = this.state.publications.map(item => (
             <Row>
                 <Col md={8}>
                     <Row style={{marginLeft: 0}}>
-                        <h6>{item.title}</h6>
+                        <h6><Badge theme="primary" style={{marginRight: 8}}>
+                            {item.type}
+                        </Badge>{item.title}</h6>
                     </Row>
                     <Row style={{marginLeft: 0, marginTop: -10}}>
                         <p style={{fontSize: 14}}>{item.authors}</p>
@@ -103,4 +66,8 @@ class Publications extends Component {
     }
 }
 
-export default Publications;
+let mapStateToProps = (store) => {
+    return {loggedUser: store.user.loggedUser};
+}
+let mapDispatchToProps = {};
+export default connect(mapStateToProps, mapDispatchToProps)(Publications);
