@@ -10,5 +10,8 @@ export default (state = initialState, action) => {
             articleType: data.articleType
         }
     }
+    if (action.type === 'RESET_ARTICLE_REPORT') {
+        return initialState;
+    }
     return state;
 }

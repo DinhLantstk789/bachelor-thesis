@@ -18,5 +18,9 @@ export default (state = initialState, action) => {
             monographType: data.monographType
         }
     }
+    if (action.type === 'RESET_TECHNICAL_REPORT') {
+        return initialState;
+    }
+
     return state;
 }

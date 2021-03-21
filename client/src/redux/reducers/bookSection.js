@@ -2,7 +2,7 @@ const initialState = {
     bookSectionTitle: '',
     bookSectionPublicationPlace: '',
     bookSectionPublisher: '',
-    bookSectionPageNumber: 0,
+    bookSectionPageNumber: '',
     bookSectionSeriesName: '',
     bookSectionISBN: '',
     bookSectionVolume: '',
@@ -82,6 +82,9 @@ export default (state = initialState, action) => {
             ...state,
             bookSectionEndPage: data.bookSectionEndPage
         }
+    }
+    if (action.type === 'RESET_ BOOK_SECTION') {
+        return initialState;
     }
     return state;
 }

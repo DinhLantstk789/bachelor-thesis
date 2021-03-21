@@ -12,7 +12,7 @@ CREATE TABLE users (
 	is_approved BOOLEAN DEFAULT FALSE,
 	can_login BOOLEAN DEFAULT FALSE,
 	db_created_on TIMESTAMP DEFAULT NOW(),
-	db_updated_on TIMESTAMP,
+	db_updated_on TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY(email)
 );
 
@@ -59,7 +59,7 @@ CREATE TABLE publication (
     subjects TEXT[],
 	is_approved BOOLEAN DEFAULT FALSE,
 	db_created_on TIMESTAMP DEFAULT NOW(),
-	db_updated_on TIMESTAMP,
+	db_updated_on TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY (id)
 );
 
@@ -67,7 +67,7 @@ CREATE TABLE publication_creator (
     publication_id INTEGER,
     creator_email  TEXT,
     db_created_on  TIMESTAMP DEFAULT NOW(),
-    db_updated_on  TIMESTAMP,
+    db_updated_on  TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (publication_id) REFERENCES publication (id),
     FOREIGN KEY (creator_email) REFERENCES users (email),
     PRIMARY KEY (publication_id, creator_email)
@@ -77,7 +77,7 @@ CREATE TABLE publication_editor (
     publication_id INTEGER,
     editor_email TEXT,
     db_created_on TIMESTAMP DEFAULT NOW(),
-    db_updated_on TIMESTAMP,
+    db_updated_on TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (publication_id) REFERENCES publication (id),
     FOREIGN KEY (editor_email) REFERENCES users (email),
     PRIMARY KEY (publication_id, editor_email)

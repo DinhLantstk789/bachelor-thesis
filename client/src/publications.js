@@ -23,8 +23,13 @@ class Publications extends Component {
         })
     }
 
-    render() {
+    parseAuthors(creators) {
+        let finalAuthors = '';
+        creators.forEach(c => finalAuthors += c.givenName + ' ' + c.familyName + ', ');
+        return finalAuthors.substring(0, finalAuthors.length - 2);
+    }
 
+    render() {
         let loading = <div>
             <List/>
             <List style={{marginTop: 20}}/>
@@ -38,7 +43,7 @@ class Publications extends Component {
                         </Badge>{item.title}</h6>
                     </Row>
                     <Row style={{marginLeft: 0, marginTop: -10}}>
-                        <p style={{fontSize: 14}}>{item.authors}</p>
+                        <p style={{fontSize: 14}}>{this.parseAuthors(item.creators)}</p>
                     </Row>
                 </Col>
                 <Col md={4}>

@@ -82,6 +82,10 @@ export const saveMonographType = (monographType) => ({
     type: 'SAVE_MONOGRAPH_TYPE',
     data: {monographType: monographType}
 });
+export const savePublicationDepartment = (publicationDepartment) => ({
+    type: 'SAVE_PUBLICATION_DEPARTMENT',
+    data: {publicationDepartment: publicationDepartment}
+});
 /*Conference */
 export const savePresentationType = (presentationType) => ({
     type: 'SAVE_PRESENTATION_TYPE',
@@ -191,6 +195,23 @@ export const saveCopyrightHolder= (copyrightHolder) => ({
     type: 'SAVE_PUBLICATION_COPYRIGHT_HOLDER',
     data: {copyrightHolder: copyrightHolder}
 });
+export const resetPublication= () => ({
+    type: 'RESET_PUBLICATION',
+});
+export const resetTechnicalReport= () => ({
+    type: 'RESET_TECHNICAL_REPORT',
+});
+export const resetConference= () => ({
+    type: 'RESET_CONFERENCE',
+});
+export const resetBookSection= () => ({
+    type: 'RESET_ BOOK_SECTION',
+});
+export const resetArticle= () => ({
+    type: 'RESET_ARTICLE_REPORT',
+});
+
+
 
 
 

@@ -17,13 +17,34 @@ router.post('/fetch', function (req, res) {
             return res.json({status: 401, message: 'Error: ' + err.message});
         } else {
             setTimeout(() => {
-                dbman.fetchAllPublications().then(publications => {
+                dbman.fetchPublications(null).then(publications => {
                     return res.json({status: 200, publications: publications});
                 }).catch(console.log);
             }, 2000);
         }
     });
 });
+router.post('/view',function (req,res){
+    let accessToken = req.body['accessToken'];
+    if (accessToken === null) return res.json({status: 1, message: 'Missing access token.'});
+    jwt.verify(accessToken, configs.SECRET, function (err, decoded) {
+        if (err) {
+            console.error(err);
+            if (err.message === 'invalid signature')
+                return res.json({status: 401, message: 'Invalid signature. Please try again.'});
+            if (err.message === 'jwt expired')
+                return res.json({status: 401, message: 'Access token expired. Please login again.'});
+            return res.json({status: 401, message: 'Error: ' + err.message});
+        } else {
+            setTimeout(() => {
+                dbman.fetchPublications(req.body['publicationId']).then(publications => {
+                    return res.json({status: 200, publications: publications});
+                }).catch(console.log);
+            }, 2000);
+        }
+    });
+});
+
 
 router.post('/add', (req, res) => {
     let type = req.body.type;
@@ -39,6 +60,7 @@ router.post('/add', (req, res) => {
     let bookSectionTitle = req.body.bookSectionTitle;
     let publicationPlace = req.body.bookSectionPublicationPlace;
     let publisher = req.body.bookSectionPublisher;
+    let publicationDepartment = req.body.publicationDepartment;
     let pageNumber = req.body.bookSectionPageNumber;
     let seriesName = req.body.bookSectionSeriesName;
     let bookSectionISBN = req.body.bookSectionISBN;
@@ -68,7 +90,7 @@ router.post('/add', (req, res) => {
     setTimeout(() => {
         dbman.insertNewPublication(type, title, abstract, monographType, presentationType, thesisType, institution, creators, corporateCreators, divisions, status, patentApplicant,
             mediaOutput, copyrightHolder, selectedRefereed,
-            firstPage, endPage, bookSectionTitle, publicationPlace, publisher,
+            firstPage, endPage, bookSectionTitle, publicationPlace, publisher,publicationDepartment,
             pageNumber, seriesName, bookSectionISBN, volume, number,
             subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
             emailAddress, references, unKeyword, addInformation, comment).then(pubId => {

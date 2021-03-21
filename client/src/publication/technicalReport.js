@@ -1,6 +1,6 @@
 import {Component, Fragment} from 'react';
 import {FormInput} from "shards-react";
-import {saveBookSectionPageNumber, saveBookSectionPublicationPlace, saveBookSectionPublisher, saveBookSectionTitle, saveInstitution,} from "../redux/actions";
+import {saveBookSectionPageNumber, saveBookSectionPublicationPlace, saveBookSectionPublisher, saveBookSectionTitle, saveInstitution, savePublicationDepartment,} from "../redux/actions";
 import {connect} from "react-redux";
 
 class TechnicalReport extends Component {
@@ -9,6 +9,8 @@ class TechnicalReport extends Component {
             <Fragment>
                 <FormInput placeholder="Enter Institution" style={{marginTop: 10}} value={this.props.institution} onChange={(e) =>
                     this.props.saveInstitution(e.target.value)}/>
+                <FormInput placeholder="Enter Department" style={{marginTop: 10}} value={this.props.publicationDepartment} onChange={(e) =>
+                    this.props.savePublicationDepartment(e.target.value)}/>
                 <FormInput placeholder="Enter Place of Publication" style={{marginTop: 10}} value={this.props.bookSectionPublicationPlace} onChange={(e) =>
                     this.props.saveBookSectionPublicationPlace(e.target.value)}/>
                 <FormInput placeholder="Enter Publisher" style={{marginTop: 10}} value={this.props.bookSectionPublisher} onChange={(e) =>
@@ -26,7 +28,10 @@ let mapStateToProps = (store) => {
         bookSectionPublicationPlace: store.bookSection.bookSectionPublicationPlace,
         bookSectionPublisher: store.bookSection.bookSectionPublisher,
         bookSectionPageNumber: store.bookSection.bookSectionPageNumber,
-        institution:store.technicalReport.institution
+        institution:store.technicalReport.institution,
+        publicationDepartment:store.publication.publicationDepartment
+
+
     };
 };
 let mapDispatchToProps = {
@@ -34,6 +39,7 @@ let mapDispatchToProps = {
     saveBookSectionPublicationPlace,
     saveBookSectionPublisher,
     saveBookSectionPageNumber,
-    saveInstitution
+    saveInstitution,
+    savePublicationDepartment
 };
 export default connect(mapStateToProps, mapDispatchToProps)(TechnicalReport);

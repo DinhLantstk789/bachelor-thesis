@@ -18,5 +18,8 @@ export default (state = initialState, action) => {
             thesisType: data.thesisType
         }
     }
+    if (action.type === 'RESET_CONFERENCE') {
+        return initialState;
+    }
     return state;
 }

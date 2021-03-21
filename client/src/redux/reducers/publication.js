@@ -18,9 +18,10 @@ const initialState = {
     unKeyword: '',
     addInformation: '',
     comment: '',
-    copyrightHolder:'',
-    mediaOutput:'',
-    patentApplicant:'',
+    copyrightHolder: '',
+    mediaOutput: '',
+    patentApplicant: '',
+    publicationDepartment: '',
     subjects: [{name: 'Aerospace Engineering', isEnable: false},
         {name: 'Communications', isEnable: false},
         {name: 'Electronics and Computer Engineering', isEnable: false},
@@ -215,7 +216,61 @@ export default (state = initialState, action) => {
             copyrightHolder: data.copyrightHolder
         }
     }
-
+    if (action.type === 'SAVE_PUBLICATION_DEPARTMENT') {
+        const data = action.data;
+        return {
+            ...state,
+            publicationDepartment: data.publicationDepartment
+        }
+    }
+    if (action.type === 'RESET_PUBLICATION') {
+        return {
+            publicationTitle: '',
+            publicationAbstract: '',
+            creators: [{familyName: '', givenName: '', email: '', department: ''}],
+            corporateCreators: [{corporateCreator: ''}],
+            editors: [{familyName: '', givenName: '', email: ''}],
+            relatedURLs: [{URL: '', URLType: ''}],
+            projects: [{projectName: ''}],
+            funders: [{funder: ''}],
+            selectedStatus: '',
+            selectedDateType: '',
+            selectedRefereed: '',
+            selectedDate: '',
+            publicationId: '',
+            publicationURL: '',
+            emailAddress: '',
+            references: '',
+            unKeyword: '',
+            addInformation: '',
+            comment: '',
+            copyrightHolder: '',
+            mediaOutput: '',
+            patentApplicant: '',
+            publicationDepartment: '',
+            subjects: [{name: 'Aerospace Engineering', isEnable: false},
+                {name: 'Communications', isEnable: false},
+                {name: 'Electronics and Computer Engineering', isEnable: false},
+                {name: 'Engineering Mechanics', isEnable: false},
+                {name: 'Engineering Physics', isEnable: false},
+                {name: 'ISI-indexed journals', isEnable: false},
+                {name: 'Information Technology (IT)', isEnable: false},
+                {name: 'Scopus-indexed journals', isEnable: false},
+                {name: 'Transportation Technology', isEnable: false},
+                {name: 'Civil Engineering', isEnable: false}],
+            divisions: [{name: 'Advanced Institute of Engineering and Technology (AVITECH)', isEnable: false},
+                {name: ' Department of Civil Engineering and Transportation (CET)', isEnable: false},
+                {name: ' Center for Electronics and Telecommunications Research (CETR)', isEnable: false},
+                {name: ' Faculty of Agriculture Technology (FAT)', isEnable: false},
+                {name: 'Faculty of Electronics and Telecommunications (FET)', isEnable: false},
+                {name: 'Faculty of Engineering Mechanics and Automation (FEMA)', isEnable: false},
+                {name: 'Faculty of Engineering Physics and Nanotechnology (FEPN)', isEnable: false},
+                {name: 'Faculty of Information Technology (FIT)', isEnable: false},
+                {name: 'Key Laboratory for Nanotechnology (Nano Lab)', isEnable: false},
+                {name: 'School of Aerospace Engineering (SAE)', isEnable: false},
+                {name: 'Key Laboratory for Smart Integrated Systems (SISLAB)', isEnable: false}]
+        }
+    }
     return state;
 
 }

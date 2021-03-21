@@ -10,7 +10,13 @@ import ContentLoader from "react-content-loader";
 import DivisionSelector from "./divisionSelector";
 import BookSectionMain from "./bookSectionMain";
 import {
-    saveBookSectionPublicationPlace, saveBookSectionPublisher,
+    resetArticle,
+    resetBookSection,
+    resetConference,
+    resetPublication, resetTechnicalReport,
+    saveBookSectionPageNumber,
+    saveBookSectionPublicationPlace,
+    saveBookSectionPublisher,
     saveCopyrightHolder,
     saveInstitution,
     saveMediaOutput,
@@ -22,6 +28,7 @@ import {
     savePublicationComment,
     savePublicationDate,
     savePublicationDateType,
+    savePublicationDepartment,
     savePublicationEmailAddress,
     savePublicationId,
     savePublicationReferences,
@@ -170,7 +177,7 @@ class NewPublication extends Component {
             case 'thesis':
                 mainComponent = <div>
                     <FormInput placeholder="Enter Institution" style={{marginTop: 10}} value={this.props.institution} style={{marginTop: 10}} onChange={(e) => this.props.saveInstitution(e.target.value)}/>
-                    <FormInput placeholder="Enter Department" style={{marginTop: 10}}/>
+                    <FormInput placeholder="Enter Department" style={{marginTop: 10}} value={this.props.publicationDepartment} style={{marginTop: 10}} onChange={(e) => this.props.savePublicationDepartment(e.target.value)}/>
                     <FormInput placeholder="Enter Number of Pages" style={{marginTop: 10}} value={this.props.bookSectionPageNumber} style={{marginTop: 10}} onChange={(e) => this.props.saveBookSectionPageNumber(e.target.value)}/>
                 </div>
                 addComponent = <div style={{marginTop: 20, marginBottom: -10}}>
@@ -322,11 +329,11 @@ class NewPublication extends Component {
                         bookSectionTitle: this.props.bookSectionTitle,
                         bookSectionPublicationPlace: this.props.bookSectionPublicationPlace,
                         bookSectionPublisher: this.props.bookSectionPublisher,
-                        bookSectionPageNumber: this.props.bookSectionPageNumber,
+                        bookSectionPageNumber: this.props.bookSectionPageNumber === '' ? 0 : this.props.bookSectionPageNumber,
                         bookSectionSeriesName: this.props.bookSectionSeriesName,
                         bookSectionISBN: this.props.bookSectionISBN,
-                        bookSectionVolume: this.props.bookSectionVolume,
-                        bookSectionNumber: this.props.bookSectionNumber,
+                        bookSectionVolume: this.props.bookSectionVolume === '' ? 0 : this.props.bookSectionVolume,
+                        bookSectionNumber: this.props.bookSectionNumber === '' ? 0 : this.props.bookSectionNumber,
                         subjects: this.props.subjects.filter(sub => sub.isEnable).map(sub => sub.name),
                         editors: this.props.editors,
                         selectedDateType: this.props.selectedDateType,
@@ -347,7 +354,8 @@ class NewPublication extends Component {
                         institution: this.props.institution,
                         patentApplicant: this.props.patentApplicant,
                         mediaOutput: this.props.mediaOutput,
-                        copyrightHolder: this.props.copyrightHolder
+                        copyrightHolder: this.props.copyrightHolder,
+                        publicationDepartment: this.props.publicationDepartment
                     }
                     this.setState({submissionProgress: 1})
                     axios.post('http://localhost:1234/article/add', body).then(res => {
@@ -355,6 +363,11 @@ class NewPublication extends Component {
                         if (status === 200) {
                             this.setState({submissionProgress: 2});
                             setTimeout(() => {
+                                this.props.resetArticle();
+                                this.props.resetBookSection();
+                                this.props.resetConference();
+                                this.props.resetPublication();
+                                this.props.resetTechnicalReport();
                                 this.props.isAddingPublication(false);
                             }, 1000);
                         } else {
@@ -419,13 +432,15 @@ let mapStateToProps = (store) => {
         institution: store.technicalReport.institution,
         patentApplicant: store.publication.patentApplicant,
         mediaOutput: store.publication.mediaOutput,
-        copyrightHolder: store.publication.copyrightHolder
+        copyrightHolder: store.publication.copyrightHolder,
+        publicationDepartment: store.publication.publicationDepartment
     };
 }
 let mapDispatchToProps = {
-    savePublicationTitle, savePublicationAbstract,saveBookSectionPublisher,
-    savePublicationStatus, savePublicationDateType, savePublicationDate, savePublicationId, savePublicationURL,saveBookSectionPublicationPlace,
+    savePublicationTitle, savePublicationAbstract, saveBookSectionPublisher, savePublicationDepartment, saveBookSectionPageNumber,
+    savePublicationStatus, savePublicationDateType, savePublicationDate, savePublicationId, savePublicationURL, saveBookSectionPublicationPlace,
     saveMonographType, savePresentationType, saveInstitution, saveThesisType, savePatentApplicant, saveMediaOutput, saveCopyrightHolder,
-    savePublicationEmailAddress, savePublicationReferences, savePublicationUnKeyword, savePublicationAddInformation, savePublicationComment
+    savePublicationEmailAddress, savePublicationReferences, savePublicationUnKeyword, savePublicationAddInformation, savePublicationComment,
+    resetPublication,resetTechnicalReport,resetConference,resetBookSection,resetArticle
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NewPublication);
