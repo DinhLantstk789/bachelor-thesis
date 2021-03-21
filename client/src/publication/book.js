@@ -17,7 +17,7 @@ class Book extends Component {
                         <FormInput type="text" placeholder="Enter ISBN" value={this.props.bookSectionISBN} onChange={(e) => this.props.saveBookSectionISBN(e.target.value)}/>
                     </Col>
                     <Col style={{marginLeft: -10, marginRight: -10}}>
-                        <FormInput type="text" placeholder="Enter Volume" value={this.props.saveBookSectionVolume} onChange={(e) => this.props.saveBookSectionVolume(e.target.value)}/>
+                        <FormInput type="text" placeholder="Enter Volume" value={this.props.bookSectionVolume} onChange={(e) => this.props.saveBookSectionVolume(e.target.value)}/>
                     </Col>
                     <Col style={{marginLeft: -10, marginRight: 0}}>
                         <FormInput type="text" placeholder="Enter Number" value={this.props.bookSectionNumber} onChange={(e) => this.props.saveBookSectionNumber(e.target.value)}/>

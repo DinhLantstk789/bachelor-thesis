@@ -10,6 +10,7 @@ import ContentLoader from "react-content-loader";
 import DivisionSelector from "./divisionSelector";
 import BookSectionMain from "./bookSectionMain";
 import {
+    saveBookSectionPublicationPlace, saveBookSectionPublisher,
     saveCopyrightHolder,
     saveInstitution,
     saveMediaOutput,
@@ -124,7 +125,7 @@ class NewPublication extends Component {
                 </div>
                 addComponent = <div style={{marginTop: 20, marginBottom: -10}}>
                     <h6 style={{display: "inline", marginRight: 20}}><i className='fa fa-star' style={{marginRight: 10}}/>Monograph Type</h6>
-                    <RadioGroup selectedId={this.props.isMonographType} enableTooltip={false} inline={true} radioArray={[{
+                    <RadioGroup selectedId={this.props.monographType} enableTooltip={false} inline={true} radioArray={[{
                         name: 'Technical Report', id: 'technical-reportMonoType',
                     }, {
                         name: 'Project Report', id: 'project-reportMonoType',
@@ -145,7 +146,7 @@ class NewPublication extends Component {
                 mainComponent = <div><ReferredArticle/></div>
                 addComponent = <div style={{marginTop: 20, marginBottom: -10}}>
                     <h6 style={{marginRight: 38, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Presentation Type:</h6>
-                    <RadioGroup selectedId={this.props.isPresentationType} enableTooltip={false} inline={true} radioArray={[{
+                    <RadioGroup selectedId={this.props.presentationType} enableTooltip={false} inline={true} radioArray={[{
                         name: 'Paper', id: 'paper',
                     }, {
                         name: 'Lecture', id: 'lecture',
@@ -174,7 +175,7 @@ class NewPublication extends Component {
                 </div>
                 addComponent = <div style={{marginTop: 20, marginBottom: -10}}>
                     <h6 style={{marginTop: 10, marginRight: 20, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Thesis Type:</h6>
-                    <RadioGroup selectedId={this.props.isThesisType} enableTooltip={false} inline={true} radioArray={[{
+                    <RadioGroup selectedId={this.props.thesisType} enableTooltip={false} inline={true} radioArray={[{
                         name: 'Diploma', id: 'diploma',
                     }, {
                         name: 'Masters', id: 'masters',
@@ -196,7 +197,7 @@ class NewPublication extends Component {
             case 'image':
                 mainComponent = <div>
                     <FormInput placeholder="Enter Media of Output" style={{marginTop: 10}} value={this.props.mediaOutput} style={{marginTop: 10}} onChange={(e) => this.props.saveMediaOutput(e.target.value)}/>
-                    <FormInput placeholder="Enter Publisher" style={{marginTop: 10}}/>
+                    <FormInput placeholder="Enter Publisher" style={{marginTop: 10}} value={this.props.bookSectionPublisher} onChange={(e) => this.props.saveBookSectionPublisher(e.target.value)}/>
                 </div>
                 break;
             case 'video':
@@ -222,7 +223,7 @@ class NewPublication extends Component {
                 break;
             case 'project-grant':
                 mainComponent = <div>
-                    <FormInput placeholder="Enter Place of Publication" style={{marginTop: 10}}/>
+                    <FormInput placeholder="Enter Place of Publication" style={{marginTop: 10}}value={this.props.bookSectionPublicationPlace} onChange={(e) => this.props.saveBookSectionPublicationPlace(e.target.value)}/>
                     <FormInput placeholder="Enter Publisher" style={{marginTop: 10}} value={this.props.bookSectionPublisher} onChange={(e) => this.props.saveBookSectionPublisher(e.target.value)}/>
                 </div>
                 break;
@@ -339,7 +340,14 @@ class NewPublication extends Component {
                         references: this.props.references,
                         unKeyword: this.props.unKeyword,
                         addInformation: this.props.addInformation,
-                        comment: this.props.comment
+                        comment: this.props.comment,
+                        monographType: this.props.monographType,
+                        presentationType: this.props.presentationType,
+                        thesisType: this.props.thesisType,
+                        institution: this.props.institution,
+                        patentApplicant: this.props.patentApplicant,
+                        mediaOutput: this.props.mediaOutput,
+                        copyrightHolder: this.props.copyrightHolder
                     }
                     this.setState({submissionProgress: 1})
                     axios.post('http://localhost:1234/article/add', body).then(res => {
@@ -378,18 +386,21 @@ let mapStateToProps = (store) => {
         publicationAbstract: store.publication.publicationAbstract,
         creators: store.publication.creators,
         corporateCreators: store.publication.corporateCreators,
-        editors: store.publication.editors,
         selectedStatus: store.publication.selectedStatus,
+        subjects: store.publication.subjects,
+        editors: store.publication.editors,
         selectedDateType: store.publication.selectedDateType,
         selectedDate: store.publication.selectedDate,
         publicationId: store.publication.publicationId,
         publicationURL: store.publication.publicationURL,
+        relatedURLs: store.publication.relatedURLs,
+        funders: store.publication.funders,
+        projects: store.publication.projects,
         emailAddress: store.publication.emailAddress,
         references: store.publication.references,
         unKeyword: store.publication.unKeyword,
         addInformation: store.publication.addInformation,
         comment: store.publication.comment,
-        subjects: store.publication.subjects,
         divisions: store.publication.divisions,
         selectedRefereed: store.publication.selectedRefereed,
         bookSectionFirstPage: store.bookSection.bookSectionFirstPage,
@@ -402,18 +413,18 @@ let mapStateToProps = (store) => {
         bookSectionISBN: store.bookSection.bookSectionISBN,
         bookSectionVolume: store.bookSection.bookSectionVolume,
         bookSectionNumber: store.bookSection.bookSectionNumber,
-        relatedURLs: store.publication.relatedURLs,
-        funders: store.publication.funders,
-        projects: store.publication.projects,
-        isMonographType: store.technicalReport.isMonographType,
-        isPresentationType: store.conference.isPresentationType,
+        monographType: store.technicalReport.monographType,
+        presentationType: store.conference.presentationType,
+        thesisType: store.conference.thesisType,
         institution: store.technicalReport.institution,
-        isThesisType: store.conference.isThesisType
+        patentApplicant: store.publication.patentApplicant,
+        mediaOutput: store.publication.mediaOutput,
+        copyrightHolder: store.publication.copyrightHolder
     };
 }
 let mapDispatchToProps = {
-    savePublicationTitle, savePublicationAbstract,
-    savePublicationStatus, savePublicationDateType, savePublicationDate, savePublicationId, savePublicationURL,
+    savePublicationTitle, savePublicationAbstract,saveBookSectionPublisher,
+    savePublicationStatus, savePublicationDateType, savePublicationDate, savePublicationId, savePublicationURL,saveBookSectionPublicationPlace,
     saveMonographType, savePresentationType, saveInstitution, saveThesisType, savePatentApplicant, saveMediaOutput, saveCopyrightHolder,
     savePublicationEmailAddress, savePublicationReferences, savePublicationUnKeyword, savePublicationAddInformation, savePublicationComment
 };

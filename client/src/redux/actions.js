@@ -78,19 +78,19 @@ export const saveInstitution = (institution) => ({
     type: 'SAVE_INSTITUTION',
     data: {institution: institution}
 });
-export const saveMonographType = (isMonographType) => ({
+export const saveMonographType = (monographType) => ({
     type: 'SAVE_MONOGRAPH_TYPE',
-    data: {isMonographType: isMonographType}
+    data: {monographType: monographType}
 });
 /*Conference */
-export const savePresentationType = (isPresentationType) => ({
+export const savePresentationType = (presentationType) => ({
     type: 'SAVE_PRESENTATION_TYPE',
-    data: {isPresentationType: isPresentationType}
+    data: {presentationType: presentationType}
 });
 /*Thesis */
-export const saveThesisType = (isThesisType) => ({
+export const saveThesisType = (thesisType) => ({
     type: 'SAVE_THESIS_TYPE',
-    data: {isThesisType: isThesisType}
+    data: {thesisType: thesisType}
 });
 
 /*publication */

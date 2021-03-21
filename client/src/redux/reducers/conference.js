@@ -1,6 +1,6 @@
 const initialState = {
-    isPresentationType:'',
-    isThesisType:''
+    presentationType:'',
+    thesisType:''
 };
 
 export default (state = initialState, action) => {
@@ -8,14 +8,14 @@ export default (state = initialState, action) => {
         const data = action.data;
         return {
             ...state,
-            isPresentationType: data.isPresentationType
+            presentationType: data.presentationType
         }
     }
     if (action.type === 'SAVE_THESIS_TYPE') {
         const data = action.data;
         return {
             ...state,
-            isThesisType: data.isThesisType
+            thesisType: data.thesisType
         }
     }
     return state;

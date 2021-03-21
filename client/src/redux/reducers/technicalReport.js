@@ -1,6 +1,6 @@
 const initialState = {
     institution: '',
-    isMonographType:''
+    monographType:''
 };
 
 export default (state = initialState, action) => {
@@ -15,7 +15,7 @@ export default (state = initialState, action) => {
         const data = action.data;
         return {
             ...state,
-            isMonographType: data.isMonographType
+            monographType: data.monographType
         }
     }
     return state;

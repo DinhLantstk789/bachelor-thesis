@@ -2,7 +2,7 @@ const initialState = {
     bookSectionTitle: '',
     bookSectionPublicationPlace: '',
     bookSectionPublisher: '',
-    bookSectionPageNumber: '',
+    bookSectionPageNumber: 0,
     bookSectionSeriesName: '',
     bookSectionISBN: '',
     bookSectionVolume: '',

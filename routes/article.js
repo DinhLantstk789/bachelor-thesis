@@ -58,8 +58,16 @@ router.post('/add', (req, res) => {
     let unKeyword = req.body.unKeyword;
     let addInformation = req.body.addInformation;
     let comment = req.body.comment;
+    let monographType = req.body.monographType;
+    let presentationType = req.body.presentationType;
+    let thesisType = req.body.thesisType;
+    let institution = req.body.institution;
+    let patentApplicant = req.body.patentApplicant;
+    let mediaOutput = req.body.mediaOutput;
+    let copyrightHolder = req.body.copyrightHolder;
     setTimeout(() => {
-        dbman.insertNewPublication(type, title, abstract, creators, corporateCreators, divisions, status, selectedRefereed,
+        dbman.insertNewPublication(type, title, abstract, monographType, presentationType, thesisType, institution, creators, corporateCreators, divisions, status, patentApplicant,
+            mediaOutput, copyrightHolder, selectedRefereed,
             firstPage, endPage, bookSectionTitle, publicationPlace, publisher,
             pageNumber, seriesName, bookSectionISBN, volume, number,
             subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
