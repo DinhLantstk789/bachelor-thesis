@@ -30,7 +30,7 @@ import {
     savePublicationDateType,
     savePublicationDepartment,
     savePublicationEmailAddress,
-    savePublicationId,
+    savePublicationId, savePublicationKind,
     savePublicationReferences,
     savePublicationStatus,
     savePublicationTitle,
@@ -239,6 +239,14 @@ class NewPublication extends Component {
             <FormInput placeholder="Title" style={{marginTop: 10}} value={this.props.publicationTitle} onChange={(e) => this.props.savePublicationTitle(e.target.value)}/>
             <FormTextarea placeholder="Abstract" style={{marginTop: 10}} value={this.props.publicationAbstract} onChange={(e) => this.props.savePublicationAbstract(e.target.value)}/>
             {addComponent}
+            <div style={{marginTop:20,marginBottom:-20}}>
+                <h6 style={{marginRight: 41, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Kind:</h6>
+                <RadioGroup selectedId={this.props.kind} enableTooltip={false} inline={true} radioArray={[{
+                    name: 'Domestic', id: 'domestic',
+                }, {
+                    name: 'International', id: 'international',
+                }]} onSelected={(selectedId)=> this.props.savePublicationKind(selectedId)}/>
+            </div>
             <Creator/>
             <CorporateCreators/>
             {detailComponent}
@@ -323,6 +331,7 @@ class NewPublication extends Component {
                         corporateCreators: this.props.corporateCreators.map(cor => cor.corporateCreator),
                         divisions: this.props.divisions.filter(div => div.isEnable).map(div => div.name),
                         selectedStatus: this.props.selectedStatus,
+                        kind:this.props.kind,
                         selectedRefereed: this.props.selectedRefereed,
                         bookSectionFirstPage: this.props.bookSectionFirstPage,
                         bookSectionEndPage: this.props.bookSectionEndPage,
@@ -433,7 +442,8 @@ let mapStateToProps = (store) => {
         patentApplicant: store.publication.patentApplicant,
         mediaOutput: store.publication.mediaOutput,
         copyrightHolder: store.publication.copyrightHolder,
-        publicationDepartment: store.publication.publicationDepartment
+        publicationDepartment: store.publication.publicationDepartment,
+        kind:store.publication.kind
     };
 }
 let mapDispatchToProps = {
@@ -441,6 +451,6 @@ let mapDispatchToProps = {
     savePublicationStatus, savePublicationDateType, savePublicationDate, savePublicationId, savePublicationURL, saveBookSectionPublicationPlace,
     saveMonographType, savePresentationType, saveInstitution, saveThesisType, savePatentApplicant, saveMediaOutput, saveCopyrightHolder,
     savePublicationEmailAddress, savePublicationReferences, savePublicationUnKeyword, savePublicationAddInformation, savePublicationComment,
-    resetPublication,resetTechnicalReport,resetConference,resetBookSection,resetArticle
+    resetPublication,resetTechnicalReport,resetConference,resetBookSection,resetArticle,savePublicationKind
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NewPublication);

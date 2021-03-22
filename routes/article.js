@@ -25,6 +25,7 @@ router.post('/fetch', function (req, res) {
     });
 });
 router.post('/view',function (req,res){
+    let publicationId = req.body.id;
     let accessToken = req.body['accessToken'];
     if (accessToken === null) return res.json({status: 1, message: 'Missing access token.'});
     jwt.verify(accessToken, configs.SECRET, function (err, decoded) {
@@ -37,7 +38,7 @@ router.post('/view',function (req,res){
             return res.json({status: 401, message: 'Error: ' + err.message});
         } else {
             setTimeout(() => {
-                dbman.fetchPublications(req.body['publicationId']).then(publications => {
+                dbman.fetchPublications(publicationId).then(publications => {
                     return res.json({status: 200, publications: publications});
                 }).catch(console.log);
             }, 2000);
@@ -54,6 +55,7 @@ router.post('/add', (req, res) => {
     let corporateCreators = req.body.corporateCreators;
     let divisions = req.body.divisions;
     let status = req.body.selectedStatus;
+    let kind = req.body.kind;
     let selectedRefereed = req.body.selectedRefereed;
     let firstPage = req.body.bookSectionFirstPage;
     let endPage = req.body.bookSectionEndPage;
@@ -88,7 +90,7 @@ router.post('/add', (req, res) => {
     let mediaOutput = req.body.mediaOutput;
     let copyrightHolder = req.body.copyrightHolder;
     setTimeout(() => {
-        dbman.insertNewPublication(type, title, abstract, monographType, presentationType, thesisType, institution, creators, corporateCreators, divisions, status, patentApplicant,
+        dbman.insertNewPublication(type, title, abstract, monographType, presentationType, thesisType, institution, creators, corporateCreators, divisions, status,kind, patentApplicant,
             mediaOutput, copyrightHolder, selectedRefereed,
             firstPage, endPage, bookSectionTitle, publicationPlace, publisher,publicationDepartment,
             pageNumber, seriesName, bookSectionISBN, volume, number,

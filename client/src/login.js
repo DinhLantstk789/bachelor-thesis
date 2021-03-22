@@ -7,9 +7,9 @@ import {
     InputGroupText,
     InputGroupAddon,
     FormInput, Card,
-    CardTitle, FormCheckbox,
+    FormCheckbox,
     CardBody,
-    Button, Container, Row, Col
+    Button, Row, Col
 } from "shards-react";
 import Footer from "./footer";
 import {saveLoggedUser} from "./redux/actions";
@@ -96,8 +96,7 @@ class Login extends Component {
                                                                style={{width: 20}}/>
                                             </InputGroupText>
                                         </InputGroupAddon>
-                                        <FormInput placeholder="Password" type="password"
-                                                   onChange={this.onTypingPassword}/>
+                                        <FormInput placeholder="Password" type="password" onChange={this.onTypingPassword}/>
                                     </InputGroup>
                                     <p style={{
                                         textAlign: 'center',

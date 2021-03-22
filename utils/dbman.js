@@ -36,7 +36,7 @@ async function insertCreatorEditor(publication_id, user, linked_table) {
 
 module.exports = {
     fetchPublications: async (publicationId) => {
-        let filter = publicationId === null ? '' : ('WHERE publication_id = $1');
+        let filter = publicationId === null ? '' : ('WHERE id = $1');
         let selectedFields = publicationId === null ? 'id, item_type, title, is_approved' : '*';
         let returnedResult = [];
         let selectedPublications = await eprints.query('SELECT ' + selectedFields + ' FROM publication ' + filter + ' ORDER BY db_created_on DESC;', {
@@ -83,6 +83,7 @@ module.exports = {
                     corporateCreators: p.corporate_creators,
                     divisions: p.divisions,
                     selectedStatus: p.status,
+                    kind:p.kind,
                     selectedRefereed: p.is_refereed,
                     bookSectionFirstPage: p.page_range[0],
                     bookSectionEndPage: p.page_range[1],
@@ -122,7 +123,7 @@ module.exports = {
         return returnedResult;
     },
     insertNewPublication: async (type, title, abstract, monographType, presentationType, thesisType, institution, creators, corporateCreators, divisions,
-                                 status, patentApplicant, mediaOutput, copyrightHolder, referred,
+                                 status,kind, patentApplicant, mediaOutput, copyrightHolder, referred,
                                  firstPage, endPage, bookSectionTitle, publicationPlace, publisher, publicationDepartment,
                                  pageNumber, seriesName, isbn, volume, number,
                                  subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
@@ -140,12 +141,12 @@ module.exports = {
 
         var insertedPubId = await eprints.query(
             'INSERT INTO publication (item_type, title, abstract, monograph_type, presentation_type, thesis_type,institution, corporate_creators, ' +
-            'divisions, is_refereed, status,patent_applicant,media_output,copyright_holder, publication_title, issn_isbn, publisher,publication_department, official_url,' +
+            'divisions, is_refereed, status,kind,patent_applicant,media_output,copyright_holder, publication_title, issn_isbn, publisher,publication_department, official_url,' +
             ' volume, place_of_publication, number_of_pages, number, page_range, date, date_type, identification_number, series_name, related_urls, funders, projects, ' +
             'contact_email_address, reference, uncontrolled_keywords, additional_infor, comments_and_suggestions, subjects)' +
-            'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29,$30,$31,$32,$33,$34,$35,$36,$37) RETURNING id;', {
+            'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29,$30,$31,$32,$33,$34,$35,$36,$37,$38) RETURNING id;', {
                 bind: [type, title, abstract, monographType, presentationType, thesisType, institution, finalCorporateCreators, finalDivision, referred === 'yes',
-                    status, patentApplicant, mediaOutput, copyrightHolder, bookSectionTitle, isbn, publisher, publicationDepartment,
+                    status,kind, patentApplicant, mediaOutput, copyrightHolder, bookSectionTitle, isbn, publisher, publicationDepartment,
                     publicationURL, parseInt(volume), publicationPlace, parseInt(pageNumber), parseInt(number),
                     '{' + firstPage + ',' + endPage + '}', date, dateType, publicationId, seriesName,
                     finalRelatedURLs, finalFunders, finalProjects, emailAddress, references, unKeyword,

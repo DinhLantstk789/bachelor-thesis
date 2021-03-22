@@ -22,6 +22,8 @@ const initialState = {
     mediaOutput: '',
     patentApplicant: '',
     publicationDepartment: '',
+    kind:'',
+    isAddingPublication:false,
     subjects: [{name: 'Aerospace Engineering', isEnable: false},
         {name: 'Communications', isEnable: false},
         {name: 'Electronics and Computer Engineering', isEnable: false},
@@ -109,6 +111,13 @@ export default (state = initialState, action) => {
         return {
             ...state,
             selectedStatus: data.selectedStatus
+        }
+    }
+    if (action.type === 'SAVE_PUBLICATION_KIND') {
+        const data = action.data;
+        return {
+            ...state,
+            kind: data.kind
         }
     }
     if (action.type === 'SAVE_PUBLICATION_DATE_TYPE') {
@@ -221,6 +230,13 @@ export default (state = initialState, action) => {
         return {
             ...state,
             publicationDepartment: data.publicationDepartment
+        }
+    }
+    if (action.type === 'SET_STATE_OF_DASHBOARD') {
+        const data = action.data;
+        return {
+            ...state,
+            isAddingPublication: data.isAddingPublication
         }
     }
     if (action.type === 'RESET_PUBLICATION') {

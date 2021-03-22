@@ -27,6 +27,7 @@ CREATE TABLE publication (
     divisions TEXT[],
 	is_refereed BOOLEAN,
 	status VARCHAR(20),
+	kind VARCHAR (20),
 	publication_title TEXT,
 	institution TEXT DEFAULT NULL,
 	publication_department TEXT DEFAULT NULL,

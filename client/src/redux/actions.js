@@ -135,6 +135,10 @@ export const savePublicationStatus = (selectedStatus) => ({
     type: 'SAVE_PUBLICATION_STATUS',
     data: {selectedStatus: selectedStatus}
 });
+export const savePublicationKind = (kind) => ({
+    type: 'SAVE_PUBLICATION_KIND',
+    data: {kind: kind}
+});
 export const savePublicationDateType = (selectedDateType) => ({
     type: 'SAVE_PUBLICATION_DATE_TYPE',
     data: {selectedDateType: selectedDateType}
@@ -194,6 +198,10 @@ export const saveMediaOutput= (mediaOutput) => ({
 export const saveCopyrightHolder= (copyrightHolder) => ({
     type: 'SAVE_PUBLICATION_COPYRIGHT_HOLDER',
     data: {copyrightHolder: copyrightHolder}
+});
+export const setStateOfComponent= (isAddingPublication) => ({
+    type: 'SET_STATE_OF_DASHBOARD',
+    data: {isAddingPublication: isAddingPublication}
 });
 export const resetPublication= () => ({
     type: 'RESET_PUBLICATION',

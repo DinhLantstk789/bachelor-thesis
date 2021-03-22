@@ -1,8 +1,5 @@
 import {Component, Fragment} from 'react';
-import {
-    Alert, Row, Col,
-    Dropdown, DropdownToggle, DropdownMenu, DropdownItem
-} from "shards-react";
+import {Alert, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Row} from "shards-react";
 import Footer from "./footer";
 import Dashboard from "./dashboard";
 import Statistics from "./statistics";

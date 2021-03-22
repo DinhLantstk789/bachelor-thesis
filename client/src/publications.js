@@ -1,8 +1,8 @@
 import {Component, Fragment} from 'react';
-import {Badge, Col, FormCheckbox, Row} from "shards-react";
 import {List} from "react-content-loader";
 import axios from "axios";
 import {connect} from "react-redux";
+import PublicationDetail from "./publication/publicationDetail";
 
 class Publications extends Component {
     state = {
@@ -23,11 +23,6 @@ class Publications extends Component {
         })
     }
 
-    parseAuthors(creators) {
-        let finalAuthors = '';
-        creators.forEach(c => finalAuthors += c.givenName + ' ' + c.familyName + ', ');
-        return finalAuthors.substring(0, finalAuthors.length - 2);
-    }
 
     render() {
         let loading = <div>
@@ -35,32 +30,7 @@ class Publications extends Component {
             <List style={{marginTop: 20}}/>
         </div>
         let result = this.state.publications.map(item => (
-            <Row>
-                <Col md={8}>
-                    <Row style={{marginLeft: 0}}>
-                        <h6><Badge theme="primary" style={{marginRight: 8}}>
-                            {item.type}
-                        </Badge>{item.title}</h6>
-                    </Row>
-                    <Row style={{marginLeft: 0, marginTop: -10}}>
-                        <p style={{fontSize: 14}}>{this.parseAuthors(item.creators)}</p>
-                    </Row>
-                </Col>
-                <Col md={4}>
-                    <Row className='float-right' style={{marginRight: 10, marginTop: 13}}>
-                        <i style={{fontSize: 20}} className='fa fa-eye'/>
-                        <i style={{fontSize: 20, marginLeft: 20}} className='fa fa-edit'/>
-                        <i style={{fontSize: 20, marginLeft: 20, marginRight: 20}} className='fa fa-trash'/>
-                        <FormCheckbox
-                            toggle checked={this.state.approved} onChange={() => {
-                            this.setState({
-                                approved: !this.state.approved
-                            });
-                        }}>
-                        </FormCheckbox>
-                    </Row>
-                </Col>
-            </Row>
+            <PublicationDetail type={item.type} title={item.title} authors={item.creators} isApproved={item.isApproved} publicationId={item.id}/>
         ))
 
         return (
