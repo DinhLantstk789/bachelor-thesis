@@ -36,7 +36,7 @@ import {
     savePublicationTitle,
     savePublicationUnKeyword,
     savePublicationURL,
-    saveThesisType
+    saveThesisType, setStateOfComponent
 } from "../redux/actions";
 import Creator from "./creator";
 import CorporateCreators from "./corporateCreators";
@@ -237,7 +237,7 @@ class NewPublication extends Component {
         }
         let loadedComponent = <div>
             <FormInput placeholder="Title" style={{marginTop: 10}} value={this.props.publicationTitle} onChange={(e) => this.props.savePublicationTitle(e.target.value)}/>
-            <FormTextarea placeholder="Abstract" style={{marginTop: 10}} value={this.props.publicationAbstract} onChange={(e) => this.props.savePublicationAbstract(e.target.value)}/>
+            <FormTextarea placeholder="Abstract" style={{marginTop: 10,height:200}} value={this.props.publicationAbstract} onChange={(e) => this.props.savePublicationAbstract(e.target.value)}/>
             {addComponent}
             <div style={{marginTop:20,marginBottom:-20}}>
                 <h6 style={{marginRight: 41, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Kind:</h6>
@@ -377,7 +377,7 @@ class NewPublication extends Component {
                                 this.props.resetConference();
                                 this.props.resetPublication();
                                 this.props.resetTechnicalReport();
-                                this.props.isAddingPublication(false);
+                                this.props.setStateOfComponent(false);
                             }, 1000);
                         } else {
                             this.setState({submissionProgress: 3})
@@ -451,6 +451,6 @@ let mapDispatchToProps = {
     savePublicationStatus, savePublicationDateType, savePublicationDate, savePublicationId, savePublicationURL, saveBookSectionPublicationPlace,
     saveMonographType, savePresentationType, saveInstitution, saveThesisType, savePatentApplicant, saveMediaOutput, saveCopyrightHolder,
     savePublicationEmailAddress, savePublicationReferences, savePublicationUnKeyword, savePublicationAddInformation, savePublicationComment,
-    resetPublication,resetTechnicalReport,resetConference,resetBookSection,resetArticle,savePublicationKind
+    resetPublication,resetTechnicalReport,resetConference,resetBookSection,resetArticle,savePublicationKind,setStateOfComponent
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NewPublication);

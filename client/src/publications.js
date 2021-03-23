@@ -32,7 +32,6 @@ class Publications extends Component {
         let result = this.state.publications.map(item => (
             <PublicationDetail type={item.type} title={item.title} authors={item.creators} isApproved={item.isApproved} publicationId={item.id}/>
         ))
-
         return (
             <Fragment>
                 {this.state.isLoading ? loading : result}
