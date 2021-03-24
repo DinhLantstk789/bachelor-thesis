@@ -195,15 +195,15 @@ export const saveMediaOutput= (mediaOutput) => ({
     type: 'SAVE_PUBLICATION_MEDIA_OUTPUT',
     data: {mediaOutput: mediaOutput}
 });
-export const saveCopyrightHolder= (copyrightHolder) => ({
+export const saveCopyrightHolder = (copyrightHolder) => ({
     type: 'SAVE_PUBLICATION_COPYRIGHT_HOLDER',
     data: {copyrightHolder: copyrightHolder}
 });
-export const setStateOfComponent= (isAddingPublication) => ({
-    type: 'SET_STATE_OF_DASHBOARD',
+export const setDashboardState = (isAddingPublication) => ({
+    type: 'SET_DASHBOARD_STATE',
     data: {isAddingPublication: isAddingPublication}
 });
-export const resetPublication= () => ({
+export const resetPublication = () => ({
     type: 'RESET_PUBLICATION',
 });
 export const resetTechnicalReport= () => ({

@@ -70,7 +70,6 @@ export default (state = initialState, action) => {
     }
     if (action.type === 'SAVE_BOOK_SECTION_FIRST_PAGE') {
         const data = action.data;
-        console.log(data);
         return {
             ...state,
             bookSectionFirstPage: data.bookSectionFirstPage

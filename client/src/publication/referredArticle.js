@@ -12,10 +12,10 @@ class ReferredArticle extends Component {
                     <h6 style={{marginRight: 20, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Refereed:</h6>
                     <RadioGroup selectedId={this.props.selectedRefereed} inline={true} enableTooltip={false} radioArray={[{
                         name: 'Yes, this version has been refereed.',
-                        id: 'yes'
+                        id: true
                     }, {
                         name: 'No, this version has not been refereed.',
-                        id: 'no'
+                        id: false
                     }]} onSelected={(selectedId) => this.props.savePublicationRefereed(selectedId)}/>
                 </div>
             </Fragment>

@@ -13,7 +13,8 @@ import {
     resetArticle,
     resetBookSection,
     resetConference,
-    resetPublication, resetTechnicalReport,
+    resetPublication,
+    resetTechnicalReport,
     saveBookSectionPageNumber,
     saveBookSectionPublicationPlace,
     saveBookSectionPublisher,
@@ -30,13 +31,15 @@ import {
     savePublicationDateType,
     savePublicationDepartment,
     savePublicationEmailAddress,
-    savePublicationId, savePublicationKind,
+    savePublicationId,
+    savePublicationKind,
     savePublicationReferences,
     savePublicationStatus,
     savePublicationTitle,
     savePublicationUnKeyword,
     savePublicationURL,
-    saveThesisType, setStateOfComponent
+    saveThesisType,
+    setDashboardState
 } from "../redux/actions";
 import Creator from "./creator";
 import CorporateCreators from "./corporateCreators";
@@ -377,7 +380,7 @@ class NewPublication extends Component {
                                 this.props.resetConference();
                                 this.props.resetPublication();
                                 this.props.resetTechnicalReport();
-                                this.props.setStateOfComponent(false);
+                                this.props.setDashboardState(false);
                             }, 1000);
                         } else {
                             this.setState({submissionProgress: 3})
@@ -451,6 +454,6 @@ let mapDispatchToProps = {
     savePublicationStatus, savePublicationDateType, savePublicationDate, savePublicationId, savePublicationURL, saveBookSectionPublicationPlace,
     saveMonographType, savePresentationType, saveInstitution, saveThesisType, savePatentApplicant, saveMediaOutput, saveCopyrightHolder,
     savePublicationEmailAddress, savePublicationReferences, savePublicationUnKeyword, savePublicationAddInformation, savePublicationComment,
-    resetPublication,resetTechnicalReport,resetConference,resetBookSection,resetArticle,savePublicationKind,setStateOfComponent
+    resetPublication, resetTechnicalReport, resetConference, resetBookSection, resetArticle, savePublicationKind, setDashboardState
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NewPublication);

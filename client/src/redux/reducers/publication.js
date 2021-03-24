@@ -65,7 +65,6 @@ export default (state = initialState, action) => {
     }
     if (action.type === 'SAVE_PUBLICATION_CREATORS') {
         const data = action.data;
-        console.log(data);
         return {
             ...state,
             creators: data.creators
@@ -232,7 +231,7 @@ export default (state = initialState, action) => {
             publicationDepartment: data.publicationDepartment
         }
     }
-    if (action.type === 'SET_STATE_OF_DASHBOARD') {
+    if (action.type === 'SET_DASHBOARD_STATE') {
         const data = action.data;
         return {
             ...state,
