@@ -2,6 +2,7 @@ import {Component, Fragment} from 'react';
 import {Badge, Col, FormCheckbox, Row} from "shards-react";
 import axios from "axios";
 import {
+    isDisplayingPublication,
     saveArticleType,
     saveBookSectionEndPage,
     saveBookSectionFirstPage,
@@ -77,14 +78,12 @@ class PublicationDetail extends Component {
                                 axios.post('http://localhost:1234/article/view', body).then(res => {
                                     let status = res.data.status;
                                     if (status === 200) {
-                                        console.log(res.data.publications);
-
+                                        this.props.setDashboardState(true);
+                                        this.props.isDisplayingPublication(true);
                                         let corporateCreators = [], funders = [], projects = [];
                                         res.data.publications[0].corporateCreators.forEach(c => corporateCreators.push({corporateCreator: c}));
                                         res.data.publications[0].funders.forEach(f => funders.push({funder: f}));
                                         res.data.publications[0].projects.forEach(p => projects.push({projectName: p}));
-
-
                                         let initialDivisions = [{name: 'Advanced Institute of Engineering and Technology (AVITECH)', isEnable: false},
                                             {name: ' Department of Civil Engineering and Transportation (CET)', isEnable: false},
                                             {name: ' Center for Electronics and Telecommunications Research (CETR)', isEnable: false},
@@ -97,7 +96,7 @@ class PublicationDetail extends Component {
                                             {name: 'School of Aerospace Engineering (SAE)', isEnable: false},
                                             {name: 'Key Laboratory for Smart Integrated Systems (SISLAB)', isEnable: false}];
                                         res.data.publications[0].divisions.forEach(d => {
-                                            initialDivisions.map((item, index) => {
+                                            initialDivisions.map(item => {
                                                 if (item.name === d) {
                                                     item.isEnable = true;
                                                 }
@@ -120,8 +119,6 @@ class PublicationDetail extends Component {
                                                 }
                                             })
                                         });
-
-                                        this.props.setDashboardState(true);
                                         this.props.saveArticleType(res.data.publications[0].type);
                                         this.props.savePublicationTitle(res.data.publications[0].title);
                                         this.props.savePublicationCreators(res.data.publications[0].creators);
@@ -162,6 +159,7 @@ class PublicationDetail extends Component {
                                         this.props.saveMediaOutput(res.data.publications[0].mediaOutput);
                                         this.props.saveCopyrightHolder(res.data.publications[0].copyrightHolder);
                                         this.props.savePublicationDepartment(res.data.publications[0].publicationDepartment);
+                                        this.props.savePublicationId(res.data.publications[0].publicationId);
                                     } else {
                                         console.log('error:', res.data.message)
                                     }
@@ -177,8 +175,23 @@ class PublicationDetail extends Component {
                     </Col>
                     <Col md={4}>
                         <Row className='float-right' style={{marginRight: 10, marginTop: 13}}>
-                            <i style={{fontSize: 20}} className='fa fa-eye'/>
-                            <i style={{fontSize: 20, marginLeft: 20}} className='fa fa-edit'/>
+                            <i style={{fontSize: 20, marginLeft: 20}} className='fa fa-edit'
+                               onClick={() => {
+                                   const body = {
+                                       id: this.props.publicationId,
+                                       accessToken: this.props.loggedUser.accessToken,
+                                   }
+                                   axios.post('http://localhost:1234/article/view', body).then(res => {
+                                       let status = res.data.status;
+                                       if (status === 200) {
+                                           this.props.setDashboardState(true);
+                                       } else {
+                                           console.log('error:', res.data.message)
+                                       }
+                                   })
+
+                               }}
+                            />
                             <i style={{fontSize: 20, marginLeft: 20, marginRight: 20}} className='fa fa-trash'/>
                             <FormCheckbox toggle checked={this.state.isApproved} onChange={() => {
                                 this.setState({
@@ -200,16 +213,47 @@ let mapStateToProps = (store) => {
     };
 }
 let mapDispatchToProps = {
-    setDashboardState, saveArticleType, saveBookSectionTitle, saveBookSectionPublicationPlace, saveBookSectionPublisher,
-    savePublicationCreators, saveBookSectionPageNumber, saveBookSectionSeriesName, saveBookSectionISBN, saveBookSectionVolume,
-    saveBookSectionNumber, saveBookSectionFirstPage,
-    saveBookSectionEndPage, saveInstitution, saveMonographType, savePublicationDepartment, savePresentationType, saveThesisType,
-    savePublicationTitle, savePublicationAbstract,
-    savePublicationEditors, savePublicationCorporateCreators, savePublicationRelatedURL, savePublicationFunders,
-    savePublicationProjects, savePublicationStatus,
-    savePublicationKind, savePublicationDateType, savePublicationRefereed, savePublicationDate, savePublicationId, savePublicationURL,
-    savePublicationEmailAddress, savePublicationReferences,
-    savePublicationUnKeyword, savePublicationAddInformation, savePublicationComment, savePublicationSubjects, savePublicationDivisions,
-    savePatentApplicant, saveMediaOutput, saveCopyrightHolder
+    setDashboardState,
+    saveArticleType,
+    saveBookSectionTitle,
+    saveBookSectionPublicationPlace,
+    saveBookSectionPublisher,
+    savePublicationCreators,
+    saveBookSectionPageNumber,
+    saveBookSectionSeriesName,
+    saveBookSectionISBN,
+    saveBookSectionVolume,
+    saveBookSectionNumber,
+    saveBookSectionFirstPage,
+    saveBookSectionEndPage,
+    saveInstitution,
+    saveMonographType,
+    savePublicationDepartment,
+    savePresentationType,
+    saveThesisType,
+    savePublicationTitle,
+    savePublicationAbstract,
+    savePublicationEditors,
+    savePublicationCorporateCreators,
+    savePublicationRelatedURL,
+    savePublicationFunders,
+    savePublicationProjects,
+    savePublicationStatus,
+    savePublicationKind,
+    savePublicationDateType,
+    savePublicationRefereed,
+    savePublicationDate, savePublicationId,
+    savePublicationURL,
+    savePublicationEmailAddress,
+    savePublicationReferences,
+    savePublicationUnKeyword,
+    savePublicationAddInformation,
+    savePublicationComment,
+    savePublicationSubjects,
+    savePublicationDivisions,
+    savePatentApplicant,
+    saveMediaOutput,
+    saveCopyrightHolder,
+    isDisplayingPublication
 };
 export default connect(mapStateToProps, mapDispatchToProps)(PublicationDetail);

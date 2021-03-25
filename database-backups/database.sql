@@ -45,7 +45,7 @@ CREATE TABLE publication (
     copyright_holder TEXT DEFAULT NULL,
 	number INTEGER,
 	page_range INTEGER[2],
-	date TIMESTAMP,
+	date DATE ,
 	date_type TEXT,
 	identification_number TEXT,
 	series_name TEXT DEFAULT NULL,

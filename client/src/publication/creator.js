@@ -55,7 +55,7 @@ class Creator extends Component {
                                     }}/>
                                 </Col>
                                 <Col style={{marginLeft: -10}}>
-                                    <FormInput placeholder="Department" value={item.department} valid={item.department.length > 0} onChange={(e) => {
+                                    <FormInput placeholder="Department" value={item.department}  onChange={(e) => {
                                         let creators = this.props.creators;
                                         creators[i].department = e.target.value;
                                         this.props.savePublicationCreators(creators);

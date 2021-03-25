@@ -24,6 +24,7 @@ const initialState = {
     publicationDepartment: '',
     kind:'',
     isAddingPublication:false,
+    isViewing:false,
     subjects: [{name: 'Aerospace Engineering', isEnable: false},
         {name: 'Communications', isEnable: false},
         {name: 'Electronics and Computer Engineering', isEnable: false},
@@ -236,6 +237,13 @@ export default (state = initialState, action) => {
         return {
             ...state,
             isAddingPublication: data.isAddingPublication
+        }
+    }
+    if (action.type === 'IS_DISPLAYING_PUBLICATION') {
+        const data = action.data;
+        return {
+            ...state,
+            isViewing: data.isViewing
         }
     }
     if (action.type === 'RESET_PUBLICATION') {

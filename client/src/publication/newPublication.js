@@ -325,69 +325,72 @@ class NewPublication extends Component {
             </div>
             <Subject/>
             <Row className='float-right'>
-                <Button pill style={{marginTop: 20, marginRight: 20, fontSize: 18}} onClick={() => {
-                    const body = {
-                        type: this.props.type,
-                        title: this.props.publicationTitle,
-                        publicationAbstract: this.props.publicationAbstract,
-                        creators: this.props.creators,
-                        corporateCreators: this.props.corporateCreators.map(cor => cor.corporateCreator),
-                        divisions: this.props.divisions.filter(div => div.isEnable).map(div => div.name),
-                        selectedStatus: this.props.selectedStatus,
-                        kind:this.props.kind,
-                        selectedRefereed: this.props.selectedRefereed,
-                        bookSectionFirstPage: this.props.bookSectionFirstPage,
-                        bookSectionEndPage: this.props.bookSectionEndPage,
-                        bookSectionTitle: this.props.bookSectionTitle,
-                        bookSectionPublicationPlace: this.props.bookSectionPublicationPlace,
-                        bookSectionPublisher: this.props.bookSectionPublisher,
-                        bookSectionPageNumber: this.props.bookSectionPageNumber === '' ? 0 : this.props.bookSectionPageNumber,
-                        bookSectionSeriesName: this.props.bookSectionSeriesName,
-                        bookSectionISBN: this.props.bookSectionISBN,
-                        bookSectionVolume: this.props.bookSectionVolume === '' ? 0 : this.props.bookSectionVolume,
-                        bookSectionNumber: this.props.bookSectionNumber === '' ? 0 : this.props.bookSectionNumber,
-                        subjects: this.props.subjects.filter(sub => sub.isEnable).map(sub => sub.name),
-                        editors: this.props.editors,
-                        selectedDateType: this.props.selectedDateType,
-                        selectedDate: this.props.selectedDate,
-                        publicationId: this.props.publicationId,
-                        publicationURL: this.props.publicationURL,
-                        relatedURLs: this.props.relatedURLs,
-                        funders: this.props.funders.map(f => f.funder),
-                        projects: this.props.projects.map(p => p.projectName),
-                        emailAddress: this.props.emailAddress,
-                        references: this.props.references,
-                        unKeyword: this.props.unKeyword,
-                        addInformation: this.props.addInformation,
-                        comment: this.props.comment,
-                        monographType: this.props.monographType,
-                        presentationType: this.props.presentationType,
-                        thesisType: this.props.thesisType,
-                        institution: this.props.institution,
-                        patentApplicant: this.props.patentApplicant,
-                        mediaOutput: this.props.mediaOutput,
-                        copyrightHolder: this.props.copyrightHolder,
-                        publicationDepartment: this.props.publicationDepartment
-                    }
-                    this.setState({submissionProgress: 1})
-                    axios.post('http://localhost:1234/article/add', body).then(res => {
-                        let status = res.data.status;
-                        if (status === 200) {
-                            this.setState({submissionProgress: 2});
-                            setTimeout(() => {
-                                this.props.resetArticle();
-                                this.props.resetBookSection();
-                                this.props.resetConference();
-                                this.props.resetPublication();
-                                this.props.resetTechnicalReport();
-                                this.props.setDashboardState(false);
-                            }, 1000);
-                        } else {
-                            this.setState({submissionProgress: 3})
-                            console.log('error:', res.data.message)
+                {this.props.isViewing ? "":
+                    <Button pill style={{marginTop: 20, marginRight: 20, fontSize: 18}} onClick={() => {
+                        const body = {
+                            type: this.props.type,
+                            title: this.props.publicationTitle,
+                            publicationAbstract: this.props.publicationAbstract,
+                            creators: this.props.creators,
+                            corporateCreators: this.props.corporateCreators.map(cor => cor.corporateCreator),
+                            divisions: this.props.divisions.filter(div => div.isEnable).map(div => div.name),
+                            selectedStatus: this.props.selectedStatus,
+                            kind:this.props.kind,
+                            selectedRefereed: this.props.selectedRefereed,
+                            bookSectionFirstPage: this.props.bookSectionFirstPage,
+                            bookSectionEndPage: this.props.bookSectionEndPage,
+                            bookSectionTitle: this.props.bookSectionTitle,
+                            bookSectionPublicationPlace: this.props.bookSectionPublicationPlace,
+                            bookSectionPublisher: this.props.bookSectionPublisher,
+                            bookSectionPageNumber: this.props.bookSectionPageNumber === '' ? 0 : this.props.bookSectionPageNumber,
+                            bookSectionSeriesName: this.props.bookSectionSeriesName,
+                            bookSectionISBN: this.props.bookSectionISBN,
+                            bookSectionVolume: this.props.bookSectionVolume === '' ? 0 : this.props.bookSectionVolume,
+                            bookSectionNumber: this.props.bookSectionNumber === '' ? 0 : this.props.bookSectionNumber,
+                            subjects: this.props.subjects.filter(sub => sub.isEnable).map(sub => sub.name),
+                            editors: this.props.editors,
+                            selectedDateType: this.props.selectedDateType,
+                            selectedDate: this.props.selectedDate,
+                            publicationId: this.props.publicationId,
+                            publicationURL: this.props.publicationURL,
+                            relatedURLs: this.props.relatedURLs,
+                            funders: this.props.funders.map(f => f.funder),
+                            projects: this.props.projects.map(p => p.projectName),
+                            emailAddress: this.props.emailAddress,
+                            references: this.props.references,
+                            unKeyword: this.props.unKeyword,
+                            addInformation: this.props.addInformation,
+                            comment: this.props.comment,
+                            monographType: this.props.monographType,
+                            presentationType: this.props.presentationType,
+                            thesisType: this.props.thesisType,
+                            institution: this.props.institution,
+                            patentApplicant: this.props.patentApplicant,
+                            mediaOutput: this.props.mediaOutput,
+                            copyrightHolder: this.props.copyrightHolder,
+                            publicationDepartment: this.props.publicationDepartment
                         }
-                    })
-                }}>{submitButtonText} &nbsp;<i className={submitButtonIcon}/></Button>
+                        this.setState({submissionProgress: 1})
+                        axios.post('http://localhost:1234/article/add', body).then(res => {
+                            let status = res.data.status;
+                            if (status === 200) {
+                                this.setState({submissionProgress: 2});
+                                setTimeout(() => {
+                                    this.props.resetArticle();
+                                    this.props.resetBookSection();
+                                    this.props.resetConference();
+                                    this.props.resetPublication();
+                                    this.props.resetTechnicalReport();
+                                    this.props.setDashboardState(false);
+                                }, 1000);
+                            } else {
+                                this.setState({submissionProgress: 3})
+                                console.log('error:', res.data.message)
+                            }
+                        })
+                    }}>{submitButtonText} &nbsp;<i className={submitButtonIcon}/></Button>
+                }
+
             </Row>
         </div>
         return (
@@ -446,7 +449,8 @@ let mapStateToProps = (store) => {
         mediaOutput: store.publication.mediaOutput,
         copyrightHolder: store.publication.copyrightHolder,
         publicationDepartment: store.publication.publicationDepartment,
-        kind:store.publication.kind
+        kind:store.publication.kind,
+        isViewing:store.publication.isViewing
     };
 }
 let mapDispatchToProps = {

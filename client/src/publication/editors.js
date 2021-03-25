@@ -37,7 +37,7 @@ class Editors extends Component {
                                     this.updateMatchedUser(index);
                                     this.forceUpdate()
                                 }}/></Col>
-                                <Col style={{marginRight: -10,marginLeft: -10,}}><FormInput placeholder="Family Name" value={item.familyName} valid={item.familyName.length > 5} onChange={(e) => {
+                                <Col style={{marginRight: -10,marginLeft: -10,}}><FormInput placeholder="Family Name" value={item.familyName} valid={item.familyName.length > 2} onChange={(e) => {
                                     let editors = this.props.editors;
                                     editors[index].familyName = e.target.value;
                                     this.props.savePublicationEditors(editors);

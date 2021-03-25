@@ -24,7 +24,7 @@ class Dashboard extends Component {
                                 }}>
                                     <i className='fa fa-backward'/>&nbsp; Back
                                 </Button> : ''}
-                                <h5 style={{marginTop: 10, marginLeft: 10}}>{this.props.isAddingPublication ? 'New Publication' : 'My Publications'}</h5>
+                                <h5 style={{marginTop: 10, marginLeft: 10}}>{this.props.isAddingPublication ? (this.props.isViewing ? "" : 'New Publication') : 'My Publications'}</h5>
                             </Row>
                         </Col>
                         <Col>
@@ -46,7 +46,10 @@ class Dashboard extends Component {
 
 
 let mapStateToProps = (store) => {
-    return {isAddingPublication: store.publication.isAddingPublication};
+    return {
+        isAddingPublication: store.publication.isAddingPublication,
+        isViewing: store.publication.isViewing
+    };
 }
 let mapDispatchToProps = {setDashboardState,resetArticle,resetBookSection,resetConference,resetPublication,resetTechnicalReport};
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
