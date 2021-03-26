@@ -203,9 +203,9 @@ export const setDashboardState = (isAddingPublication) => ({
     type: 'SET_DASHBOARD_STATE',
     data: {isAddingPublication: isAddingPublication}
 });
-export const isDisplayingPublication = (isViewing) => ({
-    type: 'IS_DISPLAYING_PUBLICATION',
-    data: {isViewing: isViewing}
+export const saveDisplayingPublicationLabel = (displayingPublicationLabel) => ({
+    type: 'SAVE_DISPLAYING_PUBLICATION_LABEL',
+    data: {displayingPublicationLabel: displayingPublicationLabel}
 });
 
 export const resetPublication = () => ({

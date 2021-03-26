@@ -45,9 +45,29 @@ router.post('/view',function (req,res){
         }
     });
 });
+router.post('/edit',function (req,res){
+    let publicationId = req.body.id;
+    let accessToken = req.body['accessToken'];
+    if (accessToken === null) return res.json({status: 1, message: 'Missing access token.'});
+    jwt.verify(accessToken, configs.SECRET, function (err, decoded) {
+        if (err) {
+            console.error(err);
+            if (err.message === 'invalid signature')
+                return res.json({status: 401, message: 'Invalid signature. Please try again.'});
+            if (err.message === 'jwt expired')
+                return res.json({status: 401, message: 'Access token expired. Please login again.'});
+            return res.json({status: 401, message: 'Error: ' + err.message});
+        } else {
+            setTimeout(() => {
+
+            }, 2000);
+        }
+    });
+});
 
 
 router.post('/add', (req, res) => {
+    let databaseId = req.body.databaseId;
     let type = req.body.type;
     let title = req.body.title;
     let abstract = req.body.publicationAbstract;
@@ -95,7 +115,7 @@ router.post('/add', (req, res) => {
             firstPage, endPage, bookSectionTitle, publicationPlace, publisher,publicationDepartment,
             pageNumber, seriesName, bookSectionISBN, volume, number,
             subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
-            emailAddress, references, unKeyword, addInformation, comment).then(pubId => {
+            emailAddress, references, unKeyword, addInformation, comment, databaseId).then(pubId => {
             return res.json({status: 200, message: 'Successfully added publication:' + pubId.toString()});
         }).catch(console.log);
     }, 2000);

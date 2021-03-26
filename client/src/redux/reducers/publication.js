@@ -22,9 +22,9 @@ const initialState = {
     mediaOutput: '',
     patentApplicant: '',
     publicationDepartment: '',
-    kind:'',
-    isAddingPublication:false,
-    isViewing:false,
+    kind: '',
+    isAddingPublication: false,
+    displayingPublicationLabel: 'My Publication',
     subjects: [{name: 'Aerospace Engineering', isEnable: false},
         {name: 'Communications', isEnable: false},
         {name: 'Electronics and Computer Engineering', isEnable: false},
@@ -239,11 +239,11 @@ export default (state = initialState, action) => {
             isAddingPublication: data.isAddingPublication
         }
     }
-    if (action.type === 'IS_DISPLAYING_PUBLICATION') {
+    if (action.type === 'SAVE_DISPLAYING_PUBLICATION_LABEL') {
         const data = action.data;
         return {
             ...state,
-            isViewing: data.isViewing
+            displayingPublicationLabel: data.displayingPublicationLabel
         }
     }
     if (action.type === 'RESET_PUBLICATION') {

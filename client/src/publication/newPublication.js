@@ -103,7 +103,7 @@ class NewPublication extends Component {
                 submitButtonIcon = 'fa fa-exclamation-triangle';
                 break;
             default:
-                submitButtonText = 'Deposit';
+                submitButtonText = this.props.displayingPublicationLabel === 'New Publication' ? 'Deposit' : (this.props.displayingPublicationLabel === 'Update Publication' ? 'Update' : '');
                 submitButtonIcon = 'fa fa-paper-plane';
         }
         let mainComponent = null;
@@ -325,7 +325,7 @@ class NewPublication extends Component {
             </div>
             <Subject/>
             <Row className='float-right'>
-                {this.props.isViewing ? "":
+                {this.props.displayingPublicationLabel === 'Publication Details' ? "":
                     <Button pill style={{marginTop: 20, marginRight: 20, fontSize: 18}} onClick={() => {
                         const body = {
                             type: this.props.type,
@@ -450,7 +450,8 @@ let mapStateToProps = (store) => {
         copyrightHolder: store.publication.copyrightHolder,
         publicationDepartment: store.publication.publicationDepartment,
         kind:store.publication.kind,
-        isViewing:store.publication.isViewing
+        isViewing:store.publication.isViewing,
+        displayingPublicationLabel: store.publication.displayingPublicationLabel
     };
 }
 let mapDispatchToProps = {

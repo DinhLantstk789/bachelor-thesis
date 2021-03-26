@@ -3,7 +3,7 @@ import {Button, Card, CardBody, CardHeader, Col, Row} from "shards-react";
 import NewPublication from "./publication/newPublication";
 import Publications from "./publications";
 import {connect} from "react-redux";
-import {resetArticle, resetBookSection, resetConference, resetPublication, resetTechnicalReport, setDashboardState} from "./redux/actions";
+import {resetArticle, resetBookSection, resetConference, resetPublication, resetTechnicalReport, saveDisplayingPublicationLabel, setDashboardState} from "./redux/actions";
 
 class Dashboard extends Component {
 
@@ -21,16 +21,18 @@ class Dashboard extends Component {
                                     this.props.resetConference();
                                     this.props.resetPublication();
                                     this.props.resetTechnicalReport();
-                                }}>
-                                    <i className='fa fa-backward'/>&nbsp; Back
+                                    this.props.saveDisplayingPublicationLabel('My Publication');
+                                }}><i className='fa fa-backward'/>&nbsp; Back
                                 </Button> : ''}
-                                <h5 style={{marginTop: 10, marginLeft: 10}}>{this.props.isAddingPublication ? (this.props.isViewing ? "" : 'New Publication') : 'My Publications'}</h5>
+                                <h5 style={{marginTop: 10, marginLeft: 10}}>{this.props.displayingPublicationLabel}</h5>
                             </Row>
                         </Col>
                         <Col>
                             {this.props.isAddingPublication ? '' : <Row className='float-right'>
-                                <Button pill style={{marginRight: 15}} onClick={() => this.props.setDashboardState(true)}>
-                                    New &nbsp;<i className='fa fa-plus'/>
+                                <Button pill style={{marginRight: 15}} onClick={() => {
+                                    this.props.setDashboardState(true);
+                                    this.props.saveDisplayingPublicationLabel('New Publication');
+                                }}>New &nbsp;<i className='fa fa-plus'/>
                                 </Button>
                             </Row>}
                         </Col>
@@ -48,8 +50,8 @@ class Dashboard extends Component {
 let mapStateToProps = (store) => {
     return {
         isAddingPublication: store.publication.isAddingPublication,
-        isViewing: store.publication.isViewing
+        displayingPublicationLabel: store.publication.displayingPublicationLabel
     };
 }
-let mapDispatchToProps = {setDashboardState,resetArticle,resetBookSection,resetConference,resetPublication,resetTechnicalReport};
+let mapDispatchToProps = {setDashboardState, resetArticle, resetBookSection, resetConference, resetPublication, resetTechnicalReport, saveDisplayingPublicationLabel};
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

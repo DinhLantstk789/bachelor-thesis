@@ -122,12 +122,13 @@ module.exports = {
         }
         return returnedResult;
     },
+
     insertNewPublication: async (type, title, abstract, monographType, presentationType, thesisType, institution, creators, corporateCreators, divisions,
-                                 status,kind, patentApplicant, mediaOutput, copyrightHolder, referred,
+                                 status, kind, patentApplicant, mediaOutput, copyrightHolder, referred,
                                  firstPage, endPage, bookSectionTitle, publicationPlace, publisher, publicationDepartment,
                                  pageNumber, seriesName, isbn, volume, number,
                                  subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
-                                 emailAddress, references, unKeyword, addInformation, comment) => {
+                                 emailAddress, references, unKeyword, addInformation, comment, databaseId) => {
         let finalRelatedURLs = '';
         relatedURLs.forEach(i => finalRelatedURLs += ('("' + i.URL + '","' + i.URLType + '")' + ','))
         finalRelatedURLs = '{' + finalRelatedURLs.substring(0, finalRelatedURLs.length - 1) + '}';
@@ -139,26 +140,48 @@ module.exports = {
         let finalProjects = convertToSQLArray(projects);
         let finalSubjects = convertToSQLArray(subjects);
 
-        var insertedPubId = await eprints.query(
-            'INSERT INTO publication (item_type, title, abstract, monograph_type, presentation_type, thesis_type,institution, corporate_creators, ' +
-            'divisions, is_refereed, status,kind,patent_applicant,media_output,copyright_holder, publication_title, issn_isbn, publisher,publication_department, official_url,' +
-            ' volume, place_of_publication, number_of_pages, number, page_range, date, date_type, identification_number, series_name, related_urls, funders, projects, ' +
-            'contact_email_address, reference, uncontrolled_keywords, additional_infor, comments_and_suggestions, subjects)' +
-            'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29,$30,$31,$32,$33,$34,$35,$36,$37,$38) RETURNING id;', {
-                bind: [type, title, abstract, monographType, presentationType, thesisType, institution, finalCorporateCreators, finalDivision, referred === 'yes',
-                    status,kind, patentApplicant, mediaOutput, copyrightHolder, bookSectionTitle, isbn, publisher, publicationDepartment,
-                    publicationURL, parseInt(volume), publicationPlace, parseInt(pageNumber), parseInt(number),
-                    '{' + firstPage + ',' + endPage + '}', date, dateType, publicationId, seriesName,
-                    finalRelatedURLs, finalFunders, finalProjects, emailAddress, references, unKeyword,
-                    addInformation, comment, finalSubjects],
-                type: QueryTypes.INSERT
-            }
-        );
-        creators.forEach(user => insertCreatorEditor(insertedPubId[0][0].id, user, 'creator'));
+        let pubId;
+        if (databaseId !== undefined && databaseId !== null) {
+            pubId = await eprints.query(
+                'UPDATE publication' +
+                'SET item_type = $1,title = $2,abstract = $3,monograph_type = $4,presentation_type = $5,thesis_type = $6,institution = $7,corporate_creators = $8,' +
+                'divisions = $9, is_refereed = $10, status = $11,kind = $12,patent_applicant = $13,media_output = $14,copyright_holder = $15, publication_title = $16, issn_isbn = $17, publisher = $18,publication_department = $19, official_url = $20,' +
+                ' volume = $21, place_of_publication = $22, number_of_pages = $23, number = $24, page_range = $25, date = $26, date_type = $27, identification_number = $28, series_name = $29, related_urls = $30, funders = $31, projects = $32,' +
+                'contact_email_address = $33, reference = $34, uncontrolled_keywords = $35, additional_infor = $36, comments_and_suggestions = $37, subjects=$38' +
+                'WHERE id = $39 RETURNING id', {
+                    bind: [type, title, abstract, monographType, presentationType, thesisType, institution, finalCorporateCreators, finalDivision, referred === 'yes',
+                        status, kind, patentApplicant, mediaOutput, copyrightHolder, bookSectionTitle, isbn, publisher, publicationDepartment,
+                        publicationURL, parseInt(volume), publicationPlace, parseInt(pageNumber), parseInt(number),
+                        '{' + firstPage + ',' + endPage + '}', date, dateType, publicationId, seriesName,
+                        finalRelatedURLs, finalFunders, finalProjects, emailAddress, references, unKeyword,
+                        addInformation, comment, finalSubjects, databaseId],
+                    type: QueryTypes.INSERT
+                }
+            );
+        } else {
+            pubId = await eprints.query(
+                'INSERT INTO publication (item_type, title, abstract, monograph_type, presentation_type, thesis_type,institution, corporate_creators, ' +
+                'divisions, is_refereed, status,kind,patent_applicant,media_output,copyright_holder, publication_title, issn_isbn, publisher,publication_department, official_url,' +
+                ' volume, place_of_publication, number_of_pages, number, page_range, date, date_type, identification_number, series_name, related_urls, funders, projects, ' +
+                'contact_email_address, reference, uncontrolled_keywords, additional_infor, comments_and_suggestions, subjects)' +
+                'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29,$30,$31,$32,$33,$34,$35,$36,$37,$38) ' +
+                'RETURNING id;', {
+                    bind: [type, title, abstract, monographType, presentationType, thesisType, institution, finalCorporateCreators, finalDivision, referred === 'yes',
+                        status, kind, patentApplicant, mediaOutput, copyrightHolder, bookSectionTitle, isbn, publisher, publicationDepartment,
+                        publicationURL, parseInt(volume), publicationPlace, parseInt(pageNumber), parseInt(number),
+                        '{' + firstPage + ',' + endPage + '}', date, dateType, publicationId, seriesName,
+                        finalRelatedURLs, finalFunders, finalProjects, emailAddress, references, unKeyword,
+                        addInformation, comment, finalSubjects],
+                    type: QueryTypes.INSERT
+                }
+            );
+        }
+
+        creators.forEach(user => insertCreatorEditor(pubId[0][0].id, user, 'creator'));
         editors.forEach(user => {
             user.department = null;
-            insertCreatorEditor(insertedPubId[0][0].id, user, 'editor')
+            insertCreatorEditor(pubId[0][0].id, user, 'editor')
         });
-        return insertedPubId[0][0].id;
+        return pubId[0][0].id;
     }
 }
