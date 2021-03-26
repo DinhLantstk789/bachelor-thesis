@@ -18,7 +18,7 @@ import {
     saveBookSectionPageNumber,
     saveBookSectionPublicationPlace,
     saveBookSectionPublisher,
-    saveCopyrightHolder,
+    saveCopyrightHolder, saveDisplayingPublicationLabel,
     saveInstitution,
     saveMediaOutput,
     saveMonographType,
@@ -38,7 +38,7 @@ import {
     savePublicationTitle,
     savePublicationUnKeyword,
     savePublicationURL,
-    saveThesisType,
+    saveThesisType, saveViewingPublicationId,
     setDashboardState
 } from "../redux/actions";
 import Creator from "./creator";
@@ -384,6 +384,8 @@ class NewPublication extends Component {
                                     this.props.resetPublication();
                                     this.props.resetTechnicalReport();
                                     this.props.setDashboardState(false);
+                                    this.props.saveDisplayingPublicationLabel('My Publication');
+                                    this.props.saveViewingPublicationId(null);
                                 }, 1000);
                             } else {
                                 this.setState({submissionProgress: 3})
@@ -460,6 +462,7 @@ let mapDispatchToProps = {
     savePublicationStatus, savePublicationDateType, savePublicationDate, savePublicationId, savePublicationURL, saveBookSectionPublicationPlace,
     saveMonographType, savePresentationType, saveInstitution, saveThesisType, savePatentApplicant, saveMediaOutput, saveCopyrightHolder,
     savePublicationEmailAddress, savePublicationReferences, savePublicationUnKeyword, savePublicationAddInformation, savePublicationComment,
-    resetPublication, resetTechnicalReport, resetConference, resetBookSection, resetArticle, savePublicationKind, setDashboardState
+    resetPublication, resetTechnicalReport, resetConference, resetBookSection, resetArticle, savePublicationKind, setDashboardState,
+    saveViewingPublicationId, saveDisplayingPublicationLabel
 };
 export default connect(mapStateToProps, mapDispatchToProps)(NewPublication);
