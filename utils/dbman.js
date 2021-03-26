@@ -142,12 +142,15 @@ module.exports = {
 
         let pubId;
         if (databaseId !== undefined && databaseId !== null) {
+            await eprints.query('DELETE FROM publication_creator WHERE publication_id = $1;', {bind: [databaseId], type: QueryTypes.SELECT});
+            await eprints.query('DELETE FROM publication_editor WHERE publication_id = $1;', {bind: [databaseId], type: QueryTypes.SELECT})
             pubId = await eprints.query(
-                'UPDATE publication' +
+                'UPDATE publication ' +
                 'SET item_type = $1,title = $2,abstract = $3,monograph_type = $4,presentation_type = $5,thesis_type = $6,institution = $7,corporate_creators = $8,' +
-                'divisions = $9, is_refereed = $10, status = $11,kind = $12,patent_applicant = $13,media_output = $14,copyright_holder = $15, publication_title = $16, issn_isbn = $17, publisher = $18,publication_department = $19, official_url = $20,' +
-                ' volume = $21, place_of_publication = $22, number_of_pages = $23, number = $24, page_range = $25, date = $26, date_type = $27, identification_number = $28, series_name = $29, related_urls = $30, funders = $31, projects = $32,' +
-                'contact_email_address = $33, reference = $34, uncontrolled_keywords = $35, additional_infor = $36, comments_and_suggestions = $37, subjects=$38' +
+                'divisions = $9, is_refereed = $10, status = $11,kind = $12,patent_applicant = $13,media_output = $14,copyright_holder = $15, publication_title = $16, ' +
+                'issn_isbn = $17, publisher = $18,publication_department = $19, official_url = $20,' +
+                'volume = $21, place_of_publication = $22, number_of_pages = $23, number = $24, page_range = $25, date = $26, date_type = $27, identification_number = $28, series_name = $29, related_urls = $30, funders = $31, projects = $32,' +
+                'contact_email_address = $33, reference = $34, uncontrolled_keywords = $35, additional_infor = $36, comments_and_suggestions = $37, subjects=$38 ' +
                 'WHERE id = $39 RETURNING id', {
                     bind: [type, title, abstract, monographType, presentationType, thesisType, institution, finalCorporateCreators, finalDivision, referred === 'yes',
                         status, kind, patentApplicant, mediaOutput, copyrightHolder, bookSectionTitle, isbn, publisher, publicationDepartment,
@@ -158,6 +161,7 @@ module.exports = {
                     type: QueryTypes.INSERT
                 }
             );
+            // TODO: remove all users linked to this publication
         } else {
             pubId = await eprints.query(
                 'INSERT INTO publication (item_type, title, abstract, monograph_type, presentation_type, thesis_type,institution, corporate_creators, ' +

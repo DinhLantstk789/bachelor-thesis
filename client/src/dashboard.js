@@ -3,7 +3,7 @@ import {Button, Card, CardBody, CardHeader, Col, Row} from "shards-react";
 import NewPublication from "./publication/newPublication";
 import Publications from "./publications";
 import {connect} from "react-redux";
-import {resetArticle, resetBookSection, resetConference, resetPublication, resetTechnicalReport, saveDisplayingPublicationLabel, setDashboardState} from "./redux/actions";
+import {resetArticle, resetBookSection, resetConference, resetPublication, resetTechnicalReport, saveDisplayingPublicationLabel, saveViewingPublicationId, setDashboardState} from "./redux/actions";
 
 class Dashboard extends Component {
 
@@ -22,6 +22,7 @@ class Dashboard extends Component {
                                     this.props.resetPublication();
                                     this.props.resetTechnicalReport();
                                     this.props.saveDisplayingPublicationLabel('My Publication');
+                                    this.props.saveViewingPublicationId(null);
                                 }}><i className='fa fa-backward'/>&nbsp; Back
                                 </Button> : ''}
                                 <h5 style={{marginTop: 10, marginLeft: 10}}>{this.props.displayingPublicationLabel}</h5>
@@ -53,5 +54,6 @@ let mapStateToProps = (store) => {
         displayingPublicationLabel: store.publication.displayingPublicationLabel
     };
 }
-let mapDispatchToProps = {setDashboardState, resetArticle, resetBookSection, resetConference, resetPublication, resetTechnicalReport, saveDisplayingPublicationLabel};
+let mapDispatchToProps = {setDashboardState, resetArticle, resetBookSection, resetConference,
+    resetPublication, resetTechnicalReport, saveDisplayingPublicationLabel, saveViewingPublicationId};
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

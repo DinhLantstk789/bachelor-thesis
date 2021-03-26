@@ -207,17 +207,21 @@ export const saveDisplayingPublicationLabel = (displayingPublicationLabel) => ({
     type: 'SAVE_DISPLAYING_PUBLICATION_LABEL',
     data: {displayingPublicationLabel: displayingPublicationLabel}
 });
+export const saveViewingPublicationId = (viewingPublicationId) => ({
+    type: 'SAVE_VIEWING_PUBLICATION_ID',
+    data: {viewingPublicationId: viewingPublicationId}
+});
 
 export const resetPublication = () => ({
     type: 'RESET_PUBLICATION',
 });
-export const resetTechnicalReport= () => ({
+export const resetTechnicalReport = () => ({
     type: 'RESET_TECHNICAL_REPORT',
 });
-export const resetConference= () => ({
+export const resetConference = () => ({
     type: 'RESET_CONFERENCE',
 });
-export const resetBookSection= () => ({
+export const resetBookSection = () => ({
     type: 'RESET_ BOOK_SECTION',
 });
 export const resetArticle= () => ({

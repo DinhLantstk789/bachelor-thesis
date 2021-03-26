@@ -87,6 +87,7 @@ class NewPublication extends Component {
     }
 
     render() {
+        console.log(this.props.viewingPublicationId);
         let submitButtonText;
         let submitButtonIcon;
         switch (this.state.submissionProgress) {
@@ -328,6 +329,7 @@ class NewPublication extends Component {
                 {this.props.displayingPublicationLabel === 'Publication Details' ? "":
                     <Button pill style={{marginTop: 20, marginRight: 20, fontSize: 18}} onClick={() => {
                         const body = {
+                            databaseId: this.props.viewingPublicationId,
                             type: this.props.type,
                             title: this.props.publicationTitle,
                             publicationAbstract: this.props.publicationAbstract,
@@ -390,7 +392,6 @@ class NewPublication extends Component {
                         })
                     }}>{submitButtonText} &nbsp;<i className={submitButtonIcon}/></Button>
                 }
-
             </Row>
         </div>
         return (
@@ -410,6 +411,7 @@ class NewPublication extends Component {
 let mapStateToProps = (store) => {
     return {
         type: store.article.articleType,
+        viewingPublicationId: store.publication.viewingPublicationId,
         publicationTitle: store.publication.publicationTitle,
         publicationAbstract: store.publication.publicationAbstract,
         creators: store.publication.creators,
@@ -450,7 +452,6 @@ let mapStateToProps = (store) => {
         copyrightHolder: store.publication.copyrightHolder,
         publicationDepartment: store.publication.publicationDepartment,
         kind:store.publication.kind,
-        isViewing:store.publication.isViewing,
         displayingPublicationLabel: store.publication.displayingPublicationLabel
     };
 }

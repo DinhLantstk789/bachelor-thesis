@@ -25,6 +25,7 @@ const initialState = {
     kind: '',
     isAddingPublication: false,
     displayingPublicationLabel: 'My Publication',
+    viewingPublicationId: null,
     subjects: [{name: 'Aerospace Engineering', isEnable: false},
         {name: 'Communications', isEnable: false},
         {name: 'Electronics and Computer Engineering', isEnable: false},
@@ -244,6 +245,13 @@ export default (state = initialState, action) => {
         return {
             ...state,
             displayingPublicationLabel: data.displayingPublicationLabel
+        }
+    }
+    if (action.type === 'SAVE_VIEWING_PUBLICATION_ID') {
+        const data = action.data;
+        return {
+            ...state,
+            viewingPublicationId: data.viewingPublicationId
         }
     }
     if (action.type === 'RESET_PUBLICATION') {

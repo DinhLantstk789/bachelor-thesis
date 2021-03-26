@@ -2,7 +2,6 @@ import {Component, Fragment} from 'react';
 import {Badge, Col, FormCheckbox, Row} from "shards-react";
 import axios from "axios";
 import {
-    saveDisplayingPublicationLabel,
     saveArticleType,
     saveBookSectionEndPage,
     saveBookSectionFirstPage,
@@ -15,6 +14,7 @@ import {
     saveBookSectionTitle,
     saveBookSectionVolume,
     saveCopyrightHolder,
+    saveDisplayingPublicationLabel,
     saveInstitution,
     saveMediaOutput,
     saveMonographType,
@@ -44,6 +44,7 @@ import {
     savePublicationUnKeyword,
     savePublicationURL,
     saveThesisType,
+    saveViewingPublicationId,
     setDashboardState,
 } from "../redux/actions";
 import {connect} from "react-redux";
@@ -180,7 +181,8 @@ class PublicationDetail extends Component {
                         <Row className='float-right' style={{marginRight: 10, marginTop: 13}}>
                             <i style={{fontSize: 20, marginLeft: 20}} className='fa fa-edit'
                                onClick={() => {
-                                    this.UpdateDbIntoRedux('Update Publication');
+                                   this.UpdateDbIntoRedux('Update Publication');
+                                   this.props.saveViewingPublicationId(this.props.publicationId);
                                }}
                             />
                             <i style={{fontSize: 20, marginLeft: 20, marginRight: 20}} className='fa fa-trash'/>
@@ -233,7 +235,8 @@ let mapDispatchToProps = {
     savePublicationKind,
     savePublicationDateType,
     savePublicationRefereed,
-    savePublicationDate, savePublicationId,
+    savePublicationDate,
+    savePublicationId,
     savePublicationURL,
     savePublicationEmailAddress,
     savePublicationReferences,
@@ -245,6 +248,7 @@ let mapDispatchToProps = {
     savePatentApplicant,
     saveMediaOutput,
     saveCopyrightHolder,
-    saveDisplayingPublicationLabel
+    saveDisplayingPublicationLabel,
+    saveViewingPublicationId
 };
 export default connect(mapStateToProps, mapDispatchToProps)(PublicationDetail);
