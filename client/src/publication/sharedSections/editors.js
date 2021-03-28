@@ -1,8 +1,8 @@
 import {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {Col, FormInput, Row} from "shards-react";
-import {savePublicationEditors} from "../redux/actions";
-import validator from "../utils/validator";
+import {savePublicationEditors} from "../../redux/actions";
+import validator from "../../utils/validator";
 
 
 

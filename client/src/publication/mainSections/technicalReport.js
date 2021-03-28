@@ -1,6 +1,6 @@
 import {Component, Fragment} from 'react';
 import {FormInput} from "shards-react";
-import {saveBookSectionPageNumber, saveBookSectionPublicationPlace, saveBookSectionPublisher, saveBookSectionTitle, saveInstitution, savePublicationDepartment,} from "../redux/actions";
+import {saveBookSectionPageNumber, saveBookSectionPublicationPlace, saveBookSectionPublisher, saveBookSectionTitle, saveInstitution, savePublicationDepartment,} from "../../redux/actions";
 import {connect} from "react-redux";
 
 class TechnicalReport extends Component {

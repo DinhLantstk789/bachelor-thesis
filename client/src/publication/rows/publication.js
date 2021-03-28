@@ -46,11 +46,11 @@ import {
     saveThesisType,
     saveViewingPublicationId,
     setDashboardState,
-} from "../redux/actions";
+} from "../../redux/actions";
 import {connect} from "react-redux";
 
 
-class PublicationDetail extends Component {
+class Publication extends Component {
     state = {
         isApproved: false
     }
@@ -60,6 +60,7 @@ class PublicationDetail extends Component {
         creators.forEach(c => finalAuthors += c.givenName + ' ' + c.familyName + ', ');
         return finalAuthors.substring(0, finalAuthors.length - 2);
     }
+
     constructor(props) {
         super(props);
         this.state.isApproved = props.isApproved;
@@ -198,7 +199,7 @@ class PublicationDetail extends Component {
                                     }
                                 })
                             }}>
-                            </FormCheckbox> : (this.props.isApproved ? 'Approved' : 'Pending')}
+                            </FormCheckbox> : (this.props.isApproved ? <i style={{fontSize: 20}} className="fa fa-check" aria-hidden="true"/> : <i style={{fontSize: 20}} className="fa fa-clock" aria-hidden="true"/>)}
                         </Row>
                     </Col>
                 </Row>
@@ -258,4 +259,4 @@ let mapDispatchToProps = {
     saveDisplayingPublicationLabel,
     saveViewingPublicationId
 };
-export default connect(mapStateToProps, mapDispatchToProps)(PublicationDetail);
+export default connect(mapStateToProps, mapDispatchToProps)(Publication);

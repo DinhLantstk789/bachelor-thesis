@@ -12,9 +12,9 @@ import {
     saveBookSectionSeriesName,
     saveBookSectionTitle,
     saveBookSectionVolume
-} from "../redux/actions";
+} from "../../redux/actions";
 
-class BookSectionMain extends Component {
+class BookSection extends Component {
     render() {
         return (
             <Fragment>
@@ -73,4 +73,4 @@ let mapDispatchToProps = {
     saveBookSectionFirstPage,
     saveBookSectionEndPage
 };
-export default connect(mapStateToProps, mapDispatchToProps)(BookSectionMain);
+export default connect(mapStateToProps, mapDispatchToProps)(BookSection);

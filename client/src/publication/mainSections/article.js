@@ -8,7 +8,7 @@ import {
     saveBookSectionPublisher,
     saveBookSectionTitle,
     saveBookSectionVolume
-} from "../redux/actions";
+} from "../../redux/actions";
 import {connect} from "react-redux";
 
 class Article extends Component {

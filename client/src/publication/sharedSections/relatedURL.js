@@ -1,7 +1,7 @@
 import {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {Col, FormInput, Row} from "shards-react";
-import {savePublicationRelatedURL} from "../redux/actions";
+import {savePublicationRelatedURL} from "../../redux/actions";
 
 class RelatedURL extends Component {
     render() {

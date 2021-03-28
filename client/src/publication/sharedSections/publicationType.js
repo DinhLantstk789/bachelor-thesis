@@ -1,6 +1,6 @@
 import {Component, Fragment} from 'react';
-import RadioGroup from "../radioGroup";
-import {saveArticleType} from "../redux/actions";
+import RadioGroup from "../../radioGroup";
+import {saveArticleType} from "../../redux/actions";
 import {connect} from "react-redux";
 
 class PublicationType extends Component {

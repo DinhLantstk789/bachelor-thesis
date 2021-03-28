@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react';
 import {Badge} from "shards-react";
-import {savePublicationSubjects} from "../redux/actions";
+import {savePublicationSubjects} from "../../redux/actions";
 import {connect} from "react-redux";
 
 class Subject extends Component {

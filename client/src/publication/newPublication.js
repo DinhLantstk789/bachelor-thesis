@@ -1,14 +1,14 @@
 import {Component, Fragment} from 'react';
 import {Button, FormInput, FormTextarea, Row} from "shards-react";
-import ReferredArticle from "./referredArticle";
+import ReferredArticle from "./sharedSections/referredArticle";
 import RadioGroup from "../radioGroup";
 import {connect} from "react-redux";
-import Subject from "./subject";
-import ArticleType from "./publicationType";
+import Subject from "./sharedSections/subject";
+import ArticleType from "./sharedSections/publicationType";
 import axios from "axios";
 import ContentLoader from "react-content-loader";
-import DivisionSelector from "./divisionSelector";
-import BookSectionMain from "./bookSectionMain";
+import DivisionSelector from "./sharedSections/divisionSelector";
+import BookSectionMain from "./mainSections/bookSection";
 import {
     resetArticle,
     resetBookSection,
@@ -18,7 +18,8 @@ import {
     saveBookSectionPageNumber,
     saveBookSectionPublicationPlace,
     saveBookSectionPublisher,
-    saveCopyrightHolder, saveDisplayingPublicationLabel,
+    saveCopyrightHolder,
+    saveDisplayingPublicationLabel,
     saveInstitution,
     saveMediaOutput,
     saveMonographType,
@@ -38,18 +39,19 @@ import {
     savePublicationTitle,
     savePublicationUnKeyword,
     savePublicationURL,
-    saveThesisType, saveViewingPublicationId,
+    saveThesisType,
+    saveViewingPublicationId,
     setDashboardState
 } from "../redux/actions";
-import Creator from "./creator";
-import CorporateCreators from "./corporateCreators";
-import RelatedURL from "./relatedURL";
-import Funder from "./funder";
-import Project from "./project";
-import Editors from "./editors";
-import Article from "./article";
-import TechnicalReport from "./technicalReport";
-import Book from "./book";
+import Creator from "./sharedSections/creator";
+import CorporateCreators from "./sharedSections/corporateCreators";
+import RelatedURL from "./sharedSections/relatedURL";
+import Funder from "./sharedSections/funder";
+import Project from "./sharedSections/project";
+import Editors from "./sharedSections/editors";
+import ArticleMain from "./mainSections/article";
+import TechnicalReport from "./mainSections/technicalReport";
+import BookMain from "./mainSections/book";
 
 class NewPublication extends Component {
     state = {
@@ -120,7 +122,7 @@ class NewPublication extends Component {
             case 'article':
                 mainComponent = <div>
                     <ReferredArticle/>
-                    <Article/>
+                    <ArticleMain/>
                 </div>
                 break;
             case 'book-section':
@@ -175,7 +177,7 @@ class NewPublication extends Component {
             case 'book':
                 mainComponent = <div>
                     <ReferredArticle/>
-                    <Book/>
+                    <BookMain/>
                 </div>
                 break;
             case 'thesis':

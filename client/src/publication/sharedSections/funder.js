@@ -1,7 +1,7 @@
 import {Component, Fragment} from 'react';
 import {connect} from "react-redux";
 import {Col, FormInput, Row} from "shards-react";
-import { savePublicationFunders} from "../redux/actions";
+import { savePublicationFunders} from "../../redux/actions";
 
 class Funder extends Component {
     render() {

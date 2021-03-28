@@ -2,7 +2,7 @@ import {Component, Fragment} from 'react';
 import {List} from "react-content-loader";
 import axios from "axios";
 import {connect} from "react-redux";
-import PublicationDetail from "./publication/publicationDetail";
+import PublicationDetail from "./publication/rows/publication";
 
 class Publications extends Component {
     state = {

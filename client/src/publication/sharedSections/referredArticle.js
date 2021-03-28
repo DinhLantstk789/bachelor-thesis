@@ -1,6 +1,6 @@
 import {Component, Fragment} from 'react';
-import RadioGroup from "../radioGroup";
-import { savePublicationRefereed} from "../redux/actions";
+import RadioGroup from "../../radioGroup";
+import { savePublicationRefereed} from "../../redux/actions";
 import {connect} from "react-redux";
 
 class ReferredArticle extends Component {

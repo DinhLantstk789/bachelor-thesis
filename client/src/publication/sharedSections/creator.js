@@ -1,8 +1,8 @@
 import {Component, Fragment} from 'react';
 import {Col, FormInput, Row} from "shards-react";
 import {connect} from "react-redux";
-import validator from "../utils/validator";
-import {savePublicationCreators} from "../redux/actions";
+import validator from "../../utils/validator";
+import {savePublicationCreators} from "../../redux/actions";
 
 class Creator extends Component {
     updateMatchedUser(index) {

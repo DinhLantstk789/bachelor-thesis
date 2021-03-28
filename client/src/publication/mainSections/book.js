@@ -2,7 +2,7 @@ import {Component, Fragment} from 'react';
 import {Col, FormInput, Row} from "shards-react";
 import {connect} from "react-redux";
 import {saveBookSectionISBN, saveBookSectionNumber, saveBookSectionPageNumber, saveBookSectionPublicationPlace,
-    saveBookSectionPublisher, saveBookSectionSeriesName, saveBookSectionVolume} from "../redux/actions";
+    saveBookSectionPublisher, saveBookSectionSeriesName, saveBookSectionVolume} from "../../redux/actions";
 
 class Book extends Component {
     render() {

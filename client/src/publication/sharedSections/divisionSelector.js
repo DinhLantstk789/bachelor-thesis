@@ -1,6 +1,6 @@
 import {Component, Fragment} from 'react';
 import {Col, FormCheckbox, Row} from "shards-react";
-import {savePublicationDivisions} from "../redux/actions";
+import {savePublicationDivisions} from "../../redux/actions";
 import {connect} from "react-redux";
 
 class DivisionSelector extends Component {
