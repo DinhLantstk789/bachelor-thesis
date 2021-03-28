@@ -52,7 +52,7 @@ class Login extends Component {
         }
         axios.post('http://localhost:1234/users/login', credentials).then(res => {
             let status = res.data.status;
-            if (status === 0) {
+            if (status === 200) {
                 this.props.saveLoggedUser(res.data.user);
             } else {
                 this.setState({errorResponse: res.data.message});

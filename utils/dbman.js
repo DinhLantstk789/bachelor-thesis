@@ -35,6 +35,17 @@ async function insertCreatorEditor(publication_id, user, linked_table) {
 }
 
 module.exports = {
+    toggleApproval: async (publicationId) => {
+        let isApproved = await eprints.query('SELECT is_approved FROM publication WHERE id = $1;', {bind: [publicationId], type: QueryTypes.SELECT});
+        isApproved = isApproved[0].is_approved;
+        let updatedApproval = await eprints.query(
+            'UPDATE publication SET is_approved = $1 WHERE id = $2 RETURNING is_approved;', {
+                bind: [!isApproved, publicationId],
+                type: QueryTypes.UPDATE
+            }
+        );
+        return updatedApproval[0][0].is_approved;
+    },
     fetchPublications: async (publicationId) => {
         let filter = publicationId === null ? '' : ('WHERE id = $1');
         let selectedFields = publicationId === null ? 'id, item_type, title, is_approved' : '*';
@@ -45,7 +56,7 @@ module.exports = {
         });
         for (const p of selectedPublications) {
             let creators = [];
-            for (const e of await eprints.query('SELECT creator_email FROM publication_creator WHERE publication_id = $1;', {bind: [p.id], type: QueryTypes.SELECT})) {
+            for (const e of await eprints.query('SELECT creator_email FROM publication_creator WHERE publication_id = $1 ORDER BY db_created_on;', {bind: [p.id], type: QueryTypes.SELECT})) {
                 let resultCreators = await eprints.query('SELECT * FROM users WHERE email = $1;', {bind: [e.creator_email], type: QueryTypes.SELECT});
                 resultCreators.forEach(c => {
                     creators.push({
@@ -66,7 +77,7 @@ module.exports = {
                 })
             } else {
                 let editors = [];
-                for (const e of await eprints.query('SELECT editor_email FROM publication_editor WHERE publication_id = $1;', {bind: [p.id], type: QueryTypes.SELECT})) {
+                for (const e of await eprints.query('SELECT editor_email FROM publication_editor WHERE publication_id = $1 ORDER BY db_created_on;', {bind: [p.id], type: QueryTypes.SELECT})) {
                     let resultEditors = await eprints.query('SELECT * FROM users WHERE email = $1;', {bind: [e.editor_email], type: QueryTypes.SELECT});
                     resultEditors.forEach(e => editors.push({
                         familyName: e.family_name,

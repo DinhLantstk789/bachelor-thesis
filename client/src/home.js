@@ -26,8 +26,6 @@ class Home extends Component {
                         </Col>
                         <Col xs={5} md={5} sm={5}>
                             <Row className="float-right">
-                                <DropdownToggle id="dropdown">Home</DropdownToggle>
-                                <DropdownToggle id="dropdown">About</DropdownToggle>
                                 <Dropdown open={this.state.open} toggle={this.toggle}>
                                     <DropdownToggle id="dropdown" className="float-right">Browse <i className={"fa fa-angle-down"}/></DropdownToggle>
                                     <DropdownMenu>

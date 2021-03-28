@@ -158,7 +158,6 @@ class PublicationDetail extends Component {
                 console.log('error:', res.data.message)
             }
         })
-
     }
 
     render() {
@@ -186,12 +185,20 @@ class PublicationDetail extends Component {
                                }}
                             />
                             <i style={{fontSize: 20, marginLeft: 20, marginRight: 20}} className='fa fa-trash'/>
-                            <FormCheckbox toggle checked={this.state.isApproved} onChange={() => {
-                                this.setState({
-                                    isApproved: !this.state.isApproved
-                                });
+                            {this.props.loggedUser.isAdmin ? <FormCheckbox toggle checked={this.state.isApproved} onChange={() => {
+                                this.setState({isApproved: !this.state.isApproved});
+                                const body = {id: this.props.publicationId};
+                                axios.post('http://localhost:1234/article/toggleApproval', body).then(res => {
+                                    let status = res.data.status;
+                                    if (status === 200) {
+                                        console.log(res.data.message);
+                                    } else {
+                                        this.setState({isApproved: !this.state.isApproved});
+                                        console.log('error:', res.data.message)
+                                    }
+                                })
                             }}>
-                            </FormCheckbox>
+                            </FormCheckbox> : (this.props.isApproved ? 'Approved' : 'Pending')}
                         </Row>
                     </Col>
                 </Row>

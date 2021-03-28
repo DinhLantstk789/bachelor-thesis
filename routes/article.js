@@ -45,24 +45,13 @@ router.post('/view',function (req,res){
         }
     });
 });
-router.post('/edit',function (req,res){
-    let publicationId = req.body.id;
-    let accessToken = req.body['accessToken'];
-    if (accessToken === null) return res.json({status: 1, message: 'Missing access token.'});
-    jwt.verify(accessToken, configs.SECRET, function (err, decoded) {
-        if (err) {
-            console.error(err);
-            if (err.message === 'invalid signature')
-                return res.json({status: 401, message: 'Invalid signature. Please try again.'});
-            if (err.message === 'jwt expired')
-                return res.json({status: 401, message: 'Access token expired. Please login again.'});
-            return res.json({status: 401, message: 'Error: ' + err.message});
-        } else {
-            setTimeout(() => {
-
-            }, 2000);
-        }
-    });
+router.post('/toggleApproval', (req, res) => {
+    let id = req.body.id;
+    setTimeout(() => {
+        dbman.toggleApproval(id).then(updatedApproval => {
+            return res.json({status: 200, message: 'Publication ' + id + ' toggled to: ' + updatedApproval});
+        }).catch(console.log);
+    }, 2000);
 });
 
 

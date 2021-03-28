@@ -10,12 +10,20 @@ router.post('/login', (req, res) => {
         let user = {
             email: email,
             name: 'Thu Suong',
+            isAdmin: false
+        }
+        user['accessToken'] = jwt.sign(user, configs.SECRET, {expiresIn: configs.ACCESS_TOKEN_LIFE});
+        return res.json({status: 200, user: user})
+    } else if (email === 'admin@eprints.vnu.edu.vn' && password === '093bc05d41e789745d2de76ac318cd2d6ca8d85a56c341c88994673d08db581b') {
+        let user = {
+            email: email,
+            name: 'Eprints Admin',
             isAdmin: true
         }
         user['accessToken'] = jwt.sign(user, configs.SECRET, {expiresIn: configs.ACCESS_TOKEN_LIFE});
-        return res.json({status: 0, user: user})
+        return res.json({status: 200, user: user})
     } else {
-        return res.json({status: 1, message: 'Username and password do not match.'})
+        return res.json({status: 401, message: 'Username and password do not match.'})
     }
 })
 
