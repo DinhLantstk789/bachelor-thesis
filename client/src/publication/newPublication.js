@@ -243,7 +243,7 @@ class NewPublication extends Component {
         }
         let loadedComponent = <div>
             <FormInput placeholder="Title" style={{marginTop: 10}} value={this.props.publicationTitle} onChange={(e) => this.props.savePublicationTitle(e.target.value)}/>
-            <FormTextarea placeholder="Abstract" style={{marginTop: 10,height:200}} value={this.props.publicationAbstract} onChange={(e) => this.props.savePublicationAbstract(e.target.value)}/>
+            <FormTextarea placeholder="Abstract" style={{marginTop: 10, height: 200}} value={this.props.publicationAbstract} onChange={(e) => this.props.savePublicationAbstract(e.target.value)}/>
             {addComponent}
             <div style={{marginTop:20,marginBottom:-20}}>
                 <h6 style={{marginRight: 41, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Kind:</h6>
@@ -400,13 +400,15 @@ class NewPublication extends Component {
         </div>
         return (
             <Fragment>
-                <ArticleType/>
-                <br/>
-                {this.state.isComponentLoading ? <ContentLoader viewBox="0 0 400 160">
-                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-                        <rect x="0" y={5 + item * 16} rx="5" ry="5" width="400" height="6"/>
-                    ))}
-                </ContentLoader> : loadedComponent}
+                <fieldset disabled={this.props.isDisable}>
+                    <ArticleType/>
+                    <br/>
+                    {this.state.isComponentLoading ? <ContentLoader viewBox="0 0 400 160">
+                        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
+                            <rect x="0" y={5 + item * 16} rx="5" ry="5" width="400" height="6"/>
+                        ))}
+                    </ContentLoader> : loadedComponent}
+                </fieldset>
             </Fragment>
         )
     }
@@ -455,8 +457,9 @@ let mapStateToProps = (store) => {
         mediaOutput: store.publication.mediaOutput,
         copyrightHolder: store.publication.copyrightHolder,
         publicationDepartment: store.publication.publicationDepartment,
-        kind:store.publication.kind,
-        displayingPublicationLabel: store.publication.displayingPublicationLabel
+        kind: store.publication.kind,
+        displayingPublicationLabel: store.publication.displayingPublicationLabel,
+        isDisable: store.publication.isDisable
     };
 }
 let mapDispatchToProps = {

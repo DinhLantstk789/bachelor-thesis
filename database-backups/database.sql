@@ -65,8 +65,9 @@ CREATE TABLE publication (
 
 CREATE TABLE publication_creator (
     publication_id INTEGER,
-    creator_email  TEXT,
-    db_created_on  TIMESTAMP DEFAULT NOW(),
+    creator_email TEXT,
+    author_order INTEGER,
+    db_created_on TIMESTAMP DEFAULT NOW(),
     db_updated_on  TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (publication_id) REFERENCES publication (id),
     FOREIGN KEY (creator_email) REFERENCES users (email),

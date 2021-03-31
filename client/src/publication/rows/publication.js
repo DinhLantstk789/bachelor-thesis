@@ -1,7 +1,8 @@
 import {Component, Fragment} from 'react';
-import {Badge, Col, FormCheckbox, Row} from "shards-react";
+import {Badge, Col, FormCheckbox, Row, Tooltip} from "shards-react";
 import axios from "axios";
 import {
+    disableAllElements,
     saveArticleType,
     saveBookSectionEndPage,
     saveBookSectionFirstPage,
@@ -52,7 +53,8 @@ import {connect} from "react-redux";
 
 class Publication extends Component {
     state = {
-        isApproved: false
+        isApproved: false,
+        open: false
     }
 
     parseAuthors(creators) {
@@ -169,6 +171,7 @@ class Publication extends Component {
                         <Row style={{marginLeft: 0}}>
                             <h6 onClick={() => {
                                 this.UpdateDbIntoRedux('Publication Details');
+                                this.props.disableAllElements(true);
                             }}><Badge theme="primary" style={{marginRight: 8}}>
                                 {this.props.type}
                             </Badge>{this.props.title}</h6>
@@ -179,7 +182,7 @@ class Publication extends Component {
                     </Col>
                     <Col md={4}>
                         <Row className='float-right' style={{marginRight: 10, marginTop: 13}}>
-                            <i style={{fontSize: 20, marginLeft: 20}} className='fa fa-edit'
+                            <i style={{fontSize: 20, marginLeft: 20}} className='fa fa-edit' disabled={true}
                                onClick={() => {
                                    this.UpdateDbIntoRedux('Update Publication');
                                    this.props.saveViewingPublicationId(this.props.publicationId);
@@ -199,8 +202,18 @@ class Publication extends Component {
                                     }
                                 })
                             }}>
-                            </FormCheckbox> : (this.props.isApproved ? <i style={{fontSize: 20}} className="fa fa-check" aria-hidden="true"/> : <i style={{fontSize: 20}} className="fa fa-clock" aria-hidden="true"/>)}
+                            </FormCheckbox> : (this.props.isApproved ? <img style={{fontSize: 20}} src='./images/approved_1.png' aria-hidden="true" id="xxx"/> :
+                                <i style={{fontSize: 20}} className="fa fa-clock" aria-hidden="true"/>)}
                         </Row>
+                        <Tooltip
+                            open={this.state.open}
+                            target="#xxx"
+                            toggle={() => {
+                                this.setState({open: !this.state.open});
+                            }}
+                        >
+                            😁 Woo! Publication is approved.
+                        </Tooltip>
                     </Col>
                 </Row>
             </Fragment>
@@ -257,6 +270,7 @@ let mapDispatchToProps = {
     saveMediaOutput,
     saveCopyrightHolder,
     saveDisplayingPublicationLabel,
-    saveViewingPublicationId
+    saveViewingPublicationId,
+    disableAllElements
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Publication);

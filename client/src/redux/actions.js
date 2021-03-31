@@ -224,8 +224,12 @@ export const resetConference = () => ({
 export const resetBookSection = () => ({
     type: 'RESET_ BOOK_SECTION',
 });
-export const resetArticle= () => ({
+export const resetArticle = () => ({
     type: 'RESET_ARTICLE_REPORT',
+});
+export const disableAllElements = (isDisable) => ({
+    type: 'DISABLE_ALL_ELEMENTS',
+    data: {isDisable: isDisable}
 });
 
 

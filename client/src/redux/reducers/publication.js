@@ -24,6 +24,7 @@ const initialState = {
     publicationDepartment: '',
     kind: '',
     isAddingPublication: false,
+    isDisable:false,
     displayingPublicationLabel: 'My Publication',
     viewingPublicationId: null,
     subjects: [{name: 'Aerospace Engineering', isEnable: false},
@@ -252,6 +253,14 @@ export default (state = initialState, action) => {
         return {
             ...state,
             viewingPublicationId: data.viewingPublicationId
+        }
+    }
+
+    if (action.type === 'DISABLE_ALL_ELEMENTS') {
+        const data = action.data;
+        return {
+            ...state,
+            isDisable: data.isDisable
         }
     }
     if (action.type === 'RESET_PUBLICATION') {
