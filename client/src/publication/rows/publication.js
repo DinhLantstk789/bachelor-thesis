@@ -202,18 +202,18 @@ class Publication extends Component {
                                     }
                                 })
                             }}>
-                            </FormCheckbox> : (this.props.isApproved ? <img style={{fontSize: 20}} src='./images/approved_1.png' aria-hidden="true" id="xxx"/> :
-                                <i style={{fontSize: 20}} className="fa fa-clock" aria-hidden="true"/>)}
+                            </FormCheckbox> : <div>
+                                {this.props.isApproved ? <img style={{height: "20px"}} src='./images/approved_dep.png' aria-hidden="true" id={"tt_" + this.props.publicationId}/> :
+                                    <i style={{fontSize: 20}} className="fa fa-clock" aria-hidden="true" id={"tt_" + this.props.publicationId}/>}
+                                <Tooltip
+                                    open={this.state.open}
+                                    target={"#tt_" + this.props.publicationId}
+                                    toggle={() => this.setState({open: !this.state.open})}>
+                                    {this.props.isApproved ? '✌️ Woo! Publication is approved.' : '🥺 Publication is still being processed.'}
+                                </Tooltip>
+                            </div>
+                            }
                         </Row>
-                        <Tooltip
-                            open={this.state.open}
-                            target="#xxx"
-                            toggle={() => {
-                                this.setState({open: !this.state.open});
-                            }}
-                        >
-                            😁 Woo! Publication is approved.
-                        </Tooltip>
                     </Col>
                 </Row>
             </Fragment>

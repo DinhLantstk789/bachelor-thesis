@@ -55,11 +55,22 @@ import BookMain from "./mainSections/book";
 
 class NewPublication extends Component {
     state = {
-        showEmailAddress: false,
         isComponentLoading: false,
         currentType: 'article',
         submissionProgress: 0 /* 0: pending, 1: submitting, 2: success, 3: failed */
     }
+
+    constructor(props) {
+        super(props);
+        this.state.showEmailAddress = (this.state.showEmailAddress !=='');
+        this.state.showReferences = (this.state.references !=='');
+        this.state.showUncontrolledKeyword = (this.state.unKeyword !=='');
+        this.state.showAddInformation = (this.state.addInformation !=='');
+        this.state.showComment = (this.state.comment !=='');
+
+
+    }
+
 
     onSampleClicked = () => {
         let requestConfigs = {
@@ -89,7 +100,6 @@ class NewPublication extends Component {
     }
 
     render() {
-        console.log(this.props.viewingPublicationId);
         let submitButtonText;
         let submitButtonIcon;
         switch (this.state.submissionProgress) {
