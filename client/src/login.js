@@ -59,7 +59,6 @@ class Login extends Component {
             }
         })
     }
-
     render() {
         let isDisabled = this.state.emailCheckedResult.length !== 0 || this.state.passwordCheckedResult.length !== 0;
         return (

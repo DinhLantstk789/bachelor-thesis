@@ -231,6 +231,10 @@ export const disableAllElements = (isDisable) => ({
     type: 'DISABLE_ALL_ELEMENTS',
     data: {isDisable: isDisable}
 });
+export const publicationApprovingCheck = (isApprovedPublication) => ({
+    type: 'PUBLICATION_APPROVING_CHECK',
+    data: {isApprovedPublication: isApprovedPublication}
+});
 
 
 

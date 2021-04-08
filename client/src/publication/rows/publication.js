@@ -76,7 +76,7 @@ class Publication extends Component {
             let status = res.data.status;
             if (status === 200) {
                 this.props.setDashboardState(true);
-                this.props.saveDisplayingPublicationLabel(displayingPublicationLabel); //
+                this.props.saveDisplayingPublicationLabel(displayingPublicationLabel);
                 let corporateCreators = [], funders = [], projects = [];
                 res.data.publications[0].corporateCreators.forEach(c => corporateCreators.push({corporateCreator: c}));
                 res.data.publications[0].funders.forEach(f => funders.push({funder: f}));
@@ -182,13 +182,38 @@ class Publication extends Component {
                     </Col>
                     <Col md={4}>
                         <Row className='float-right' style={{marginRight: 10, marginTop: 13}}>
-                            <i style={{fontSize: 20, marginLeft: 20}} className='fa fa-edit' disabled={true}
+                            <i style={{fontSize: 20, marginLeft: 20}} className='fa fa-edit'
                                onClick={() => {
-                                   this.UpdateDbIntoRedux('Update Publication');
                                    this.props.saveViewingPublicationId(this.props.publicationId);
+                                   this.UpdateDbIntoRedux('Update Publication');
+
                                }}
                             />
-                            <i style={{fontSize: 20, marginLeft: 20, marginRight: 20}} className='fa fa-trash'/>
+                            {this.props.loggedUser.isAdmin ? <span>&nbsp; &nbsp;</span> :
+                                <i style={{fontSize: 20, marginLeft: 20, marginRight: 20}} className='fa fa-trash'
+                                   onClick={async () => {
+                                       const Api = axios.create(
+                                           {
+                                               baseURL: 'http://localhost:1234',
+                                               headers: {
+                                                   Authorization: `${this.props.loggedUser.accessToken}`
+                                               },
+                                           }
+                                       );
+                                       await Api.delete(`/article/deletePublication/${this.props.publicationId}`).then(res => {
+                                           let status = res.data.status;
+                                           if (status === 300) {
+                                               console.log('thu suong 123');
+
+                                           } else {
+                                               console.log('error');
+                                           }
+                                       });
+                                   }}
+                                />
+
+                            }
+
                             {this.props.loggedUser.isAdmin ? <FormCheckbox toggle checked={this.state.isApproved} onChange={() => {
                                 this.setState({isApproved: !this.state.isApproved});
                                 const body = {id: this.props.publicationId};

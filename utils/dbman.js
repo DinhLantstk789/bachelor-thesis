@@ -33,7 +33,6 @@ async function insertCreatorEditor(publication_id, user, linked_table) {
         }
     );
 }
-
 module.exports = {
     toggleApproval: async (publicationId) => {
         let isApproved = await eprints.query('SELECT is_approved FROM publication WHERE id = $1;', {bind: [publicationId], type: QueryTypes.SELECT});
@@ -127,13 +126,25 @@ module.exports = {
                     patentApplicant: p.patent_applicant,
                     mediaOutput: p.media_output,
                     copyrightHolder: p.copyright_holder,
-                    publicationDepartment: p.publication_department
+                    publicationDepartment: p.publication_department,
+                    isApproved: p.is_approved
                 })
             }
         }
         return returnedResult;
     },
+    deletePublication: async (databaseId) => {
+        try{
+            await eprints.query(`DELETE FROM publication_creator WHERE publication_id = ${databaseId}`);
+            await eprints.query(`DELETE FROM publication_editor WHERE publication_id = ${databaseId}`);
+            await eprints.query(`DELETE FROM publication WHERE id = ${databaseId}`);
 
+            return { message: 'Publication is deleted' };
+        } catch (e) {
+            throw new Error(e);
+        }
+
+    },
     insertNewPublication: async (type, title, abstract, monographType, presentationType, thesisType, institution, creators, corporateCreators, divisions,
                                  status, kind, patentApplicant, mediaOutput, copyrightHolder, referred,
                                  firstPage, endPage, bookSectionTitle, publicationPlace, publisher, publicationDepartment,
@@ -153,6 +164,13 @@ module.exports = {
 
         let pubId;
         if (databaseId !== undefined && databaseId !== null) {
+            let updatedApproval = await eprints.query(
+                'UPDATE publication SET is_approved = $1 WHERE id = $2 RETURNING is_approved;', {
+                    bind: [false, databaseId],
+                    type: QueryTypes.UPDATE
+                }
+            );
+            console.log(updatedApproval)
             await eprints.query('DELETE FROM publication_creator WHERE publication_id = $1;', {bind: [databaseId], type: QueryTypes.SELECT});
             await eprints.query('DELETE FROM publication_editor WHERE publication_id = $1;', {bind: [databaseId], type: QueryTypes.SELECT})
             pubId = await eprints.query(
@@ -161,7 +179,7 @@ module.exports = {
                 'divisions = $9, is_refereed = $10, status = $11,kind = $12,patent_applicant = $13,media_output = $14,copyright_holder = $15, publication_title = $16, ' +
                 'issn_isbn = $17, publisher = $18,publication_department = $19, official_url = $20,' +
                 'volume = $21, place_of_publication = $22, number_of_pages = $23, number = $24, page_range = $25, date = $26, date_type = $27, identification_number = $28, series_name = $29, related_urls = $30, funders = $31, projects = $32,' +
-                'contact_email_address = $33, reference = $34, uncontrolled_keywords = $35, additional_infor = $36, comments_and_suggestions = $37, subjects=$38 ' +
+                'contact_email_address = $33, reference = $34, uncontrolled_keywords = $35, additional_infor = $36, comments_and_suggestions = $37, subjects = $38' +
                 'WHERE id = $39 RETURNING id', {
                     bind: [type, title, abstract, monographType, presentationType, thesisType, institution, finalCorporateCreators, finalDivision, referred === 'yes',
                         status, kind, patentApplicant, mediaOutput, copyrightHolder, bookSectionTitle, isbn, publisher, publicationDepartment,

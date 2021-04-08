@@ -54,6 +54,36 @@ router.post('/toggleApproval', (req, res) => {
     }, 2000);
 });
 
+router.destroy('/deletePublication/:id', (req, res) => {
+    let databaseId = req.params.id;
+    let accessToken = req.headers['authorization'];
+    if (accessToken === null) return res.json({status: 403, message: 'Missing access token.'});
+    jwt.verify(accessToken, configs.SECRET, async (err, decoded) => {
+        if (err) {
+            console.error(err);
+            if (err.message === 'invalid signature')
+                return res.json({status: 401, message: 'Invalid signature. Please try again.'});
+            if (err.message === 'jwt expired')
+                return res.json({status: 401, message: 'Access token expired. Please login again.'});
+            return res.json({status: 401, message: 'Error: ' + err.message});
+        } else {
+            try {
+                const deletedPublication = await dbman.deletePublication(databaseId);
+                if (deletedPublication) {
+                    res.json({status: 300});
+                    data:res.body;
+                }
+            } catch (error) {
+                throw new Error(error);
+            }
+            setTimeout(() => {
+                dbman.deletePublication(databaseId).then(() => {
+                    return res.json({status: 200});
+                }).catch(console.log);
+            }, 2000);
+        }
+    });
+});
 
 router.post('/add', (req, res) => {
     let databaseId = req.body.databaseId;

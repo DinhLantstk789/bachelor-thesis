@@ -7,7 +7,8 @@ import PublicationDetail from "./publication/rows/publication";
 class Publications extends Component {
     state = {
         isLoading: true,
-        publications: []
+        publications: [],
+        isUpdate: false
     }
 
     componentDidMount() {
@@ -25,11 +26,12 @@ class Publications extends Component {
 
 
     render() {
-        let loading = <div>
-            <List/>
-            <List style={{marginTop: 20}}/>
-        </div>
-        let result = this.state.publications.map(item => (
+        let loading =
+            <div>
+                <List/>
+                <List style={{marginTop: 20}}/>
+            </div>
+        let result = this.state.publications.filter(item => (this.props.approvalFilter && this.props.pendingFilter ? item : (!this.props.approvalFilter && !this.props.pendingFilter ? item.isApproved === undefined : (this.props.approvalFilter ? item.isApproved : !item.isApproved)))).map(item => (
             <PublicationDetail type={item.type} title={item.title} authors={item.creators} isApproved={item.isApproved} publicationId={item.id}/>
         ))
         return (
@@ -41,7 +43,10 @@ class Publications extends Component {
 }
 
 let mapStateToProps = (store) => {
-    return {loggedUser: store.user.loggedUser};
+    return {
+        loggedUser: store.user.loggedUser,
+        isApprovedPublication: store.publication.isApprovedPublication
+    };
 }
 let mapDispatchToProps = {};
 export default connect(mapStateToProps, mapDispatchToProps)(Publications);

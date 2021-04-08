@@ -27,6 +27,7 @@ const initialState = {
     isDisable:false,
     displayingPublicationLabel: 'My Publication',
     viewingPublicationId: null,
+    isApprovedPublication:'approved',
     subjects: [{name: 'Aerospace Engineering', isEnable: false},
         {name: 'Communications', isEnable: false},
         {name: 'Electronics and Computer Engineering', isEnable: false},
@@ -261,6 +262,12 @@ export default (state = initialState, action) => {
         return {
             ...state,
             isDisable: data.isDisable
+        }
+    } if (action.type === 'PUBLICATION_APPROVING_CHECK') {
+        const data = action.data;
+        return {
+            ...state,
+            isApprovedPublication: data.isApprovedPublication
         }
     }
     if (action.type === 'RESET_PUBLICATION') {
