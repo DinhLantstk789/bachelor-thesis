@@ -35,11 +35,6 @@ async function insertPublicationDivision(publication_id, division) {
     await eprints.query('INSERT INTO publication_division (publication_id, division_name) VALUES ($1, $2) RETURNING publication_id;', {bind: [publication_id, division], type: QueryTypes.INSERT});
 }
 
-async function getDivisionByPublicationId(publication_id) {
-    await eprints.query('SELECT division_name FROM publication_division WHERE publication_id =$1;', {bind: [publication_id], type: QueryTypes.SELECT});
-}
-
-
 module.exports = {
     toggleApproval: async (publicationId) => {
         let isApproved = await eprints.query('SELECT is_approved FROM publication WHERE id = $1;', {bind: [publicationId], type: QueryTypes.SELECT});
@@ -85,7 +80,9 @@ module.exports = {
                         email: e.email
                     }));
                 }
-                console.log(getDivisionByPublicationId(p.id).map(rd => rd.name));
+
+                let finalDivisions = await eprints.query('SELECT division_name FROM publication_division WHERE publication_id =$1;', {bind: [p.id], type: QueryTypes.SELECT})
+
                 returnedResult.push({
                     id: p.id,
                     type: p.item_type,
@@ -93,7 +90,7 @@ module.exports = {
                     publicationAbstract: p.abstract,
                     creators: creators,
                     corporateCreators: p.corporate_creators,
-                    divisions: getDivisionByPublicationId(p.id).map(rd => rd.name),
+                    divisions: finalDivisions.map(d => d.division_name),
                     selectedStatus: p.status,
                     kind: p.kind,
                     selectedRefereed: p.is_refereed,

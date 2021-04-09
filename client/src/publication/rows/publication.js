@@ -93,6 +93,7 @@ export default function PublicationDetail({type, title, authors, approved, publi
                     {name: 'Key Laboratory for Nanotechnology (Nano Lab)', isEnable: false},
                     {name: 'School of Aerospace Engineering (SAE)', isEnable: false},
                     {name: 'Key Laboratory for Smart Integrated Systems (SISLAB)', isEnable: false}];
+                console.log(res.data.publications[0].divisions);
                 res.data.publications[0].divisions.forEach(d => {
                     initialDivisions.map(item => {
                         if (item.name === d) {

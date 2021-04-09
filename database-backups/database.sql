@@ -79,6 +79,16 @@ CREATE TABLE publication_division (
     PRIMARY KEY (publication_id, division_name)
 );
 
+CREATE TABLE publication_division (
+    user_email TEXT,
+    division_name TEXT,
+    db_created_on TIMESTAMP DEFAULT NOW(),
+    db_updated_on TIMESTAMP DEFAULT NOW(),
+    FOREIGN KEY (user_email) REFERENCES users (user_email),
+    FOREIGN KEY (division_name) REFERENCES divisions (name),
+    PRIMARY KEY (user_email, division_name)
+);
+
 CREATE TABLE publication_creator (
     publication_id INTEGER,
     creator_email TEXT,
