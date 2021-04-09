@@ -70,17 +70,11 @@ router.delete('/deletePublication/:id', (req, res) => {
             try {
                 const deletedPublication = await dbman.deletePublication(databaseId);
                 if (deletedPublication) {
-                    res.json({status: 300});
-                    data:res.body;
+                    res.json({status: 200});
                 }
             } catch (error) {
                 throw new Error(error);
             }
-            setTimeout(() => {
-                dbman.deletePublication(databaseId).then(() => {
-                    return res.json({status: 200});
-                }).catch(console.log);
-            }, 2000);
         }
     });
 });

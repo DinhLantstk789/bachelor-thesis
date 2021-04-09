@@ -55,7 +55,7 @@ function parseAuthors(creators) {
     return finalAuthors.substring(0, finalAuthors.length - 2);
 }
 
-export default function PublicationDetail({type, title, authors, approved, publicationId}) {
+export default function PublicationDetail({type, title, authors, approved, publicationId, forceReload}) {
     const [isApproved, setIsApproved] = useState(false);
     const [tooltipId, setTooltipId] = useState("tt_" + publicationId);
     const [open, setOpen] = useState(false);
@@ -69,6 +69,8 @@ export default function PublicationDetail({type, title, authors, approved, publi
     });
 
     let updateDbIntoRedux = (displayingPublicationLabel) => {
+        dispatch(setDashboardState(true));
+        dispatch(saveDisplayingPublicationLabel(displayingPublicationLabel));
         const body = {
             id: publicationId,
             accessToken: loggedUser.accessToken,
@@ -76,8 +78,6 @@ export default function PublicationDetail({type, title, authors, approved, publi
         axios.post('http://localhost:1234/article/view', body).then(res => {
             let status = res.data.status;
             if (status === 200) {
-                dispatch(setDashboardState(true));
-                dispatch(saveDisplayingPublicationLabel(displayingPublicationLabel));
                 let corporateCreators = [], funders = [], projects = [];
                 res.data.publications[0].corporateCreators.forEach(c => corporateCreators.push({corporateCreator: c}));
                 res.data.publications[0].funders.forEach(f => funders.push({funder: f}));
@@ -202,9 +202,9 @@ export default function PublicationDetail({type, title, authors, approved, publi
                                    );
                                    await Api.delete(`/article/deletePublication/${publicationId}`).then(res => {
                                        let status = res.data.status;
-                                       if (status === 300) {
+                                       if (status === 200) {
                                            console.log('thu suong 123');
-
+                                           forceReload();
                                        } else {
                                            console.log('error');
                                        }

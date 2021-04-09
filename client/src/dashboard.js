@@ -42,14 +42,14 @@ export default function Dashboard() {
                             }}><i className='fa fa-backward'/>&nbsp; Back
                             </Button> : ''}
                             <h5 style={{marginTop: 10, marginLeft: 10, marginRight: 30}}>{displayingPublicationLabel}</h5>
-                            <div style={{paddingTop: 10}}>
+                            {isAddingPublication ? '' : <div style={{paddingTop: 10}}>
                                 <Badge theme={approvalFilter ? 'primary' : 'light'} href="#" pill style={{marginRight: 5, paddingLeft: 15, paddingRight: 15}} onClick={() => {
                                     setApprovalFilter(!approvalFilter);
                                 }}>Approved</Badge>
                                 <Badge theme={pendingFilter ? 'primary' : 'light'} href="#" pill style={{marginLeft: 5, paddingLeft: 15, paddingRight: 15}} onClick={() => {
                                     setPendingFilter(!pendingFilter);
                                 }}>Pending</Badge>
-                            </div>
+                            </div>}
                         </Row>
                     </Col>
                     <Col>

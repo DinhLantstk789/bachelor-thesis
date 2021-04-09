@@ -20,7 +20,7 @@ export default function Publications({approvalFilter, pendingFilter}) {
                 console.log('error:', res.data.message)
             }
         })
-    }, [])
+    }, [isLoading])
 
     let loading = <div>
         <List/>
@@ -31,7 +31,7 @@ export default function Publications({approvalFilter, pendingFilter}) {
     let showOnlyPending = !approvalFilter && pendingFilter
     let filteredItems = publications.filter(item => (showAll ? item : (showOnlyApproval ? item.isApproved : (showOnlyPending ? !item.isApproved : item.isApproved === undefined))));
     let result = filteredItems.map(item => (
-        <PublicationDetail type={item.type} title={item.title} authors={item.creators} approved={item.isApproved} publicationId={item.id}/>
+        <PublicationDetail type={item.type} title={item.title} authors={item.creators} approved={item.isApproved} publicationId={item.id} forceReload={() => setIsLoading(true)}/>
     ))
     return (
         <Fragment>
