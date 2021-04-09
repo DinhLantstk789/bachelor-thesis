@@ -23,7 +23,6 @@ CREATE TABLE publication (
 	title TEXT NOT NULL,
 	abstract TEXT,
 	corporate_creators TEXT[],
-    divisions TEXT[],
 	is_refereed BOOLEAN,
 	status VARCHAR(20),
 	kind VARCHAR (20),
@@ -61,6 +60,23 @@ CREATE TABLE publication (
 	db_created_on TIMESTAMP DEFAULT NOW(),
 	db_updated_on TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY (id)
+);
+
+CREATE TABLE divisions (
+    name TEXT,
+    db_created_on TIMESTAMP DEFAULT NOW(),
+    db_updated_on TIMESTAMP DEFAULT NOW(),
+    PRIMARY KEY(name)
+);
+
+CREATE TABLE publication_division (
+    publication_id INTEGER,
+    division_name TEXT,
+    db_created_on TIMESTAMP DEFAULT NOW(),
+    db_updated_on TIMESTAMP DEFAULT NOW(),
+    FOREIGN KEY (publication_id) REFERENCES publication (id),
+    FOREIGN KEY (division_name) REFERENCES divisions (name),
+    PRIMARY KEY (publication_id, division_name)
 );
 
 CREATE TABLE publication_creator (

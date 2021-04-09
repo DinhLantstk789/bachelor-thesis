@@ -54,7 +54,7 @@ router.post('/toggleApproval', (req, res) => {
     }, 2000);
 });
 
-router.destroy('/deletePublication/:id', (req, res) => {
+router.delete('/deletePublication/:id', (req, res) => {
     let databaseId = req.params.id;
     let accessToken = req.headers['authorization'];
     if (accessToken === null) return res.json({status: 403, message: 'Missing access token.'});

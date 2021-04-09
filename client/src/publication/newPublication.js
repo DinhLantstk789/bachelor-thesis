@@ -52,6 +52,7 @@ import Editors from "./sharedSections/editors";
 import ArticleMain from "./mainSections/article";
 import TechnicalReport from "./mainSections/technicalReport";
 import BookMain from "./mainSections/book";
+import * as apiCalls from "../apiCalls";
 
 class NewPublication extends Component {
     state = {
@@ -385,24 +386,21 @@ class NewPublication extends Component {
                             publicationDepartment: this.props.publicationDepartment
                         }
                         this.setState({submissionProgress: 1})
-                        axios.post('http://localhost:1234/article/add', body).then(res => {
-                            let status = res.data.status;
-                            if (status === 200) {
-                                this.setState({submissionProgress: 2});
-                                setTimeout(() => {
-                                    this.props.resetArticle();
-                                    this.props.resetBookSection();
-                                    this.props.resetConference();
-                                    this.props.resetPublication();
-                                    this.props.resetTechnicalReport();
-                                    this.props.setDashboardState(false);
-                                    this.props.saveDisplayingPublicationLabel('My Publication');
-                                    this.props.saveViewingPublicationId(null);
-                                }, 1000);
-                            } else {
-                                this.setState({submissionProgress: 3})
-                                console.log('error:', res.data.message)
-                            }
+                        apiCalls.addPublication(body, () => {
+                            this.setState({submissionProgress: 2});
+                            setTimeout(() => {
+                                this.props.resetArticle();
+                                this.props.resetBookSection();
+                                this.props.resetConference();
+                                this.props.resetPublication();
+                                this.props.resetTechnicalReport();
+                                this.props.setDashboardState(false);
+                                this.props.saveDisplayingPublicationLabel('My Publication');
+                                this.props.saveViewingPublicationId(null);
+                            }, 1000);
+                        }, (error) => {
+                            console.log('error:', error);
+                            this.setState({submissionProgress: 3});
                         })
                     }}>{submitButtonText} &nbsp;<i className={submitButtonIcon}/></Button>
                 }
