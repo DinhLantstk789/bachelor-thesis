@@ -1,53 +1,42 @@
-import {Component, Fragment} from 'react';
-import {Tooltip, FormRadio} from "shards-react";
+import {Fragment, useEffect, useState} from 'react';
+import {FormRadio, Tooltip} from "shards-react";
 
-class RadioGroup extends Component {
-    state = {
-        selectedId: null
+export default function RadioGroup({selectedId, enableTooltip, inline, radioArray, onSelected}) {
+    const [newSelectedId, setNewSelectedId] = useState(null);
+    const [toggleState, setToggleState] = useState({});
+    useEffect(() => {
+        setNewSelectedId(selectedId)
+    });
+
+    let toggle = (pos) => {
+        setToggleState(prevState => ({...prevState, [pos]: !toggleState[pos]}));
     }
 
-    constructor(props) {
-        super(props);
-    }
-
-    componentDidMount() {
-        this.setState({selectedId: this.props.selectedId});
-    }
-
-    toggle = (pos) => {
-        const newState = {};
-        newState[pos] = !this.state[pos];
-        this.setState({...this.state, ...newState});
-    }
-
-    render() {
-        return (
-            <Fragment>
-                {this.props.radioArray.map((radioElement) => (
-                    <div style={this.props.inline ? {display: "inline", marginRight: 5} : {display: ""}}>
-                        <label id={radioElement.id} style={{paddingRight: 10}}>
-                            <FormRadio
-                                name={radioElement.id}
-                                checked={this.state.selectedId === radioElement.id}
-                                onChange={() => {
-                                    this.setState({selectedId: radioElement.id});
-                                    this.props.onSelected(radioElement.id);
-                                }}>
-                                {radioElement.name}
-                            </FormRadio>
-                        </label>
-                        {this.props.enableTooltip ? <Tooltip
-                            placement="top" style={{maxWidth: 900}}
-                            open={this.state[radioElement.id + 'Open']}
-                            target={"#" + radioElement.id}
-                            toggle={() => this.toggle(radioElement.id + 'Open')}>
-                            {radioElement.tooltip}
-                        </Tooltip> : ''}
-                    </div>
-                ))}
-            </Fragment>
-        )
-    }
+    return (
+        <Fragment>
+            {radioArray.map((radioElement) => (
+                <div style={inline ? {display: "inline", marginRight: 5} : {display: ""}}>
+                    <label id={radioElement.id} style={{paddingRight: 10}}>
+                        <FormRadio
+                            name={radioElement.id}
+                            checked={newSelectedId === radioElement.id}
+                            onChange={() => {
+                                setNewSelectedId(radioElement.id);
+                                onSelected(radioElement.id);
+                            }}>
+                            {radioElement.name}
+                        </FormRadio>
+                    </label>
+                    {enableTooltip ? <Tooltip
+                        placement="top" style={{maxWidth: 900}}
+                        open={toggleState[radioElement.id + 'Open']}
+                        target={"#" + radioElement.id}
+                        toggle={() => toggle(radioElement.id + 'Open')}>
+                        {radioElement.tooltip}
+                    </Tooltip> : ''}
+                </div>
+            ))}
+        </Fragment>
+    )
 }
 
-export default RadioGroup;

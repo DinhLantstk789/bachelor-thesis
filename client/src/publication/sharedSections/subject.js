@@ -10,7 +10,7 @@ class Subject extends Component {
                 <div style={{marginTop: 20}}>
                     <h6>Subjects</h6>
                     {this.props.subjects.map((item, index) => (
-                        <Badge style={{marginLeft: 10, marginTop: 10}} pill theme={item.isEnable ? 'primary' : 'light'} onClick={() => {
+                        <Badge href="#" style={{marginLeft: 10, marginTop: 10, paddingLeft: 10, paddingRight: 10}} pill theme={item.isEnable ? 'primary' : 'light'} onClick={() => {
                             let currentSubjects = this.props.subjects;
                             currentSubjects[index].isEnable = !currentSubjects[index].isEnable;
                             savePublicationSubjects(currentSubjects);

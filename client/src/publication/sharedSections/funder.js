@@ -1,41 +1,36 @@
-import {Component, Fragment} from 'react';
-import {connect} from "react-redux";
+import { Fragment} from 'react';
+import { useDispatch, useSelector} from "react-redux";
 import {Col, FormInput, Row} from "shards-react";
 import { savePublicationFunders} from "../../redux/actions";
 
-class Funder extends Component {
-    render() {
+export default function Funder () {
+    const funders = useSelector(store => store.publication.funders);
+    const dispatch = useDispatch();
         return (
             <Fragment>
                 <div style={{marginTop: 20}}><h6>Funders &nbsp;<i className='fa fa-plus-circle' onClick={() => {
-                    this.props.savePublicationFunders(this.props.funders.concat({funder: ''}))
+                    dispatch(savePublicationFunders(this.props.funders.concat({funder: ''})))
                 }}/></h6></div>
-                {this.props.funders.map((item, index) => (
+                {funders.map((item, index) => (
                     <Row style={{marginTop: 10}}>
                         <Col sm={11}>
                             <Row>
                                 <Col><FormInput placeholder="Funder" value={item.funder} valid={item.funder.length > 5} onChange={(e) => {
-                                    let funders = this.props.funders;
                                     funders[index].funder = e.target.value;
-                                    this.props.savePublicationFunders(funders);
+                                    dispatch(savePublicationFunders(funders));
                                     this.forceUpdate()
                                 }}/></Col>
                             </Row>
                         </Col>
                         <Col sm={1}>
                             <i className="fa fa-times-circle" style={{fontSize: 22, marginTop: 10}} onClick={() =>
-                                this.props.savePublicationFunders(this.props.funders.filter((value, key) => key !== index))
+                                dispatch(savePublicationFunders(funders.filter((value, key) => key !== index)))
                             }/>
                         </Col>
                     </Row>
                 ))}
             </Fragment>
         )
-    }
 }
 
-let mapStateToProps = (store) => {
-    return {funders: store.publication.funders};
-}
-let mapDispatchToProps = {savePublicationFunders};
-export default connect(mapStateToProps, mapDispatchToProps)(Funder);
+

@@ -43,12 +43,12 @@ export default function Dashboard() {
                             </Button> : ''}
                             <h5 style={{marginTop: 10, marginLeft: 10, marginRight: 30}}>{displayingPublicationLabel}</h5>
                             {isAddingPublication ? '' : <div style={{paddingTop: 10}}>
-                                <Badge theme={approvalFilter ? 'primary' : 'light'} href="#" pill style={{marginRight: 5, paddingLeft: 15, paddingRight: 15}} onClick={() => {
+                                <Badge theme={approvalFilter ? 'primary' : 'light'} href="#" pill style={{marginRight: 5, paddingLeft: 10, paddingRight: 10}} onClick={() => {
                                     setApprovalFilter(!approvalFilter);
-                                }}>Approved</Badge>
-                                <Badge theme={pendingFilter ? 'primary' : 'light'} href="#" pill style={{marginLeft: 5, paddingLeft: 15, paddingRight: 15}} onClick={() => {
+                                }}>Approved &nbsp;<i className="fas fa-check"/> </Badge>
+                                <Badge theme={pendingFilter ? 'primary' : 'light'} href="#" pill style={{marginLeft: 5, paddingLeft: 10, paddingRight: 10}} onClick={() => {
                                     setPendingFilter(!pendingFilter);
-                                }}>Pending</Badge>
+                                }}>Pending &nbsp;<i className="fas fa-clock"/> </Badge>
                             </div>}
                         </Row>
                     </Col>

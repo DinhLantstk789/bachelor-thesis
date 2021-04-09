@@ -1,42 +1,35 @@
-import {Component, Fragment} from 'react';
-import {connect} from "react-redux";
+import { Fragment} from 'react';
+import { useDispatch, useSelector} from "react-redux";
 import {Col, FormInput, Row} from "shards-react";
 import {savePublicationCorporateCreators} from "../../redux/actions";
 
-class CorporateCreators extends Component {
-
-    render() {
+export default function CorporateCreators () {
+        const corporateCreators = useSelector(store =>store.publication.corporateCreators);
+        const dispatch = useDispatch();
         return (
             <Fragment>
                 <div style={{marginTop: 20}}><h6>Corporate Creators &nbsp;<i className='fa fa-plus-circle' onClick={() => {
-                    this.props.savePublicationCorporateCreators(this.props.corporateCreators.concat({corporateCreator: ''}))
+                    dispatch(savePublicationCorporateCreators(corporateCreators.concat({corporateCreator: ''})))
                 }}/></h6></div>
-                {this.props.corporateCreators.map((item, index) => (
+                {corporateCreators.map((item, index) => (
                     <Row style={{marginTop: 10}}>
                         <Col sm={11}>
                             <Row>
                                 <Col><FormInput placeholder="Corporate Creators" value={item.corporateCreator} valid={item.corporateCreator.length > 5} onChange={(e) => {
-                                    let corporateCreators = this.props.corporateCreators;
+                                    let corporateCreators = corporateCreators;
                                     corporateCreators[index].corporateCreator = e.target.value;
-                                    this.props.savePublicationCorporateCreators(corporateCreators);
-                                    this.forceUpdate()
+                                    dispatch(savePublicationCorporateCreators(corporateCreators));
+                                    this.forceUpdate();
                                 }}/></Col>
                             </Row>
                         </Col>
                         <Col sm={1}>
                             <i className="fa fa-times-circle" style={{fontSize: 22, marginTop: 10}} onClick={() =>
-                                this.props.savePublicationCorporateCreators(this.props.corporateCreators.filter((value, key) => key !== index))
+                                dispatch(savePublicationCorporateCreators(corporateCreators.filter((value, key) => key !== index)))
                             }/>
                         </Col>
                     </Row>
                 ))}
             </Fragment>
         )
-    }
 }
-
-let mapStateToProps = (store) => {
-    return {corporateCreators: store.publication.corporateCreators};
-}
-let mapDispatchToProps = {savePublicationCorporateCreators};
-export default connect(mapStateToProps, mapDispatchToProps)(CorporateCreators);
