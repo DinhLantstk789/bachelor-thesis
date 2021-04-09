@@ -1,6 +1,7 @@
-import {Component, Fragment} from 'react';
+import {Fragment, useEffect, useState} from 'react';
 import {Badge, Col, FormCheckbox, Row, Tooltip} from "shards-react";
 import axios from "axios";
+import {useDispatch, useSelector} from "react-redux";
 import {
     disableAllElements,
     saveArticleType,
@@ -38,7 +39,6 @@ import {
     savePublicationProjects,
     savePublicationRefereed,
     savePublicationReferences,
-    savePublicationRelatedURL,
     savePublicationStatus,
     savePublicationSubjects,
     savePublicationTitle,
@@ -46,37 +46,38 @@ import {
     savePublicationURL,
     saveThesisType,
     saveViewingPublicationId,
-    setDashboardState,
+    setDashboardState
 } from "../../redux/actions";
-import {connect} from "react-redux";
 
+function parseAuthors(creators) {
+    let finalAuthors = '';
+    creators.forEach(c => finalAuthors += c.givenName + ' ' + c.familyName + ', ');
+    return finalAuthors.substring(0, finalAuthors.length - 2);
+}
 
-class Publication extends Component {
-    state = {
-        isApproved: false,
-        open: false
-    }
+export default function PublicationDetail({type, title, authors, approved, publicationId}) {
+    const [isApproved, setIsApproved] = useState(false);
+    const [tooltipId, setTooltipId] = useState("tt_" + publicationId);
+    const [open, setOpen] = useState(false);
+    const loggedUser = useSelector(store => store.user.loggedUser);
+    const dispatch = useDispatch();
 
-    parseAuthors(creators) {
-        let finalAuthors = '';
-        creators.forEach(c => finalAuthors += c.givenName + ' ' + c.familyName + ', ');
-        return finalAuthors.substring(0, finalAuthors.length - 2);
-    }
+    useEffect(() => {
+        setIsApproved(approved);
+        setTooltipId("tt_" + publicationId);
+        console.log(type, title, authors, approved, publicationId, tooltipId);
+    });
 
-    constructor(props) {
-        super(props);
-        this.state.isApproved = props.isApproved;
-    }
-    UpdateDbIntoRedux = (displayingPublicationLabel) =>{
+    let updateDbIntoRedux = (displayingPublicationLabel) => {
         const body = {
-            id: this.props.publicationId,
-            accessToken: this.props.loggedUser.accessToken,
+            id: publicationId,
+            accessToken: loggedUser.accessToken,
         }
         axios.post('http://localhost:1234/article/view', body).then(res => {
             let status = res.data.status;
             if (status === 200) {
-                this.props.setDashboardState(true);
-                this.props.saveDisplayingPublicationLabel(displayingPublicationLabel);
+                dispatch(setDashboardState(true));
+                dispatch(saveDisplayingPublicationLabel(displayingPublicationLabel));
                 let corporateCreators = [], funders = [], projects = [];
                 res.data.publications[0].corporateCreators.forEach(c => corporateCreators.push({corporateCreator: c}));
                 res.data.publications[0].funders.forEach(f => funders.push({funder: f}));
@@ -116,186 +117,128 @@ class Publication extends Component {
                         }
                     })
                 });
-                this.props.saveArticleType(res.data.publications[0].type);
-                this.props.savePublicationTitle(res.data.publications[0].title);
-                this.props.savePublicationCreators(res.data.publications[0].creators);
-                this.props.savePublicationAbstract(res.data.publications[0].publicationAbstract);
-                this.props.savePublicationCorporateCreators(corporateCreators);
-                this.props.savePublicationDivisions(initialDivisions);
-                this.props.savePublicationStatus(res.data.publications[0].selectedStatus);
-                this.props.savePublicationKind(res.data.publications[0].kind);
-                this.props.savePublicationRefereed(res.data.publications[0].selectedRefereed);
-                this.props.saveBookSectionFirstPage(res.data.publications[0].bookSectionFirstPage);
-                this.props.saveBookSectionEndPage(res.data.publications[0].bookSectionEndPage);
-                this.props.saveBookSectionTitle(res.data.publications[0].bookSectionTitle);
-                this.props.saveBookSectionPublicationPlace(res.data.publications[0].bookSectionPublicationPlace);
-                this.props.saveBookSectionPublisher(res.data.publications[0].bookSectionPublisher);
-                this.props.saveBookSectionPageNumber(res.data.publications[0].bookSectionPageNumber);
-                this.props.saveBookSectionSeriesName(res.data.publications[0].bookSectionSeriesName);
-                this.props.saveBookSectionISBN(res.data.publications[0].bookSectionISBN);
-                this.props.saveBookSectionVolume(res.data.publications[0].bookSectionVolume);
-                this.props.saveBookSectionNumber(res.data.publications[0].bookSectionNumber);
-                this.props.savePublicationSubjects(initialSubjects);
-                this.props.savePublicationEditors(res.data.publications[0].editors);
-                this.props.savePublicationDateType(res.data.publications[0].selectedDateType);
-                this.props.savePublicationDate(res.data.publications[0].selectedDate);
-                this.props.savePublicationURL(res.data.publications[0].publicationURL);
-                // this.props.savePublicationRelatedURL(res.data.publications[0].relatedURLs);
-                this.props.savePublicationFunders(funders);
-                this.props.savePublicationProjects(projects);
-                this.props.savePublicationEmailAddress(res.data.publications[0].emailAddress);
-                this.props.savePublicationReferences(res.data.publications[0].references);
-                this.props.savePublicationUnKeyword(res.data.publications[0].unKeyword);
-                this.props.savePublicationAddInformation(res.data.publications[0].addInformation);
-                this.props.savePublicationComment(res.data.publications[0].comment);
-                this.props.saveMonographType(res.data.publications[0].monographType);
-                this.props.savePresentationType(res.data.publications[0].presentationType);
-                this.props.saveThesisType(res.data.publications[0].thesisType);
-                this.props.saveInstitution(res.data.publications[0].institution);
-                this.props.savePatentApplicant(res.data.publications[0].patentApplicant);
-                this.props.saveMediaOutput(res.data.publications[0].mediaOutput);
-                this.props.saveCopyrightHolder(res.data.publications[0].copyrightHolder);
-                this.props.savePublicationDepartment(res.data.publications[0].publicationDepartment);
-                this.props.savePublicationId(res.data.publications[0].publicationId);
+                dispatch(saveArticleType(res.data.publications[0].type));
+                dispatch(savePublicationTitle(res.data.publications[0].title));
+                dispatch(savePublicationCreators(res.data.publications[0].creators));
+                dispatch(savePublicationAbstract(res.data.publications[0].publicationAbstract));
+                dispatch(savePublicationCorporateCreators(corporateCreators));
+                dispatch(savePublicationDivisions(initialDivisions));
+                dispatch(savePublicationStatus(res.data.publications[0].selectedStatus));
+                dispatch(savePublicationKind(res.data.publications[0].kind));
+                dispatch(savePublicationRefereed(res.data.publications[0].selectedRefereed));
+                dispatch(saveBookSectionFirstPage(res.data.publications[0].bookSectionFirstPage));
+                dispatch(saveBookSectionEndPage(res.data.publications[0].bookSectionEndPage));
+                dispatch(saveBookSectionTitle(res.data.publications[0].bookSectionTitle));
+                dispatch(saveBookSectionPublicationPlace(res.data.publications[0].bookSectionPublicationPlace));
+                dispatch(saveBookSectionPublisher(res.data.publications[0].bookSectionPublisher));
+                dispatch(saveBookSectionPageNumber(res.data.publications[0].bookSectionPageNumber));
+                dispatch(saveBookSectionSeriesName(res.data.publications[0].bookSectionSeriesName));
+                dispatch(saveBookSectionISBN(res.data.publications[0].bookSectionISBN));
+                dispatch(saveBookSectionVolume(res.data.publications[0].bookSectionVolume));
+                dispatch(saveBookSectionNumber(res.data.publications[0].bookSectionNumber));
+                dispatch(savePublicationSubjects(initialSubjects));
+                dispatch(savePublicationEditors(res.data.publications[0].editors));
+                dispatch(savePublicationDateType(res.data.publications[0].selectedDateType));
+                dispatch(savePublicationDate(res.data.publications[0].selectedDate));
+                dispatch(savePublicationURL(res.data.publications[0].publicationURL));
+                // dispatch(savePublicationRelatedURL(res.data.publications[0].relatedURLs));
+                dispatch(savePublicationFunders(funders));
+                dispatch(savePublicationProjects(projects));
+                dispatch(savePublicationEmailAddress(res.data.publications[0].emailAddress));
+                dispatch(savePublicationReferences(res.data.publications[0].references));
+                dispatch(savePublicationUnKeyword(res.data.publications[0].unKeyword));
+                dispatch(savePublicationAddInformation(res.data.publications[0].addInformation));
+                dispatch(savePublicationComment(res.data.publications[0].comment));
+                dispatch(saveMonographType(res.data.publications[0].monographType));
+                dispatch(savePresentationType(res.data.publications[0].presentationType));
+                dispatch(saveThesisType(res.data.publications[0].thesisType));
+                dispatch(saveInstitution(res.data.publications[0].institution));
+                dispatch(savePatentApplicant(res.data.publications[0].patentApplicant));
+                dispatch(saveMediaOutput(res.data.publications[0].mediaOutput));
+                dispatch(saveCopyrightHolder(res.data.publications[0].copyrightHolder));
+                dispatch(savePublicationDepartment(res.data.publications[0].publicationDepartment));
+                dispatch(savePublicationId(res.data.publications[0].publicationId));
             } else {
                 console.log('error:', res.data.message)
             }
         })
     }
+    return (
+        <Fragment>
+            <Row>
+                <Col md={8}>
+                    <Row style={{marginLeft: 0}}>
+                        <h6 onClick={() => {
+                            updateDbIntoRedux('Publication Details');
+                            dispatch(disableAllElements(true));
+                        }}><Badge theme="primary" style={{marginRight: 8}}>
+                            {type}
+                        </Badge>{title}</h6>
+                    </Row>
+                    <Row style={{marginLeft: 0, marginTop: -10}}>
+                        <p style={{fontSize: 14}}>{parseAuthors(authors)}</p>
+                    </Row>
+                </Col>
+                <Col md={4}>
+                    <Row className='float-right' style={{marginRight: 10, marginTop: 13}}>
+                        <i style={{fontSize: 20, marginLeft: 20}} className='fa fa-edit'
+                           onClick={() => {
+                               dispatch(saveViewingPublicationId(publicationId));
+                               updateDbIntoRedux('Update Publication');
 
-    render() {
-        return (
-            <Fragment>
-                <Row>
-                    <Col md={8}>
-                        <Row style={{marginLeft: 0}}>
-                            <h6 onClick={() => {
-                                this.UpdateDbIntoRedux('Publication Details');
-                                this.props.disableAllElements(true);
-                            }}><Badge theme="primary" style={{marginRight: 8}}>
-                                {this.props.type}
-                            </Badge>{this.props.title}</h6>
-                        </Row>
-                        <Row style={{marginLeft: 0, marginTop: -10}}>
-                            <p style={{fontSize: 14}}>{this.parseAuthors(this.props.authors)}</p>
-                        </Row>
-                    </Col>
-                    <Col md={4}>
-                        <Row className='float-right' style={{marginRight: 10, marginTop: 13}}>
-                            <i style={{fontSize: 20, marginLeft: 20}} className='fa fa-edit'
-                               onClick={() => {
-                                   this.props.saveViewingPublicationId(this.props.publicationId);
-                                   this.UpdateDbIntoRedux('Update Publication');
+                           }}
+                        />
+                        {loggedUser.isAdmin ? <span>&nbsp; &nbsp;</span> :
+                            <i style={{fontSize: 20, marginLeft: 20, marginRight: 20}} className='fa fa-trash'
+                               onClick={async () => {
+                                   const Api = axios.create(
+                                       {
+                                           baseURL: 'http://localhost:1234',
+                                           headers: {
+                                               Authorization: `${loggedUser.accessToken}`
+                                           },
+                                       }
+                                   );
+                                   await Api.delete(`/article/deletePublication/${publicationId}`).then(res => {
+                                       let status = res.data.status;
+                                       if (status === 300) {
+                                           console.log('thu suong 123');
 
+                                       } else {
+                                           console.log('error');
+                                       }
+                                   });
                                }}
                             />
-                            {this.props.loggedUser.isAdmin ? <span>&nbsp; &nbsp;</span> :
-                                <i style={{fontSize: 20, marginLeft: 20, marginRight: 20}} className='fa fa-trash'
-                                   onClick={async () => {
-                                       const Api = axios.create(
-                                           {
-                                               baseURL: 'http://localhost:1234',
-                                               headers: {
-                                                   Authorization: `${this.props.loggedUser.accessToken}`
-                                               },
-                                           }
-                                       );
-                                       await Api.delete(`/article/deletePublication/${this.props.publicationId}`).then(res => {
-                                           let status = res.data.status;
-                                           if (status === 300) {
-                                               console.log('thu suong 123');
 
-                                           } else {
-                                               console.log('error');
-                                           }
-                                       });
-                                   }}
-                                />
+                        }
 
-                            }
-
-                            {this.props.loggedUser.isAdmin ? <FormCheckbox toggle checked={this.state.isApproved} onChange={() => {
-                                this.setState({isApproved: !this.state.isApproved});
-                                const body = {id: this.props.publicationId};
-                                axios.post('http://localhost:1234/article/toggleApproval', body).then(res => {
-                                    let status = res.data.status;
-                                    if (status === 200) {
-                                        console.log(res.data.message);
-                                    } else {
-                                        this.setState({isApproved: !this.state.isApproved});
-                                        console.log('error:', res.data.message)
-                                    }
-                                })
-                            }}>
-                            </FormCheckbox> : <div>
-                                {this.props.isApproved ? <img style={{height: "20px"}} src='./images/approved_dep.png' aria-hidden="true" id={"tt_" + this.props.publicationId}/> :
-                                    <i style={{fontSize: 20}} className="fa fa-clock" aria-hidden="true" id={"tt_" + this.props.publicationId}/>}
-                                <Tooltip
-                                    open={this.state.open}
-                                    target={"#tt_" + this.props.publicationId}
-                                    toggle={() => this.setState({open: !this.state.open})}>
-                                    {this.props.isApproved ? '✌️ Woo! Publication is approved.' : '🥺 Publication is still being processed.'}
-                                </Tooltip>
-                            </div>
-                            }
-                        </Row>
-                    </Col>
-                </Row>
-            </Fragment>
-        )
-    }
+                        {loggedUser.isAdmin ? <FormCheckbox toggle checked={isApproved} onChange={() => {
+                            setIsApproved(!isApproved);
+                            const body = {id: publicationId};
+                            axios.post('http://localhost:1234/article/toggleApproval', body).then(res => {
+                                let status = res.data.status;
+                                if (status === 200) {
+                                    console.log(res.data.message);
+                                } else {
+                                    setIsApproved(!isApproved);
+                                    console.log('error:', res.data.message)
+                                }
+                            })
+                        }}/> : <div>
+                            {isApproved === true ? <i style={{fontSize: 20}} className="fa fa-check" aria-hidden="true" id={tooltipId}/> :
+                                <i style={{fontSize: 20}} className="fa fa-clock" aria-hidden="true" id={tooltipId}/>}
+                            <Tooltip
+                                open={open}
+                                target={"#" + tooltipId}
+                                toggle={() => setOpen(!open)}>
+                                {isApproved === true ? '✌️ Woo! Publication is approved.' : '🥺 Publication is still being processed.'}
+                            </Tooltip>
+                        </div>
+                        }
+                    </Row>
+                </Col>
+            </Row>
+        </Fragment>
+    )
 }
-
-let mapStateToProps = (store) => {
-    return {
-        loggedUser: store.user.loggedUser
-    };
-}
-let mapDispatchToProps = {
-    setDashboardState,
-    saveArticleType,
-    saveBookSectionTitle,
-    saveBookSectionPublicationPlace,
-    saveBookSectionPublisher,
-    savePublicationCreators,
-    saveBookSectionPageNumber,
-    saveBookSectionSeriesName,
-    saveBookSectionISBN,
-    saveBookSectionVolume,
-    saveBookSectionNumber,
-    saveBookSectionFirstPage,
-    saveBookSectionEndPage,
-    saveInstitution,
-    saveMonographType,
-    savePublicationDepartment,
-    savePresentationType,
-    saveThesisType,
-    savePublicationTitle,
-    savePublicationAbstract,
-    savePublicationEditors,
-    savePublicationCorporateCreators,
-    savePublicationRelatedURL,
-    savePublicationFunders,
-    savePublicationProjects,
-    savePublicationStatus,
-    savePublicationKind,
-    savePublicationDateType,
-    savePublicationRefereed,
-    savePublicationDate,
-    savePublicationId,
-    savePublicationURL,
-    savePublicationEmailAddress,
-    savePublicationReferences,
-    savePublicationUnKeyword,
-    savePublicationAddInformation,
-    savePublicationComment,
-    savePublicationSubjects,
-    savePublicationDivisions,
-    savePatentApplicant,
-    saveMediaOutput,
-    saveCopyrightHolder,
-    saveDisplayingPublicationLabel,
-    saveViewingPublicationId,
-    disableAllElements
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Publication);

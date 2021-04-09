@@ -1,52 +1,41 @@
-import {Component, Fragment} from 'react';
+import {Fragment, useEffect, useState} from 'react';
 import {List} from "react-content-loader";
 import axios from "axios";
-import {connect} from "react-redux";
+import {useSelector} from "react-redux";
 import PublicationDetail from "./publication/rows/publication";
 
-class Publications extends Component {
-    state = {
-        isLoading: true,
-        publications: [],
-        isUpdate: false
-    }
+export default function Publications({approvalFilter, pendingFilter}) {
+    const [isLoading, setIsLoading] = useState(true);
+    const [publications, setPublications] = useState([]);
+    const loggedUser = useSelector(store => store.user.loggedUser);
 
-    componentDidMount() {
-        axios.post('http://localhost:1234/article/fetch', {accessToken: this.props.loggedUser.accessToken}).then(res => {
+    useEffect(() => {
+        axios.post('http://localhost:1234/article/fetch', {accessToken: loggedUser.accessToken}).then(res => {
             let status = res.data.status;
             if (status === 200) {
-                this.setState({publications: res.data.publications}, () => {
-                    this.setState({isLoading: false});
-                });
+                setIsLoading(false);
+                setPublications(res.data.publications);
+                console.log(publications);
             } else {
                 console.log('error:', res.data.message)
             }
         })
-    }
+    }, [])
 
-
-    render() {
-        let loading =
-            <div>
-                <List/>
-                <List style={{marginTop: 20}}/>
-            </div>
-        let result = this.state.publications.filter(item => (this.props.approvalFilter && this.props.pendingFilter ? item : (!this.props.approvalFilter && !this.props.pendingFilter ? item.isApproved === undefined : (this.props.approvalFilter ? item.isApproved : !item.isApproved)))).map(item => (
-            <PublicationDetail type={item.type} title={item.title} authors={item.creators} isApproved={item.isApproved} publicationId={item.id}/>
-        ))
-        return (
-            <Fragment>
-                {this.state.isLoading ? loading : result}
-            </Fragment>
-        )
-    }
+    let loading = <div>
+        <List/>
+        <List style={{marginTop: 20}}/>
+    </div>
+    let showAll = approvalFilter && pendingFilter
+    let showOnlyApproval = approvalFilter && !pendingFilter
+    let showOnlyPending = !approvalFilter && pendingFilter
+    let filteredItems = publications.filter(item => (showAll ? item : (showOnlyApproval ? item.isApproved : (showOnlyPending ? !item.isApproved : item.isApproved === undefined))));
+    let result = filteredItems.map(item => (
+        <PublicationDetail type={item.type} title={item.title} authors={item.creators} approved={item.isApproved} publicationId={item.id}/>
+    ))
+    return (
+        <Fragment>
+            {isLoading ? loading : result}
+        </Fragment>
+    )
 }
-
-let mapStateToProps = (store) => {
-    return {
-        loggedUser: store.user.loggedUser,
-        isApprovedPublication: store.publication.isApprovedPublication
-    };
-}
-let mapDispatchToProps = {};
-export default connect(mapStateToProps, mapDispatchToProps)(Publications);
