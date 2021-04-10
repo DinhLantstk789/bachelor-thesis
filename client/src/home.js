@@ -3,17 +3,17 @@ import {Alert, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Row} f
 import Footer from "./footer";
 import Dashboard from "./dashboard";
 import Statistics from "./statistics";
+import Profile from "./account/profile";
 
 class Home extends Component {
+    state = {
+        viewProfile:false
+    }
     constructor(props) {
         super(props);
         this.state = {open: false};
-    }
+        this.state = {openAccount: false};
 
-    toggle = () => {
-        this.setState(prevState => {
-            return {open: !prevState.open};
-        });
     }
 
     render() {
@@ -26,25 +26,30 @@ class Home extends Component {
                         </Col>
                         <Col xs={5} md={5} sm={5}>
                             <Row className="float-right">
-                                <Dropdown open={this.state.open} toggle={this.toggle}>
-                                    <DropdownToggle id="dropdown" className="float-right">Browse <i className={"fa fa-angle-down"}/></DropdownToggle>
-                                    <DropdownMenu>
-                                        <DropdownItem>Browse by Year</DropdownItem>
-                                        <DropdownItem>Browse by Subject</DropdownItem>
-                                        <DropdownItem>Browse by Division</DropdownItem>
-                                        <DropdownItem>Browse by Author </DropdownItem>
-                                    </DropdownMenu>
-                                </Dropdown>
-                                <Dropdown>
-                                    <DropdownToggle id="dropdown" style={{fontSize: 20, marginRight: 30}} className="float-right"><i className={"fa fa-user"}/></DropdownToggle>
-                                </Dropdown>
+                                    <Dropdown open={this.state.open} toggle={()=>this.setState({open :!this.state.open})} style={{paddingRight:30}}>
+                                        <DropdownToggle id="dropdown" className="float-right">Browse <i className={"fa fa-angle-down"}/></DropdownToggle>
+                                        <DropdownMenu right>
+                                            <DropdownItem>Browse by Year</DropdownItem>
+                                            <DropdownItem>Browse by Subject</DropdownItem>
+                                            <DropdownItem>Browse by Division</DropdownItem>
+                                            <DropdownItem>Browse by Author </DropdownItem>
+                                        </DropdownMenu>
+                                    </Dropdown>
+                                    <Dropdown open={this.state.openAccount} toggle={()=>this.setState({openAccount :!this.state.openAccount})}>
+                                        <DropdownToggle id="dropdown1" style={{fontSize: 20, marginRight: 30}} className="float-right"><i className={"fa fa-user"}/></DropdownToggle>
+                                        <DropdownMenu right>
+                                            <DropdownItem onClick={()=>this.setState({viewProfile:true})}><i className="fas fa-user-circle"/>&nbsp;&nbsp;See your profile</DropdownItem>
+                                            <DropdownItem><i className="fas fa-cogs"/>&nbsp;&nbsp;Settings</DropdownItem>
+                                            <DropdownItem><i className="fas fa-sign-out"/>&nbsp;&nbsp;Log Out</DropdownItem>
+                                        </DropdownMenu>
+                                    </Dropdown>
                             </Row>
                         </Col>
                     </Row>
                 </Alert>
                 <Row style={{marginLeft: 20}}>
                     <Col md={8}>
-                        <Dashboard/>
+                        {this.state.viewProfile ? <Profile/>:<Dashboard/>}
                     </Col>
                     <Col md={4}>
                         <Statistics/>

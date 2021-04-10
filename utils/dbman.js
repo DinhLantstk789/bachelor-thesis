@@ -164,7 +164,6 @@ module.exports = {
         let finalFunders = convertToSQLArray(funders);
         let finalProjects = convertToSQLArray(projects);
         let finalSubjects = convertToSQLArray(subjects);
-
         let pubId;
         if (databaseId !== undefined && databaseId !== null) {
             await eprints.query('UPDATE publication SET is_approved = $1 WHERE id = $2 RETURNING is_approved;', {bind: [false, databaseId], type: QueryTypes.UPDATE});

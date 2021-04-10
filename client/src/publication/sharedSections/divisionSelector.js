@@ -1,4 +1,4 @@
-import {Fragment} from 'react';
+import {Fragment, useState} from 'react';
 import {Col, FormCheckbox, Row} from "shards-react";
 import {savePublicationDivisions} from "../../redux/actions";
 import {useDispatch, useSelector} from "react-redux";
@@ -6,12 +6,17 @@ import {useDispatch, useSelector} from "react-redux";
 export default function DivisionSelector() {
     const divisions = useSelector(store => store.publication.divisions);
     const dispatch = useDispatch();
+    const useForceUpdate = () => {
+        const set = useState(0)[1];
+        return () => set((s) => s + 1);
+    };
+    const forceUpdate = useForceUpdate();
 
     let handleChange = (index) => {
         let currentDivisions = divisions;
         currentDivisions[index].isEnable = !currentDivisions[index].isEnable;
         dispatch(savePublicationDivisions(currentDivisions));
-        this.forceUpdate();
+        forceUpdate();
     }
     return (
         <Fragment>

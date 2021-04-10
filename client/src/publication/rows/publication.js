@@ -56,16 +56,15 @@ function parseAuthors(creators) {
 }
 
 export default function PublicationDetail({type, title, authors, approved, publicationId, forceReload}) {
-    const [isApproved, setIsApproved] = useState(false);
+    const [isApproved, setIsApproved] = useState(approved);
     const [tooltipId, setTooltipId] = useState("tt_" + publicationId);
     const [open, setOpen] = useState(false);
     const loggedUser = useSelector(store => store.user.loggedUser);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        setIsApproved(approved);
         setTooltipId("tt_" + publicationId);
-        console.log(type, title, authors, approved, publicationId, tooltipId);
+        setIsApproved(isApproved)
     });
 
     let updateDbIntoRedux = (displayingPublicationLabel) => {
@@ -186,6 +185,7 @@ export default function PublicationDetail({type, title, authors, approved, publi
                            onClick={() => {
                                dispatch(saveViewingPublicationId(publicationId));
                                updateDbIntoRedux('Update Publication');
+                               forceReload()
 
                            }}
                         />
@@ -215,12 +215,13 @@ export default function PublicationDetail({type, title, authors, approved, publi
                         }
 
                         {loggedUser.isAdmin ? <FormCheckbox toggle checked={isApproved} onChange={() => {
-                            setIsApproved(!isApproved);
+                            setIsApproved(!isApproved)
                             const body = {id: publicationId};
                             axios.post('http://localhost:1234/article/toggleApproval', body).then(res => {
                                 let status = res.data.status;
                                 if (status === 200) {
                                     console.log(res.data.message);
+                                    forceReload();
                                 } else {
                                     setIsApproved(!isApproved);
                                     console.log('error:', res.data.message)
