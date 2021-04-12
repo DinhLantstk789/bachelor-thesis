@@ -28,3 +28,7 @@
     color: steelblue;
     border-style: none;
 }
+#setVerticalLine{
+    border-right-style: solid;
+    border-right-color: green;
+}

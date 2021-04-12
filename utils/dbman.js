@@ -156,9 +156,9 @@ module.exports = {
             subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
             emailAddress, references, unKeyword, addInformation, comment, databaseId);
         let finalRelatedURLs = '';
-        relatedURLs.forEach(i => finalRelatedURLs += ('("' + i.URL + '","' + i.URLType + '")' + ','))
-        finalRelatedURLs = '{' + finalRelatedURLs.substring(0, finalRelatedURLs.length - 1) + '}';
-        finalRelatedURLs = '{}'; // TODO: fixxxx please
+        //  relatedURLs.forEach(i => finalRelatedURLs += ('("' + i.URL + '","' + i.URLType + '")' + ','))
+        // finalRelatedURLs = '{' + finalRelatedURLs.substring(0, finalRelatedURLs.length - 1) + '}';
+        // finalRelatedURLs = '{}'; // TODO: fixxxx please
 
         let finalCorporateCreators = convertToSQLArray(corporateCreators);
         let finalFunders = convertToSQLArray(funders);
@@ -216,5 +216,44 @@ module.exports = {
             insertCreatorEditor(pubId[0][0].id, user, 'editor')
         });
         return pubId[0][0].id;
+    },
+    insertUser: async (givenName, familyName, email, address, department, roles, userDescription) => {
+        let addUser = await eprints.query(
+            'INSERT INTO users(given_name,family_name,email,address,department,roles,description) VALUES ($1,$2,$3,$4,$5,$6,$7) ' +
+            'RETURNING email;', {
+                bind: [givenName, familyName, email, address, department, roles, userDescription], type: QueryTypes.INSERT
+            }
+        )
+        return addUser[0][0].email;
+    },
+    fetchUserInformation: async (email) => {
+        let filter = email === null ? '' : ('WHERE email = $1');
+        let selectedFields = email === null ? 'given_name, family_name, email' : '*';
+        let returnedResult = [];
+        let selectedUsers = await eprints.query('SELECT ' + selectedFields + ' FROM users ' + filter + ' ORDER BY db_created_on DESC;', {bind: email === null ? [] : [email], type: QueryTypes.SELECT});
+        for (const p of selectedUsers) {
+            if (email === null) {
+                returnedResult.push({
+                    email: p.email,
+                    givenName: p.given_name,
+                    familyName: p.family_name
+                })
+            } else {
+                returnedResult.push({
+                    email: p.email,
+                    givenName: p.given_name,
+                    familyName: p.family_name,
+                    address: p.address,
+                    department: p.department,
+                    roles: p.roles,
+                    userDescription: p.description
+                })
+            }
+        }
+        return returnedResult;
+    },
+    findUser: async (email) => {
+        let users = await eprints.query('SELECT email, password, family_name, given_name, is_admin FROM users WHERE email = $1', {bind: [email], type: QueryTypes.SELECT});
+        return users.length === 1 ? users[0] : null;
     }
 }

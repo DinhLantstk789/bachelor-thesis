@@ -7,6 +7,8 @@ CREATE TABLE users (
 	department TEXT DEFAULT NULL,
 	address TEXT DEFAULT NULL,
 	is_admin BOOLEAN DEFAULT FALSE,
+	roles TEXT NOT NULL,
+	description TEXT NOT NULL,
 	registration_date TIMESTAMP DEFAULT NULL,
 	last_login TIMESTAMP DEFAULT NULL,
 	is_approved BOOLEAN DEFAULT FALSE,

@@ -2,30 +2,63 @@ const configs = require('../utils/configs');
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
+const dbman = require("../utils/dbman");
+const bcrypt = require('bcrypt');
 
 router.post('/login', (req, res) => {
     let email = req.body.email;
-    let password = req.body.password;
-    if (email === 'thusuong@gmail.com' && password === '093bc05d41e789745d2de76ac318cd2d6ca8d85a56c341c88994673d08db581b') {
-        let user = {
-            email: email,
-            name: 'Thu Suong',
-            isAdmin: false
-        }
-        user['accessToken'] = jwt.sign(user, configs.SECRET, {expiresIn: configs.ACCESS_TOKEN_LIFE});
-        return res.json({status: 200, user: user})
-    } else if (email === 'admin@eprints.vnu.edu.vn' && password === '093bc05d41e789745d2de76ac318cd2d6ca8d85a56c341c88994673d08db581b') {
-        let user = {
-            email: email,
-            name: 'Eprints Admin',
-            isAdmin: true
-        }
-        user['accessToken'] = jwt.sign(user, configs.SECRET, {expiresIn: configs.ACCESS_TOKEN_LIFE});
-        return res.json({status: 200, user: user})
-    } else {
-        return res.json({status: 401, message: 'Username and password do not match.'})
-    }
+    let receivedPassword = req.body.password;
+    dbman.findUser(email).then(user => {
+        if (user === null) return res.json({status: 401, message: 'Account not found'});
+        let hashedPassword = user.password;
+        bcrypt.compare(receivedPassword, hashedPassword, (err, bcryptRes) => {
+            if (bcryptRes) {
+                let returnedUser = {
+                    email: user.email,
+                    familyName: user.family_name,
+                    givenName: user.given_name,
+                    isAdmin: user.is_admin
+                }
+                returnedUser['accessToken'] = jwt.sign(returnedUser, configs.SECRET, {expiresIn: configs.ACCESS_TOKEN_LIFE});
+                return res.json({status: 200, user: returnedUser})
+            } else {
+                return res.json({status: 401, message: 'Username and password do not match.'});
+            }
+        });
+    }).catch(console.log);
 })
+router.post('/addUser', (req, res) => {
+    let givenName = req.body.givenName;
+    let familyName = req.body.familyName;
+    let email = req.body.email;
+    let address = req.body.address;
+    let department = req.body.department;
+    let role = req.body.role;
+    let userDescription = req.body.userDescription;
+    dbman.insertUser(givenName, familyName, email, address, department, role, userDescription).then(email => {
+        return res.json({status: 200, message: 'Successfully added user:' + email.toString()});
+    }).catch(console.log);
+});
+router.post('/fetchUser', (req, res) => {
+    let accessToken = req.body['accessToken'];
+    if (accessToken === null) return res.json({status: 1, message: 'Missing access token.'});
+    jwt.verify(accessToken, configs.SECRET, function (err, decoded) {
+        if (err) {
+            console.error(err);
+            if (err.message === 'invalid signature')
+                return res.json({status: 401, message: 'Invalid signature. Please try again.'});
+            if (err.message === 'jwt expired')
+                return res.json({status: 401, message: 'Access token expired. Please login again.'});
+            return res.json({status: 401, message: 'Error: ' + err.message});
+        } else {
+            setTimeout(() => {
+                dbman.fetchUserInformation(null).then(userList => {
+                    return res.json({status: 200, userList: userList});
+                }).catch(console.log);
+            }, 2000);
+        }
+    });
+});
 
 router.get('/changePassword', function (req, res, next) {
     res.send('api for changePassword');

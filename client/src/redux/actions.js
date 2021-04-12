@@ -235,6 +235,35 @@ export const publicationApprovingCheck = (isApprovedPublication) => ({
     type: 'PUBLICATION_APPROVING_CHECK',
     data: {isApprovedPublication: isApprovedPublication}
 });
+export const saveGivenName = (givenName) => ({
+    type: 'SAVE_GIVEN_NAME',
+    data: {givenName: givenName}
+});
+export const saveFamilyName = (familyName) => ({
+    type: 'SAVE_FAMILY_NAME',
+    data: {familyName: familyName}
+});
+export const saveEmail = (email) => ({
+    type: 'SAVE_EMAIL',
+    data: {email: email}
+});
+export const saveAddress = (address) => ({
+    type: 'SAVE_ADDRESS',
+    data: {address: address}
+});
+export const saveDepartment = (department) => ({
+    type: 'SAVE_DEPARTMENT',
+    data: {department: department}
+});
+export const saveRole = (role) => ({
+    type: 'SAVE_ROLE',
+    data: {role: role}
+});
+export const saveUserDescription = (userDescription) => ({
+    type: 'SAVE_USER_DESCRIPTION',
+    data: {userDescription: userDescription}
+});
+
 
 
 
