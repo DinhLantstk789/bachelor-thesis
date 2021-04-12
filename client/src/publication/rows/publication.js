@@ -2,6 +2,7 @@ import {Fragment, useEffect, useState} from 'react';
 import {Badge, Col, FormCheckbox, Row, Tooltip} from "shards-react";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
+
 import {
     disableAllElements,
     saveArticleType,
@@ -48,6 +49,8 @@ import {
     saveViewingPublicationId,
     setDashboardState
 } from "../../redux/actions";
+import * as apiCalls from "../../apiCalls";
+
 
 function parseAuthors(creators) {
     let finalAuthors = '';
@@ -70,97 +73,90 @@ export default function PublicationDetail({type, title, authors, approved, publi
     let updateDbIntoRedux = (displayingPublicationLabel) => {
         dispatch(setDashboardState(true));
         dispatch(saveDisplayingPublicationLabel(displayingPublicationLabel));
-        const body = {
-            id: publicationId,
-            accessToken: loggedUser.accessToken,
-        }
-        axios.post('http://localhost:1234/article/view', body).then(res => {
-            let status = res.data.status;
-            if (status === 200) {
-                let corporateCreators = [], funders = [], projects = [];
-                res.data.publications[0].corporateCreators.forEach(c => corporateCreators.push({corporateCreator: c}));
-                res.data.publications[0].funders.forEach(f => funders.push({funder: f}));
-                res.data.publications[0].projects.forEach(p => projects.push({projectName: p}));
-                let initialDivisions = [{name: 'Advanced Institute of Engineering and Technology (AVITECH)', isEnable: false},
-                    {name: ' Department of Civil Engineering and Transportation (CET)', isEnable: false},
-                    {name: ' Center for Electronics and Telecommunications Research (CETR)', isEnable: false},
-                    {name: ' Faculty of Agriculture Technology (FAT)', isEnable: false},
-                    {name: 'Faculty of Electronics and Telecommunications (FET)', isEnable: false},
-                    {name: 'Faculty of Engineering Mechanics and Automation (FEMA)', isEnable: false},
-                    {name: 'Faculty of Engineering Physics and Nanotechnology (FEPN)', isEnable: false},
-                    {name: 'Faculty of Information Technology (FIT)', isEnable: false},
-                    {name: 'Key Laboratory for Nanotechnology (Nano Lab)', isEnable: false},
-                    {name: 'School of Aerospace Engineering (SAE)', isEnable: false},
-                    {name: 'Key Laboratory for Smart Integrated Systems (SISLAB)', isEnable: false}];
-                console.log(res.data.publications[0].divisions);
-                res.data.publications[0].divisions.forEach(d => {
-                    initialDivisions.map(item => {
-                        if (item.name === d) {
-                            item.isEnable = true;
-                        }
-                    })
-                });
-                let initialSubjects = [{name: 'Aerospace Engineering', isEnable: false},
-                    {name: 'Communications', isEnable: false},
-                    {name: 'Electronics and Computer Engineering', isEnable: false},
-                    {name: 'Engineering Mechanics', isEnable: false},
-                    {name: 'Engineering Physics', isEnable: false},
-                    {name: 'ISI-indexed journals', isEnable: false},
-                    {name: 'Information Technology (IT)', isEnable: false},
-                    {name: 'Scopus-indexed journals', isEnable: false},
-                    {name: 'Transportation Technology', isEnable: false},
-                    {name: 'Civil Engineering', isEnable: false}];
-                res.data.publications[0].subjects.forEach(s => {
-                    initialSubjects.map(item => {
-                        if (item.name === s) {
-                            item.isEnable = true;
-                        }
-                    })
-                });
-                dispatch(saveArticleType(res.data.publications[0].type));
-                dispatch(savePublicationTitle(res.data.publications[0].title));
-                dispatch(savePublicationCreators(res.data.publications[0].creators));
-                dispatch(savePublicationAbstract(res.data.publications[0].publicationAbstract));
-                dispatch(savePublicationCorporateCreators(corporateCreators));
-                dispatch(savePublicationDivisions(initialDivisions));
-                dispatch(savePublicationStatus(res.data.publications[0].selectedStatus));
-                dispatch(savePublicationKind(res.data.publications[0].kind));
-                dispatch(savePublicationRefereed(res.data.publications[0].selectedRefereed));
-                dispatch(saveBookSectionFirstPage(res.data.publications[0].bookSectionFirstPage));
-                dispatch(saveBookSectionEndPage(res.data.publications[0].bookSectionEndPage));
-                dispatch(saveBookSectionTitle(res.data.publications[0].bookSectionTitle));
-                dispatch(saveBookSectionPublicationPlace(res.data.publications[0].bookSectionPublicationPlace));
-                dispatch(saveBookSectionPublisher(res.data.publications[0].bookSectionPublisher));
-                dispatch(saveBookSectionPageNumber(res.data.publications[0].bookSectionPageNumber));
-                dispatch(saveBookSectionSeriesName(res.data.publications[0].bookSectionSeriesName));
-                dispatch(saveBookSectionISBN(res.data.publications[0].bookSectionISBN));
-                dispatch(saveBookSectionVolume(res.data.publications[0].bookSectionVolume));
-                dispatch(saveBookSectionNumber(res.data.publications[0].bookSectionNumber));
-                dispatch(savePublicationSubjects(initialSubjects));
-                dispatch(savePublicationEditors(res.data.publications[0].editors));
-                dispatch(savePublicationDateType(res.data.publications[0].selectedDateType));
-                dispatch(savePublicationDate(res.data.publications[0].selectedDate));
-                dispatch(savePublicationURL(res.data.publications[0].publicationURL));
-                // dispatch(savePublicationRelatedURL(res.data.publications[0].relatedURLs));
-                dispatch(savePublicationFunders(funders));
-                dispatch(savePublicationProjects(projects));
-                dispatch(savePublicationEmailAddress(res.data.publications[0].emailAddress));
-                dispatch(savePublicationReferences(res.data.publications[0].references));
-                dispatch(savePublicationUnKeyword(res.data.publications[0].unKeyword));
-                dispatch(savePublicationAddInformation(res.data.publications[0].addInformation));
-                dispatch(savePublicationComment(res.data.publications[0].comment));
-                dispatch(saveMonographType(res.data.publications[0].monographType));
-                dispatch(savePresentationType(res.data.publications[0].presentationType));
-                dispatch(saveThesisType(res.data.publications[0].thesisType));
-                dispatch(saveInstitution(res.data.publications[0].institution));
-                dispatch(savePatentApplicant(res.data.publications[0].patentApplicant));
-                dispatch(saveMediaOutput(res.data.publications[0].mediaOutput));
-                dispatch(saveCopyrightHolder(res.data.publications[0].copyrightHolder));
-                dispatch(savePublicationDepartment(res.data.publications[0].publicationDepartment));
-                dispatch(savePublicationId(res.data.publications[0].publicationId));
-            } else {
-                console.log('error:', res.data.message)
-            }
+        apiCalls.viewPublication( {id: publicationId}, (publication) => {
+            let corporateCreators = [], funders = [], projects = [];
+            publication.corporateCreators.forEach(c => corporateCreators.push({corporateCreator: c}));
+            publication.funders.forEach(f => funders.push({funder: f}));
+            publication.projects.forEach(p => projects.push({projectName: p}));
+            let initialDivisions = [{name: 'Advanced Institute of Engineering and Technology (AVITECH)', isEnable: false},
+                {name: ' Department of Civil Engineering and Transportation (CET)', isEnable: false},
+                {name: ' Center for Electronics and Telecommunications Research (CETR)', isEnable: false},
+                {name: ' Faculty of Agriculture Technology (FAT)', isEnable: false},
+                {name: 'Faculty of Electronics and Telecommunications (FET)', isEnable: false},
+                {name: 'Faculty of Engineering Mechanics and Automation (FEMA)', isEnable: false},
+                {name: 'Faculty of Engineering Physics and Nanotechnology (FEPN)', isEnable: false},
+                {name: 'Faculty of Information Technology (FIT)', isEnable: false},
+                {name: 'Key Laboratory for Nanotechnology (Nano Lab)', isEnable: false},
+                {name: 'School of Aerospace Engineering (SAE)', isEnable: false},
+                {name: 'Key Laboratory for Smart Integrated Systems (SISLAB)', isEnable: false}];
+            console.log(publication.divisions);
+            publication.divisions.forEach(d => {
+                initialDivisions.map(item => {
+                    if (item.name === d) {
+                        item.isEnable = true;
+                    }
+                })
+            });
+            let initialSubjects = [{name: 'Aerospace Engineering', isEnable: false},
+                {name: 'Communications', isEnable: false},
+                {name: 'Electronics and Computer Engineering', isEnable: false},
+                {name: 'Engineering Mechanics', isEnable: false},
+                {name: 'Engineering Physics', isEnable: false},
+                {name: 'ISI-indexed journals', isEnable: false},
+                {name: 'Information Technology (IT)', isEnable: false},
+                {name: 'Scopus-indexed journals', isEnable: false},
+                {name: 'Transportation Technology', isEnable: false},
+                {name: 'Civil Engineering', isEnable: false}];
+            publication.subjects.forEach(s => {
+                initialSubjects.map(item => {
+                    if (item.name === s) {
+                        item.isEnable = true;
+                    }
+                })
+            });
+            dispatch(saveArticleType(publication.type));
+            dispatch(savePublicationTitle(publication.title));
+            dispatch(savePublicationCreators(publication.creators));
+            dispatch(savePublicationAbstract(publication.publicationAbstract));
+            dispatch(savePublicationCorporateCreators(corporateCreators));
+            dispatch(savePublicationDivisions(initialDivisions));
+            dispatch(savePublicationStatus(publication.selectedStatus));
+            dispatch(savePublicationKind(publication.kind));
+            dispatch(savePublicationRefereed(publication.selectedRefereed));
+            dispatch(saveBookSectionFirstPage(publication.bookSectionFirstPage));
+            dispatch(saveBookSectionEndPage(publication.bookSectionEndPage));
+            dispatch(saveBookSectionTitle(publication.bookSectionTitle));
+            dispatch(saveBookSectionPublicationPlace(publication.bookSectionPublicationPlace));
+            dispatch(saveBookSectionPublisher(publication.bookSectionPublisher));
+            dispatch(saveBookSectionPageNumber(publication.bookSectionPageNumber));
+            dispatch(saveBookSectionSeriesName(publication.bookSectionSeriesName));
+            dispatch(saveBookSectionISBN(publication.bookSectionISBN));
+            dispatch(saveBookSectionVolume(publication.bookSectionVolume));
+            dispatch(saveBookSectionNumber(publication.bookSectionNumber));
+            dispatch(savePublicationSubjects(initialSubjects));
+            dispatch(savePublicationEditors(publication.editors));
+            dispatch(savePublicationDateType(publication.selectedDateType));
+            dispatch(savePublicationDate(publication.selectedDate));
+            dispatch(savePublicationURL(publication.publicationURL));
+            // dispatch(savePublicationRelatedURL(publication.relatedURLs));
+            dispatch(savePublicationFunders(funders));
+            dispatch(savePublicationProjects(projects));
+            dispatch(savePublicationEmailAddress(publication.emailAddress));
+            dispatch(savePublicationReferences(publication.references));
+            dispatch(savePublicationUnKeyword(publication.unKeyword));
+            dispatch(savePublicationAddInformation(publication.addInformation));
+            dispatch(savePublicationComment(publication.comment));
+            dispatch(saveMonographType(publication.monographType));
+            dispatch(savePresentationType(publication.presentationType));
+            dispatch(saveThesisType(publication.thesisType));
+            dispatch(saveInstitution(publication.institution));
+            dispatch(savePatentApplicant(publication.patentApplicant));
+            dispatch(saveMediaOutput(publication.mediaOutput));
+            dispatch(saveCopyrightHolder(publication.copyrightHolder));
+            dispatch(savePublicationDepartment(publication.publicationDepartment));
+            dispatch(savePublicationId(publication.publicationId));
+        }, (message) => {
+            console.log('error:', message);
         })
     }
     return (
@@ -191,27 +187,15 @@ export default function PublicationDetail({type, title, authors, approved, publi
                         />
                         {loggedUser.isAdmin ? <span>&nbsp; &nbsp;</span> :
                             <i style={{fontSize: 20, marginLeft: 20, marginRight: 20}} className='fa fa-trash'
-                               onClick={async () => {
-                                   const Api = axios.create(
-                                       {
-                                           baseURL: 'http://localhost:1234',
-                                           headers: {
-                                               Authorization: `${loggedUser.accessToken}`
-                                           },
-                                       }
-                                   );
-                                   await Api.delete(`/article/deletePublication/${publicationId}`).then(res => {
-                                       let status = res.data.status;
-                                       if (status === 200) {
-                                           console.log('thu suong 123');
-                                           forceReload();
-                                       } else {
-                                           console.log('error');
-                                       }
-                                   });
+                               onClick={() => {
+                                   apiCalls.deletePublication({publicationId: publicationId}, () => {
+                                       console.log('thu suong 123');
+                                       forceReload();
+                                   }, (message) => {
+                                       console.log(message);
+                                   })
                                }}
                             />
-
                         }
 
                         {loggedUser.isAdmin ? <FormCheckbox toggle checked={isApproved} onChange={() => {

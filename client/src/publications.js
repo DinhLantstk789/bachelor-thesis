@@ -1,8 +1,8 @@
 import {Fragment, useEffect, useState} from 'react';
 import {List} from "react-content-loader";
-import axios from "axios";
 import {useSelector} from "react-redux";
 import PublicationDetail from "./publication/rows/publication";
+import {fetchPublication} from "./apiCalls";
 
 export default function Publications({approvalFilter, pendingFilter}) {
     const [isLoading, setIsLoading] = useState(true);
@@ -10,15 +10,11 @@ export default function Publications({approvalFilter, pendingFilter}) {
     const loggedUser = useSelector(store => store.user.loggedUser);
 
     useEffect(() => {
-        axios.post('http://localhost:1234/article/fetch', {accessToken: loggedUser.accessToken}).then(res => {
-            let status = res.data.status;
-            if (status === 200) {
-                setIsLoading(false);
-                setPublications(res.data.publications);
-                console.log(publications);
-            } else {
-                console.log('error:', res.data.message)
-            }
+        fetchPublication({}, (publications) => {
+            setIsLoading(false);
+            setPublications(publications);
+        }, (message) => {
+            console.log('error:', message);
         })
     }, [isLoading])
 

@@ -156,9 +156,9 @@ module.exports = {
             subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
             emailAddress, references, unKeyword, addInformation, comment, databaseId);
         let finalRelatedURLs = '';
-        //  relatedURLs.forEach(i => finalRelatedURLs += ('("' + i.URL + '","' + i.URLType + '")' + ','))
-        // finalRelatedURLs = '{' + finalRelatedURLs.substring(0, finalRelatedURLs.length - 1) + '}';
-        // finalRelatedURLs = '{}'; // TODO: fixxxx please
+        relatedURLs.forEach(i => finalRelatedURLs += ('("' + i.URL + '","' + i.URLType + '")' + ','))
+        finalRelatedURLs = '{' + finalRelatedURLs.substring(0, finalRelatedURLs.length - 1) + '}';
+        finalRelatedURLs = '{}'; // TODO: fixxxx please
 
         let finalCorporateCreators = convertToSQLArray(corporateCreators);
         let finalFunders = convertToSQLArray(funders);
