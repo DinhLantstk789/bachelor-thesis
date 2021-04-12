@@ -19,7 +19,13 @@ router.post('/login', (req, res) => {
                     givenName: user.given_name,
                     isAdmin: user.is_admin
                 }
-                returnedUser['accessToken'] = jwt.sign(returnedUser, configs.SECRET, {expiresIn: configs.ACCESS_TOKEN_LIFE});
+                let accessToken = jwt.sign(returnedUser, configs.SECRET, {expiresIn: configs.ACCESS_TOKEN_LIFE});
+                let cookieConfig = {
+                    maxAge: configs.ACCESS_TOKEN_LIFE * 1000,
+                    secure: false,
+                    httpOnly: true /* prevent cookie being read by JS */
+                }
+                res.cookie('accessToken', accessToken, cookieConfig);
                 return res.json({status: 200, user: returnedUser})
             } else {
                 return res.json({status: 401, message: 'Username and password do not match.'});

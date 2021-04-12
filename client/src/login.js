@@ -14,6 +14,7 @@ import {
 import Footer from "./footer";
 import {saveLoggedUser} from "./redux/actions";
 import {connect} from "react-redux";
+import {login} from "./apiCalls";
 
 
 class Login extends Component {
@@ -50,13 +51,10 @@ class Login extends Component {
             email: this.state.enteredEmail,
             password: sha256(this.state.enteredPassword)
         }
-        axios.post('http://localhost:1234/users/login', credentials).then(res => {
-            let status = res.data.status;
-            if (status === 200) {
-                this.props.saveLoggedUser(res.data.user);
-            } else {
-                this.setState({errorResponse: res.data.message});
-            }
+        login(credentials, (user) => {
+            this.props.saveLoggedUser(user);
+        }, (message) => {
+            this.setState({errorResponse: message});
         })
     }
     render() {
