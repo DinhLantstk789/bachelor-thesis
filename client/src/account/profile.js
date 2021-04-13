@@ -1,18 +1,19 @@
 import {Button, Card, CardBody, CardHeader, Col, FormInput, FormSelect, FormTextarea, Row} from "shards-react";
-import {saveAddress, saveDepartment, saveEmail, saveFamilyName, saveGivenName, saveRole, saveUserDescription} from "../redux/actions";
-import {connect, useDispatch, useSelector} from "react-redux";
-import axios from "axios";
+import {resetUserInformation, saveAddress, saveDepartment, saveEmail, saveFamilyName, saveGivenName, saveRole, saveUserDescription, setUserDashboardState} from "../redux/actions";
+import {useDispatch, useSelector} from "react-redux";
+import * as apiCalls from "../apiCalls";
 
 
 export default function Profile() {
-    const {givenName,familyName,email,department,role,address,userDescription} = useSelector (store =>({
+    const {givenName, familyName, email, department, role, address, userDescription,dashboardState} = useSelector(store => ({
         givenName: store.user.givenName,
         familyName: store.user.familyName,
         email: store.user.email,
         department: store.user.department,
         role: store.user.role,
         address: store.user.address,
-        userDescription: store.user.userDescription
+        userDescription: store.user.userDescription,
+        dashboardState:store.user.dashboardState
     }))
     const dispatch = useDispatch();
 
@@ -72,14 +73,13 @@ export default function Profile() {
                                     role: role,
                                     userDescription: userDescription
                                 }
-                                axios.post('http://localhost:1234/users/addUser', body).then(res => {
-                                    let status = res.data.status;
-                                    if (status === 200) {
-                                        console.log(res.data.message);
-                                    } else {
-                                        console.log('error:', res.data.message)
-                                    }
-                                })
+                                apiCalls.addUser(body, (message) => {
+                                    console.log(message);
+                                    dispatch(setUserDashboardState(false))
+                                    dispatch(resetUserInformation())
+                                }, (message) => {
+                                    console.log(message);
+                                });
                             }
                             }>
                                 Add

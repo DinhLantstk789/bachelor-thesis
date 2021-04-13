@@ -263,6 +263,14 @@ export const saveUserDescription = (userDescription) => ({
     type: 'SAVE_USER_DESCRIPTION',
     data: {userDescription: userDescription}
 });
+export const setUserDashboardState = (dashboardState) => ({
+    type: 'SET_USER_DASHBOARD_STATE',
+    data: {dashboardState: dashboardState}
+});
+export const resetUserInformation = () => ({
+    type: 'RESET_USER_INFORMATION',
+});
+
 
 
 

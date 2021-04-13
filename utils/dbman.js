@@ -218,13 +218,26 @@ module.exports = {
         return pubId[0][0].id;
     },
     insertUser: async (givenName, familyName, email, address, department, roles, userDescription) => {
-        let addUser = await eprints.query(
-            'INSERT INTO users(given_name,family_name,email,address,department,roles,description) VALUES ($1,$2,$3,$4,$5,$6,$7) ' +
-            'RETURNING email;', {
-                bind: [givenName, familyName, email, address, department, roles, userDescription], type: QueryTypes.INSERT
-            }
-        )
-        return addUser[0][0].email;
+        if (email === null) {
+            let addUser = await eprints.query(
+                'INSERT INTO users(given_name,family_name,email,address,department,roles,description) VALUES ($1,$2,$3,$4,$5,$6,$7) ' +
+                'RETURNING email;', {
+                    bind: [givenName, familyName, email, address, department, roles, userDescription], type: QueryTypes.INSERT
+                }
+            )
+            return addUser[0][0].email;
+        } else {
+            let addUser = await eprints.query(
+                'UPDATE users SET given_name=$1,family_name=$2,email=$3,address=$4,department=$5,roles=$6,description=$7 ' +
+                'RETURNING email;', {
+                    bind: [givenName, familyName, email, address, department, roles, userDescription], type: QueryTypes.UPDATE
+                }
+            )
+            return addUser[0][0].email;
+
+        }
+
+
     },
     fetchUserInformation: async (email) => {
         let filter = email === null ? '' : ('WHERE email = $1');
@@ -251,6 +264,14 @@ module.exports = {
             }
         }
         return returnedResult;
+    },
+    deleteUser: async (email) => {
+        try {
+            await eprints.query('DELETE FROM users WHERE email = $1', {bind: [email], type: QueryTypes.DELETE});
+            return {message: 'User is deleted'};
+        } catch (e) {
+            throw new Error(e);
+        }
     },
     findUser: async (email) => {
         let users = await eprints.query('SELECT email, password, family_name, given_name, is_admin FROM users WHERE email = $1', {bind: [email], type: QueryTypes.SELECT});

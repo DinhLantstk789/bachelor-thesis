@@ -4,6 +4,9 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const dbman = require("../utils/dbman");
 const bcrypt = require('bcrypt');
+const {securityCheck} = require("./base");
+
+const accessTokenCached = {}
 
 router.post('/login', (req, res) => {
     let email = req.body.email;
@@ -20,6 +23,7 @@ router.post('/login', (req, res) => {
                     isAdmin: user.is_admin
                 }
                 let accessToken = jwt.sign(returnedUser, configs.SECRET, {expiresIn: configs.ACCESS_TOKEN_LIFE});
+                accessTokenCached[accessToken] = returnedUser;
                 let cookieConfig = {
                     maxAge: configs.ACCESS_TOKEN_LIFE * 1000,
                     secure: false,
@@ -34,40 +38,51 @@ router.post('/login', (req, res) => {
     }).catch(console.log);
 })
 router.post('/addUser', (req, res) => {
-    let givenName = req.body.givenName;
-    let familyName = req.body.familyName;
-    let email = req.body.email;
-    let address = req.body.address;
-    let department = req.body.department;
-    let role = req.body.role;
-    let userDescription = req.body.userDescription;
-    dbman.insertUser(givenName, familyName, email, address, department, role, userDescription).then(email => {
-        return res.json({status: 200, message: 'Successfully added user:' + email.toString()});
-    }).catch(console.log);
+    securityCheck(req, res, (accessToken) => {
+        let givenName = req.body.givenName;
+        let familyName = req.body.familyName;
+        let email = req.body.email;
+        let address = req.body.address;
+        let department = req.body.department;
+        let role = req.body.role;
+        let userDescription = req.body.userDescription;
+        dbman.insertUser(givenName, familyName, email, address, department, role, userDescription).then(email => {
+            return res.json({status: 200, message: 'Successfully added user:' + email.toString()});
+        }).catch(console.log);
+    })
 });
 router.post('/fetchUser', (req, res) => {
-    let accessToken = req.body['accessToken'];
-    if (accessToken === null) return res.json({status: 1, message: 'Missing access token.'});
-    jwt.verify(accessToken, configs.SECRET, function (err, decoded) {
-        if (err) {
-            console.error(err);
-            if (err.message === 'invalid signature')
-                return res.json({status: 401, message: 'Invalid signature. Please try again.'});
-            if (err.message === 'jwt expired')
-                return res.json({status: 401, message: 'Access token expired. Please login again.'});
-            return res.json({status: 401, message: 'Error: ' + err.message});
-        } else {
-            setTimeout(() => {
-                dbman.fetchUserInformation(null).then(userList => {
-                    return res.json({status: 200, userList: userList});
-                }).catch(console.log);
-            }, 2000);
-        }
-    });
+    securityCheck(req, res, (accessToken) => {
+        dbman.fetchUserInformation(null).then(userList => {
+            return res.json({status: 200, userList: userList});
+        }).catch(console.log);
+    })
+});
+router.post('/deleteUser', (req, res) => {
+    securityCheck(req, res, (accessToken) => {
+        dbman.deleteUser(req.body.email).then(deletedUser => {
+            if (deletedUser) {
+                res.json({status: 200, message: 'User deleted'});
+            }
+        }).catch(console.log)
+    })
+});
+router.post('/fetchFullyUserData', (req, res) => {
+    securityCheck(req, res, (accessToken) => {
+        dbman.fetchUserInformation(req.body.email).then(userData => {
+            return res.json({status: 200, userData: userData});
+            console.log(userData);
+        }).catch(console.log);
+    })
 });
 
-router.get('/changePassword', function (req, res, next) {
-    res.send('api for changePassword');
+router.post('/verifyCookie', (req, res) => {
+    securityCheck(req, res, (accessToken) => {
+        if (accessTokenCached[accessToken]) { // TODO: store accessTokenCached across different routes
+            return res.json({status: 200, user: accessTokenCached[accessToken]});
+        }
+        return res.json({status: 401, message: 'Access token does not exist or has been revoked.'});
+    })
 });
 
 router.get('/logout', function (req, res, next) {

@@ -1,17 +1,19 @@
 const initialState = {
-    loggedUser: null,
+    loggedUser: undefined,
     givenName:'',
     familyName:'',
     email:'',
     address:'',
     department:'',
     role:'',
-    userDescription:''
+    userDescription:'',
+    dashboardState : false
 };
 
 export default (state = initialState, action) => {
     if (action.type === 'LOGIN_USER') {
         const data = action.data;
+        console.log('refuxxxxx', data.loggedUser);
         return {
             ...state,
             loggedUser: data.loggedUser
@@ -67,6 +69,28 @@ export default (state = initialState, action) => {
             givenName: data.givenName
         }
     }
+     if (action.type === 'SET_USER_DASHBOARD_STATE') {
+        const data = action.data;
+        return {
+            ...state,
+            dashboardState: data.dashboardState
+        }
+    }
+    if (action.type === 'RESET_USER_INFORMATION') {
+        const data = action.data;
+        return {
+            ...state,
+            givenName:'',
+            familyName:'',
+            email:'',
+            address:'',
+            department:'',
+            role:'',
+            userDescription:'',
+            dashboardState : false
+        }
+    }
+
     return state;
 
 }

@@ -1,6 +1,5 @@
 import {Fragment, useEffect, useState} from 'react';
 import {Badge, Col, FormCheckbox, Row, Tooltip} from "shards-react";
-import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 
 import {
@@ -200,16 +199,12 @@ export default function PublicationDetail({type, title, authors, approved, publi
 
                         {loggedUser.isAdmin ? <FormCheckbox toggle checked={isApproved} onChange={() => {
                             setIsApproved(!isApproved)
-                            const body = {id: publicationId};
-                            axios.post('http://localhost:1234/article/toggleApproval', body).then(res => {
-                                let status = res.data.status;
-                                if (status === 200) {
-                                    console.log(res.data.message);
-                                    forceReload();
-                                } else {
-                                    setIsApproved(!isApproved);
-                                    console.log('error:', res.data.message)
-                                }
+                            apiCalls.toggleApprovePublication({id: publicationId}, (message) => {
+                                console.log(message);
+                                forceReload();
+                            }, (message) => {
+                                setIsApproved(!isApproved);
+                                console.log('error:', message)
                             })
                         }}/> : <div>
                             {isApproved === true ? <i style={{fontSize: 20}} className="fa fa-check" aria-hidden="true" id={tooltipId}/> :

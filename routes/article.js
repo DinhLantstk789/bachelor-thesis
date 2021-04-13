@@ -1,36 +1,18 @@
-const configs = require('../utils/configs');
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
 const dbman = require("../utils/dbman");
+const {securityCheck} = require("./base");
 
-function securityCheck(req, res, onSuccess) {
-    let accessToken = req.cookies['accessToken'];
-    if (accessToken === null) return res.json({status: 1, message: 'Missing access token.'});
-    jwt.verify(accessToken, configs.SECRET, function (err, decoded) {
-        if (err) {
-            if (err.message === 'invalid signature')
-                return res.json({status: 401, message: 'Invalid signature. Please try again.'});
-            if (err.message === 'jwt expired')
-                return res.json({status: 401, message: 'Access token expired. Please login again.'});
-            return res.json({status: 401, message: 'Error: ' + err.message});
-        } else {
-            setTimeout(() => {
-                onSuccess()
-            }, 2000);
-        }
-    });
-}
 
 router.post('/fetch', function (req, res) {
-    securityCheck(req, res, () => {
+    securityCheck(req, res, (accessToken) => {
         dbman.fetchPublications(null).then(publications => {
             return res.json({status: 200, publications: publications});
         }).catch(console.log);
     })
 });
 router.post('/view', function (req, res) {
-    securityCheck(req, res, () => {
+    securityCheck(req, res, (accessToken) => {
         let publicationId = req.body.id;
         dbman.fetchPublications(publicationId).then(publications => {
             return res.json({status: 200, publications: publications});
@@ -38,7 +20,7 @@ router.post('/view', function (req, res) {
     })
 });
 router.post('/toggleApproval', (req, res) => {
-    securityCheck(req, res, () => {
+    securityCheck(req, res, (accessToken) => {
         let id = req.body.id;
         dbman.toggleApproval(id).then(updatedApproval => {
             return res.json({status: 200, message: 'Publication ' + id + ' toggled to: ' + updatedApproval});
@@ -47,7 +29,7 @@ router.post('/toggleApproval', (req, res) => {
 });
 
 router.post('/deletePublication', (req, res) => {
-    securityCheck(req, res, () => {
+    securityCheck(req, res, (accessToken) => {
         dbman.deletePublication(req.body.publicationId).then(deletedPub => {
             if (deletedPub) {
                 res.json({status: 200, message: 'Publication deleted'});
@@ -57,7 +39,7 @@ router.post('/deletePublication', (req, res) => {
 });
 
 router.post('/add', (req, res) => {
-    securityCheck(req, res, () => {
+    securityCheck(req, res, (accessToken) => {
         let databaseId = req.body.databaseId;
         let type = req.body.type;
         let title = req.body.title;
