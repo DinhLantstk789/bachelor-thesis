@@ -6,11 +6,10 @@ const dbman = require("../utils/dbman");
 const bcrypt = require('bcrypt');
 const {securityCheck} = require("./base");
 
-const accessTokenCached = {}
 
+const accessTokenCached = {}
 router.post('/login', (req, res) => {
-    let email = req.body.email;
-    let receivedPassword = req.body.password;
+    let email = req.body.email, receivedPassword = req.body.password;
     dbman.findUser(email).then(user => {
         if (user === null) return res.json({status: 401, message: 'Account not found'});
         let hashedPassword = user.password;
@@ -45,9 +44,10 @@ router.post('/addUser', (req, res) => {
         let address = req.body.address;
         let department = req.body.department;
         let role = req.body.role;
+        let password= req.body.password;
         let userDescription = req.body.userDescription;
-        dbman.insertUser(givenName, familyName, email, address, department, role, userDescription).then(email => {
-            return res.json({status: 200, message: 'Successfully added user:' + email.toString()});
+        dbman.insertUser(givenName, familyName, email, address, department,password, role, userDescription).then(email => {
+            return res.json({status: 200, message: 'Successfully added user:',email:email});
         }).catch(console.log);
     })
 });

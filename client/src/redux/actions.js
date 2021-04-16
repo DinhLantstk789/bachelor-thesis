@@ -247,6 +247,11 @@ export const saveEmail = (email) => ({
     type: 'SAVE_EMAIL',
     data: {email: email}
 });
+export const savePassword = (password) => ({
+    type: 'SAVE_PASSWORD',
+    data: {password: password}
+});
+
 export const saveAddress = (address) => ({
     type: 'SAVE_ADDRESS',
     data: {address: address}

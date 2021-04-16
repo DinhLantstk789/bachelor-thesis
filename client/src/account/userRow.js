@@ -24,23 +24,23 @@ export default function UserRow({givenName, familyName, email,reload}) {
                 </Col>
                 <Col md={4}>
                     <Row className='float-right' style={{marginRight: 10, marginTop: 13}}>
-                        <i style={{fontSize: 20, marginLeft: 20}} className='fa fa-edit' onClick={()=>{
-                            dispatch(setUserDashboardState(true));
-                            console.log(dashboardState)
-                            apiCalls.fetchFullyUserData({email:email}, (userData) => {
-                                dispatch(saveGivenName(userData[0].givenName))
-                                dispatch(saveGivenName(userData[0].familyName))
-                                dispatch(saveGivenName(userData[0].email))
-                                dispatch(saveGivenName(userData[0].address))
-                                dispatch(saveGivenName(userData[0].department))
-                                dispatch(saveGivenName(userData[0].role))
-                                dispatch(saveGivenName(userData[0].userDescription))
-                            }, (message) => {
-                                console.log(message);
-                            });
+                        {/*<i style={{fontSize: 20, marginLeft: 20}} className='fa fa-edit' onClick={()=>{*/}
+                        {/*    dispatch(setUserDashboardState(true));*/}
+                        {/*    apiCalls.fetchFullyUserData({email:email}, (userData) => {*/}
+                        {/*        dispatch(saveGivenName(userData[0].givenName))*/}
+                        {/*        dispatch(saveGivenName(userData[0].familyName))*/}
+                        {/*        dispatch(saveGivenName(userData[0].email))*/}
+                        {/*        dispatch(saveGivenName(userData[0].address))*/}
+                        {/*        dispatch(saveGivenName(userData[0].department))*/}
+                        {/*        dispatch(saveGivenName(userData[0].role))*/}
+                        {/*        dispatch(saveGivenName(userData[0].userDescription))*/}
+                        {/*        console.log(userData[0].givenName,userData[0].familyName,userData[0].email,userData[0].userDescription);*/}
+                        {/*    }, (message) => {*/}
+                        {/*        console.log(message);*/}
+                        {/*    });*/}
 
-                         }
-                        }/>
+                        {/* }*/}
+                        {/*}/>*/}
                         <i style={{fontSize: 20, marginLeft: 20, marginRight: 20}} className='fa fa-trash' onClick={()=>{
 
                                 apiCalls.deleteUser({email: email}, () => {

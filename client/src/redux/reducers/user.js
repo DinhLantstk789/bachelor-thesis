@@ -6,6 +6,7 @@ const initialState = {
     address:'',
     department:'',
     role:'',
+    password:'',
     userDescription:'',
     dashboardState : false
 };
@@ -76,6 +77,14 @@ export default (state = initialState, action) => {
             dashboardState: data.dashboardState
         }
     }
+     if (action.type === 'SAVE_PASSWORD') {
+        const data = action.data;
+        return {
+            ...state,
+            password: data.password
+        }
+    }
+
     if (action.type === 'RESET_USER_INFORMATION') {
         const data = action.data;
         return {

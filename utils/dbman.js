@@ -148,7 +148,7 @@ module.exports = {
                                  firstPage, endPage, bookSectionTitle, publicationPlace, publisher, publicationDepartment,
                                  pageNumber, seriesName, isbn, volume, number,
                                  subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
-                                 emailAddress, references, unKeyword, addInformation, comment, databaseId) => {
+                                 emailAddress, references, unKeyword, addInformation, comment,isApproved, databaseId) => {
         console.log(type, title, abstract, monographType, presentationType, thesisType, institution, creators, corporateCreators, divisions,
             status, kind, patentApplicant, mediaOutput, copyrightHolder, referred,
             firstPage, endPage, bookSectionTitle, publicationPlace, publisher, publicationDepartment,
@@ -166,24 +166,21 @@ module.exports = {
         let finalSubjects = convertToSQLArray(subjects);
         let pubId;
         if (databaseId !== undefined && databaseId !== null) {
-            await eprints.query('UPDATE publication SET is_approved = $1 WHERE id = $2 RETURNING is_approved;', {bind: [false, databaseId], type: QueryTypes.UPDATE});
             await eprints.query('DELETE FROM publication_creator WHERE publication_id = $1;', {bind: [databaseId], type: QueryTypes.DELETE});
-            await eprints.query('DELETE FROM publication_editor WHERE publication_id = $1;', {bind: [databaseId], type: QueryTypes.DELETE})
+            await eprints.query('DELETE FROM publication_editor WHERE publication_id = $1;', {bind: [databaseId], type: QueryTypes.DELETE});
             pubId = await eprints.query(
-                'UPDATE publication ' +
-                'SET item_type = $1,title = $2,abstract = $3,monograph_type = $4,presentation_type = $5,thesis_type = $6,institution = $7,corporate_creators = $8,' +
-                'is_refereed = $9, status = $10, kind = $11,patent_applicant = $12,media_output = $13,copyright_holder = $14, publication_title = $15, ' +
-                'issn_isbn = $16, publisher = $17,publication_department = $18, official_url = $10,' +
+                'UPDATE publication SET item_type = $1,title = $2,abstract = $3,monograph_type = $4,presentation_type = $5,thesis_type = $6,institution = $7,corporate_creators = $8,' +
+                'is_refereed = $9,status = $10, kind = $11,patent_applicant = $12,media_output = $13,copyright_holder = $14, publication_title = $15, ' +
+                'issn_isbn = $16, publisher = $17,publication_department = $18, official_url = $19,' +
                 'volume = $20, place_of_publication = $21, number_of_pages = $22, number = $23, page_range = $24, date = $25, date_type = $26, identification_number = $27,' +
                 ' series_name = $28, related_urls = $29, funders = $30, projects = $31,' +
-                'contact_email_address = $32, reference = $33, uncontrolled_keywords = $34, additional_infor = $35, comments_and_suggestions = $36, subjects = $37 ' +
-                'WHERE id = $38 RETURNING id', {
+                'contact_email_address = $32, reference = $33, uncontrolled_keywords = $34, additional_infor = $35, comments_and_suggestions = $36, subjects = $37, is_approved = $38 WHERE id = $39 RETURNING id', {
                     bind: [type, title, abstract, monographType, presentationType, thesisType, institution, finalCorporateCreators, referred === 'yes',
                         status, kind, patentApplicant, mediaOutput, copyrightHolder, bookSectionTitle, isbn, publisher, publicationDepartment,
                         publicationURL, parseInt(volume), publicationPlace, parseInt(pageNumber), parseInt(number),
                         '{' + firstPage + ',' + endPage + '}', date, dateType, publicationId, seriesName,
                         finalRelatedURLs, finalFunders, finalProjects, emailAddress, references, unKeyword,
-                        addInformation, comment, finalSubjects, databaseId]
+                        addInformation, comment, finalSubjects, isApproved,databaseId]
                     , type: QueryTypes.UPDATE
                 }
             );
@@ -217,27 +214,15 @@ module.exports = {
         });
         return pubId[0][0].id;
     },
-    insertUser: async (givenName, familyName, email, address, department, roles, userDescription) => {
-        if (email === null) {
+    insertUser: async (givenName, familyName, email, address, department,password, roles, userDescription) => {
+        console.log(givenName, familyName, email, address, department,password, roles, userDescription);
             let addUser = await eprints.query(
-                'INSERT INTO users(given_name,family_name,email,address,department,roles,description) VALUES ($1,$2,$3,$4,$5,$6,$7) ' +
+                'INSERT INTO users(given_name,family_name,email,address,department,password,roles,description) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) ' +
                 'RETURNING email;', {
-                    bind: [givenName, familyName, email, address, department, roles, userDescription], type: QueryTypes.INSERT
+                    bind: [givenName, familyName, email, address, department,password, roles, userDescription], type: QueryTypes.INSERT
                 }
-            )
+            );
             return addUser[0][0].email;
-        } else {
-            let addUser = await eprints.query(
-                'UPDATE users SET given_name=$1,family_name=$2,email=$3,address=$4,department=$5,roles=$6,description=$7 ' +
-                'RETURNING email;', {
-                    bind: [givenName, familyName, email, address, department, roles, userDescription], type: QueryTypes.UPDATE
-                }
-            )
-            return addUser[0][0].email;
-
-        }
-
-
     },
     fetchUserInformation: async (email) => {
         let filter = email === null ? '' : ('WHERE email = $1');
@@ -245,7 +230,7 @@ module.exports = {
         let returnedResult = [];
         let selectedUsers = await eprints.query('SELECT ' + selectedFields + ' FROM users ' + filter + ' ORDER BY db_created_on DESC;', {bind: email === null ? [] : [email], type: QueryTypes.SELECT});
         for (const p of selectedUsers) {
-            if (email === null) {
+            if (email === null|| email===undefined) {
                 returnedResult.push({
                     email: p.email,
                     givenName: p.given_name,

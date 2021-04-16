@@ -1,11 +1,11 @@
 import {Button, Card, CardBody, CardHeader, Col, FormInput, FormSelect, FormTextarea, Row} from "shards-react";
-import {resetUserInformation, saveAddress, saveDepartment, saveEmail, saveFamilyName, saveGivenName, saveRole, saveUserDescription, setUserDashboardState} from "../redux/actions";
+import {resetUserInformation, saveAddress, saveDepartment, saveEmail, saveFamilyName, saveGivenName, savePassword, saveRole, saveUserDescription, setUserDashboardState} from "../redux/actions";
 import {useDispatch, useSelector} from "react-redux";
 import * as apiCalls from "../apiCalls";
 
 
 export default function Profile() {
-    const {givenName, familyName, email, department, role, address, userDescription,dashboardState} = useSelector(store => ({
+    const {givenName, familyName, email, department, role, address, userDescription, dashboardState, password} = useSelector(store => ({
         givenName: store.user.givenName,
         familyName: store.user.familyName,
         email: store.user.email,
@@ -13,10 +13,10 @@ export default function Profile() {
         role: store.user.role,
         address: store.user.address,
         userDescription: store.user.userDescription,
-        dashboardState:store.user.dashboardState
+        dashboardState: store.user.dashboardState,
+        password: store.user.password
     }))
     const dispatch = useDispatch();
-
 
     return (
         <Card>
@@ -35,7 +35,7 @@ export default function Profile() {
                         <Row>
                             <Col style={{marginRight: -10}}>
                                 <FormInput placeholder="Given Name" value={givenName} onChange={(e) => {
-                                    dispatch(saveGivenName(e.target.value))
+                                    dispatch(saveGivenName(e.target.value));
                                 }} style={{marginTop: 10}}/>
                             </Col>
                             <Col style={{marginLeft: -10}}>
@@ -47,6 +47,9 @@ export default function Profile() {
                         <FormInput placeholder="Email" value={email} onChange={(e) => {
                             dispatch(saveEmail(e.target.value))
                         }} style={{marginTop: 10}}/>
+                        <FormInput placeholder="Password" value={password} onChange={(e) => {
+                            dispatch(savePassword(e.target.value))
+                        }} style={{marginTop: 10}}/>
                         <FormInput placeholder="Address" value={address} onChange={(e) => {
                             dispatch(saveAddress(e.target.value))
                         }} style={{marginTop: 10}}/>
@@ -57,7 +60,17 @@ export default function Profile() {
                             dispatch(saveRole(e.target.value))
                         }}>
                             <option value="isUser"> User</option>
-                            <option value="isDivisionAdmin">Admin of division</option>
+                            <option value="Advanced Institute of Engineering and Technology (AVITECH)">Admin of Advanced Institute of Engineering and Technology (AVITECH)</option>
+                            <option value="Department of Civil Engineering and Transportation (CET)">Admin of Department of Civil Engineering and Transportation (CET)</option>
+                            <option value="Center for Electronics and Telecommunications Research (CETR)">Admin of Center for Electronics and Telecommunications Research (CETR)</option>
+                            <option value="Faculty of Agriculture Technology (FAT)">Admin of Faculty of Agriculture Technology (FAT)</option>
+                            <option value="Faculty of Electronics and Telecommunications (FET)">Admin of Faculty of Electronics and Telecommunications (FET)</option>
+                            <option value="Faculty of Engineering Mechanics and Automation (FEMA)">Admin of Faculty of Engineering Mechanics and Automation (FEMA)</option>
+                            <option value="Faculty of Engineering Physics and Nanotechnology (FEPN)">Admin of Faculty of Engineering Physics and Nanotechnology (FEPN)</option>
+                            <option value="Faculty of Information Technology (FIT)">Admin of Faculty of Information Technology (FIT)</option>
+                            <option value="Key Laboratory for Nanotechnology (Nano Lab)">Admin of Key Laboratory for Nanotechnology (Nano Lab)</option>
+                            <option value="School of Aerospace Engineering (SAE)">Admin of School of Aerospace Engineering (SAE)</option>
+                            <option value="Key Laboratory for Smart Integrated Systems (SISLAB)">Admin of Key Laboratory for Smart Integrated Systems (SISLAB)</option>
                         </FormSelect>
                         <FormTextarea placeholder="About" value={userDescription} onChange={(e) => {
                             dispatch(saveUserDescription(e.target.value))
@@ -70,13 +83,14 @@ export default function Profile() {
                                     email: email,
                                     address: address,
                                     department: department,
+                                    password:password,
                                     role: role,
                                     userDescription: userDescription
                                 }
-                                apiCalls.addUser(body, (message) => {
-                                    console.log(message);
-                                    dispatch(setUserDashboardState(false))
-                                    dispatch(resetUserInformation())
+                                apiCalls.addUser(body, (email) => {
+                                    console.log(email);
+                                    dispatch(setUserDashboardState(false));
+                                    // dispatch(resetUserInformation());
                                 }, (message) => {
                                     console.log(message);
                                 });

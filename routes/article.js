@@ -87,7 +87,7 @@ router.post('/add', (req, res) => {
             firstPage, endPage, bookSectionTitle, publicationPlace, publisher, publicationDepartment,
             pageNumber, seriesName, bookSectionISBN, volume, number,
             subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
-            emailAddress, references, unKeyword, addInformation, comment, databaseId).then(pubId => {
+            emailAddress, references, unKeyword, addInformation, comment,false, databaseId).then(pubId => {
             return res.json({status: 200, message: 'Successfully added publication:' + pubId.toString()});
         }).catch(console.log);
     })

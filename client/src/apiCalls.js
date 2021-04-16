@@ -30,7 +30,7 @@ export const addUser =(body,onSuccess, onFailed)=>{
     axios.post('users/addUser', body,reqConfigs).then(res => {
         let status = res.data.status;
         if (status === 200) {
-            onSuccess(res.data.message)
+            onSuccess(res.data.email)
         } else {
             onFailed( res.data.message)
         }

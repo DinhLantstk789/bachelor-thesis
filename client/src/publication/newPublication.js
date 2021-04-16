@@ -399,7 +399,7 @@ export default function NewPublication() {
                         patentApplicant: patentApplicant,
                         mediaOutput: mediaOutput,
                         copyrightHolder: copyrightHolder,
-                        publicationDepartment: publicationDepartment
+                        publicationDepartment: publicationDepartment,
                     }
                     setSubmissionProgress(1);
                     apiCalls.addPublication(body, () => {

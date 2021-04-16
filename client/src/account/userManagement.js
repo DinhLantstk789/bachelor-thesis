@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from "react-redux";
 import UserRow from "./userRow";
 import {List} from "react-content-loader";
 import * as apiCalls from "../apiCalls";
-import {resetUserInformation, setUserDashboardState} from "../redux/actions";
+import {setUserDashboardState} from "../redux/actions";
 
 
 export default function UserManagement() {

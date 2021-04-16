@@ -180,7 +180,6 @@ export default function PublicationDetail({type, title, authors, approved, publi
                            onClick={() => {
                                dispatch(saveViewingPublicationId(publicationId));
                                updateDbIntoRedux('Update Publication');
-                               forceReload()
 
                            }}
                         />
@@ -188,7 +187,6 @@ export default function PublicationDetail({type, title, authors, approved, publi
                             <i style={{fontSize: 20, marginLeft: 20, marginRight: 20}} className='fa fa-trash'
                                onClick={() => {
                                    apiCalls.deletePublication({publicationId: publicationId}, () => {
-                                       console.log('thu suong 123');
                                        forceReload();
                                    }, (message) => {
                                        console.log(message);

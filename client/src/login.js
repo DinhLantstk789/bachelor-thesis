@@ -1,7 +1,5 @@
 import {Component, Fragment} from 'react';
 import Validator from "./utils/validator";
-import axios from "axios";
-import {sha256} from 'js-sha256';
 import {
     InputGroup,
     InputGroupText,
@@ -15,6 +13,7 @@ import Footer from "./footer";
 import {saveLoggedUser} from "./redux/actions";
 import {connect} from "react-redux";
 import {login} from "./apiCalls";
+import {sha256} from "js-sha256";
 
 
 class Login extends Component {
@@ -26,7 +25,6 @@ class Login extends Component {
         errorResponse: '',
         enteredCheckbox: true
     }
-
     onTypingEmail = (event) => {
         this.setState({errorResponse: ''});
         this.setState({enteredEmail: event.target.value});
@@ -55,9 +53,11 @@ class Login extends Component {
             this.props.saveLoggedUser(user);
         }, (message) => {
             this.setState({errorResponse: message});
+
         })
     }
     render() {
+
         let isDisabled = this.state.emailCheckedResult.length !== 0 || this.state.passwordCheckedResult.length !== 0;
         return (
             <Fragment>
