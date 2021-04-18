@@ -4,10 +4,8 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const dbman = require("../utils/dbman");
 const bcrypt = require('bcrypt');
+const {saveNewAccessToken} = require("./base");
 const {securityCheck} = require("./base");
-
-
-const accessTokenCached = {}
 
 router.post('/login', (req, res) => {
     let email = req.body.email, receivedPassword = req.body.password;
@@ -23,7 +21,7 @@ router.post('/login', (req, res) => {
                     isAdmin: user.is_admin
                 }
                 let accessToken = jwt.sign(returnedUser, configs.SECRET, {expiresIn: configs.ACCESS_TOKEN_LIFE});
-                accessTokenCached[accessToken] = returnedUser;
+                saveNewAccessToken(accessToken, returnedUser);
                 let cookieConfig = {
                     maxAge: configs.ACCESS_TOKEN_LIFE * 1000,
                     secure: false,
@@ -39,7 +37,7 @@ router.post('/login', (req, res) => {
 })
 
 router.post('/addUser', (req, res) => {
-    securityCheck(req, res, (accessToken) => {
+    securityCheck(req, res, (loggedUser) => {
         let email = req.body.email;
         let familyName = req.body.familyName;
         let givenName = req.body.givenName;
@@ -59,7 +57,7 @@ router.post('/addUser', (req, res) => {
     })
 });
 router.post('/fetchUser', (req, res) => {
-    securityCheck(req, res, (accessToken) => {
+    securityCheck(req, res, (loggedUser) => {
         dbman.fetchUserInformation(null).then(userList => {
             return res.json({status: 200, userList: userList});
         }).catch(console.log);
@@ -67,7 +65,7 @@ router.post('/fetchUser', (req, res) => {
 });
 
 router.post('/deleteUser', (req, res) => {
-    securityCheck(req, res, (accessToken) => {
+    securityCheck(req, res, (loggedUser) => {
         dbman.deleteUser(req.body.email).then(deletedUser => {
             if (deletedUser) {
                 res.json({status: 200, message: 'User deleted'});
@@ -76,27 +74,23 @@ router.post('/deleteUser', (req, res) => {
     })
 });
 router.post('/fetchFullyUserData', (req, res) => {
-    securityCheck(req, res, (accessToken) => {
+    securityCheck(req, res, (loggedUser) => {
         dbman.fetchUserInformation(req.body.email).then(userData => {
             return res.json({status: 200, userData: userData});
-            console.log(userData);
         }).catch(console.log);
     })
 });
 
 router.get('/logout', (req, res) => {
-    securityCheck(req, res, (accessToken) => {
+    securityCheck(req, res, (loggedUser) => {
         res.clearCookie('accessToken');
         return res.json({status: 200, message: 'Logout success'});
     })
 });
 
 router.post('/verifyCookie', (req, res) => {
-    securityCheck(req, res, (accessToken) => {
-        if (accessTokenCached[accessToken]) { // TODO: store accessTokenCached across different routes
-            return res.json({status: 200, user: accessTokenCached[accessToken]});
-        }
-        return res.json({status: 401, message: 'Access token does not exist or has been revoked.'});
+    securityCheck(req, res, (loggedUser) => {
+        return res.json({status: 200, user: loggedUser});
     })
 });
 

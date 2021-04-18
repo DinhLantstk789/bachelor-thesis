@@ -20,7 +20,6 @@ export default function Publications({approvalFilter, pendingFilter, role}) {
     useEffect(() => {
         fetchPublication((publications) => {
             setPublications(publications);
-
         }, (message) => alert(message));
     }, [triggerReload]);
 

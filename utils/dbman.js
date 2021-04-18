@@ -58,7 +58,7 @@ module.exports = {
         );
         return updatedApproval[0][0].is_approved;
     },
-    fetchPublications: async (publicationId) => {
+    fetchPublications: async (publicationId, userEmail) => {
         let filter = publicationId === null ? '' : ('WHERE id = $1');
         let selectedFields = publicationId === null ? 'id, item_type, title, is_approved' : '*';
         let returnedResult = [];

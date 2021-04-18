@@ -5,23 +5,23 @@ const {securityCheck} = require("./base");
 
 
 router.get('/fetch', function (req, res) {
-    securityCheck(req, res, (accessToken) => {
+    securityCheck(req, res, (loggedUser) => {
         dbman.fetchPublications(null).then(publications => {
             return res.json({status: 200, publications: publications});
         }).catch(console.log);
     })
 });
 router.post('/view', function (req, res) {
-    securityCheck(req, res, (accessToken) => {
+    securityCheck(req, res, (loggedUser) => {
         let publicationId = req.body.id;
-        dbman.fetchPublications(publicationId).then(publications => {
+        dbman.fetchPublications(publicationId, ).then(publications => {
             return res.json({status: 200, publications: publications});
         }).catch(console.log);
     })
 });
 
 router.post('/toggleApproval', (req, res) => {
-    securityCheck(req, res, (accessToken) => {
+    securityCheck(req, res, (loggedUser) => {
         let id = req.body.id;
         dbman.toggleApproval(id).then(updatedApproval => {
             return res.json({status: 200, message: 'Publication ' + id + ' toggled to: ' + updatedApproval});
@@ -30,7 +30,7 @@ router.post('/toggleApproval', (req, res) => {
 });
 
 router.post('/deletePublication', (req, res) => {
-    securityCheck(req, res, (accessToken) => {
+    securityCheck(req, res, (loggedUser) => {
         dbman.deletePublication(req.body.publicationId).then(deletedPub => {
             if (deletedPub) {
                 res.json({status: 200, message: 'Publication deleted'});
@@ -39,7 +39,7 @@ router.post('/deletePublication', (req, res) => {
     })
 });
 router.post('/fetchAllPublicationAsDivision', (req, res) => {
-    securityCheck(req, res, (accessToken) => {
+    securityCheck(req, res, (loggedUser) => {
         dbman.fetchAllPublicationAsDivision(req.body.divisionName).then(pubId => {
             if (pubId) {
                 res.json({status: 200, pubId: pubId});
@@ -48,7 +48,7 @@ router.post('/fetchAllPublicationAsDivision', (req, res) => {
     })
 });
 router.post('/add', (req, res) => {
-    securityCheck(req, res, (accessToken) => {
+    securityCheck(req, res, (loggedUser) => {
         let databaseId = req.body.databaseId;
         let type = req.body.type;
         let title = req.body.title;

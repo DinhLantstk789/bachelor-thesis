@@ -1,7 +1,12 @@
 const configs = require('../utils/configs');
 const jwt = require('jsonwebtoken');
 
+const accessTokenCached = {}
+
 module.exports = {
+    saveNewAccessToken: (newAccessToken, loggedUser) => {
+        accessTokenCached[newAccessToken] = loggedUser;
+    },
     securityCheck: (req, res, onSuccess) => {
         let accessToken = req.cookies['accessToken'];
         if (accessToken === null) return res.json({status: 1, message: 'Missing access token.'});
@@ -13,9 +18,13 @@ module.exports = {
                     return res.json({status: 401, message: 'Access token expired. Please login again.'});
                 return res.json({status: 401, message: 'Error: ' + err.message});
             } else {
-                setTimeout(() => {
-                    onSuccess(accessToken);
-                }, 1000);
+                if (accessTokenCached[accessToken]) {
+                    setTimeout(() => {
+                        onSuccess(accessTokenCached[accessToken]);
+                    }, 1000);
+                } else {
+                    return res.json({status: 401, message: 'Access token is invalid or has been revoked. Please try again.'});
+                }
             }
         });
     }

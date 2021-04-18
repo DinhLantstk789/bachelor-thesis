@@ -186,7 +186,7 @@ export default function PublicationRow({triggerUpdateUI, type, title, authors, a
                            }}
                         />
                         {loggedUser.isAdmin ? <span>&nbsp; &nbsp;</span> :
-                            <i style={{fontSize: 20, marginLeft: 20, marginRight: 20}} className='fa fa-trash'
+                            <i style={{fontSize: 20, marginLeft: 20, marginRight: 20, marginTop: 4}} className='fa fa-trash'
                                onClick={() => {
                                    apiCalls.deletePublication({publicationId: publicationId}, () => {
                                        triggerUpdateUI();
@@ -209,8 +209,8 @@ export default function PublicationRow({triggerUpdateUI, type, title, authors, a
                                     });
                                 }}/>
                             : <div>
-                                {isApproved === true ? <i style={{fontSize: 20}} className="fa fa-check" aria-hidden="true" id={tooltipId}/> :
-                                    <i style={{fontSize: 20}} className="fa fa-clock" aria-hidden="true" id={tooltipId}/>}
+                                {isApproved === true ? <i style={{fontSize: 20, marginTop: 4}} className="fa fa-check" aria-hidden="true" id={tooltipId}/> :
+                                    <i style={{fontSize: 20, marginTop: 4}} className="fa fa-clock" aria-hidden="true" id={tooltipId}/>}
                                 <Tooltip
                                     open={open}
                                     target={"#" + tooltipId}
