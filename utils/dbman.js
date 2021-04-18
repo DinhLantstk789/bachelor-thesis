@@ -14,7 +14,7 @@ function convertToSQLArray(arr) {
 }
 
 async function insertUserDivision(userEmail, divisionName) {
-    await eprints.query('INSERT INTO user_division (user_email, division_name) VALUES ($1, $2) RETURNING user_email;', {bind: [userEmail, divisionName], type: QueryTypes.INSERT});
+    await eprints.query('INSERT INTO user_division (user_email, division_name) VALUES ($1, $2) ON CONFLICT (user_email, division_name) DO NOTHING RETURNING user_email;', {bind: [userEmail, divisionName], type: QueryTypes.INSERT});
 }
 
 async function insertCreatorEditor(publication_id, user, authorOrder, linked_table) {
@@ -245,7 +245,8 @@ module.exports = {
     insertUser: async (email, familyName, givenName, password, department, address, isAdmin, description, registrationDate, isApproved) => {
         let addedUser = await eprints.query(
             'INSERT INTO users(email, family_name, given_name, password, address, is_admin, description, registration_date, is_approved)' +
-            'VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) ' + 'RETURNING email;', {
+            'VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) ON CONFLICT(email) DO UPDATE SET family_name = $2, given_name = $3, password = $4, address = $5 , is_admin = $6,' +
+            ' description = $7, registration_date = $8, is_approved = $9 ' + 'RETURNING email;', {
                 bind: [email, familyName, givenName, password, address, isAdmin, description, registrationDate, isApproved],
                 type: QueryTypes.INSERT
             }
