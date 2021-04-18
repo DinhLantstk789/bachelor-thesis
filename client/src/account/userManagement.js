@@ -17,7 +17,6 @@ export default function UserManagement() {
         apiCalls.fetchUsers({}, (userList) => {
             setIsLoading(false);
             setUsers(userList);
-            console.log(userList);
         }, (message) => {
             console.log(message);
         })
@@ -28,7 +27,7 @@ export default function UserManagement() {
         <List style={{marginTop: 20}}/>
     </div>
     let result = userList.map(item => (
-        <UserRow givenName={item.givenName} familyName={item.familyName} email={item.email} reload={() => setIsLoading(true)}/>
+        <UserRow triggerReload={() => setIsLoading(true)} givenName={item.givenName} familyName={item.familyName} email={item.email} reload={() => setIsLoading(true)}/>
     ))
     return (
         <Row style={{marginRight: 50, marginLeft: 50}}>
@@ -56,7 +55,7 @@ export default function UserManagement() {
                 </Card>
             </Col>
             <Col md={5}>
-                <Card><Profile/></Card>
+                <Card><Profile triggerReload={() => setIsLoading(true)}/></Card>
             </Col>
         </Row>
     );

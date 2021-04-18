@@ -35,7 +35,6 @@ export const addUser =(body,onSuccess, onFailed)=>{
             onFailed( res.data.message)
         }
     })
-
 }
 export const deleteUser = (body, onSuccess, onFailed) => {
     axios.post('users/deleteUser', body, reqConfigs).then(res => {

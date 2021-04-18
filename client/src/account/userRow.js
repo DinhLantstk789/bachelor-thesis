@@ -1,16 +1,16 @@
-import {Fragment, useEffect} from 'react';
+import {Fragment, useState} from 'react';
 import {Col, Row} from "shards-react";
-import { saveGivenName, setUserDashboardState} from "../redux/actions";
 import * as apiCalls from "../apiCalls";
 import {useDispatch, useSelector} from "react-redux";
+import {ClipLoader} from "react-spinners";
 
-
-export default function UserRow({givenName, familyName, email,reload}) {
-    const {loggedUser,dashboardState} = useSelector(store =>({
-        loggedUser:store.user.loggedUser,
-        dashboardState:store.user.dashboardState
+export default function UserRow({triggerReload, givenName, familyName, email}) {
+    const [isDeleting, setIsDeleting] = useState(false);
+    const {loggedUser, dashboardState} = useSelector(store => ({
+        loggedUser: store.user.loggedUser,
+        dashboardState: store.user.dashboardState
     }))
- const dispatch = useDispatch();
+    const dispatch = useDispatch();
     return (
         <Fragment>
             <Row>
@@ -38,18 +38,20 @@ export default function UserRow({givenName, familyName, email,reload}) {
                         {/*    }, (message) => {*/}
                         {/*        console.log(message);*/}
                         {/*    });*/}
-
                         {/* }*/}
                         {/*}/>*/}
-                        <i style={{fontSize: 20, marginLeft: 20, marginRight: 20}} className='fa fa-trash' onClick={()=>{
-
-                                apiCalls.deleteUser({email: email}, () => {
-                                    console.log('thu suong 123');
-                                    reload();
-                                }, (message) => {
-                                    console.log(message);
-                                })
-                        }}/>
+                        <div onClick={() => {
+                            setIsDeleting(true);
+                            apiCalls.deleteUser({email: email}, () => {
+                                setIsDeleting(false);
+                                triggerReload();
+                            }, (message) => {
+                                setIsDeleting(false);
+                                console.log(message);
+                            })
+                        }}>
+                            {isDeleting ? <ClipLoader size={18} color={'#157ffb'} loading/> : <i style={{fontSize: 20}} className='fa fa-trash'/>}
+                        </div>
                     </Row>
                 </Col>
             </Row>

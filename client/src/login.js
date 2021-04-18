@@ -1,14 +1,6 @@
 import {Component, Fragment} from 'react';
 import Validator from "./utils/validator";
-import {
-    InputGroup,
-    InputGroupText,
-    InputGroupAddon,
-    FormInput, Card,
-    FormCheckbox,
-    CardBody,
-    Button, Row, Col
-} from "shards-react";
+import {Button, Card, CardBody, Col, FormCheckbox, FormInput, InputGroup, InputGroupAddon, InputGroupText, Row} from "shards-react";
 import Footer from "./footer";
 import {saveLoggedUser} from "./redux/actions";
 import {connect} from "react-redux";

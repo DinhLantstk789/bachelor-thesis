@@ -5,7 +5,7 @@ import * as apiCalls from "../apiCalls";
 import {sha256} from "js-sha256";
 
 
-export default function Profile() {
+export default function Profile({triggerReload}) {
     const {givenName, familyName, email, department, isAdmin, address, description, password} = useSelector(store => ({
         givenName: store.newUser.givenName,
         familyName: store.newUser.familyName,
@@ -72,21 +72,17 @@ export default function Profile() {
                                     isAdmin: isAdmin,
                                     description: description
                                 }
-                                console.log(body);
                                 apiCalls.addUser(body, (email) => {
-                                    alert(email);
+                                    triggerReload();
                                 }, (message) => {
                                     alert(message);
                                 });
                             }
-                            }>
-                                Add
-                            </Button>
+                            }>Add</Button>
                         </Row>
                     </Col>
                 </Row>
             </CardBody>
         </Card>
-
     );
 }
