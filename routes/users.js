@@ -11,9 +11,6 @@ const accessTokenCached = {}
 
 router.post('/login', (req, res) => {
     let email = req.body.email, receivedPassword = req.body.password;
-    bcrypt.hash('f36232d27ac25f5b75fdc676a89282454dad2ec5fcc40b69ebea5670cf9f076f', 10, function (err, hash) {
-        console.log(hash);
-    })
     dbman.findUser(email).then(user => {
         if (user === null) return res.json({status: 401, message: 'Account not found'});
         let hashedPassword = user.password;

@@ -1,7 +1,6 @@
 import {Button, Card, CardBody, CardHeader, Col, Row} from "shards-react";
 import Profile from "./profile";
 import {useEffect, useState} from "react";
-import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import UserRow from "./userRow";
 import {List} from "react-content-loader";
@@ -36,47 +35,36 @@ export default function UserManagement() {
         <UserRow givenName={item.givenName} familyName={item.familyName} email={item.email} reload={() => setIsLoading(true)}/>
     ))
     return (
-        <Card style={{marginRight: 100, marginLeft: 100}}>
-            <CardBody>
-                <Row>
-                    <Col>
-                        <Card>
-                            <CardHeader>
+        <Row style={{marginRight: 100, marginLeft: 100}}>
+            <Col>
+                <Card>
+                    <CardHeader>
+                        <Row>
+                            <Col>
                                 <Row>
-                                    <Col>
-                                        <Row>
-                                            <h5 style={{marginTop: 10, marginLeft: 10, marginRight: 30}}>User List</h5>
-                                        </Row>
-                                    </Col>
-                                    <Col>
-                                        <Row className='float-right'>
-                                            <Button pill theme="success" style={{marginRight: 10}} onClick={()=>{
-                                                dispatch(setUserDashboardState(true));
-                                            }}>
-                                                New &nbsp;<i className='fa fa-plus'/>
-                                            </Button>
-                                        </Row>
-                                    </Col>
+                                    <h5 style={{marginTop: 10, marginLeft: 10, marginRight: 30}}>User List</h5>
                                 </Row>
-                            </CardHeader>
-                            <CardBody>
-                                {isLoading ? loading : result}
-                            </CardBody>
-                        </Card>
-                    </Col>
-                    <Col>
-                        {dashboardState ?
-                            <Card>
-                                <Profile/>
-                            </Card>
-                            : ""
-                        }
-
-                    </Col>
-                </Row>
-            </CardBody>
-        </Card>
-
+                            </Col>
+                            <Col>
+                                <Row className='float-right'>
+                                    <Button pill theme="success" style={{marginRight: 10}} onClick={() => {
+                                        dispatch(setUserDashboardState(true));
+                                    }}>
+                                        New &nbsp;<i className='fa fa-plus'/>
+                                    </Button>
+                                </Row>
+                            </Col>
+                        </Row>
+                    </CardHeader>
+                    <CardBody>
+                        {isLoading ? loading : result}
+                    </CardBody>
+                </Card>
+            </Col>
+            <Col>
+                {dashboardState ? <Card><Profile/></Card> : ""}
+            </Col>
+        </Row>
     );
 }
 
