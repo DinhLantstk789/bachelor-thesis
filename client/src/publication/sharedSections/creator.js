@@ -8,9 +8,9 @@ class  Creator extends Component {
 
     updateMatchedUser (index) {
         const creatorData = {
-            'hungpn@vnu.edu.vn': {email: 'hungpn@vnu.edu.vn', familyName: 'Pham', givenName: 'Ngoc Hung', department: 'FIT'},
-            'suongpt@vnu.edu.vn': {email: 'suongpt@vnu.edu.vn', familyName: 'Pham', givenName: 'Thu Suong', department: 'FIT'},
-            'trangpt@vnu.edu.vn': {email: 'trangpt@vnu.edu.vn', familyName: 'Pham', givenName: 'Thu Trang', department: 'FIT'}
+            'hungpn@vnu.edu.vn': {email: 'hungpn@vnu.edu.vn', familyName: 'Pham', givenName: 'Ngoc Hung', department: 'Faculty of Information Technology (FIT)'},
+            'suongpt@vnu.edu.vn': {email: 'suongpt@vnu.edu.vn', familyName: 'Pham', givenName: 'Thu Suong', department: 'Faculty of Information Technology (FIT)'},
+            'trangpt@vnu.edu.vn': {email: 'trangpt@vnu.edu.vn', familyName: 'Pham', givenName: 'Thu Trang', department: 'Faculty of Information Technology (FIT)'}
         }
         let email = this.props.creators[index].email;
         if (email in creatorData) {

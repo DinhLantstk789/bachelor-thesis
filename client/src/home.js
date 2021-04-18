@@ -24,10 +24,10 @@ export default function Home() {
                     <Col xs={7} md={7} sm={7}><img bottom src="./images/logo.png" style={{width: 180, marginTop: 8, marginLeft: 50}}/></Col>
                     <Col xs={5} md={5} sm={5}>
                         <Row className="float-right">
-                            <Button theme={currentTab === 'publication-main' ? 'primary' : 'light'} pill onClick={() => setCurrentTab('publication-main')}>Publications</Button>
-                            {loggedUser.isAdmin ? <Button theme={currentTab === 'user-management' ? 'primary' : 'light'} pill onClick={() => setCurrentTab('user-management')}>User Management</Button> : ''}
+                            <Button style={{marginLeft: 10, marginRight: 5}} theme={currentTab === 'publication-main' ? 'primary' : 'light'} pill onClick={() => setCurrentTab('publication-main')}>Publications</Button>
+                            {loggedUser.isAdmin ? <Button style={{marginLeft: 5, marginRight: 5}} theme={currentTab === 'user-management' ? 'primary' : 'light'} pill onClick={() => setCurrentTab('user-management')}>User Management</Button> : ''}
                             <Dropdown open={openAccount} toggle={() => setOpenAccount(!openAccount)}>
-                                <DropdownToggle theme={currentTab === 'profile' ? 'primary' : 'light'} pill id="dropdown1" style={{fontSize: 20, marginRight: 30}} className="float-right">
+                                <DropdownToggle style={{marginLeft: 5}} theme={currentTab === 'profile' ? 'primary' : 'light'} pill id="dropdown1" style={{fontSize: 20, marginRight: 30}} className="float-right">
                                     {isLoggingOut ? <ClipLoader size={15} color={'#ffffff'} loading/> : <i className={"fa fa-user"}/>}
                                 </DropdownToggle>
                                 <DropdownMenu right>
@@ -51,8 +51,8 @@ export default function Home() {
                     <Col md={8}><Dashboard/></Col>
                     <Col md={4}><Statistics/></Col>
                 </Row> :
-                <Row style={{marginLeft: 20}}>
-                    <Col md={8}><Profile/></Col>
+                <Row style={{paddingLeft: 50, paddingRight: 50}}>
+                    <Col><Profile/></Col>
                 </Row>}
             <Footer/>
         </Fragment>

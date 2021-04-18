@@ -21,7 +21,7 @@ export default function Profile({triggerReload}) {
     return (
         <Card>
             <CardHeader>
-                <h5 style={{marginTop: 10, marginLeft: 10, marginRight: 30}}>My Profile</h5>
+                <h5 style={{marginTop: 10, marginLeft: 10, marginRight: 30}}>Profile</h5>
             </CardHeader>
             <CardBody style={{paddingRight: 50, paddingLeft: 50}}>
                 <Row>
