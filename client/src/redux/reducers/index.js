@@ -5,6 +5,7 @@ import bookSection from "./bookSection";
 import publication from "./publication";
 import technicalReport from "./technicalReport";
 import conference from "./conference";
+import newUser from "./newUser";
 
 
-export default combineReducers({user, article, bookSection, publication,technicalReport,conference});
+export default combineReducers({user, newUser, article, bookSection, publication, technicalReport, conference});

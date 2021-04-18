@@ -5,16 +5,12 @@ import {useDispatch, useSelector} from "react-redux";
 import UserRow from "./userRow";
 import {List} from "react-content-loader";
 import * as apiCalls from "../apiCalls";
-import {setUserDashboardState} from "../redux/actions";
 
 
 export default function UserManagement() {
     const [isLoading, setIsLoading] = useState(true);
     const [userList, setUsers] = useState([]);
-    const {loggedUser,dashboardState} = useSelector(store =>({
-        loggedUser:store.user.loggedUser,
-        dashboardState:store.user.dashboardState
-    }))
+    const loggedUser = useSelector(store => store.user.loggedUser);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -25,7 +21,7 @@ export default function UserManagement() {
         }, (message) => {
             console.log(message);
         })
-    }, [isLoading,dashboardState]);
+    }, [isLoading]);
 
     let loading = <div>
         <List/>
@@ -35,8 +31,8 @@ export default function UserManagement() {
         <UserRow givenName={item.givenName} familyName={item.familyName} email={item.email} reload={() => setIsLoading(true)}/>
     ))
     return (
-        <Row style={{marginRight: 100, marginLeft: 100}}>
-            <Col>
+        <Row style={{marginRight: 50, marginLeft: 50}}>
+            <Col md={7}>
                 <Card>
                     <CardHeader>
                         <Row>
@@ -47,9 +43,7 @@ export default function UserManagement() {
                             </Col>
                             <Col>
                                 <Row className='float-right'>
-                                    <Button pill theme="success" style={{marginRight: 10}} onClick={() => {
-                                        dispatch(setUserDashboardState(true));
-                                    }}>
+                                    <Button pill theme="success" style={{marginRight: 10}}>
                                         New &nbsp;<i className='fa fa-plus'/>
                                     </Button>
                                 </Row>
@@ -61,8 +55,8 @@ export default function UserManagement() {
                     </CardBody>
                 </Card>
             </Col>
-            <Col>
-                {dashboardState ? <Card><Profile/></Card> : ""}
+            <Col md={5}>
+                <Card><Profile/></Card>
             </Col>
         </Row>
     );

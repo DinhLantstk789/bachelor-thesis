@@ -15,7 +15,7 @@ module.exports = {
             } else {
                 setTimeout(() => {
                     onSuccess(accessToken);
-                }, 2000);
+                }, 1000);
             }
         });
     }

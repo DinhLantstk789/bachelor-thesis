@@ -49,6 +49,7 @@ import {
     setDashboardState
 } from "../../redux/actions";
 import * as apiCalls from "../../apiCalls";
+import {BeatLoader} from "react-spinners";
 
 
 function parseAuthors(creators) {
@@ -57,16 +58,17 @@ function parseAuthors(creators) {
     return finalAuthors.substring(0, finalAuthors.length - 2);
 }
 
-export default function PublicationDetail({type, title, authors, approved, publicationId, forceReload}) {
-    const [isApproved, setIsApproved] = useState(approved);
+export default function PublicationRow({triggerUpdateUI, type, title, authors, approved, publicationId}) {
+    const [isApproved, setIsApproved] = useState();
+    const [isClicking, setIsClicking] = useState(false);
     const [tooltipId, setTooltipId] = useState("tt_" + publicationId);
     const [open, setOpen] = useState(false);
     const loggedUser = useSelector(store => store.user.loggedUser);
     const dispatch = useDispatch();
 
     useEffect(() => {
+        setIsApproved(approved);
         setTooltipId("tt_" + publicationId);
-        setIsApproved(isApproved)
     });
 
     let updateDbIntoRedux = (displayingPublicationLabel) => {
@@ -176,44 +178,45 @@ export default function PublicationDetail({type, title, authors, approved, publi
                 </Col>
                 <Col md={4}>
                     <Row className='float-right' style={{marginRight: 10, marginTop: 13}}>
-                        <i style={{fontSize: 20, marginLeft: 20}} className='fa fa-edit'
+                        <i style={{fontSize: 20, marginLeft: 20, marginTop: 4}} className='fa fa-edit'
                            onClick={() => {
                                dispatch(saveViewingPublicationId(publicationId));
                                updateDbIntoRedux('Update Publication');
-
                            }}
                         />
                         {loggedUser.isAdmin ? <span>&nbsp; &nbsp;</span> :
                             <i style={{fontSize: 20, marginLeft: 20, marginRight: 20}} className='fa fa-trash'
                                onClick={() => {
                                    apiCalls.deletePublication({publicationId: publicationId}, () => {
-                                       forceReload();
+                                       triggerUpdateUI();
                                    }, (message) => {
                                        console.log(message);
                                    })
                                }}
                             />
                         }
-
-                        {loggedUser.isAdmin ? <FormCheckbox toggle checked={isApproved} onChange={() => {
-                            setIsApproved(!isApproved)
-                            apiCalls.toggleApprovePublication({id: publicationId}, (message) => {
-                                console.log(message);
-                                forceReload();
-                            }, (message) => {
-                                setIsApproved(!isApproved);
-                                console.log('error:', message)
-                            })
-                        }}/> : <div>
-                            {isApproved === true ? <i style={{fontSize: 20}} className="fa fa-check" aria-hidden="true" id={tooltipId}/> :
-                                <i style={{fontSize: 20}} className="fa fa-clock" aria-hidden="true" id={tooltipId}/>}
-                            <Tooltip
-                                open={open}
-                                target={"#" + tooltipId}
-                                toggle={() => setOpen(!open)}>
-                                {isApproved === true ? '✌️ Woo! Publication is approved.' : '🥺 Publication is still being processed.'}
-                            </Tooltip>
-                        </div>
+                        {loggedUser.isAdmin ?
+                            isClicking ? <BeatLoader size={12} color={'#29c574'} loading/> :
+                                <FormCheckbox toggle checked={isApproved} onChange={() => {
+                                    setIsClicking(true);
+                                    apiCalls.toggleApprovePublication({id: publicationId}, (message) => {
+                                        triggerUpdateUI();
+                                        setIsClicking(false);
+                                    }, (message) => {
+                                        alert(message);
+                                        setIsClicking(false);
+                                    });
+                                }}/>
+                            : <div>
+                                {isApproved === true ? <i style={{fontSize: 20}} className="fa fa-check" aria-hidden="true" id={tooltipId}/> :
+                                    <i style={{fontSize: 20}} className="fa fa-clock" aria-hidden="true" id={tooltipId}/>}
+                                <Tooltip
+                                    open={open}
+                                    target={"#" + tooltipId}
+                                    toggle={() => setOpen(!open)}>
+                                    {isApproved === true ? '✌️ Woo! Publication is approved.' : '🥺 Publication is still being processed.'}
+                                </Tooltip>
+                            </div>
                         }
                     </Row>
                 </Col>

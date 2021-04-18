@@ -215,23 +215,25 @@ module.exports = {
         return pubId[0][0].id;
     },
     fetchAllPublicationAsDivision: async (divisionName) => {
-        let pubId = await eprints.query('SELECT publication_id FROM publication_division WHERE division_name LIKE $1',{bind:[divisionName], type:QueryTypes.SELECT});
-        let returnedResult=[];
-        for(const p of pubId){
+        let pubId = await eprints.query('SELECT publication_id FROM publication_division WHERE division_name LIKE $1', {bind: [divisionName], type: QueryTypes.SELECT});
+        let returnedResult = [];
+        for (const p of pubId) {
             returnedResult.push({
                 id: p.publication_id
             })
         }
         return returnedResult;
     },
-    insertUser: async (givenName, familyName, email, address, department,password, roles, userDescription) => {
-            let addUser = await eprints.query(
-                'INSERT INTO users(given_name,family_name,email,address,department,password,roles,description) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) ' +
-                'RETURNING email;', {
-                    bind: [givenName, familyName, email, address, department,password, roles, userDescription], type: QueryTypes.INSERT
-                }
-            );
-            return addUser[0][0].email;
+    insertUser: async (email, familyName, givenName, password, department, address, isAdmin, description, registrationDate, isApproved) => {
+        let addedUser = await eprints.query(
+            'INSERT INTO users(email, family_name, given_name, password, department, address, is_admin, description, registration_date, is_approved)' +
+            'VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) ' + 'RETURNING email;', {
+                bind: [email, familyName, givenName, password, department, address, isAdmin, description, registrationDate, isApproved],
+                type: QueryTypes.INSERT
+            }
+        );
+        console.log(addedUser);
+        return addedUser[0][0].email;
     },
     fetchUserInformation: async (email) => {
         let filter = email === null ? '' : ('WHERE email = $1');
@@ -239,7 +241,7 @@ module.exports = {
         let returnedResult = [];
         let selectedUsers = await eprints.query('SELECT ' + selectedFields + ' FROM users ' + filter + ' ORDER BY db_created_on DESC;', {bind: email === null ? [] : [email], type: QueryTypes.SELECT});
         for (const p of selectedUsers) {
-            if (email === null|| email===undefined) {
+            if (email === null || email === undefined) {
                 returnedResult.push({
                     email: p.email,
                     givenName: p.given_name,
@@ -268,7 +270,7 @@ module.exports = {
         }
     },
     findUser: async (email) => {
-        let users = await eprints.query('SELECT email, password, family_name, given_name, is_admin , roles FROM users WHERE email = $1', {bind: [email], type: QueryTypes.SELECT});
+        let users = await eprints.query('SELECT email, password, family_name, given_name, is_admin FROM users WHERE email = $1', {bind: [email], type: QueryTypes.SELECT});
         return users.length === 1 ? users[0] : null;
     }
 }

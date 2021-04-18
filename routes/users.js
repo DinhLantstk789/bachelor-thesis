@@ -20,8 +20,7 @@ router.post('/login', (req, res) => {
                     email: user.email,
                     familyName: user.family_name,
                     givenName: user.given_name,
-                    isAdmin: user.is_admin,
-                    roles: user.roles
+                    isAdmin: user.is_admin
                 }
                 let accessToken = jwt.sign(returnedUser, configs.SECRET, {expiresIn: configs.ACCESS_TOKEN_LIFE});
                 accessTokenCached[accessToken] = returnedUser;
@@ -41,17 +40,22 @@ router.post('/login', (req, res) => {
 
 router.post('/addUser', (req, res) => {
     securityCheck(req, res, (accessToken) => {
-        let givenName = req.body.givenName;
-        let familyName = req.body.familyName;
         let email = req.body.email;
-        let address = req.body.address;
-        let department = req.body.department;
-        let role = req.body.role;
+        let familyName = req.body.familyName;
+        let givenName = req.body.givenName;
         let password = req.body.password;
-        let userDescription = req.body.userDescription;
-        dbman.insertUser(givenName, familyName, email, address, department,password, role, userDescription).then(email => {
-            return res.json({status: 200, message: 'Successfully added user:',email:email});
-        }).catch(console.log);
+        let department = req.body.department;
+        let address = req.body.address;
+        let isAdmin = req.body.isAdmin;
+        let description = req.body.description;
+        let registrationDate = new Date();
+        let isApproved = true;
+        console.log(email, familyName, givenName, department, address, isAdmin, description, registrationDate, isApproved);
+        bcrypt.hash(password, 10, function (err, hash) {
+            dbman.insertUser(email, familyName, givenName, hash, department, address, isAdmin, description, registrationDate, isApproved).then(email => {
+                return res.json({status: 200, message: 'Successfully added user:', email: email});
+            }).catch(console.log);
+        });
     })
 });
 router.post('/fetchUser', (req, res) => {

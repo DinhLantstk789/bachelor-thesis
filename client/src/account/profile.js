@@ -1,20 +1,20 @@
 import {Button, Card, CardBody, CardHeader, Col, FormInput, FormSelect, FormTextarea, Row} from "shards-react";
-import {resetUserInformation, saveAddress, saveDepartment, saveEmail, saveFamilyName, saveGivenName, savePassword, saveRole, saveUserDescription, setUserDashboardState} from "../redux/actions";
+import {saveAddress, saveDepartment, saveEmail, saveFamilyName, saveGivenName, saveIsAdmin, savePassword, saveUserDescription} from "../redux/actions";
 import {useDispatch, useSelector} from "react-redux";
 import * as apiCalls from "../apiCalls";
+import {sha256} from "js-sha256";
 
 
 export default function Profile() {
-    const {givenName, familyName, email, department, role, address, userDescription, dashboardState, password} = useSelector(store => ({
-        givenName: store.user.givenName,
-        familyName: store.user.familyName,
-        email: store.user.email,
-        department: store.user.department,
-        role: store.user.role,
-        address: store.user.address,
-        userDescription: store.user.userDescription,
-        dashboardState: store.user.dashboardState,
-        password: store.user.password
+    const {givenName, familyName, email, department, isAdmin, address, description, password} = useSelector(store => ({
+        givenName: store.newUser.givenName,
+        familyName: store.newUser.familyName,
+        email: store.newUser.email,
+        department: store.newUser.department,
+        isAdmin: store.newUser.isAdmin,
+        address: store.newUser.address,
+        description: store.newUser.userDescription,
+        password: store.newUser.password
     }))
     const dispatch = useDispatch();
 
@@ -23,76 +23,60 @@ export default function Profile() {
             <CardHeader>
                 <h5 style={{marginTop: 10, marginLeft: 10, marginRight: 30}}>My Profile</h5>
             </CardHeader>
-            <CardBody>
+            <CardBody style={{paddingRight: 50, paddingLeft: 50}}>
                 <Row>
-                    <Col sm={4} md={4} id="setVerticalLine">
-                        <div>
-                            <img src="./images/avatar.png" style={{width: 200, display: 'block', marginLeft: 'auto', marginRight: 'auto'}}/>
-                            <span style={{width: 200, display: 'block', marginLeft: 'auto', marginRight: 'auto', textAlign: 'center', marginTop: 10}}>tstk789@gmail.com</span>
-                        </div>
+                    <Col md={3}>
+                        <img src="./images/avatar.png" style={{width: 90}}/>
                     </Col>
-                    <Col sm={8} md={8} style={{paddingRight: 100, paddingLeft: 50}}>
-                        <Row>
-                            <Col style={{marginRight: -10}}>
-                                <FormInput placeholder="Given Name" value={givenName} onChange={(e) => {
-                                    dispatch(saveGivenName(e.target.value));
-                                }} style={{marginTop: 10}}/>
-                            </Col>
-                            <Col style={{marginLeft: -10}}>
-                                <FormInput placeholder="Family Name" value={familyName} onChange={(e) => {
-                                    dispatch(saveFamilyName(e.target.value))
-                                }} style={{marginTop: 10}}/>
-                            </Col>
+                    <Col md={9} style={{marginBottom: 10}}>
+                        <Row style={{marginRight: 0}}>
+                            <FormInput placeholder="Given Name" value={givenName} onChange={(e) => dispatch(saveGivenName(e.target.value))}/>
+                            <FormInput placeholder="Family Name" value={familyName} onChange={(e) => dispatch(saveFamilyName(e.target.value))} style={{marginTop: 10}}/>
                         </Row>
-                        <FormInput placeholder="Email" value={email} onChange={(e) => {
-                            dispatch(saveEmail(e.target.value))
-                        }} style={{marginTop: 10}}/>
-                        <FormInput placeholder="Password" value={password} onChange={(e) => {
-                            dispatch(savePassword(e.target.value))
-                        }} style={{marginTop: 10}}/>
-                        <FormInput placeholder="Address" value={address} onChange={(e) => {
-                            dispatch(saveAddress(e.target.value))
-                        }} style={{marginTop: 10}}/>
-                        <FormInput placeholder="Department" style={{marginTop: 10}} value={department} onChange={(e) => {
-                            dispatch(saveDepartment(e.target.value))
-                        }}/>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <FormInput placeholder="Email" value={email} onChange={(e) => dispatch(saveEmail(e.target.value))} style={{marginTop: 10}}/>
+                        <FormInput placeholder="Password" value={password} onChange={(e) => dispatch(savePassword(e.target.value))} style={{marginTop: 10}}/>
+                        <FormInput placeholder="Address" value={address} onChange={(e) => dispatch(saveAddress(e.target.value))} style={{marginTop: 10}}/>
                         <FormSelect style={{marginTop: 10}} onChange={(e) => {
-                            dispatch(saveRole(e.target.value))
+                            dispatch(saveDepartment(e.target.value));
                         }}>
-                            <option value="isUser"> User</option>
-                            <option value="Advanced Institute of Engineering and Technology (AVITECH)">Admin of Advanced Institute of Engineering and Technology (AVITECH)</option>
-                            <option value="Department of Civil Engineering and Transportation (CET)">Admin of Department of Civil Engineering and Transportation (CET)</option>
-                            <option value="Center for Electronics and Telecommunications Research (CETR)">Admin of Center for Electronics and Telecommunications Research (CETR)</option>
-                            <option value="Faculty of Agriculture Technology (FAT)">Admin of Faculty of Agriculture Technology (FAT)</option>
-                            <option value="Faculty of Electronics and Telecommunications (FET)">Admin of Faculty of Electronics and Telecommunications (FET)</option>
-                            <option value="Faculty of Engineering Mechanics and Automation (FEMA)">Admin of Faculty of Engineering Mechanics and Automation (FEMA)</option>
-                            <option value="Faculty of Engineering Physics and Nanotechnology (FEPN)">Admin of Faculty of Engineering Physics and Nanotechnology (FEPN)</option>
-                            <option value="Faculty of Information Technology (FIT)">Admin of Faculty of Information Technology (FIT)</option>
-                            <option value="Key Laboratory for Nanotechnology (Nano Lab)">Admin of Key Laboratory for Nanotechnology (Nano Lab)</option>
-                            <option value="School of Aerospace Engineering (SAE)">Admin of School of Aerospace Engineering (SAE)</option>
-                            <option value="Key Laboratory for Smart Integrated Systems (SISLAB)">Admin of Key Laboratory for Smart Integrated Systems (SISLAB)</option>
+                            <option value="Faculty of Information Technology (FIT)">Faculty of Information Technology (FIT)</option>
+                            <option value="Advanced Institute of Engineering and Technology (AVITECH)">Advanced Institute of Engineering and Technology (AVITECH)</option>
+                            <option value="Department of Civil Engineering and Transportation (CET)">Department of Civil Engineering and Transportation (CET)</option>
+                            <option value="Center for Electronics and Telecommunications Research (CETR)">Center for Electronics and Telecommunications Research (CETR)</option>
+                            <option value="Faculty of Agriculture Technology (FAT)">Faculty of Agriculture Technology (FAT)</option>
+                            <option value="Faculty of Electronics and Telecommunications (FET)">Faculty of Electronics and Telecommunications (FET)</option>
+                            <option value="Faculty of Engineering Mechanics and Automation (FEMA)">Faculty of Engineering Mechanics and Automation (FEMA)</option>
+                            <option value="Faculty of Engineering Physics and Nanotechnology (FEPN)">Faculty of Engineering Physics and Nanotechnology (FEPN)</option>
+                            <option value="Key Laboratory for Nanotechnology (Nano Lab)">Key Laboratory for Nanotechnology (Nano Lab)</option>
+                            <option value="School of Aerospace Engineering (SAE)">School of Aerospace Engineering (SAE)</option>
+                            <option value="Key Laboratory for Smart Integrated Systems (SISLAB)">Key Laboratory for Smart Integrated Systems (SISLAB)</option>
                         </FormSelect>
-                        <FormTextarea placeholder="About" value={userDescription} onChange={(e) => {
-                            dispatch(saveUserDescription(e.target.value))
-                        }} style={{marginTop: 10}}/>
+                        <FormSelect style={{marginTop: 10}} onChange={(e) => dispatch(saveIsAdmin(e.target.value === 'admin'))}>
+                            <option value="user">Normal User</option>
+                            <option value="admin">Administrator</option>
+                        </FormSelect>
+                        <FormTextarea placeholder="About" value={description} onChange={(e) => dispatch(saveUserDescription(e.target.value))} style={{marginTop: 10}}/>
                         <Row className='float-right' style={{marginTop: 10}}>
                             <Button pill theme="success" style={{marginRight: 10}} onClick={() => {
                                 const body = {
-                                    givenName: givenName,
-                                    familyName: familyName,
                                     email: email,
-                                    address: address,
+                                    familyName: familyName,
+                                    givenName: givenName,
+                                    password: sha256(password),
                                     department: department,
-                                    password:password,
-                                    role: role,
-                                    userDescription: userDescription
+                                    address: address,
+                                    isAdmin: isAdmin,
+                                    description: description
                                 }
+                                console.log(body);
                                 apiCalls.addUser(body, (email) => {
-                                    console.log(email);
-                                    dispatch(setUserDashboardState(false));
-                                    // dispatch(resetUserInformation());
+                                    alert(email);
                                 }, (message) => {
-                                    console.log(message);
+                                    alert(message);
                                 });
                             }
                             }>

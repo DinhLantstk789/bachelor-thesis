@@ -11,8 +11,7 @@ import {saveLoggedUser} from "./redux/actions";
 import {ClipLoader} from "react-spinners";
 
 export default function Home() {
-    const [viewProfile, setViewProfile] = useState(false);
-    const [currentTab, setCurrentTab] = useState('');
+    const [currentTab, setCurrentTab] = useState('publication-main');
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [openAccount, setOpenAccount] = useState(false);
     const loggedUser = useSelector(store => store.user.loggedUser);

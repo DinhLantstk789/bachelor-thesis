@@ -7,11 +7,10 @@ CREATE TABLE users (
 	department TEXT DEFAULT NULL,
 	address TEXT DEFAULT NULL,
 	is_admin BOOLEAN DEFAULT FALSE,
-	roles TEXT NOT NULL,
 	description TEXT,
 	registration_date TIMESTAMP DEFAULT NULL,
 	last_login TIMESTAMP DEFAULT NULL,
-	is_approved BOOLEAN DEFAULT FALSE,
+    is_approved BOOLEAN DEFAULT FALSE,
 	db_created_on TIMESTAMP DEFAULT NOW(),
 	db_updated_on TIMESTAMP DEFAULT NOW(),
 	PRIMARY KEY(email)
@@ -86,7 +85,7 @@ CREATE TABLE user_division (
     division_name TEXT,
     db_created_on TIMESTAMP DEFAULT NOW(),
     db_updated_on TIMESTAMP DEFAULT NOW(),
-    FOREIGN KEY (user_email) REFERENCES users (user_email),
+    FOREIGN KEY (user_email) REFERENCES users (email),
     FOREIGN KEY (division_name) REFERENCES divisions (name),
     PRIMARY KEY (user_email, division_name)
 );

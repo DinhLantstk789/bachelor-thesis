@@ -260,17 +260,13 @@ export const saveDepartment = (department) => ({
     type: 'SAVE_DEPARTMENT',
     data: {department: department}
 });
-export const saveRole = (role) => ({
-    type: 'SAVE_ROLE',
-    data: {role: role}
+export const saveIsAdmin = (isAdmin) => ({
+    type: 'SAVE_IS_ADMIN',
+    data: {isAdmin: isAdmin}
 });
 export const saveUserDescription = (userDescription) => ({
     type: 'SAVE_USER_DESCRIPTION',
     data: {userDescription: userDescription}
-});
-export const setUserDashboardState = (dashboardState) => ({
-    type: 'SET_USER_DASHBOARD_STATE',
-    data: {dashboardState: dashboardState}
 });
 export const resetUserInformation = () => ({
     type: 'RESET_USER_INFORMATION',
