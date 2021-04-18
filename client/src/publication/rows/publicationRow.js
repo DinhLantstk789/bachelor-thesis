@@ -75,6 +75,7 @@ export default function PublicationRow({triggerUpdateUI, type, title, authors, a
         dispatch(setDashboardState(true));
         dispatch(saveDisplayingPublicationLabel(displayingPublicationLabel));
         apiCalls.viewPublication( {id: publicationId}, (publication) => {
+            console.log(publication);
             let corporateCreators = [], funders = [], projects = [];
             publication.corporateCreators.forEach(c => corporateCreators.push({corporateCreator: c}));
             publication.funders.forEach(f => funders.push({funder: f}));
