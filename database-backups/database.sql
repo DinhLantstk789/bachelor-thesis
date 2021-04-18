@@ -4,7 +4,6 @@ CREATE TABLE users (
     given_name TEXT,
 	hide_email BOOLEAN NOT NULL DEFAULT TRUE,
 	password TEXT DEFAULT NULL,
-	department TEXT DEFAULT NULL,
 	address TEXT DEFAULT NULL,
 	is_admin BOOLEAN DEFAULT FALSE,
 	description TEXT,

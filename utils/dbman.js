@@ -13,23 +13,33 @@ function convertToSQLArray(arr) {
     return '{' + r.substring(0, r.length - 1) + '}';
 }
 
+async function insertUserDivision(userEmail, divisionName) {
+    await eprints.query('INSERT INTO user_division (user_email, division_name) VALUES ($1, $2) RETURNING user_email;', {bind: [userEmail, divisionName], type: QueryTypes.INSERT});
+}
+
 async function insertCreatorEditor(publication_id, user, linked_table) {
     let isApproved = await eprints.query('SELECT is_approved FROM users WHERE email = $1;', {bind: [user.email], type: QueryTypes.SELECT});
-    let onConflict = (isApproved.length === 0 || isApproved[0].is_approved) ? 'NOTHING ' : 'UPDATE SET family_name = $2, given_name = $3, department = $4 '
+    let onConflict = (isApproved.length === 0 || isApproved[0].is_approved) ? 'NOTHING ' : 'UPDATE SET family_name = $2, given_name = $3 '
     await eprints.query(
-        'INSERT INTO users (email, family_name, given_name, department)' +
-        'VALUES ($1, $2, $3, $4) ON CONFLICT (email) DO ' +
-        onConflict + 'RETURNING email;', {bind: [user.email, user.familyName, user.givenName, user.department], type: QueryTypes.INSERT}
+        'INSERT INTO users (email, family_name, given_name)' +
+        'VALUES ($1, $2, $3) ON CONFLICT (email) DO ' +
+        onConflict + 'RETURNING email;', {bind: [user.email, user.familyName, user.givenName], type: QueryTypes.INSERT}
     );
     await eprints.query(
         'INSERT INTO publication_' + linked_table + ' (publication_id, ' + linked_table + '_email)' +
         'VALUES ($1, $2) RETURNING ' + linked_table + '_email;', {bind: [publication_id, user.email], type: QueryTypes.INSERT}
     );
+    await insertUserDivision(user.email, user.department);
+}
+
+async function getDivisionOfUser(email) {
+    return await eprints.query('SELECT division_name from user_division where user_email = $1;', {bind: [email], type: QueryTypes.SELECT})[0].division_name;
 }
 
 async function insertDivision(division) {
     await eprints.query('INSERT INTO divisions (name) VALUES ($1) RETURNING name;', {bind: [division], type: QueryTypes.INSERT});
 }
+
 
 async function insertPublicationDivision(publication_id, division) {
     await eprints.query('INSERT INTO publication_division (publication_id, division_name) VALUES ($1, $2) RETURNING publication_id;', {bind: [publication_id, division], type: QueryTypes.INSERT});
@@ -58,7 +68,7 @@ module.exports = {
                         familyName: c.family_name,
                         givenName: c.given_name,
                         email: c.email,
-                        department: c.department,
+                        department: getDivisionOfUser(c.email),
                     });
                 });
             }
@@ -209,7 +219,7 @@ module.exports = {
         });
         creators.forEach(user => insertCreatorEditor(pubId[0][0].id, user, 'creator'));
         editors.forEach(user => {
-            user.department = null;
+            user.department = '';
             insertCreatorEditor(pubId[0][0].id, user, 'editor')
         });
         return pubId[0][0].id;
@@ -226,36 +236,36 @@ module.exports = {
     },
     insertUser: async (email, familyName, givenName, password, department, address, isAdmin, description, registrationDate, isApproved) => {
         let addedUser = await eprints.query(
-            'INSERT INTO users(email, family_name, given_name, password, department, address, is_admin, description, registration_date, is_approved)' +
-            'VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) ' + 'RETURNING email;', {
-                bind: [email, familyName, givenName, password, department, address, isAdmin, description, registrationDate, isApproved],
+            'INSERT INTO users(email, family_name, given_name, password, address, is_admin, description, registration_date, is_approved)' +
+            'VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) ' + 'RETURNING email;', {
+                bind: [email, familyName, givenName, password, address, isAdmin, description, registrationDate, isApproved],
                 type: QueryTypes.INSERT
             }
         );
-        console.log(addedUser);
+        await insertUserDivision(email, department);
         return addedUser[0][0].email;
     },
     fetchUserInformation: async (email) => {
-        let filter = email === null ? '' : ('WHERE email = $1');
+        let filter = 'WHERE is_approved = true '  + (email === null ? '' : ('AND email = $1'));
         let selectedFields = email === null ? 'given_name, family_name, email' : '*';
         let returnedResult = [];
         let selectedUsers = await eprints.query('SELECT ' + selectedFields + ' FROM users ' + filter + ' ORDER BY db_created_on DESC;', {bind: email === null ? [] : [email], type: QueryTypes.SELECT});
-        for (const p of selectedUsers) {
+        for (const u of selectedUsers) {
             if (email === null || email === undefined) {
                 returnedResult.push({
-                    email: p.email,
-                    givenName: p.given_name,
-                    familyName: p.family_name
+                    email: u.email,
+                    givenName: u.given_name,
+                    familyName: u.family_name
                 })
             } else {
                 returnedResult.push({
-                    email: p.email,
-                    givenName: p.given_name,
-                    familyName: p.family_name,
-                    address: p.address,
-                    department: p.department,
-                    roles: p.roles,
-                    userDescription: p.description
+                    email: u.email,
+                    givenName: u.given_name,
+                    familyName: u.family_name,
+                    address: u.address,
+                    department: getDivisionOfUser(u.email),
+                    roles: u.roles,
+                    userDescription: u.description
                 })
             }
         }
@@ -263,6 +273,7 @@ module.exports = {
     },
     deleteUser: async (email) => {
         try {
+            await eprints.query('DELETE FROM user_division WHERE user_email = $1', {bind: [email], type: QueryTypes.DELETE});
             await eprints.query('DELETE FROM users WHERE email = $1', {bind: [email], type: QueryTypes.DELETE});
             return {message: 'User is deleted'};
         } catch (e) {

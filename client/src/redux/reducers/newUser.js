@@ -3,7 +3,7 @@ const initialState = {
     familyName: '',
     email: '',
     address: '',
-    department: '',
+    department: 'Faculty of Information Technology (FIT)',
     isAdmin: false,
     password: '',
     userDescription: ''
@@ -68,15 +68,15 @@ export default (state = initialState, action) => {
     }
 
     if (action.type === 'RESET_USER_INFORMATION') {
-        const data = action.data;
         return {
             ...state,
             givenName: '',
             familyName: '',
             email: '',
             address: '',
-            department: '',
-            role: '',
+            department: 'Faculty of Information Technology (FIT)',
+            password: '',
+            isAdmin: false,
             userDescription: '',
             dashboardState: false
         }

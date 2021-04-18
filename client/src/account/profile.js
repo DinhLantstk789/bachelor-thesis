@@ -1,5 +1,5 @@
 import {Button, Card, CardBody, CardHeader, Col, FormInput, FormSelect, FormTextarea, Row} from "shards-react";
-import {saveAddress, saveDepartment, saveEmail, saveFamilyName, saveGivenName, saveIsAdmin, savePassword, saveUserDescription} from "../redux/actions";
+import {resetUserInformation, saveAddress, saveDepartment, saveEmail, saveFamilyName, saveGivenName, saveIsAdmin, savePassword, saveUserDescription} from "../redux/actions";
 import {useDispatch, useSelector} from "react-redux";
 import * as apiCalls from "../apiCalls";
 import {sha256} from "js-sha256";
@@ -74,6 +74,7 @@ export default function Profile({triggerReload}) {
                                 }
                                 apiCalls.addUser(body, (email) => {
                                     triggerReload();
+                                    dispatch(resetUserInformation());
                                 }, (message) => {
                                     alert(message);
                                 });
