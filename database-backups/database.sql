@@ -8,7 +8,7 @@ CREATE TABLE users (
 	address TEXT DEFAULT NULL,
 	is_admin BOOLEAN DEFAULT FALSE,
 	roles TEXT NOT NULL,
-	description TEXT NOT NULL,
+	description TEXT,
 	registration_date TIMESTAMP DEFAULT NULL,
 	last_login TIMESTAMP DEFAULT NULL,
 	is_approved BOOLEAN DEFAULT FALSE,
@@ -81,7 +81,7 @@ CREATE TABLE publication_division (
     PRIMARY KEY (publication_id, division_name)
 );
 
-CREATE TABLE publication_division (
+CREATE TABLE user_division (
     user_email TEXT,
     division_name TEXT,
     db_created_on TIMESTAMP DEFAULT NOW(),

@@ -4,6 +4,7 @@ import NewPublication from "./publication/newPublication";
 import Publications from "./publications";
 import {useDispatch, useSelector} from "react-redux";
 import {resetArticle, resetBookSection, resetConference, resetPublication, resetTechnicalReport, saveDisplayingPublicationLabel, saveViewingPublicationId, setDashboardState} from "./redux/actions";
+import * as apiCalls from "./apiCalls";
 
 export default function Dashboard() {
     const [approvalFilter, setApprovalFilter] = useState(false);

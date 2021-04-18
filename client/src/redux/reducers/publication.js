@@ -306,9 +306,9 @@ export default (state = initialState, action) => {
                 {name: 'Transportation Technology', isEnable: false},
                 {name: 'Civil Engineering', isEnable: false}],
             divisions: [{name: 'Advanced Institute of Engineering and Technology (AVITECH)', isEnable: false},
-                {name: ' Department of Civil Engineering and Transportation (CET)', isEnable: false},
-                {name: ' Center for Electronics and Telecommunications Research (CETR)', isEnable: false},
-                {name: ' Faculty of Agriculture Technology (FAT)', isEnable: false},
+                {name: 'Department of Civil Engineering and Transportation (CET)', isEnable: false},
+                {name: 'Center for Electronics and Telecommunications Research (CETR)', isEnable: false},
+                {name: 'Faculty of Agriculture Technology (FAT)', isEnable: false},
                 {name: 'Faculty of Electronics and Telecommunications (FET)', isEnable: false},
                 {name: 'Faculty of Engineering Mechanics and Automation (FEMA)', isEnable: false},
                 {name: 'Faculty of Engineering Physics and Nanotechnology (FEPN)', isEnable: false},
@@ -318,7 +318,6 @@ export default (state = initialState, action) => {
                 {name: 'Key Laboratory for Smart Integrated Systems (SISLAB)', isEnable: false}]
         }
     }
-
 
     return state;
 

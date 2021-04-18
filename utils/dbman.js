@@ -214,8 +214,17 @@ module.exports = {
         });
         return pubId[0][0].id;
     },
+    fetchAllPublicationAsDivision: async (divisionName) => {
+        let pubId = await eprints.query('SELECT publication_id FROM publication_division WHERE division_name LIKE $1',{bind:[divisionName], type:QueryTypes.SELECT});
+        let returnedResult=[];
+        for(const p of pubId){
+            returnedResult.push({
+                id: p.publication_id
+            })
+        }
+        return returnedResult;
+    },
     insertUser: async (givenName, familyName, email, address, department,password, roles, userDescription) => {
-        console.log(givenName, familyName, email, address, department,password, roles, userDescription);
             let addUser = await eprints.query(
                 'INSERT INTO users(given_name,family_name,email,address,department,password,roles,description) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) ' +
                 'RETURNING email;', {
@@ -259,7 +268,7 @@ module.exports = {
         }
     },
     findUser: async (email) => {
-        let users = await eprints.query('SELECT email, password, family_name, given_name, is_admin FROM users WHERE email = $1', {bind: [email], type: QueryTypes.SELECT});
+        let users = await eprints.query('SELECT email, password, family_name, given_name, is_admin , roles FROM users WHERE email = $1', {bind: [email], type: QueryTypes.SELECT});
         return users.length === 1 ? users[0] : null;
     }
 }

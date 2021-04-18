@@ -6,18 +6,21 @@ import Statistics from "./statistics";
 import Profile from "./account/profile";
 import {connect} from "react-redux";
 import UserManagement from "./account/userManagement";
+import {logout} from "./apiCalls";
+import {saveLoggedUser} from "./redux/actions";
+import {ClipLoader} from "react-spinners";
 
 class Home extends Component {
     state = {
         viewProfile: false,
-        userManagement: false
+        userManagement: false,
+        isLoggingOut: false
     }
 
     constructor(props) {
         super(props);
         this.state = {open: false};
         this.state = {openAccount: false};
-
     }
 
     render() {
@@ -43,11 +46,17 @@ class Home extends Component {
                                     </DropdownMenu>
                                 </Dropdown>
                                 <Dropdown open={this.state.openAccount} toggle={() => this.setState({openAccount: !this.state.openAccount})}>
-                                    <DropdownToggle id="dropdown1" style={{fontSize: 20, marginRight: 30}} className="float-right"><i className={"fa fa-user"}/></DropdownToggle>
+                                    <DropdownToggle id="dropdown1" style={{fontSize: 20, marginRight: 30}} className="float-right">{this.state.isLoggingOut ? <ClipLoader size={15} color={'#ffffff'} loading/> : <i className={"fa fa-user"}/>}</DropdownToggle>
                                     <DropdownMenu right>
                                         <DropdownItem onClick={() => this.setState({viewProfile: true})}><i className="fas fa-user-circle"/>&nbsp;&nbsp;See your profile</DropdownItem>
                                         <DropdownItem><i className="fas fa-cogs"/>&nbsp;&nbsp;Settings</DropdownItem>
-                                        <DropdownItem><i className="fas fa-sign-out"/>&nbsp;&nbsp;Log Out</DropdownItem>
+                                        <DropdownItem onClick={() => {
+                                            this.setState({isLoggingOut: true});
+                                            logout(successMessage => {
+                                                this.setState({isLoggingOut: false});
+                                                this.props.saveLoggedUser(null);
+                                            }, (errorMessage) => alert(errorMessage));
+                                        }}><i className="fas fa-sign-out"/>&nbsp;&nbsp;Log Out</DropdownItem>
                                     </DropdownMenu>
                                 </Dropdown>
                             </Row>
@@ -73,5 +82,5 @@ class Home extends Component {
 let mapStateToProps = (store) => {
     return {loggedUser: store.user.loggedUser}
 };
-let mapDispatchToProps = {};
+let mapDispatchToProps = {saveLoggedUser};
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

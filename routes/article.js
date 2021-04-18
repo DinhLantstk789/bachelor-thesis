@@ -4,7 +4,7 @@ const dbman = require("../utils/dbman");
 const {securityCheck} = require("./base");
 
 
-router.post('/fetch', function (req, res) {
+router.get('/fetch', function (req, res) {
     securityCheck(req, res, (accessToken) => {
         dbman.fetchPublications(null).then(publications => {
             return res.json({status: 200, publications: publications});
@@ -19,6 +19,7 @@ router.post('/view', function (req, res) {
         }).catch(console.log);
     })
 });
+
 router.post('/toggleApproval', (req, res) => {
     securityCheck(req, res, (accessToken) => {
         let id = req.body.id;
@@ -37,7 +38,15 @@ router.post('/deletePublication', (req, res) => {
         }).catch(console.log)
     })
 });
-
+router.post('/fetchAllPublicationAsDivision', (req, res) => {
+    securityCheck(req, res, (accessToken) => {
+        dbman.fetchAllPublicationAsDivision(req.body.divisionName).then(pubId => {
+            if (pubId) {
+                res.json({status: 200, pubId: pubId});
+            }
+        }).catch(console.log)
+    })
+});
 router.post('/add', (req, res) => {
     securityCheck(req, res, (accessToken) => {
         let databaseId = req.body.databaseId;

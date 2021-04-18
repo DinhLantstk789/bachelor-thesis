@@ -4,13 +4,13 @@ import {useSelector} from "react-redux";
 import PublicationDetail from "./publication/rows/publication";
 import {fetchPublication} from "./apiCalls";
 
-export default function Publications({approvalFilter, pendingFilter}) {
+export default function Publications({approvalFilter, pendingFilter, role}) {
     const [isLoading, setIsLoading] = useState(true);
     const [publications, setPublications] = useState([]);
     const loggedUser = useSelector(store => store.user.loggedUser);
 
     useEffect(() => {
-        fetchPublication({}, (publications) => {
+        fetchPublication((publications) => {
             setIsLoading(false);
             setPublications(publications);
         }, (message) => {
@@ -22,6 +22,8 @@ export default function Publications({approvalFilter, pendingFilter}) {
         <List/>
         <List style={{marginTop: 20}}/>
     </div>
+
+
     let showAll = approvalFilter && pendingFilter
     let showOnlyApproval = approvalFilter && !pendingFilter
     let showOnlyPending = !approvalFilter && pendingFilter

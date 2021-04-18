@@ -8,8 +8,12 @@ const {securityCheck} = require("./base");
 
 
 const accessTokenCached = {}
+
 router.post('/login', (req, res) => {
     let email = req.body.email, receivedPassword = req.body.password;
+    bcrypt.hash('f36232d27ac25f5b75fdc676a89282454dad2ec5fcc40b69ebea5670cf9f076f', 10, function (err, hash) {
+        console.log(hash);
+    })
     dbman.findUser(email).then(user => {
         if (user === null) return res.json({status: 401, message: 'Account not found'});
         let hashedPassword = user.password;
@@ -19,7 +23,8 @@ router.post('/login', (req, res) => {
                     email: user.email,
                     familyName: user.family_name,
                     givenName: user.given_name,
-                    isAdmin: user.is_admin
+                    isAdmin: user.is_admin,
+                    roles: user.roles
                 }
                 let accessToken = jwt.sign(returnedUser, configs.SECRET, {expiresIn: configs.ACCESS_TOKEN_LIFE});
                 accessTokenCached[accessToken] = returnedUser;
@@ -36,6 +41,7 @@ router.post('/login', (req, res) => {
         });
     }).catch(console.log);
 })
+
 router.post('/addUser', (req, res) => {
     securityCheck(req, res, (accessToken) => {
         let givenName = req.body.givenName;
@@ -44,7 +50,7 @@ router.post('/addUser', (req, res) => {
         let address = req.body.address;
         let department = req.body.department;
         let role = req.body.role;
-        let password= req.body.password;
+        let password = req.body.password;
         let userDescription = req.body.userDescription;
         dbman.insertUser(givenName, familyName, email, address, department,password, role, userDescription).then(email => {
             return res.json({status: 200, message: 'Successfully added user:',email:email});
@@ -58,6 +64,7 @@ router.post('/fetchUser', (req, res) => {
         }).catch(console.log);
     })
 });
+
 router.post('/deleteUser', (req, res) => {
     securityCheck(req, res, (accessToken) => {
         dbman.deleteUser(req.body.email).then(deletedUser => {
@@ -76,6 +83,13 @@ router.post('/fetchFullyUserData', (req, res) => {
     })
 });
 
+router.get('/logout', (req, res) => {
+    securityCheck(req, res, (accessToken) => {
+        res.clearCookie('accessToken');
+        return res.json({status: 200, message: 'Logout success'});
+    })
+});
+
 router.post('/verifyCookie', (req, res) => {
     securityCheck(req, res, (accessToken) => {
         if (accessTokenCached[accessToken]) { // TODO: store accessTokenCached across different routes
@@ -83,10 +97,6 @@ router.post('/verifyCookie', (req, res) => {
         }
         return res.json({status: 401, message: 'Access token does not exist or has been revoked.'});
     })
-});
-
-router.get('/logout', function (req, res, next) {
-    res.send('api for user logout');
 });
 
 module.exports = router;

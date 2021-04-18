@@ -88,7 +88,6 @@ export default function PublicationDetail({type, title, authors, approved, publi
                 {name: 'Key Laboratory for Nanotechnology (Nano Lab)', isEnable: false},
                 {name: 'School of Aerospace Engineering (SAE)', isEnable: false},
                 {name: 'Key Laboratory for Smart Integrated Systems (SISLAB)', isEnable: false}];
-            console.log(publication.divisions);
             publication.divisions.forEach(d => {
                 initialDivisions.map(item => {
                     if (item.name === d) {
@@ -158,6 +157,7 @@ export default function PublicationDetail({type, title, authors, approved, publi
             console.log('error:', message);
         })
     }
+
     return (
         <Fragment>
             <Row>
