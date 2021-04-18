@@ -58,11 +58,27 @@ module.exports = {
         );
         return updatedApproval[0][0].is_approved;
     },
+    /* if userEmail === null --> isAdmin, so fetch all without user filter
+    *  publicationId === null --> get all possbile publications. else: get a targeted publication */
     fetchPublications: async (publicationId, userEmail) => {
-        let filter = publicationId === null ? '' : ('WHERE id = $1');
+        let pubFilter = [];
+        let filter = 'WHERE id IN (:pubIds)';
+        if (userEmail !== null) {
+            let authorisedPublicationIDs = await eprints.query('select publication_id from publication_creator where creator_email = $1', {bind: [userEmail], type: QueryTypes.SELECT});
+            authorisedPublicationIDs.forEach(ap => pubFilter.push(ap.publication_id));
+            if (publicationId !== null) {
+                pubFilter = pubFilter.includes(publicationId) ? [publicationId] : [];
+            }
+        } else {
+            if (publicationId !== null) {
+                pubFilter = [publicationId];
+            } else {
+                filter = '';
+            }
+        }
         let selectedFields = publicationId === null ? 'id, item_type, title, is_approved' : '*';
         let returnedResult = [];
-        let selectedPublications = await eprints.query('SELECT ' + selectedFields + ' FROM publication ' + filter + ' ORDER BY db_created_on DESC;', {bind: publicationId === null ? [] : [publicationId], type: QueryTypes.SELECT});
+        let selectedPublications = await eprints.query('SELECT ' + selectedFields + ' FROM publication ' + filter + ' ORDER BY db_created_on DESC;', {replacements: {pubIds: pubFilter}, type: QueryTypes.SELECT});
         for (const p of selectedPublications) {
             let creators = [];
             for (const e of await eprints.query('SELECT creator_email FROM publication_creator WHERE publication_id = $1 ORDER BY author_order;', {bind: [p.id], type: QueryTypes.SELECT})) {

@@ -6,7 +6,7 @@ const {securityCheck} = require("./base");
 
 router.get('/fetch', function (req, res) {
     securityCheck(req, res, (loggedUser) => {
-        dbman.fetchPublications(null).then(publications => {
+        dbman.fetchPublications(null, loggedUser.isAdmin ? null : loggedUser.email).then(publications => {
             return res.json({status: 200, publications: publications});
         }).catch(console.log);
     })
@@ -14,7 +14,7 @@ router.get('/fetch', function (req, res) {
 router.post('/view', function (req, res) {
     securityCheck(req, res, (loggedUser) => {
         let publicationId = req.body.id;
-        dbman.fetchPublications(publicationId, ).then(publications => {
+        dbman.fetchPublications(publicationId, loggedUser.isAdmin ? null :loggedUser.email).then(publications => {
             return res.json({status: 200, publications: publications});
         }).catch(console.log);
     })
