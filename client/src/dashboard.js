@@ -24,6 +24,7 @@ export default function Dashboard() {
             setPendingFilter(false);
         }
     }, [])
+
     return (
         <Card>
             <CardHeader>

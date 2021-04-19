@@ -2,7 +2,7 @@ const initialState = {
     publicationTitle: '',
     publicationAbstract: '',
     creators: [{familyName: '', givenName: '', email: '', department: ''}],
-    corporateCreators:[{corporateCreator:''}],
+    corporateCreators: [{corporateCreator: ''}],
     editors: [{familyName: '', givenName: '', email: ''}],
     relatedURLs: [{URL: '', URLType: ''}],
     projects: [{projectName: ''}],
@@ -167,108 +167,62 @@ export default (state = initialState, action) => {
     }
     if (action.type === 'SAVE_PUBLICATION_REFERENCES') {
         const data = action.data;
-        return {
-            ...state,
-            references: data.references
-        }
+        return {...state, references: data.references}
     }
     if (action.type === 'SAVE_PUBLICATION_UN_KEYWORD') {
         const data = action.data;
-        return {
-            ...state,
-            unKeyword: data.unKeyword
-        }
+        return {...state, unKeyword: data.unKeyword}
     }
     if (action.type === 'SAVE_PUBLICATION_ADD_INFORMATION') {
         const data = action.data;
-        return {
-            ...state,
-            addInformation: data.addInformation
-        }
+        return {...state, addInformation: data.addInformation}
     }
     if (action.type === 'SAVE_PUBLICATION_COMMENT') {
         const data = action.data;
-        return {
-            ...state,
-            comment: data.comment
-        }
+        return {...state, comment: data.comment}
     }
     if (action.type === 'SAVE_PUBLICATION_SUBJECTS') {
         const data = action.data;
-        return {
-            ...state,
-            subjects: data.subjects
-        }
+        return {...state, subjects: data.subjects}
     }
     if (action.type === 'SAVE_PUBLICATION_DIVISIONS') {
         const data = action.data;
-        return {
-            ...state,
-            divisions: data.divisions
-        }
+        return {...state, divisions: data.divisions}
     }
     if (action.type === 'SAVE_PUBLICATION_PATENT_APPLICANT') {
         const data = action.data;
-        return {
-            ...state,
-            patentApplicant: data.patentApplicant
-        }
+        return {...state, patentApplicant: data.patentApplicant}
     }
     if (action.type === 'SAVE_PUBLICATION_MEDIA_OUTPUT') {
         const data = action.data;
-        return {
-            ...state,
-            mediaOutput: data.mediaOutput
-        }
+        return {...state, mediaOutput: data.mediaOutput}
     }
     if (action.type === 'SAVE_PUBLICATION_COPYRIGHT_HOLDER') {
         const data = action.data;
-        return {
-            ...state,
-            copyrightHolder: data.copyrightHolder
-        }
+        return {...state, copyrightHolder: data.copyrightHolder}
     }
     if (action.type === 'SAVE_PUBLICATION_DEPARTMENT') {
         const data = action.data;
-        return {
-            ...state,
-            publicationDepartment: data.publicationDepartment
-        }
+        return {...state, publicationDepartment: data.publicationDepartment}
     }
     if (action.type === 'SET_DASHBOARD_STATE') {
         const data = action.data;
-        return {
-            ...state,
-            isAddingPublication: data.isAddingPublication
-        }
+        return {...state, isAddingPublication: data.isAddingPublication}
     }
     if (action.type === 'SAVE_DISPLAYING_PUBLICATION_LABEL') {
         const data = action.data;
-        return {
-            ...state,
-            displayingPublicationLabel: data.displayingPublicationLabel
-        }
+        return {...state, displayingPublicationLabel: data.displayingPublicationLabel}
     }
     if (action.type === 'SAVE_VIEWING_PUBLICATION_ID') {
         const data = action.data;
-        return {
-            ...state,
-            viewingPublicationId: data.viewingPublicationId
-        }
+        return {...state, viewingPublicationId: data.viewingPublicationId}
     }
-
     if (action.type === 'DISABLE_ALL_ELEMENTS') {
         const data = action.data;
-        return {
-            ...state,
-            isDisable: data.isDisable
-        }
+        return {...state, isDisable: data.isDisable}
     } if (action.type === 'PUBLICATION_APPROVING_CHECK') {
         const data = action.data;
-        return {
-            ...state,
-            isApprovedPublication: data.isApprovedPublication
-        }
+        return {...state, isApprovedPublication: data.isApprovedPublication}
     }
     if (action.type === 'RESET_PUBLICATION') {
         return {

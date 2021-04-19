@@ -1,25 +1,40 @@
 import {Fragment, useEffect, useState} from 'react';
 import {List} from "react-content-loader";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import PublicationRow from "./publication/rows/publicationRow";
 import {fetchPublication} from "./apiCalls";
+import {setTriggerReloadAllPublication} from "./redux/actions";
 
 export default function Publications({approvalFilter, pendingFilter}) {
     const [isLoading, setIsLoading] = useState(true);
     const [triggerReload, setTriggerReload] = useState(false);
     const [publications, setPublications] = useState([]);
-    const loggedUser = useSelector(store => store.user.loggedUser);
+    const triggerReloadAllPublication = useSelector(store => store.filter.triggerReloadAllPublication);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         fetchPublication((publications) => {
             setIsLoading(false);
+            dispatch(setTriggerReloadAllPublication(false));
             setPublications(publications);
         }, (message) => alert(message));
     }, []);
 
     useEffect(() => {
+        if (triggerReloadAllPublication) {
+            setIsLoading(true);
+            fetchPublication((publications) => {
+                setIsLoading(false);
+                dispatch(setTriggerReloadAllPublication(false));
+                setPublications(publications);
+            }, (message) => alert(message));
+        }
+    });
+
+    useEffect(() => {
         fetchPublication((publications) => {
             setPublications(publications);
+            dispatch(setTriggerReloadAllPublication(false));
         }, (message) => alert(message));
     }, [triggerReload]);
 

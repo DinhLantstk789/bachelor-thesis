@@ -15,13 +15,16 @@ export const saveArticleType = (articleType) => ({
 });
 
 
-
 /* Book section */
 export const saveBookSectionTitle = (bookSectionTitle) => ({
     type: 'SAVE_BOOK_SECTION_TITLE',
     data: {
         bookSectionTitle: bookSectionTitle
     }
+})
+export const setTriggerReloadAllPublication = (triggerReloadAllPublication) => ({
+    type: 'TRIGGER_RELOAD_ALL_PUBLICATIONS',
+    data: {triggerReloadAllPublication: triggerReloadAllPublication}
 })
 export const saveBookSectionPublicationPlace = (bookSectionPublicationPlace) => ({
     type: 'SAVE_BOOK_SECTION_PUBLICATION_PLACE',

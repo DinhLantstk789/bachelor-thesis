@@ -1,7 +1,7 @@
 import {Badge, Button, Col, Row, Slider} from "shards-react";
 import DivisionSelector from "./sharedSections/divisionSelector";
 import {useDispatch, useSelector} from "react-redux";
-import {resetPublicationFilter, savePublicationFilterFirstTerm, savePublicationFilterSecondTerm, savePublicationFilterYearFrom, savePublicationFilterYearTo} from "../redux/actions";
+import {resetPublicationFilter, savePublicationFilterFirstTerm, savePublicationFilterSecondTerm, savePublicationFilterYearFrom, savePublicationFilterYearTo, setTriggerReloadAllPublication} from "../redux/actions";
 
 export default function Filter() {
     const divisions = useSelector(store => store.filter.divisions);
@@ -48,6 +48,7 @@ export default function Filter() {
                     dispatch(resetPublicationFilter());
                 }}>Reset Filters &nbsp; <i className="fas fa-redo-alt"/></Button>
                 <Button style={{marginLeft: 5}} theme='light' pill onClick={() => {
+                    dispatch(setTriggerReloadAllPublication(true));
                     console.log(yearFrom, yearTo, isFirstTerm, isSecondTerm, divisions);
                 }}>Apply Selected Filters &nbsp; <i className="fas fa-check"/></Button>
             </div>

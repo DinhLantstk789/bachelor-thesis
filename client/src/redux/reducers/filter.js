@@ -1,4 +1,5 @@
 const initialState = {
+    triggerReloadAllPublication: false,
     yearFrom: 2000,
     yearTo: 2021,
     isFirstTerm: true,
@@ -17,6 +18,10 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
+    if (action.type === 'TRIGGER_RELOAD_ALL_PUBLICATIONS') {
+        const data = action.data;
+        return {...state, triggerReloadAllPublication: data.triggerReloadAllPublication}
+    }
     if (action.type === 'SAVE_FILTER_YEAR_FROM') {
         const data = action.data;
         return {...state, yearFrom: data.yearFrom}
@@ -39,6 +44,7 @@ export default (state = initialState, action) => {
     }
     if (action.type === 'RESET_PUBLICATION_FILTER') {
         return {
+            triggerReloadAllPublication: false,
             yearFrom: 2000,
             yearTo: 2021,
             isFirstTerm: false,
