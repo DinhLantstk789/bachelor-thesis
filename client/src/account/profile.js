@@ -6,7 +6,6 @@ import {sha256} from "js-sha256";
 import {useState} from 'react'
 import {ClipLoader} from "react-spinners";
 
-
 export default function Profile({triggerReload}) {
     const {givenName, familyName, email, department, isAdmin, address, description, password} = useSelector(store => ({
         givenName: store.newUser.givenName,
@@ -19,13 +18,23 @@ export default function Profile({triggerReload}) {
         password: store.newUser.password
     }))
     const [isSubmitting, setIsSubmitting] = useState(false);
-
     const dispatch = useDispatch();
-
     return (
         <Card>
             <CardHeader>
-                <h5 style={{marginTop: 10, marginRight: 30}}><i className='fa fa-user'/>&nbsp;&nbsp; Profile</h5>
+                <Row>
+                    <Col>
+                        <h5 style={{marginTop: 10, marginRight: 30}}><i className='fa fa-user'/>&nbsp;&nbsp; Profile</h5>
+                    </Col>
+                    <Col>
+                        <div className='float-right'>
+                            <Button pill theme="light" onClick={() => {
+                                dispatch(saveOpeningProfileTab(false));
+                                dispatch(resetUserInformation());
+                            }}><i className='fa fa-times'/></Button>
+                        </div>
+                    </Col>
+                </Row>
             </CardHeader>
             <CardBody style={{paddingRight: 50, paddingLeft: 50}}>
                 <Row>
@@ -49,7 +58,6 @@ export default function Profile({triggerReload}) {
                 <Row>
                     <Col>
                         <FormInput placeholder="Password" type='password' value={password} onChange={(e) => dispatch(savePassword(e.target.value))} style={{marginTop: 10}}/>
-                        <FormInput placeholder="Address" value={address} onChange={(e) => dispatch(saveAddress(e.target.value))} style={{marginTop: 10}}/>
                         <FormSelect value={department} style={{marginTop: 10}} onChange={(e) => {
                             dispatch(saveDepartment(e.target.value));
                         }}>
@@ -69,15 +77,10 @@ export default function Profile({triggerReload}) {
                             <option value="user">Normal User</option>
                             <option value="admin">Administrator</option>
                         </FormSelect>
-                        <FormTextarea placeholder="About" value={description} onChange={(e) => dispatch(saveUserDescription(e.target.value))} style={{marginTop: 10}}/>
-                        <Row className='float-right' style={{marginTop: 10}}>
-                            <Button pill theme="secondary" style={{marginRight: 10}} onClick={() => {
-                                dispatch(saveOpeningProfileTab(false));
-                                dispatch(resetUserInformation());
-                            }}>
-                                <i className='fa fa-times'/>&nbsp; Cancel
-                            </Button>
-                            <Button pill theme={isSubmitting ? 'secondary' : 'success'} style={{marginRight: 10}} onClick={() => {
+                        <FormInput placeholder="Address" value={address} onChange={(e) => dispatch(saveAddress(e.target.value))} style={{marginTop: 10}}/>
+                        <FormTextarea placeholder="Description" value={description} onChange={(e) => dispatch(saveUserDescription(e.target.value))} style={{marginTop: 10}}/>
+                        <div className='float-right' style={{marginTop: 10}}>
+                            <Button pill theme={isSubmitting ? 'secondary' : 'success'} onClick={() => {
                                 if (!isSubmitting) {
                                     const body = {
                                         email: email,
@@ -100,7 +103,7 @@ export default function Profile({triggerReload}) {
                                 }
                             }
                             }>Submit &nbsp;{isSubmitting ? <ClipLoader size={13} color={'#ffffff'} loading/> : <i className='fa fa-arrow-right'/>}</Button>
-                        </Row>
+                        </div>
                     </Col>
                 </Row>
             </CardBody>

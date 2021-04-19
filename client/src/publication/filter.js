@@ -2,7 +2,7 @@ import {Button, Slider} from "shards-react";
 import DivisionSelector from "./sharedSections/divisionSelector";
 import {useDispatch, useSelector} from "react-redux";
 import {useState} from 'react';
-import {resetPublicationFilter, savePublicationFilterYearFrom, savePublicationFilterYearTo, setTriggerReloadAllPublication} from "../redux/actions";
+import {resetPublicationFilter, savePublicationFilterYearFrom, savePublicationFilterYearTo, setTriggerReloadAllPublication, unSelectPublicationFilter} from "../redux/actions";
 
 export default function Filter() {
     const yearFrom = useSelector(store => store.filter.yearFrom);
@@ -11,7 +11,7 @@ export default function Filter() {
     const [range, setRange] = useState([2000, 2021]);
 
     return (
-        <div style={{marginBottom: 30}}>
+        <div>
             <div style={{marginRight: 50, marginLeft: 10}}>
                 <h6 style={{textAlign: 'center'}}>Filtered by years spanning {yearFrom} to {yearTo}</h6>
                 <Slider
@@ -32,7 +32,13 @@ export default function Filter() {
             <div style={{textAlign: 'center', marginTop: 20}}>
                 <Button style={{marginRight: 5}} theme='light' pill onClick={() => {
                     setRange([2000, 2021]);
+                    dispatch(unSelectPublicationFilter());
+                    dispatch(setTriggerReloadAllPublication(true));
+                }}>Unselect All &nbsp;<i className="fas fa-ban"/></Button>
+                <Button style={{marginLeft: 5, marginRight: 5}} theme='light' pill onClick={() => {
+                    setRange([2000, 2021]);
                     dispatch(resetPublicationFilter());
+                    dispatch(setTriggerReloadAllPublication(true));
                 }}>Reset Filters &nbsp;<i className="fas fa-redo-alt"/></Button>
                 <Button style={{marginLeft: 5}} theme='light' pill onClick={() => {
                     dispatch(setTriggerReloadAllPublication(true));

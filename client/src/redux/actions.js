@@ -304,6 +304,9 @@ export const savePublicationFilterSecondTerm = (isSecondTerm) => ({
 export const resetPublicationFilter = () => ({
     type: 'RESET_PUBLICATION_FILTER'
 });
+export const unSelectPublicationFilter = () => ({
+    type: 'UNSELECT_PUBLICATION_FILTER'
+});
 
 
 

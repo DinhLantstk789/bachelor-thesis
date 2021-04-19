@@ -49,7 +49,7 @@ async function getDivisionOfUser(email) {
 }
 
 async function insertDivision(division) {
-    await eprints.query('INSERT INTO divisions (name) VALUES ($1) RETURNING name;', {bind: [division], type: QueryTypes.INSERT});
+    await eprints.query('INSERT INTO divisions (name) VALUES ($1) ON CONFLICT (name) DO NOTHING RETURNING name;', {bind: [division], type: QueryTypes.INSERT});
 }
 
 
@@ -79,8 +79,13 @@ module.exports = {
             filteringConfigs.filteredDivisions.forEach(fc => {
                 if (fc.isEnable) divisions.push(fc.name);
             })
-            filteringCondition = 'WHERE date_part(\'year\', date) >= ' + filteringConfigs.filteredYearFrom + ' and date_part(\'year\', date) <= ' + filteringConfigs.filteredYearTo;
-            let r = await eprints.query('SELECT distinct(publication_id) FROM publication_division WHERE division_name IN (:divisionNames);', {replacements: {divisionNames: divisions}, type: QueryTypes.SELECT});
+            filteringCondition = 'WHERE date_part(\'year\', date) >= ' + filteringConfigs.filteredYearFrom + ' and date_part(\'year\', date) <= ' + filteringConfigs.filteredYearTo + ' ';
+            let r;
+            if (divisions.length > 0) {
+                r = await eprints.query('SELECT distinct(publication_id) FROM publication_division WHERE division_name IN (:divisionNames);', {replacements: {divisionNames: divisions}, type: QueryTypes.SELECT});
+            } else {
+                r = await eprints.query('SELECT distinct(publication_id) FROM publication_division WHERE false;', {type: QueryTypes.SELECT});
+            }
             filterdPublicationIdsByDivision = r.map(r => r.publication_id);
         }
 
@@ -120,6 +125,7 @@ module.exports = {
                 filterByUsers = filterdPublicationIdsByDivision;
             }
         }
+        if (filterByUsers.length === 0) filter = filteringCondition + 'AND false';
 
         let selectedFields = publicationId === null ? 'id, item_type, title, is_approved, date' : '*';
         let returnedResult = [];
@@ -158,7 +164,6 @@ module.exports = {
                 }
 
                 let finalDivisions = await eprints.query('SELECT division_name FROM publication_division WHERE publication_id =$1;', {bind: [p.id], type: QueryTypes.SELECT})
-
                 returnedResult.push({
                     id: p.id,
                     type: p.item_type,

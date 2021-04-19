@@ -50,5 +50,23 @@ export default (state = initialState, action) => {
                 {name: 'Key Laboratory for Smart Integrated Systems (SISLAB)', isEnable: true}]
         }
     }
+    if (action.type === 'UNSELECT_PUBLICATION_FILTER') {
+        return {
+            triggerReloadAllPublication: false,
+            yearFrom: 2000,
+            yearTo: 2021,
+            divisions: [{name: 'Advanced Institute of Engineering and Technology (AVITECH)', isEnable: false},
+                {name: 'Department of Civil Engineering and Transportation (CET)', isEnable: false},
+                {name: 'Center for Electronics and Telecommunications Research (CETR)', isEnable: false},
+                {name: 'Faculty of Agriculture Technology (FAT)', isEnable: false},
+                {name: 'Faculty of Electronics and Telecommunications (FET)', isEnable: false},
+                {name: 'Faculty of Engineering Mechanics and Automation (FEMA)', isEnable: false},
+                {name: 'Faculty of Engineering Physics and Nanotechnology (FEPN)', isEnable: false},
+                {name: 'Faculty of Information Technology (FIT)', isEnable: false},
+                {name: 'Key Laboratory for Nanotechnology (Nano Lab)', isEnable: false},
+                {name: 'School of Aerospace Engineering (SAE)', isEnable: false},
+                {name: 'Key Laboratory for Smart Integrated Systems (SISLAB)', isEnable: false}]
+        }
+    }
     return state;
 }

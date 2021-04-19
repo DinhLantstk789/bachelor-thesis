@@ -42,7 +42,7 @@ export default function UserManagement() {
         <List style={{marginTop: 20}}/>
     </div>
     return (
-        <Row style={{marginRight: 50, marginLeft: 50, marginBottom: 50}}>
+        <Row style={{marginRight: 50, marginLeft: 50}}>
             <Col md={openingProfileTab ? 7 : 12}>
                 <Card>
                     <CardHeader>
