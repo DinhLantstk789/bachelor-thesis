@@ -1,5 +1,5 @@
 import {Button, Card, CardBody, CardHeader, Col, FormInput, FormSelect, FormTextarea, Row} from "shards-react";
-import {resetUserInformation, saveAddress, saveDepartment, saveEmail, saveFamilyName, saveGivenName, saveIsAdmin, savePassword, saveUserDescription} from "../redux/actions";
+import {resetUserInformation, saveAddress, saveDepartment, saveEmail, saveFamilyName, saveGivenName, saveIsAdmin, saveOpeningProfileTab, savePassword, saveUserDescription} from "../redux/actions";
 import {useDispatch, useSelector} from "react-redux";
 import * as apiCalls from "../apiCalls";
 import {sha256} from "js-sha256";
@@ -25,7 +25,7 @@ export default function Profile({triggerReload}) {
     return (
         <Card>
             <CardHeader>
-                <h5 style={{marginTop: 10, marginLeft: 10, marginRight: 30}}>Profile</h5>
+                <h5 style={{marginTop: 10, marginRight: 30}}><i className='fa fa-user'/>&nbsp;&nbsp; Profile</h5>
             </CardHeader>
             <CardBody style={{paddingRight: 50, paddingLeft: 50}}>
                 <Row>
@@ -71,6 +71,9 @@ export default function Profile({triggerReload}) {
                         </FormSelect>
                         <FormTextarea placeholder="About" value={description} onChange={(e) => dispatch(saveUserDescription(e.target.value))} style={{marginTop: 10}}/>
                         <Row className='float-right' style={{marginTop: 10}}>
+                            <Button pill theme="secondary" style={{marginRight: 10}} onClick={() => dispatch(saveOpeningProfileTab(false))}>
+                                <i className='fa fa-times'/>&nbsp; Cancel
+                            </Button>
                             <Button pill theme={isSubmitting ? 'secondary' : 'success'} style={{marginRight: 10}} onClick={() => {
                                 if (!isSubmitting) {
                                     const body = {

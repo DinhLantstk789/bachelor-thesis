@@ -270,6 +270,10 @@ export const saveUserDescription = (userDescription) => ({
     type: 'SAVE_USER_DESCRIPTION',
     data: {userDescription: userDescription}
 });
+export const saveOpeningProfileTab = (openingProfileTab) => ({
+    type: 'SAVE_OPENING_PROFILE_TAB',
+    data: {openingProfileTab: openingProfileTab}
+});
 export const resetUserInformation = () => ({
     type: 'RESET_USER_INFORMATION',
 });

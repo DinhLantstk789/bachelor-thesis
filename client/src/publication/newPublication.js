@@ -411,7 +411,7 @@ export default function NewPublication() {
                             dispatch(resetPublication());
                             dispatch(resetTechnicalReport());
                             dispatch(setDashboardState(false));
-                            dispatch(saveDisplayingPublicationLabel('My Publication'));
+                            dispatch(saveDisplayingPublicationLabel('My Publications'));
                             dispatch(saveViewingPublicationId(null));
                         }, 1000);
                     }, (error) => {

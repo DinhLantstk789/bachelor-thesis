@@ -5,13 +5,14 @@ import {useDispatch, useSelector} from "react-redux";
 import UserRow from "./userRow";
 import {List} from "react-content-loader";
 import * as apiCalls from "../apiCalls";
+import {saveOpeningProfileTab} from "../redux/actions";
 
 
 export default function UserManagement() {
     const [isFirstLoading, setIsFirstLoading] = useState(true);
     const [isTriggerReload, setIsTriggerReload] = useState(true);
     const [userAccounts, setUserAccounts] = useState([]);
-    const loggedUser = useSelector(store => store.user.loggedUser);
+    const openingProfileTab = useSelector(store => store.newUser.openingProfileTab);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -42,20 +43,19 @@ export default function UserManagement() {
     </div>
     return (
         <Row style={{marginRight: 50, marginLeft: 50, marginBottom: 50}}>
-            <Col md={7}>
+            <Col md={openingProfileTab ? 7 : 12}>
                 <Card>
                     <CardHeader>
                         <Row>
                             <Col>
                                 <Row>
-                                    <h5 style={{marginTop: 10, marginLeft: 10, marginRight: 30}}>User List</h5>
+                                    <h5 style={{marginTop: 10, marginLeft: 10, marginRight: 30}}><i className='fa fa-users'/>&nbsp;&nbsp; Registered Users</h5>
                                 </Row>
                             </Col>
                             <Col>
                                 <Row className='float-right'>
-                                    <Button pill theme="success" style={{marginRight: 10}} onClick={() => {
-
-                                    }}>New &nbsp;<i className='fa fa-plus'/>
+                                    <Button pill theme="success" style={{marginRight: 10}} onClick={() => dispatch(saveOpeningProfileTab(true))}>
+                                        New user &nbsp;<i className='fa fa-plus'/>
                                     </Button>
                                 </Row>
                             </Col>
@@ -68,9 +68,7 @@ export default function UserManagement() {
                     </CardBody>
                 </Card>
             </Col>
-            <Col md={5}>
-                <Card><Profile triggerReload={() => setIsTriggerReload(!isTriggerReload)}/></Card>
-            </Col>
+            {openingProfileTab ? <Col md={5}><Card><Profile triggerReload={() => setIsTriggerReload(!isTriggerReload)}/></Card></Col> : ''}
         </Row>
     );
 }

@@ -37,7 +37,7 @@ export default function Dashboard() {
                                 dispatch(resetConference());
                                 dispatch(resetPublication());
                                 dispatch(resetTechnicalReport());
-                                dispatch(saveDisplayingPublicationLabel('My Publication'));
+                                dispatch(saveDisplayingPublicationLabel('My Publications'));
                                 dispatch(saveViewingPublicationId(null));
                             }}><i className='fa fa-backward'/>&nbsp; Back
                             </Button> : ''}

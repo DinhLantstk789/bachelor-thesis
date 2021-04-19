@@ -25,7 +25,7 @@ const initialState = {
     kind: '',
     isAddingPublication: false,
     isDisable:false,
-    displayingPublicationLabel: 'My Publication',
+    displayingPublicationLabel: 'My Publications',
     viewingPublicationId: null,
     isApprovedPublication:'approved',
     subjects: [{name: 'Aerospace Engineering', isEnable: false},
