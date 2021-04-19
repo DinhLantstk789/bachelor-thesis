@@ -48,7 +48,7 @@ export const deleteUser = (body, onSuccess, onFailed) => {
 }
 
 export const toggleApprovePublication = (body, onSuccess, onFailed) => {
-    axios.post('article/toggleApproval', body, reqConfigs).then(res => {
+    axios.post('publication/toggleApproval', body, reqConfigs).then(res => {
         let status = res.data.status;
         if (status === 200) {
             onSuccess();
@@ -59,7 +59,7 @@ export const toggleApprovePublication = (body, onSuccess, onFailed) => {
 }
 
 export const addPublication = (body, onSuccess, onFailed) => {
-    axios.post('article/add', body, reqConfigs).then(res => {
+    axios.post('publication/add', body, reqConfigs).then(res => {
         let status = res.data.status;
         if (status === 200) {
             onSuccess();
@@ -102,8 +102,8 @@ export const verifyCookie = (onSuccess, onFailed) => {
     })
 }
 
-export const fetchPublication = (onSuccess, onFailed) => {
-    axios.get('article/fetch', reqConfigs).then(res => {
+export const fetchPublication = (body, onSuccess, onFailed) => {
+    axios.post('publication/fetch', body, reqConfigs).then(res => {
         let status = res.data.status;
         if (status === 200) {
             onSuccess(res.data.publications);
@@ -114,7 +114,7 @@ export const fetchPublication = (onSuccess, onFailed) => {
 }
 
 export const viewPublication = (body, onSuccess, onFailed) => {
-    axios.post('article/view', body, reqConfigs).then(res => {
+    axios.post('publication/view', body, reqConfigs).then(res => {
         let status = res.data.status;
         if (status === 200) {
             onSuccess(res.data.publications[0]);
@@ -124,7 +124,7 @@ export const viewPublication = (body, onSuccess, onFailed) => {
     })
 }
 export const fetchPublicationAsDivision = (body, onSuccess, onFailed) => {
-    axios.post('article/view', body, reqConfigs).then(res => {
+    axios.post('publication/view', body, reqConfigs).then(res => {
         let status = res.data.status;
         if (status === 200) {
             onSuccess(res.data.publications);
@@ -135,7 +135,7 @@ export const fetchPublicationAsDivision = (body, onSuccess, onFailed) => {
 }
 
 export const deletePublication = (body, onSuccess, onFailed) => {
-    axios.post('article/deletePublication', body, reqConfigs).then(res => {
+    axios.post('publication/deletePublication', body, reqConfigs).then(res => {
         let status = res.data.status;
         if (status === 200) {
             onSuccess();
@@ -145,7 +145,7 @@ export const deletePublication = (body, onSuccess, onFailed) => {
     })
 }
 export const fetchIdAllPublicationAsDivision = (body, onSuccess, onFailed) => {
-    axios.post('article/fetchAllPublicationAsDivision', body, reqConfigs).then(res => {
+    axios.post('publication/fetchAllPublicationAsDivision', body, reqConfigs).then(res => {
         let status = res.data.status;
         if (status === 200) {
             onSuccess(res.data.pubId);

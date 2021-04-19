@@ -4,17 +4,17 @@ const dbman = require("../utils/dbman");
 const {securityCheck} = require("./base");
 
 
-router.get('/fetch', function (req, res) {
+router.post('/fetch',  (req, res) =>{
     securityCheck(req, res, (loggedUser) => {
-        dbman.fetchPublications(null, loggedUser.isAdmin ? null : loggedUser.email).then(publications => {
+        dbman.fetchPublications(req.body, null, loggedUser.isAdmin ? null : loggedUser.email).then(publications => {
             return res.json({status: 200, publications: publications});
         }).catch(console.log);
     })
 });
-router.post('/view', function (req, res) {
+router.post('/view',  (req, res)=> {
     securityCheck(req, res, (loggedUser) => {
         let publicationId = req.body.id;
-        dbman.fetchPublications(publicationId, loggedUser.isAdmin ? null :loggedUser.email).then(publications => {
+        dbman.fetchPublications(null, publicationId, loggedUser.isAdmin ? null :loggedUser.email).then(publications => {
             return res.json({status: 200, publications: publications});
         }).catch(console.log);
     })

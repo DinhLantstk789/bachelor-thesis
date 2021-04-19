@@ -66,11 +66,18 @@ module.exports = {
         );
         return updatedApproval[0][0].is_approved;
     },
+    /* if filteringConfigs === null, no filter*/
     /* if userEmail === null --> isAdmin, so fetch all without user filter
     *  publicationId === null --> get all possbile publications. else: get a targeted publication */
-    fetchPublications: async (publicationId, userEmail) => {
+    fetchPublications: async (filteringConfigs, publicationId, userEmail) => {
+        let filteringCondition = 'WHERE true ';
+        const firstSemesterMonths = ['09', '10', '11', '12', '01', '02'];
+        const secondSemesterMonths = ['03', '04', '05', '06', '07', '08'];
+        if (filteringConfigs !== null && filteringConfigs.isFiltering) {
+            console.log(filteringConfigs);
+        }
         let pubFilter = [];
-        let filter = 'WHERE id IN (:pubIds)';
+        let filter = filteringCondition + 'AND id IN (:pubIds)';
         if (userEmail !== null) {
             let authorisedPublicationIDs = await eprints.query('select publication_id from publication_creator where creator_email = $1', {bind: [userEmail], type: QueryTypes.SELECT});
             authorisedPublicationIDs.forEach(ap => pubFilter.push(ap.publication_id));

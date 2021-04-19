@@ -281,7 +281,6 @@ export const resetUserInformation = () => ({
     type: 'RESET_USER_INFORMATION',
 });
 
-
 /* publication filters */
 export const savePublicationFilterDivisions = (divisions) => ({
     type: 'SAVE_PUBLICATION_FILTER_DIVISIONS',

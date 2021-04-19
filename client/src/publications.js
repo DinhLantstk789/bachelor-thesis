@@ -12,8 +12,14 @@ export default function Publications({approvalFilter, pendingFilter}) {
     const triggerReloadAllPublication = useSelector(store => store.filter.triggerReloadAllPublication);
     const dispatch = useDispatch();
 
+    const filteredDivisions = useSelector(store => store.filter.divisions);
+    const filteredYearFrom = useSelector(store => store.filter.yearFrom);
+    const filteredYearTo = useSelector(store => store.filter.yearTo);
+    const filteredIsFirstTerm = useSelector(store => store.filter.isFirstTerm);
+    const filteredIsSecondTerm = useSelector(store => store.filter.isSecondTerm);
+
     useEffect(() => {
-        fetchPublication((publications) => {
+        fetchPublication({}, (publications) => {
             setIsLoading(false);
             dispatch(setTriggerReloadAllPublication(false));
             setPublications(publications);
@@ -22,17 +28,25 @@ export default function Publications({approvalFilter, pendingFilter}) {
 
     useEffect(() => {
         if (triggerReloadAllPublication) {
+            dispatch(setTriggerReloadAllPublication(false));
             setIsLoading(true);
-            fetchPublication((publications) => {
+            const body = {
+                isFiltering: true,
+                filteredDivisions: filteredDivisions,
+                filteredYearFrom: filteredYearFrom,
+                filteredYearTo: filteredYearTo,
+                filteredIsFirstTerm: filteredIsFirstTerm,
+                filteredIsSecondTerm: filteredIsSecondTerm
+            }
+            fetchPublication(body, (publications) => {
                 setIsLoading(false);
-                dispatch(setTriggerReloadAllPublication(false));
                 setPublications(publications);
             }, (message) => alert(message));
         }
     });
 
     useEffect(() => {
-        fetchPublication((publications) => {
+        fetchPublication({}, (publications) => {
             setPublications(publications);
             dispatch(setTriggerReloadAllPublication(false));
         }, (message) => alert(message));

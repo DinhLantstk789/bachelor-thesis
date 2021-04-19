@@ -1,15 +1,16 @@
 import {Badge, Button, Col, Row, Slider} from "shards-react";
 import DivisionSelector from "./sharedSections/divisionSelector";
 import {useDispatch, useSelector} from "react-redux";
+import {useState} from 'react';
 import {resetPublicationFilter, savePublicationFilterFirstTerm, savePublicationFilterSecondTerm, savePublicationFilterYearFrom, savePublicationFilterYearTo, setTriggerReloadAllPublication} from "../redux/actions";
 
 export default function Filter() {
-    const divisions = useSelector(store => store.filter.divisions);
     const yearFrom = useSelector(store => store.filter.yearFrom);
     const yearTo = useSelector(store => store.filter.yearTo);
     const isFirstTerm = useSelector(store => store.filter.isFirstTerm);
     const isSecondTerm = useSelector(store => store.filter.isSecondTerm);
     const dispatch = useDispatch();
+    const [rangeValues, setRangeValues] = useState([yearFrom, yearTo]);
 
     return (
         <div style={{marginBottom: 30}}>
@@ -36,7 +37,7 @@ export default function Filter() {
                         dispatch(savePublicationFilterYearFrom(parseInt(e[0])));
                         dispatch(savePublicationFilterYearTo(parseInt(e[1])));
                     }}
-                    start={[yearFrom, yearTo]}
+                    start={rangeValues}
                     range={{min: yearFrom, max: yearTo}}
                 />
             </div>
@@ -49,7 +50,6 @@ export default function Filter() {
                 }}>Reset Filters &nbsp; <i className="fas fa-redo-alt"/></Button>
                 <Button style={{marginLeft: 5}} theme='light' pill onClick={() => {
                     dispatch(setTriggerReloadAllPublication(true));
-                    console.log(yearFrom, yearTo, isFirstTerm, isSecondTerm, divisions);
                 }}>Apply Selected Filters &nbsp; <i className="fas fa-check"/></Button>
             </div>
         </div>

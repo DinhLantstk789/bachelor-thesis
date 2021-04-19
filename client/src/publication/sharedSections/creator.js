@@ -2,20 +2,33 @@ import {Component, Fragment} from 'react';
 import {Col, FormInput, Row} from "shards-react";
 import {connect} from "react-redux";
 import validator from "../../utils/validator";
-import { savePublicationCreators} from "../../redux/actions";
+import {savePublicationCreators} from "../../redux/actions";
+import * as apiCalls from "../../apiCalls";
 
-class  Creator extends Component {
+class Creator extends Component {
 
-    updateMatchedUser (index) {
-        const creatorData = {
-            'hungpn@vnu.edu.vn': {email: 'hungpn@vnu.edu.vn', familyName: 'Pham', givenName: 'Ngoc Hung', department: 'Faculty of Information Technology (FIT)'},
-            'suongpt@vnu.edu.vn': {email: 'suongpt@vnu.edu.vn', familyName: 'Pham', givenName: 'Thu Suong', department: 'Faculty of Information Technology (FIT)'},
-            'trangpt@vnu.edu.vn': {email: 'trangpt@vnu.edu.vn', familyName: 'Pham', givenName: 'Thu Trang', department: 'Faculty of Information Technology (FIT)'}
-        }
+    state = {
+        creatorData: {}
+    }
+
+    componentDidMount() {
+        apiCalls.fetchUsers(users => {
+            users.forEach(u => {
+                let prevCreatorData = this.state.creatorData;
+                prevCreatorData[u.email] = {
+                    email: u.email, familyName: u.familyName, givenName: u.givenName, department: u.department
+                }
+            })
+        }, (message) => {
+            alert(message);
+        })
+    }
+
+    updateMatchedUser(index) {
         let email = this.props.creators[index].email;
-        if (email in creatorData) {
+        if (email in this.state.creatorData) {
             let creators = this.props.creators;
-            creators[index] = creatorData[email];
+            creators[index] = this.state.creatorData[email];
             this.props.savePublicationCreators(creators);
         }
     };

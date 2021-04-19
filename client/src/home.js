@@ -7,7 +7,7 @@ import Profile from "./account/profile";
 import {useDispatch, useSelector} from "react-redux";
 import UserManagement from "./account/userManagement";
 import {logout} from "./apiCalls";
-import {resetPublicationFilter, resetUserInformation, saveLoggedUser} from "./redux/actions";
+import {resetPublication, resetPublicationFilter, resetUserInformation, saveLoggedUser} from "./redux/actions";
 import {ClipLoader} from "react-spinners";
 import Filter from "./publication/filter";
 
@@ -43,6 +43,7 @@ export default function Home() {
                                             dispatch(saveLoggedUser(null));
                                             dispatch(resetPublicationFilter());
                                             dispatch(resetUserInformation());
+                                            dispatch(resetPublication());
                                         }, (errorMessage) => alert(errorMessage));
                                     }}><i className="fas fa-sign-out"/>&nbsp;&nbsp;Logout</DropdownItem>
                                 </DropdownMenu>

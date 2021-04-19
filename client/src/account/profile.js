@@ -71,7 +71,10 @@ export default function Profile({triggerReload}) {
                         </FormSelect>
                         <FormTextarea placeholder="About" value={description} onChange={(e) => dispatch(saveUserDescription(e.target.value))} style={{marginTop: 10}}/>
                         <Row className='float-right' style={{marginTop: 10}}>
-                            <Button pill theme="secondary" style={{marginRight: 10}} onClick={() => dispatch(saveOpeningProfileTab(false))}>
+                            <Button pill theme="secondary" style={{marginRight: 10}} onClick={() => {
+                                dispatch(saveOpeningProfileTab(false));
+                                dispatch(resetUserInformation());
+                            }}>
                                 <i className='fa fa-times'/>&nbsp; Cancel
                             </Button>
                             <Button pill theme={isSubmitting ? 'secondary' : 'success'} style={{marginRight: 10}} onClick={() => {
