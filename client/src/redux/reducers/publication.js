@@ -1,4 +1,5 @@
 const initialState = {
+    articleId: null,
     publicationTitle: '',
     publicationAbstract: '',
     creators: [{familyName: '', givenName: '', email: '', department: ''}],
@@ -24,10 +25,10 @@ const initialState = {
     publicationDepartment: '',
     kind: '',
     isAddingPublication: false,
-    isDisable:false,
+    isDisable: false,
     displayingPublicationLabel: 'My Publications',
     viewingPublicationId: null,
-    isApprovedPublication:'approved',
+    publicationApproval: false,
     subjects: [{name: 'Aerospace Engineering', isEnable: false},
         {name: 'Communications', isEnable: false},
         {name: 'Electronics and Computer Engineering', isEnable: false},
@@ -220,12 +221,18 @@ export default (state = initialState, action) => {
     if (action.type === 'DISABLE_ALL_ELEMENTS') {
         const data = action.data;
         return {...state, isDisable: data.isDisable}
-    } if (action.type === 'PUBLICATION_APPROVING_CHECK') {
+    }
+    if (action.type === 'SAVE_PUBLICATION_APPROVAL') {
         const data = action.data;
-        return {...state, isApprovedPublication: data.isApprovedPublication}
+        return {...state, publicationApproval: data.publicationApproval}
+    }
+    if (action.type === 'SAVE_ARTICLE_ID') {
+        const data = action.data;
+        return {...state, articleId: data.articleId}
     }
     if (action.type === 'RESET_PUBLICATION') {
         return {
+            articleId: null,
             publicationTitle: '',
             publicationAbstract: '',
             creators: [{familyName: '', givenName: '', email: '', department: ''}],
@@ -254,7 +261,7 @@ export default (state = initialState, action) => {
             isDisable: false,
             displayingPublicationLabel: 'My Publications',
             viewingPublicationId: null,
-            isApprovedPublication: 'approved',
+            publicationApproval: false,
             subjects: [{name: 'Aerospace Engineering', isEnable: false},
                 {name: 'Communications', isEnable: false},
                 {name: 'Electronics and Computer Engineering', isEnable: false},

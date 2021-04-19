@@ -29,6 +29,9 @@ export default function Home() {
                             <Button style={{marginLeft: 10, marginRight: 5}} theme={currentTab === 'publication-main' ? 'primary' : 'light'} pill onClick={() => setCurrentTab('publication-main')}><i
                                 className="fas fa-file-alt"/> &nbsp; Publications</Button>
                             {loggedUser.isAdmin ?
+                                <Button style={{marginLeft: 5, marginRight: 5}} theme={currentTab === 'statistics' ? 'primary' : 'light'} pill onClick={() => setCurrentTab('statistics')}><i
+                                    className="fas fa-chart-line"/> &nbsp; Statistics</Button> : ''}
+                            {loggedUser.isAdmin ?
                                 <Button style={{marginLeft: 5, marginRight: 5}} theme={currentTab === 'user-management' ? 'primary' : 'light'} pill onClick={() => setCurrentTab('user-management')}><i className="fas fa-users"/> &nbsp; User Management</Button> : ''}
                             <Dropdown open={openAccount} toggle={() => setOpenAccount(!openAccount)}>
                                 <DropdownToggle theme={currentTab === 'profile' ? 'primary' : 'light'} pill id="dropdown1" style={{fontSize: 20, marginRight: 30, marginLeft: 5}} className="float-right">
@@ -52,11 +55,10 @@ export default function Home() {
                     </Col>
                 </Row>
             </Alert>
-            {currentTab === 'user-management' ? <UserManagement/> : currentTab === 'publication-main' ?
+            {currentTab === 'user-management' ? <UserManagement/> : currentTab === 'statistics' ? <Statistics/> : currentTab === 'publication-main' ?
                 <Row style={{marginLeft: 20}}>
                     <Col md={8}><Dashboard/></Col>
                     <Col md={4}>
-                        <Statistics/>
                         {isAddingPublication ? '' : <Filter/>}
                     </Col>
                 </Row> :

@@ -9,11 +9,12 @@ export const saveLoggedUser = (user) => ({
 
 export const saveArticleType = (articleType) => ({
     type: 'SAVE_ARTICLE_TYPE',
-    data: {
-        articleType: articleType
-    }
+    data: {articleType: articleType}
 });
-
+export const saveArticleId = (articleId) => ({
+    type: 'SAVE_ARTICLE_ID',
+    data: {articleId: articleId}
+});
 
 /* Book section */
 export const saveBookSectionTitle = (bookSectionTitle) => ({
@@ -234,9 +235,9 @@ export const disableAllElements = (isDisable) => ({
     type: 'DISABLE_ALL_ELEMENTS',
     data: {isDisable: isDisable}
 });
-export const publicationApprovingCheck = (isApprovedPublication) => ({
-    type: 'PUBLICATION_APPROVING_CHECK',
-    data: {isApprovedPublication: isApprovedPublication}
+export const savePublicationApproval = (approval) => ({
+    type: 'SAVE_PUBLICATION_APPROVAL',
+    data: {publicationApproval: approval}
 });
 
 /* profile */

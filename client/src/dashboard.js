@@ -1,15 +1,20 @@
 import {useEffect, useState} from 'react';
-import {Badge, Button, Card, CardBody, CardHeader, Col, Row} from "shards-react";
+import {Badge, Button, Card, CardBody, CardHeader, Col, FormCheckbox, Row} from "shards-react";
 import NewPublication from "./publication/newPublication";
 import Publications from "./publications";
 import {useDispatch, useSelector} from "react-redux";
-import {resetArticle, resetBookSection, resetConference, resetPublication, resetTechnicalReport, saveDisplayingPublicationLabel, saveViewingPublicationId, setDashboardState} from "./redux/actions";
+import {resetArticle, resetBookSection, resetConference, resetPublication, resetTechnicalReport, saveDisplayingPublicationLabel, savePublicationApproval, saveViewingPublicationId, setDashboardState} from "./redux/actions";
+import * as apiCalls from "./apiCalls";
+import {ClipLoader} from "react-spinners";
 
 export default function Dashboard() {
     const [approvalFilter, setApprovalFilter] = useState(false);
     const [pendingFilter, setPendingFilter] = useState(false);
-    const {loggedUser, isAddingPublication, displayingPublicationLabel} = useSelector(store => ({
+    const [isApproving, setIsApproving] = useState(false);
+    const {loggedUser, publicationId, publicationApproval, isAddingPublication, displayingPublicationLabel} = useSelector(store => ({
         loggedUser: store.user.loggedUser,
+        publicationId: store.publication.articleId,
+        publicationApproval: store.publication.publicationApproval,
         isAddingPublication: store.publication.isAddingPublication,
         displayingPublicationLabel: store.publication.displayingPublicationLabel
     }));
@@ -42,7 +47,9 @@ export default function Dashboard() {
                                 dispatch(saveViewingPublicationId(null));
                             }}><i className='fa fa-backward'/>&nbsp; Back
                             </Button> : ''}
-                            <h5 style={{marginTop: 10, marginLeft: 10, marginRight: 30}}>{displayingPublicationLabel}</h5>
+                            <h5 style={{marginTop: 10, marginLeft: 10, marginRight: 30}}>
+                                {displayingPublicationLabel}
+                            </h5>
                             {isAddingPublication ? '' : <div style={{paddingTop: 10}}>
                                 <Badge theme={approvalFilter ? 'primary' : 'light'} href="#" pill style={{marginRight: 5, paddingLeft: 10, paddingRight: 10}} onClick={() => {
                                     setApprovalFilter(!approvalFilter);
@@ -61,6 +68,21 @@ export default function Dashboard() {
                             }}>New &nbsp;<i className='fa fa-plus'/>
                             </Button>
                         </Row>}
+                        <Row className='float-right' style={{marginTop: 10}}>
+                            {(displayingPublicationLabel === 'Publication Details' && loggedUser.isAdmin) ?
+                                isApproving ? <span style={{marginRight: 20}}><ClipLoader size={25} color={'#157ffb'} loading/></span> :
+                                    <FormCheckbox toggle checked={publicationApproval} onChange={() => {
+                                        setIsApproving(true);
+                                        apiCalls.toggleApprovePublication({id: publicationId}, (message) => {
+                                            dispatch(savePublicationApproval(!publicationApproval));
+                                            setIsApproving(false);
+                                        }, (message) => {
+                                            alert(message);
+                                            setIsApproving(false);
+                                        });
+                                    }}/>
+                                : ''}
+                        </Row>
                     </Col>
                 </Row>
             </CardHeader>

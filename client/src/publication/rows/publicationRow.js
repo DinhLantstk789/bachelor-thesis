@@ -1,9 +1,10 @@
 import {Fragment, useEffect, useState} from 'react';
-import {Badge, Col, FormCheckbox, Row, Tooltip} from "shards-react";
+import {Badge, Col, Row, Tooltip} from "shards-react";
 import {useDispatch, useSelector} from "react-redux";
 
 import {
     disableAllElements,
+    saveArticleId,
     saveArticleType,
     saveBookSectionEndPage,
     saveBookSectionFirstPage,
@@ -24,6 +25,7 @@ import {
     savePresentationType,
     savePublicationAbstract,
     savePublicationAddInformation,
+    savePublicationApproval,
     savePublicationComment,
     savePublicationCorporateCreators,
     savePublicationCreators,
@@ -49,7 +51,6 @@ import {
     setDashboardState
 } from "../../redux/actions";
 import * as apiCalls from "../../apiCalls";
-import {BeatLoader} from "react-spinners";
 
 
 function parseAuthors(creators) {
@@ -75,7 +76,6 @@ export default function PublicationRow({triggerUpdateUI, type, title, authors, a
         dispatch(setDashboardState(true));
         dispatch(saveDisplayingPublicationLabel(displayingPublicationLabel));
         apiCalls.viewPublication( {id: publicationId}, (publication) => {
-            console.log(publication);
             let corporateCreators = [], funders = [], projects = [];
             publication.corporateCreators.forEach(c => corporateCreators.push({corporateCreator: c}));
             publication.funders.forEach(f => funders.push({funder: f}));
@@ -115,6 +115,7 @@ export default function PublicationRow({triggerUpdateUI, type, title, authors, a
                     }
                 })
             });
+            dispatch(saveArticleId(publicationId));
             dispatch(saveArticleType(publication.type));
             dispatch(savePublicationTitle(publication.title));
             dispatch(savePublicationCreators(publication.creators));
@@ -156,6 +157,7 @@ export default function PublicationRow({triggerUpdateUI, type, title, authors, a
             dispatch(saveCopyrightHolder(publication.copyrightHolder));
             dispatch(savePublicationDepartment(publication.publicationDepartment));
             dispatch(savePublicationId(publication.publicationId));
+            dispatch(savePublicationApproval(publication.isApproved));
         }, (message) => {
             console.log('error:', message);
         })
@@ -196,29 +198,16 @@ export default function PublicationRow({triggerUpdateUI, type, title, authors, a
                                }}
                             />
                         }
-                        {loggedUser.isAdmin ?
-                            isClicking ? <BeatLoader size={12} color={'#29c574'} loading/> :
-                                <FormCheckbox toggle checked={isApproved} onChange={() => {
-                                    setIsClicking(true);
-                                    apiCalls.toggleApprovePublication({id: publicationId}, (message) => {
-                                        triggerUpdateUI();
-                                        setIsClicking(false);
-                                    }, (message) => {
-                                        alert(message);
-                                        setIsClicking(false);
-                                    });
-                                }}/>
-                            : <div>
-                                {isApproved === true ? <i style={{fontSize: 20, marginTop: 4}} className="fa fa-check" aria-hidden="true" id={tooltipId}/> :
-                                    <i style={{fontSize: 20, marginTop: 4}} className="fa fa-clock" aria-hidden="true" id={tooltipId}/>}
-                                <Tooltip
-                                    open={open}
-                                    target={"#" + tooltipId}
-                                    toggle={() => setOpen(!open)}>
-                                    {isApproved === true ? '✌️ Woo! Publication is approved.' : '🥺 Publication is still being processed.'}
-                                </Tooltip>
-                            </div>
-                        }
+                        <div>
+                            {isApproved === true ? <i style={{fontSize: 20, marginTop: 4}} className="fa fa-check" aria-hidden="true" id={tooltipId}/> :
+                                <i style={{fontSize: 20, marginTop: 4}} className="fa fa-clock" aria-hidden="true" id={tooltipId}/>}
+                            <Tooltip
+                                open={open}
+                                target={"#" + tooltipId}
+                                toggle={() => setOpen(!open)}>
+                                {isApproved === true ? '✌️ Woo! Publication is approved.' : '🥺 Publication is still being processed.'}
+                            </Tooltip>
+                        </div>
                     </Row>
                 </Col>
             </Row>
