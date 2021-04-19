@@ -29,9 +29,7 @@ export const setTriggerReloadAllPublication = (triggerReloadAllPublication) => (
 })
 export const saveBookSectionPublicationPlace = (bookSectionPublicationPlace) => ({
     type: 'SAVE_BOOK_SECTION_PUBLICATION_PLACE',
-    data: {
-        bookSectionPublicationPlace: bookSectionPublicationPlace
-    }
+    data: {bookSectionPublicationPlace: bookSectionPublicationPlace}
 });
 export const saveBookSectionPublisher = (bookSectionPublisher) => ({
     type: 'SAVE_BOOK_SECTION_PUBLISHER',

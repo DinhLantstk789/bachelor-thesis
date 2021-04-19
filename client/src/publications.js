@@ -15,11 +15,15 @@ export default function Publications({approvalFilter, pendingFilter}) {
     const filteredDivisions = useSelector(store => store.filter.divisions);
     const filteredYearFrom = useSelector(store => store.filter.yearFrom);
     const filteredYearTo = useSelector(store => store.filter.yearTo);
-    const filteredIsFirstTerm = useSelector(store => store.filter.isFirstTerm);
-    const filteredIsSecondTerm = useSelector(store => store.filter.isSecondTerm);
 
     useEffect(() => {
-        fetchPublication({}, (publications) => {
+        const body = {
+            isFiltering: true,
+            filteredDivisions: filteredDivisions,
+            filteredYearFrom: filteredYearFrom,
+            filteredYearTo: filteredYearTo
+        }
+        fetchPublication(body, (publications) => {
             setIsLoading(false);
             dispatch(setTriggerReloadAllPublication(false));
             setPublications(publications);
@@ -34,9 +38,7 @@ export default function Publications({approvalFilter, pendingFilter}) {
                 isFiltering: true,
                 filteredDivisions: filteredDivisions,
                 filteredYearFrom: filteredYearFrom,
-                filteredYearTo: filteredYearTo,
-                filteredIsFirstTerm: filteredIsFirstTerm,
-                filteredIsSecondTerm: filteredIsSecondTerm
+                filteredYearTo: filteredYearTo
             }
             fetchPublication(body, (publications) => {
                 setIsLoading(false);
@@ -46,7 +48,13 @@ export default function Publications({approvalFilter, pendingFilter}) {
     });
 
     useEffect(() => {
-        fetchPublication({}, (publications) => {
+        const body = {
+            isFiltering: true,
+            filteredDivisions: filteredDivisions,
+            filteredYearFrom: filteredYearFrom,
+            filteredYearTo: filteredYearTo
+        }
+        fetchPublication(body, (publications) => {
             setPublications(publications);
             dispatch(setTriggerReloadAllPublication(false));
         }, (message) => alert(message));
@@ -64,7 +72,7 @@ export default function Publications({approvalFilter, pendingFilter}) {
     return (
         <Fragment>
             {isLoading ? loading : filteredItems.map(item => (
-                <PublicationRow triggerUpdateUI={() => setTriggerReload(!triggerReload)} type={item.type} title={item.title} authors={item.creators} approved={item.isApproved} publicationId={item.id}/>
+                <PublicationRow triggerUpdateUI={() => setTriggerReload(!triggerReload)} type={item.type} title={item.title} authors={item.creators} approved={item.isApproved} publicationId={item.id} selectedDate={item.selectedDate}/>
             ))}
         </Fragment>
     )

@@ -71,29 +71,59 @@ module.exports = {
     *  publicationId === null --> get all possbile publications. else: get a targeted publication */
     fetchPublications: async (filteringConfigs, publicationId, userEmail) => {
         let filteringCondition = 'WHERE true ';
-        const firstSemesterMonths = ['09', '10', '11', '12', '01', '02'];
-        const secondSemesterMonths = ['03', '04', '05', '06', '07', '08'];
+
+        /* filtering by division*/
+        let filterdPublicationIdsByDivision = null; /* null if have no filtered id */
         if (filteringConfigs !== null && filteringConfigs.isFiltering) {
-            console.log(filteringConfigs);
+            let divisions = [];
+            filteringConfigs.filteredDivisions.forEach(fc => {
+                if (fc.isEnable) divisions.push(fc.name);
+            })
+            filteringCondition = 'WHERE date_part(\'year\', date) >= ' + filteringConfigs.filteredYearFrom + ' and date_part(\'year\', date) <= ' + filteringConfigs.filteredYearTo;
+            let r = await eprints.query('SELECT distinct(publication_id) FROM publication_division WHERE division_name IN (:divisionNames);', {replacements: {divisionNames: divisions}, type: QueryTypes.SELECT});
+            filterdPublicationIdsByDivision = r.map(r => r.publication_id);
         }
-        let pubFilter = [];
+
+        /* filtering by users and publication ID */
+        let filterByUsers = [];
         let filter = filteringCondition + 'AND id IN (:pubIds)';
         if (userEmail !== null) {
             let authorisedPublicationIDs = await eprints.query('select publication_id from publication_creator where creator_email = $1', {bind: [userEmail], type: QueryTypes.SELECT});
-            authorisedPublicationIDs.forEach(ap => pubFilter.push(ap.publication_id));
+            authorisedPublicationIDs.forEach(ap => {
+                if (filterdPublicationIdsByDivision != null) {
+                    if (filterdPublicationIdsByDivision.includes(ap.publication_id)) {
+                        filterByUsers.push(ap.publication_id);
+                    }
+                } else {
+                    filterByUsers.push(ap.publication_id);
+                }
+            });
             if (publicationId !== null) {
-                pubFilter = pubFilter.includes(publicationId) ? [publicationId] : [];
+                if (filterdPublicationIdsByDivision != null) {
+                    if (filterdPublicationIdsByDivision.includes(publicationId)) {
+                        filterByUsers = filterByUsers.includes(publicationId) ? [publicationId] : [];
+                    }
+                } else {
+                    filterByUsers = filterByUsers.includes(publicationId) ? [publicationId] : [];
+                }
             }
         } else {
             if (publicationId !== null) {
-                pubFilter = [publicationId];
+                if (filterdPublicationIdsByDivision != null) {
+                    if (filterdPublicationIdsByDivision.includes(publicationId)) {
+                        filterByUsers = [publicationId];
+                    }
+                } else {
+                    filterByUsers = [publicationId];
+                }
             } else {
-                filter = '';
+                filterByUsers = filterdPublicationIdsByDivision;
             }
         }
-        let selectedFields = publicationId === null ? 'id, item_type, title, is_approved' : '*';
+
+        let selectedFields = publicationId === null ? 'id, item_type, title, is_approved, date' : '*';
         let returnedResult = [];
-        let selectedPublications = await eprints.query('SELECT ' + selectedFields + ' FROM publication ' + filter + ' ORDER BY db_created_on DESC;', {replacements: {pubIds: pubFilter}, type: QueryTypes.SELECT});
+        let selectedPublications = await eprints.query('SELECT ' + selectedFields + ' FROM publication ' + filter + ' ORDER BY db_created_on DESC;', {replacements: {pubIds: filterByUsers}, type: QueryTypes.SELECT});
         for (const p of selectedPublications) {
             let creators = [];
             for (const e of await eprints.query('SELECT creator_email FROM publication_creator WHERE publication_id = $1 ORDER BY author_order;', {bind: [p.id], type: QueryTypes.SELECT})) {
@@ -113,7 +143,8 @@ module.exports = {
                     type: p.item_type,
                     title: p.title,
                     creators: creators,
-                    isApproved: p.is_approved
+                    isApproved: p.is_approved,
+                    selectedDate: p.date
                 })
             } else {
                 let editors = [];

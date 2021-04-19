@@ -59,7 +59,7 @@ function parseAuthors(creators) {
     return finalAuthors.substring(0, finalAuthors.length - 2);
 }
 
-export default function PublicationRow({triggerUpdateUI, type, title, authors, approved, publicationId}) {
+export default function PublicationRow({triggerUpdateUI, type, title, authors, approved, publicationId, selectedDate}) {
     const [isApproved, setIsApproved] = useState();
     const [isClicking, setIsClicking] = useState(false);
     const [tooltipId, setTooltipId] = useState("tt_" + publicationId);
@@ -166,22 +166,22 @@ export default function PublicationRow({triggerUpdateUI, type, title, authors, a
     return (
         <Fragment>
             <Row>
-                <Col md={8}>
+                <Col md={10}>
                     <Row style={{marginLeft: 0}}>
                         <h6 onClick={() => {
                             updateDbIntoRedux('Publication Details');
                             dispatch(disableAllElements(true));
-                        }}><Badge theme="primary" style={{marginRight: 8}}>
+                        }}><Badge theme="secondary" style={{marginRight: 8}}>
                             {type}
                         </Badge>{title}</h6>
                     </Row>
                     <Row style={{marginLeft: 0, marginTop: -10}}>
-                        <p style={{fontSize: 14}}>{parseAuthors(authors)}</p>
+                        <p style={{fontSize: 14}}>{parseAuthors(authors)} ({selectedDate.split('-')[0]})</p>
                     </Row>
                 </Col>
-                <Col md={4}>
+                <Col md={2}>
                     <Row className='float-right' style={{marginRight: 10, marginTop: 13}}>
-                        <i style={{fontSize: 20, marginLeft: 20, marginTop: 4}} className='fa fa-edit'
+                        <i style={{fontSize: 20, marginLeft: 20, marginRight: 10, marginTop: 4}} className='fa fa-edit'
                            onClick={() => {
                                dispatch(saveViewingPublicationId(publicationId));
                                updateDbIntoRedux('Update Publication');

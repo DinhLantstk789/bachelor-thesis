@@ -2,12 +2,10 @@ const initialState = {
     triggerReloadAllPublication: false,
     yearFrom: 2000,
     yearTo: 2021,
-    isFirstTerm: true,
-    isSecondTerm: true,
     divisions: [{name: 'Advanced Institute of Engineering and Technology (AVITECH)', isEnable: true},
-        {name: ' Department of Civil Engineering and Transportation (CET)', isEnable: true},
-        {name: ' Center for Electronics and Telecommunications Research (CETR)', isEnable: true},
-        {name: ' Faculty of Agriculture Technology (FAT)', isEnable: true},
+        {name: 'Department of Civil Engineering and Transportation (CET)', isEnable: true},
+        {name: 'Center for Electronics and Telecommunications Research (CETR)', isEnable: true},
+        {name: 'Faculty of Agriculture Technology (FAT)', isEnable: true},
         {name: 'Faculty of Electronics and Telecommunications (FET)', isEnable: true},
         {name: 'Faculty of Engineering Mechanics and Automation (FEMA)', isEnable: true},
         {name: 'Faculty of Engineering Physics and Nanotechnology (FEPN)', isEnable: true},
@@ -34,25 +32,15 @@ export default (state = initialState, action) => {
         const data = action.data;
         return {...state, divisions: data.divisions}
     }
-    if (action.type === 'SAVE_FILTER_FIRST_TERM') {
-        const data = action.data;
-        return {...state, isFirstTerm: data.isFirstTerm}
-    }
-    if (action.type === 'SAVE_FILTER_SECOND_TERM') {
-        const data = action.data;
-        return {...state, isSecondTerm: data.isSecondTerm}
-    }
     if (action.type === 'RESET_PUBLICATION_FILTER') {
         return {
             triggerReloadAllPublication: false,
             yearFrom: 2000,
             yearTo: 2021,
-            isFirstTerm: true,
-            isSecondTerm: true,
             divisions: [{name: 'Advanced Institute of Engineering and Technology (AVITECH)', isEnable: true},
-                {name: ' Department of Civil Engineering and Transportation (CET)', isEnable: true},
-                {name: ' Center for Electronics and Telecommunications Research (CETR)', isEnable: true},
-                {name: ' Faculty of Agriculture Technology (FAT)', isEnable: true},
+                {name: 'Department of Civil Engineering and Transportation (CET)', isEnable: true},
+                {name: 'Center for Electronics and Telecommunications Research (CETR)', isEnable: true},
+                {name: 'Faculty of Agriculture Technology (FAT)', isEnable: true},
                 {name: 'Faculty of Electronics and Telecommunications (FET)', isEnable: true},
                 {name: 'Faculty of Engineering Mechanics and Automation (FEMA)', isEnable: true},
                 {name: 'Faculty of Engineering Physics and Nanotechnology (FEPN)', isEnable: true},
