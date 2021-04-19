@@ -8,22 +8,33 @@ import * as apiCalls from "../apiCalls";
 
 
 export default function UserManagement() {
-    const [isLoading, setIsLoading] = useState(true);
+    const [isFirstLoading, setIsFirstLoading] = useState(true);
+    const [isTriggerReload, setIsTriggerReload] = useState(true);
     const [userAccounts, setUserAccounts] = useState([]);
     const loggedUser = useSelector(store => store.user.loggedUser);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (isLoading) {
+        if (isFirstLoading) {
             apiCalls.fetchUsers(users => {
+                setIsFirstLoading(false);
                 setUserAccounts(users);
-                setIsLoading(false);
-                console.log(users);
             }, (message) => {
                 console.log(message);
             })
         }
-    }, [isLoading]);
+    }, []);
+
+    useEffect(() => {
+        if (isTriggerReload) {
+            apiCalls.fetchUsers(users => {
+                setIsTriggerReload(!isTriggerReload);
+                setUserAccounts(users);
+            }, (message) => {
+                console.log(message);
+            })
+        }
+    }, [isTriggerReload]);
 
     let loading = <div>
         <List/>
@@ -43,21 +54,22 @@ export default function UserManagement() {
                             <Col>
                                 <Row className='float-right'>
                                     <Button pill theme="success" style={{marginRight: 10}} onClick={() => {
-                                        console.log(userAccounts);
-                                    }}>
-                                        New &nbsp;<i className='fa fa-plus'/>
+
+                                    }}>New &nbsp;<i className='fa fa-plus'/>
                                     </Button>
                                 </Row>
                             </Col>
                         </Row>
                     </CardHeader>
                     <CardBody>
-                        {isLoading ? loading : userAccounts.map(item => (<UserRow triggerReload={() => setIsLoading(true)} givenName={item.givenName} familyName={item.familyName} email={item.email}/>))}
+                        {isFirstLoading ? loading : userAccounts.map(item => (
+                            <UserRow triggerReload={() => setIsTriggerReload(!isTriggerReload)} givenName={item.givenName} familyName={item.familyName} email={item.email} isAdmin={item.isAdmin} department={item.department}/>
+                        ))}
                     </CardBody>
                 </Card>
             </Col>
             <Col md={5}>
-                <Card><Profile triggerReload={() => setIsLoading(true)}/></Card>
+                <Card><Profile triggerReload={() => setIsTriggerReload(!isTriggerReload)}/></Card>
             </Col>
         </Row>
     );

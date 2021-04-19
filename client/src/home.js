@@ -7,7 +7,7 @@ import Profile from "./account/profile";
 import {useDispatch, useSelector} from "react-redux";
 import UserManagement from "./account/userManagement";
 import {logout} from "./apiCalls";
-import {saveLoggedUser} from "./redux/actions";
+import {resetPublicationFilter, resetUserInformation, saveLoggedUser} from "./redux/actions";
 import {ClipLoader} from "react-spinners";
 import Filter from "./publication/filter";
 
@@ -16,6 +16,7 @@ export default function Home() {
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [openAccount, setOpenAccount] = useState(false);
     const loggedUser = useSelector(store => store.user.loggedUser);
+    const isAddingPublication = useSelector(store => store.publication.isAddingPublication);
     const dispatch = useDispatch();
 
     return (
@@ -40,6 +41,8 @@ export default function Home() {
                                         logout(successMessage => {
                                             setIsLoggingOut(false);
                                             dispatch(saveLoggedUser(null));
+                                            dispatch(resetPublicationFilter());
+                                            dispatch(resetUserInformation());
                                         }, (errorMessage) => alert(errorMessage));
                                     }}><i className="fas fa-sign-out"/>&nbsp;&nbsp;Logout</DropdownItem>
                                 </DropdownMenu>
@@ -52,8 +55,8 @@ export default function Home() {
                 <Row style={{marginLeft: 20}}>
                     <Col md={8}><Dashboard/></Col>
                     <Col md={4}>
-                        <Filter/>
                         <Statistics/>
+                        {isAddingPublication ? '' : <Filter/>}
                     </Col>
                 </Row> :
                 <Row style={{paddingLeft: 50, paddingRight: 50}}>

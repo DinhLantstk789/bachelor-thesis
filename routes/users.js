@@ -48,7 +48,6 @@ router.post('/addUser', (req, res) => {
         let description = req.body.description;
         let registrationDate = new Date();
         let isApproved = true;
-        // TODO: if creator exist -> update is approved to true!
         bcrypt.hash(password, 10, function (err, hash) {
             dbman.insertUser(email, familyName, givenName, hash, department, address, isAdmin, description, registrationDate, isApproved).then(email => {
                 return res.json({status: 200, message: 'Successfully added user:', email: email});
@@ -73,7 +72,7 @@ router.post('/deleteUser', (req, res) => {
         }).catch(console.log)
     })
 });
-router.get('/fetchFullyUserData', (req, res) => {
+router.post('/fetchFullyUserData', (req, res) => {
     securityCheck(req, res, (loggedUser) => {
         dbman.fetchUserInformation(req.body.email).then(userData => {
             return res.json({status: 200, userData: userData});

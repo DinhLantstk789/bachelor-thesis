@@ -235,6 +235,8 @@ export const publicationApprovingCheck = (isApprovedPublication) => ({
     type: 'PUBLICATION_APPROVING_CHECK',
     data: {isApprovedPublication: isApprovedPublication}
 });
+
+/* profile */
 export const saveGivenName = (givenName) => ({
     type: 'SAVE_GIVEN_NAME',
     data: {givenName: givenName}

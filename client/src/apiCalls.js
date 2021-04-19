@@ -5,7 +5,7 @@ const reqConfigs = {
     baseURL: 'http://localhost:1234/'
 }
 
-export const fetchUsers = (body, onSuccess, onFailed) => {
+export const fetchUsers = (onSuccess, onFailed) => {
     axios.get('users/fetchUser', reqConfigs).then(res => {
         let status = res.data.status;
         if (status === 200) {

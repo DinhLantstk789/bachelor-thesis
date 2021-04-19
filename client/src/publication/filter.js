@@ -1,4 +1,3 @@
-import {Fragment} from 'react';
 import {Badge, Button, Col, Row, Slider} from "shards-react";
 import DivisionSelector from "./sharedSections/divisionSelector";
 import {useDispatch, useSelector} from "react-redux";
@@ -13,7 +12,7 @@ export default function Filter() {
     const dispatch = useDispatch();
 
     return (
-        <Fragment>
+        <div style={{marginBottom: 30}}>
             <div style={{marginRight: 50, marginLeft: 10}}>
                 <Row>
                     <Col md={6}>
@@ -52,7 +51,6 @@ export default function Filter() {
                     console.log(yearFrom, yearTo, isFirstTerm, isSecondTerm, divisions);
                 }}>Apply Selected Filters &nbsp; <i className="fas fa-check"/></Button>
             </div>
-        </Fragment>
+        </div>
     )
 }
-

@@ -13,11 +13,18 @@ function convertToSQLArray(arr) {
     return '{' + r.substring(0, r.length - 1) + '}';
 }
 
+/* replace existing  division */
 async function insertUserDivision(userEmail, divisionName) {
+    await eprints.query('DELETE FROM user_division WHERE user_email = $1;', {bind: [userEmail], type: QueryTypes.DELETE});
     await eprints.query('INSERT INTO user_division (user_email, division_name) VALUES ($1, $2) ON CONFLICT (user_email, division_name) DO NOTHING RETURNING user_email;', {bind: [userEmail, divisionName], type: QueryTypes.INSERT});
 }
 
-async function insertCreatorEditor(publication_id, user, authorOrder, linked_table) {
+async function insertDivision(divisionName) {
+    await eprints.query('INSERT INTO division (name) VALUES ($1) ON CONFLICT (name) DO NOTHING RETURNING name;', {bind: [divisionName], type: QueryTypes.INSERT});
+}
+
+
+async function insertCreatorOrEditor(publication_id, user, authorOrder, linked_table) {
     let isApproved = await eprints.query('SELECT is_approved FROM users WHERE email = $1;', {bind: [user.email], type: QueryTypes.SELECT});
     let onConflict = (isApproved.length === 0 || isApproved[0].is_approved) ? 'NOTHING ' : 'UPDATE SET family_name = $2, given_name = $3'
     await eprints.query(
@@ -31,6 +38,7 @@ async function insertCreatorEditor(publication_id, user, authorOrder, linked_tab
         q = 'insert into publication_editor (publication_id, editor_email) values ($1, $2) returning editor_email';
         bind = [publication_id, user.email];
     }
+    await insertDivision(user.department);
     await eprints.query(q, {bind: bind, type: QueryTypes.INSERT});
     await insertUserDivision(user.email, user.department);
 }
@@ -237,14 +245,14 @@ module.exports = {
             insertDivision(d);
             insertPublicationDivision(pubId[0][0].id, d);
         });
-        let index = 0;
+        let authorOrder = 0;
         creators.forEach(user => {
-            insertCreatorEditor(pubId[0][0].id, user, index, 'creator');
-            index += 1
+            insertCreatorOrEditor(pubId[0][0].id, user, authorOrder, 'creator');
+            authorOrder += 1
         });
         editors.forEach(user => {
             user.department = '';
-            insertCreatorEditor(pubId[0][0].id, user, null, 'editor')
+            insertCreatorOrEditor(pubId[0][0].id, user, null, 'editor')
         });
         return pubId[0][0].id;
     },
@@ -280,13 +288,16 @@ module.exports = {
                 returnedResult.push({
                     email: u.email,
                     givenName: u.given_name,
-                    familyName: u.family_name
+                    familyName: u.family_name,
+                    isAdmin: u.is_admin,
+                    department: await getDivisionOfUser(u.email)
                 })
             } else {
                 returnedResult.push({
                     email: u.email,
                     givenName: u.given_name,
                     familyName: u.family_name,
+                    isAdmin: u.is_admin,
                     address: u.address,
                     department: await getDivisionOfUser(u.email),
                     isAdmin: u.is_admin,
