@@ -9,28 +9,28 @@ import * as apiCalls from "../apiCalls";
 
 export default function UserManagement() {
     const [isLoading, setIsLoading] = useState(true);
-    const [userList, setUsers] = useState([]);
+    const [userAccounts, setUserAccounts] = useState([]);
     const loggedUser = useSelector(store => store.user.loggedUser);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        apiCalls.fetchUsers({}, (userList) => {
-            setIsLoading(false);
-            setUsers(userList);
-        }, (message) => {
-            console.log(message);
-        })
+        if (isLoading) {
+            apiCalls.fetchUsers(users => {
+                setUserAccounts(users);
+                setIsLoading(false);
+                console.log(users);
+            }, (message) => {
+                console.log(message);
+            })
+        }
     }, [isLoading]);
 
     let loading = <div>
         <List/>
         <List style={{marginTop: 20}}/>
     </div>
-    let result = userList.map(item => (
-        <UserRow triggerReload={() => setIsLoading(true)} givenName={item.givenName} familyName={item.familyName} email={item.email} reload={() => setIsLoading(true)}/>
-    ))
     return (
-        <Row style={{marginRight: 50, marginLeft: 50}}>
+        <Row style={{marginRight: 50, marginLeft: 50, marginBottom: 50}}>
             <Col md={7}>
                 <Card>
                     <CardHeader>
@@ -42,7 +42,9 @@ export default function UserManagement() {
                             </Col>
                             <Col>
                                 <Row className='float-right'>
-                                    <Button pill theme="success" style={{marginRight: 10}}>
+                                    <Button pill theme="success" style={{marginRight: 10}} onClick={() => {
+                                        console.log(userAccounts);
+                                    }}>
                                         New &nbsp;<i className='fa fa-plus'/>
                                     </Button>
                                 </Row>
@@ -50,7 +52,7 @@ export default function UserManagement() {
                         </Row>
                     </CardHeader>
                     <CardBody>
-                        {isLoading ? loading : result}
+                        {isLoading ? loading : userAccounts.map(item => (<UserRow triggerReload={() => setIsLoading(true)} givenName={item.givenName} familyName={item.familyName} email={item.email}/>))}
                     </CardBody>
                 </Card>
             </Col>

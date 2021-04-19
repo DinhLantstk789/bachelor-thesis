@@ -1,5 +1,5 @@
 import {Component, Fragment} from 'react';
-import {Area, Bar, CartesianGrid, ComposedChart, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
+import {CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts';
 
 class Statistics extends Component {
     static demoUrl = 'https://codesandbox.io/s/composed-chart-in-responsive-container-pkqmy';
@@ -23,12 +23,12 @@ class Statistics extends Component {
 
         return (
             <Fragment>
-                <div style={{marginRight: 30}}>
+                <div style={{marginRight: 30, marginTop: 50}}>
                     <ResponsiveContainer className="chart" height={250}>
                         <LineChart
                             height={300}
                             data={data}
-                            margin={{top: 5, right: 30, left: 20, bottom: 5}}>
+                            margin={{top: 5, right: 20, bottom: 5}}>
                             <XAxis dataKey="year"/>
                             <YAxis/>
                             <CartesianGrid strokeDasharray="3 3"/>
@@ -38,26 +38,26 @@ class Statistics extends Component {
                             <Line type="monotone" dataKey="score" stroke="#82ca9d"/>
                         </LineChart>
                     </ResponsiveContainer>
-                    <ResponsiveContainer height={250}>
-                        <ComposedChart
-                            height={400}
-                            data={data}
-                            margin={{
-                                top: 20,
-                                right: 20,
-                                bottom: 20,
-                                left: 20,
-                            }}>
-                            <CartesianGrid stroke="#f5f5f5"/>
-                            <XAxis dataKey="year" scale="band"/>
-                            <YAxis/>
-                            <Tooltip/>
-                            <Legend/>
-                            <Area type="monotone" dataKey="amt" fill="#8884d8" stroke="#8884d8"/>
-                            <Bar dataKey="Number of Articles" barSize={20} fill="#413ea0"/>
-                            <Line type="monotone" dataKey="score" stroke="#ff7300"/>
-                        </ComposedChart>
-                    </ResponsiveContainer>
+                    {/*<ResponsiveContainer height={250}>*/}
+                    {/*    <ComposedChart*/}
+                    {/*        height={400}*/}
+                    {/*        data={data}*/}
+                    {/*        margin={{*/}
+                    {/*            top: 20,*/}
+                    {/*            right: 20,*/}
+                    {/*            bottom: 20,*/}
+                    {/*            left: 20,*/}
+                    {/*        }}>*/}
+                    {/*        <CartesianGrid stroke="#f5f5f5"/>*/}
+                    {/*        <XAxis dataKey="year" scale="band"/>*/}
+                    {/*        <YAxis/>*/}
+                    {/*        <Tooltip/>*/}
+                    {/*        <Legend/>*/}
+                    {/*        <Area type="monotone" dataKey="amt" fill="#8884d8" stroke="#8884d8"/>*/}
+                    {/*        <Bar dataKey="Number of Articles" barSize={20} fill="#413ea0"/>*/}
+                    {/*        <Line type="monotone" dataKey="score" stroke="#ff7300"/>*/}
+                    {/*    </ComposedChart>*/}
+                    {/*</ResponsiveContainer>*/}
                 </div>
             </Fragment>
 

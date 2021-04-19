@@ -163,35 +163,35 @@ export const savePublicationEmailAddress= (emailAddress) => ({
     type: 'SAVE_PUBLICATION_EMAIL_ADDRESS',
     data: {emailAddress: emailAddress}
 });
-export const savePublicationReferences= (references) => ({
+export const savePublicationReferences = (references) => ({
     type: 'SAVE_PUBLICATION_REFERENCES',
     data: {references: references}
 });
-export const savePublicationUnKeyword= (unKeyword) => ({
+export const savePublicationUnKeyword = (unKeyword) => ({
     type: 'SAVE_PUBLICATION_UN_KEYWORD',
     data: {unKeyword: unKeyword}
 });
-export const savePublicationAddInformation= (addInformation) => ({
+export const savePublicationAddInformation = (addInformation) => ({
     type: 'SAVE_PUBLICATION_ADD_INFORMATION',
     data: {addInformation: addInformation}
 });
-export const savePublicationComment= (comment) => ({
+export const savePublicationComment = (comment) => ({
     type: 'SAVE_PUBLICATION_COMMENT',
     data: {comment: comment}
 });
-export const savePublicationSubjects= (subjects) => ({
+export const savePublicationSubjects = (subjects) => ({
     type: 'SAVE_PUBLICATION_SUBJECTS',
     data: {subjects: subjects}
 });
-export const savePublicationDivisions= (divisions) => ({
+export const savePublicationDivisions = (divisions) => ({
     type: 'SAVE_PUBLICATION_DIVISIONS',
     data: {divisions: divisions}
 });
-export const savePatentApplicant= (patentApplicant) => ({
+export const savePatentApplicant = (patentApplicant) => ({
     type: 'SAVE_PUBLICATION_PATENT_APPLICANT',
     data: {patentApplicant: patentApplicant}
 });
-export const saveMediaOutput= (mediaOutput) => ({
+export const saveMediaOutput = (mediaOutput) => ({
     type: 'SAVE_PUBLICATION_MEDIA_OUTPUT',
     data: {mediaOutput: mediaOutput}
 });
@@ -273,7 +273,30 @@ export const resetUserInformation = () => ({
 });
 
 
-
+/* publication filters */
+export const savePublicationFilterDivisions = (divisions) => ({
+    type: 'SAVE_PUBLICATION_FILTER_DIVISIONS',
+    data: {divisions: divisions}
+});
+export const savePublicationFilterYearFrom = (yearFrom) => ({
+    type: 'SAVE_FILTER_YEAR_FROM',
+    data: {yearFrom: yearFrom}
+});
+export const savePublicationFilterYearTo = (yearTo) => ({
+    type: 'SAVE_FILTER_YEAR_TO',
+    data: {yearTo: yearTo}
+});
+export const savePublicationFilterFirstTerm = (isFirstTerm) => ({
+    type: 'SAVE_FILTER_FIRST_TERM',
+    data: {isFirstTerm: isFirstTerm}
+});
+export const savePublicationFilterSecondTerm = (isSecondTerm) => ({
+    type: 'SAVE_FILTER_SECOND_TERM',
+    data: {isSecondTerm: isSecondTerm}
+});
+export const resetPublicationFilter = () => ({
+    type: 'RESET_PUBLICATION_FILTER'
+});
 
 
 

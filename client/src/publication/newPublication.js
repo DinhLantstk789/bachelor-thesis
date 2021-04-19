@@ -284,7 +284,7 @@ export default function NewPublication() {
         <Creator/>
         <CorporateCreators/>
         {detailComponent}
-        <DivisionSelector/>
+        <DivisionSelector isOneColumn={false}/>
         <hr style={{marginTop: 22, marginBottom: 22}}/>
         <label style={{fontSize: 20, marginBottom: 20}}>Publication Details</label>
         <div>

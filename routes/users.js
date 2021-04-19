@@ -56,7 +56,7 @@ router.post('/addUser', (req, res) => {
         });
     })
 });
-router.post('/fetchUser', (req, res) => {
+router.get('/fetchUser', (req, res) => {
     securityCheck(req, res, (loggedUser) => {
         dbman.fetchUserInformation(null).then(userList => {
             return res.json({status: 200, userList: userList});
@@ -73,7 +73,7 @@ router.post('/deleteUser', (req, res) => {
         }).catch(console.log)
     })
 });
-router.post('/fetchFullyUserData', (req, res) => {
+router.get('/fetchFullyUserData', (req, res) => {
     securityCheck(req, res, (loggedUser) => {
         dbman.fetchUserInformation(req.body.email).then(userData => {
             return res.json({status: 200, userData: userData});

@@ -1,10 +1,10 @@
 import {Fragment, useState} from 'react';
 import {Col, FormCheckbox, Row} from "shards-react";
-import {savePublicationDivisions} from "../../redux/actions";
+import {savePublicationDivisions, savePublicationFilterDivisions} from "../../redux/actions";
 import {useDispatch, useSelector} from "react-redux";
 
-export default function DivisionSelector() {
-    const divisions = useSelector(store => store.publication.divisions);
+export default function DivisionSelector({isOneColumn}) {
+    const divisions = useSelector(store => (!isOneColumn ? store.publication.divisions : store.filter.divisions));
     const dispatch = useDispatch();
     const useForceUpdate = () => {
         const set = useState(0)[1];
@@ -15,23 +15,32 @@ export default function DivisionSelector() {
     let handleChange = (index) => {
         let currentDivisions = divisions;
         currentDivisions[index].isEnable = !currentDivisions[index].isEnable;
-        dispatch(savePublicationDivisions(currentDivisions));
+        dispatch(isOneColumn ? savePublicationFilterDivisions(currentDivisions) : savePublicationDivisions(currentDivisions));
         forceUpdate();
     }
     return (
         <Fragment>
-            <h6 style={{marginTop: 20}}>Divisions</h6>
-            <Row>
-                <Col>
+            {isOneColumn ? '' : <h6 style={{marginTop: 20}}>Divisions</h6>}
+            {isOneColumn ? <Row>
                     {divisions.map((item, index) => (
-                        index % 2 === 0 ?
-                            <FormCheckbox
-                                checked={item.isEnable}
-                                onChange={() => handleChange(index)}>
-                                {item.name}
-                            </FormCheckbox>
-                            : ''
+                        <FormCheckbox
+                            checked={item.isEnable}
+                            onChange={() => handleChange(index)}>
+                            {item.name} &nbsp;&nbsp;
+                        </FormCheckbox>
                     ))}
+                </Row> :
+                <Row>
+                    <Col>
+                        {divisions.map((item, index) => (
+                            index % 2 === 0 ?
+                                <FormCheckbox
+                                    checked={item.isEnable}
+                                    onChange={() => handleChange(index)}>
+                                    {item.name}
+                                </FormCheckbox>
+                                : ''
+                        ))}
                     </Col>
                     <Col>
                         {divisions.map((item, index) => (
@@ -45,6 +54,7 @@ export default function DivisionSelector() {
                         ))}
                     </Col>
                 </Row>
+            }
             </Fragment>
         )
 }

@@ -271,8 +271,8 @@ module.exports = {
         return addedUser[0][0].email;
     },
     fetchUserInformation: async (email) => {
-        let filter = 'WHERE is_approved = true '  + (email === null ? '' : ('AND email = $1'));
-        let selectedFields = email === null ? 'given_name, family_name, email' : '*';
+        let filter = 'WHERE is_approved = true ' + (email === null ? '' : ('AND email = $1'));
+        let selectedFields = email === null ? 'given_name, family_name, email, is_admin' : '*';
         let returnedResult = [];
         let selectedUsers = await eprints.query('SELECT ' + selectedFields + ' FROM users ' + filter + ' ORDER BY db_created_on DESC;', {bind: email === null ? [] : [email], type: QueryTypes.SELECT});
         for (const u of selectedUsers) {
@@ -289,7 +289,7 @@ module.exports = {
                     familyName: u.family_name,
                     address: u.address,
                     department: await getDivisionOfUser(u.email),
-                    roles: u.roles,
+                    isAdmin: u.is_admin,
                     userDescription: u.description
                 });
             }

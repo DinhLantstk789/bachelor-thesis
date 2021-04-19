@@ -6,7 +6,7 @@ const reqConfigs = {
 }
 
 export const fetchUsers = (body, onSuccess, onFailed) => {
-    axios.post('users/fetchUser', body, reqConfigs).then(res => {
+    axios.get('users/fetchUser', reqConfigs).then(res => {
         let status = res.data.status;
         if (status === 200) {
             onSuccess(res.data.userList);

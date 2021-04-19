@@ -2,13 +2,14 @@ import {Fragment, useState} from 'react';
 import {Alert, Button, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Row} from "shards-react";
 import Footer from "./footer";
 import Dashboard from "./dashboard";
-import Statistics from "./statistics";
+import Statistics from "./publication/statistics";
 import Profile from "./account/profile";
 import {useDispatch, useSelector} from "react-redux";
 import UserManagement from "./account/userManagement";
 import {logout} from "./apiCalls";
 import {saveLoggedUser} from "./redux/actions";
 import {ClipLoader} from "react-spinners";
+import Filter from "./publication/filter";
 
 export default function Home() {
     const [currentTab, setCurrentTab] = useState('publication-main');
@@ -24,22 +25,23 @@ export default function Home() {
                     <Col xs={7} md={7} sm={7}><img bottom src="./images/logo.png" style={{width: 180, marginTop: 8, marginLeft: 50}}/></Col>
                     <Col xs={5} md={5} sm={5}>
                         <Row className="float-right">
-                            <Button style={{marginLeft: 10, marginRight: 5}} theme={currentTab === 'publication-main' ? 'primary' : 'light'} pill onClick={() => setCurrentTab('publication-main')}>Publications</Button>
-                            {loggedUser.isAdmin ? <Button style={{marginLeft: 5, marginRight: 5}} theme={currentTab === 'user-management' ? 'primary' : 'light'} pill onClick={() => setCurrentTab('user-management')}>User Management</Button> : ''}
+                            <Button style={{marginLeft: 10, marginRight: 5}} theme={currentTab === 'publication-main' ? 'primary' : 'light'} pill onClick={() => setCurrentTab('publication-main')}><i
+                                className="fas fa-file-alt"/> &nbsp; Publications</Button>
+                            {loggedUser.isAdmin ?
+                                <Button style={{marginLeft: 5, marginRight: 5}} theme={currentTab === 'user-management' ? 'primary' : 'light'} pill onClick={() => setCurrentTab('user-management')}><i className="fas fa-users"/> &nbsp; User Management</Button> : ''}
                             <Dropdown open={openAccount} toggle={() => setOpenAccount(!openAccount)}>
-                                <DropdownToggle style={{marginLeft: 5}} theme={currentTab === 'profile' ? 'primary' : 'light'} pill id="dropdown1" style={{fontSize: 20, marginRight: 30}} className="float-right">
+                                <DropdownToggle theme={currentTab === 'profile' ? 'primary' : 'light'} pill id="dropdown1" style={{fontSize: 20, marginRight: 30, marginLeft: 5}} className="float-right">
                                     {isLoggingOut ? <ClipLoader size={15} color={'#ffffff'} loading/> : <i className={"fa fa-user"}/>}
                                 </DropdownToggle>
                                 <DropdownMenu right>
-                                    <DropdownItem onClick={() => setCurrentTab('profile')}><i className="fas fa-user-circle"/>&nbsp;&nbsp;See your profile</DropdownItem>
-                                    <DropdownItem><i className="fas fa-cogs"/>&nbsp;&nbsp;Settings</DropdownItem>
+                                    <DropdownItem onClick={() => setCurrentTab('profile')}><i className="fas fa-user-circle"/>&nbsp;&nbsp;Profile</DropdownItem>
                                     <DropdownItem onClick={() => {
                                         setIsLoggingOut(true);
                                         logout(successMessage => {
                                             setIsLoggingOut(false);
                                             dispatch(saveLoggedUser(null));
                                         }, (errorMessage) => alert(errorMessage));
-                                    }}><i className="fas fa-sign-out"/>&nbsp;&nbsp;Log Out</DropdownItem>
+                                    }}><i className="fas fa-sign-out"/>&nbsp;&nbsp;Logout</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
                         </Row>
@@ -49,7 +51,10 @@ export default function Home() {
             {currentTab === 'user-management' ? <UserManagement/> : currentTab === 'publication-main' ?
                 <Row style={{marginLeft: 20}}>
                     <Col md={8}><Dashboard/></Col>
-                    <Col md={4}><Statistics/></Col>
+                    <Col md={4}>
+                        <Filter/>
+                        <Statistics/>
+                    </Col>
                 </Row> :
                 <Row style={{paddingLeft: 50, paddingRight: 50}}>
                     <Col><Profile/></Col>

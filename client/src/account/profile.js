@@ -40,7 +40,7 @@ export default function Profile({triggerReload}) {
                         <FormInput placeholder="Email" value={email} onChange={(e) => dispatch(saveEmail(e.target.value))} style={{marginTop: 10}}/>
                         <FormInput placeholder="Password" value={password} onChange={(e) => dispatch(savePassword(e.target.value))} style={{marginTop: 10}}/>
                         <FormInput placeholder="Address" value={address} onChange={(e) => dispatch(saveAddress(e.target.value))} style={{marginTop: 10}}/>
-                        <FormSelect style={{marginTop: 10}} onChange={(e) => {
+                        <FormSelect value={department} style={{marginTop: 10}} onChange={(e) => {
                             dispatch(saveDepartment(e.target.value));
                         }}>
                             <option value="Faculty of Information Technology (FIT)">Faculty of Information Technology (FIT)</option>
@@ -55,7 +55,7 @@ export default function Profile({triggerReload}) {
                             <option value="School of Aerospace Engineering (SAE)">School of Aerospace Engineering (SAE)</option>
                             <option value="Key Laboratory for Smart Integrated Systems (SISLAB)">Key Laboratory for Smart Integrated Systems (SISLAB)</option>
                         </FormSelect>
-                        <FormSelect style={{marginTop: 10}} onChange={(e) => dispatch(saveIsAdmin(e.target.value === 'admin'))}>
+                        <FormSelect value={isAdmin ? 'admin' : 'user'} style={{marginTop: 10}} onChange={(e) => dispatch(saveIsAdmin(e.target.value === 'admin'))}>
                             <option value="user">Normal User</option>
                             <option value="admin">Administrator</option>
                         </FormSelect>

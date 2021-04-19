@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 import PublicationRow from "./publication/rows/publicationRow";
 import {fetchPublication} from "./apiCalls";
 
-export default function Publications({approvalFilter, pendingFilter, role}) {
+export default function Publications({approvalFilter, pendingFilter}) {
     const [isLoading, setIsLoading] = useState(true);
     const [triggerReload, setTriggerReload] = useState(false);
     const [publications, setPublications] = useState([]);

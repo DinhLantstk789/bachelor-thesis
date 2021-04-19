@@ -3,6 +3,7 @@ import {Col, Row} from "shards-react";
 import * as apiCalls from "../apiCalls";
 import {useDispatch, useSelector} from "react-redux";
 import {ClipLoader} from "react-spinners";
+import {saveAddress, saveDepartment, saveEmail, saveFamilyName, saveGivenName, saveIsAdmin, saveUserDescription} from "../redux/actions";
 
 export default function UserRow({triggerReload, givenName, familyName, email}) {
     const [isDeleting, setIsDeleting] = useState(false);
@@ -10,6 +11,7 @@ export default function UserRow({triggerReload, givenName, familyName, email}) {
         loggedUser: store.user.loggedUser,
         dashboardState: store.user.dashboardState
     }))
+
     const dispatch = useDispatch();
     return (
         <Fragment>
@@ -24,22 +26,20 @@ export default function UserRow({triggerReload, givenName, familyName, email}) {
                 </Col>
                 <Col md={4}>
                     <Row className='float-right' style={{marginRight: 10, marginTop: 13}}>
-                        {/*<i style={{fontSize: 20, marginLeft: 20}} className='fa fa-edit' onClick={()=>{*/}
-                        {/*    dispatch(setUserDashboardState(true));*/}
-                        {/*    apiCalls.fetchFullyUserData({email:email}, (userData) => {*/}
-                        {/*        dispatch(saveGivenName(userData[0].givenName))*/}
-                        {/*        dispatch(saveGivenName(userData[0].familyName))*/}
-                        {/*        dispatch(saveGivenName(userData[0].email))*/}
-                        {/*        dispatch(saveGivenName(userData[0].address))*/}
-                        {/*        dispatch(saveGivenName(userData[0].department))*/}
-                        {/*        dispatch(saveGivenName(userData[0].role))*/}
-                        {/*        dispatch(saveGivenName(userData[0].userDescription))*/}
-                        {/*        console.log(userData[0].givenName,userData[0].familyName,userData[0].email,userData[0].userDescription);*/}
-                        {/*    }, (message) => {*/}
-                        {/*        console.log(message);*/}
-                        {/*    });*/}
-                        {/* }*/}
-                        {/*}/>*/}
+                        <i style={{fontSize: 20, marginLeft: 20, marginRight: 20}} className='fa fa-edit' onClick={() => {
+                            apiCalls.fetchFullyUserData({email: email}, (u) => {
+                                dispatch(saveEmail(u[0].email));
+                                dispatch(saveGivenName(u[0].givenName));
+                                dispatch(saveFamilyName(u[0].familyName));
+                                dispatch(saveAddress(u[0].address));
+                                dispatch(saveIsAdmin(u[0].isAdmin));
+                                dispatch(saveDepartment(u[0].department));
+                                dispatch(saveUserDescription(u[0].userDescription));
+                            }, (message) => {
+                                alert(message);
+                            });
+                        }
+                        }/>
                         <div onClick={() => {
                             setIsDeleting(true);
                             apiCalls.deleteUser({email: email}, () => {
