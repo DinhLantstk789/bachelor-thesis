@@ -54,6 +54,7 @@ async function insertDivision(division) {
 
 
 async function insertPublicationDivision(publication_id, division) {
+    await eprints.query('DELETE FROM publication_division WHERE publication_id = $1;', {bind: [publication_id], type: QueryTypes.DELETE});
     await eprints.query('INSERT INTO publication_division (publication_id, division_name) VALUES ($1, $2) RETURNING publication_id;', {bind: [publication_id, division], type: QueryTypes.INSERT});
 }
 
@@ -281,7 +282,6 @@ module.exports = {
                 }
             );
         }
-
         divisions.forEach(d => {
             insertDivision(d);
             insertPublicationDivision(pubId[0][0].id, d);

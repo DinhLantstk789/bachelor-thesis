@@ -12,22 +12,16 @@ class Funder extends Component {
                     this.props.savePublicationFunders(this.props.funders.concat({funder: ''}))
                 }}/></h6></div>
                 {this.props.funders.map((item, index) => (
-                    <Row style={{marginTop: 10}}>
-                        <Col sm={11}>
-                            <Row>
-                                <Col><FormInput placeholder="Funder" value={item.funder} valid={item.funder.length > 5} onChange={(e) => {
-                                    let funders= this.props.funders;
-                                    funders[index].funder = e.target.value;
-                                    this.props.savePublicationFunders(funders);
-                                    this.forceUpdate()
-                                }}/></Col>
-                            </Row>
-                        </Col>
-                        <Col sm={1}>
-                            <i className="fa fa-times-circle" style={{fontSize: 22, marginTop: 10}} onClick={() =>
-                                this.props.savePublicationFunders(this.props.funders.filter((value, key) => key !== index))
-                            }/>
-                        </Col>
+                    <Row style={{marginTop: 10, paddingRight: 20}}>
+                        <Col><FormInput placeholder="Funder" value={item.funder} valid={item.funder.length > 5} onChange={(e) => {
+                            let funders = this.props.funders;
+                            funders[index].funder = e.target.value;
+                            this.props.savePublicationFunders(funders);
+                            this.forceUpdate()
+                        }}/></Col>
+                        <i className="fa fa-times-circle" style={{fontSize: 22, marginTop: 10}} onClick={() =>
+                            this.props.savePublicationFunders(this.props.funders.filter((value, key) => key !== index))
+                        }/>
                     </Row>
                 ))}
             </Fragment>
