@@ -1,9 +1,20 @@
 import {useEffect, useState} from 'react';
-import {Badge, Button, Card, CardBody, CardHeader, Col, FormCheckbox, Row} from "shards-react";
+import {Badge, Button, Card, CardBody, CardHeader, Col, FormCheckbox, FormInput, InputGroup, InputGroupAddon, InputGroupText, Row} from "shards-react";
 import NewPublication from "./publication/newPublication";
 import Publications from "./publications";
 import {useDispatch, useSelector} from "react-redux";
-import {resetArticle, resetBookSection, resetConference, resetPublication, resetTechnicalReport, saveDisplayingPublicationLabel, savePublicationApproval, saveViewingPublicationId, setDashboardState} from "./redux/actions";
+import {
+    resetArticle,
+    resetBookSection,
+    resetConference,
+    resetPublication,
+    resetTechnicalReport,
+    saveDisplayingPublicationLabel,
+    savePublicationApproval,
+    saveSearchPublicationContent,
+    saveViewingPublicationId,
+    setDashboardState
+} from "./redux/actions";
 import * as apiCalls from "./apiCalls";
 import {ClipLoader} from "react-spinners";
 
@@ -11,8 +22,9 @@ export default function Dashboard() {
     const [approvalFilter, setApprovalFilter] = useState(false);
     const [pendingFilter, setPendingFilter] = useState(false);
     const [isApproving, setIsApproving] = useState(false);
-    const {loggedUser, publicationId, publicationApproval, isAddingPublication, displayingPublicationLabel} = useSelector(store => ({
+    const {loggedUser, searchPublicationContent, publicationId, publicationApproval, isAddingPublication, displayingPublicationLabel} = useSelector(store => ({
         loggedUser: store.user.loggedUser,
+        searchPublicationContent: store.publication.searchPublicationContent,
         publicationId: store.publication.articleId,
         publicationApproval: store.publication.publicationApproval,
         isAddingPublication: store.publication.isAddingPublication,
@@ -61,13 +73,18 @@ export default function Dashboard() {
                         </Row>
                     </Col>
                     <Col>
-                        {isAddingPublication ? '' : <Row className='float-right'>
-                            <Button pill style={{marginRight: 15}} onClick={() => {
-                                dispatch(setDashboardState(true));
-                                dispatch(saveDisplayingPublicationLabel('New Publication'));
-                            }}>New &nbsp;<i className='fa fa-plus'/>
-                            </Button>
-                        </Row>}
+                        {isAddingPublication ? '' :
+                            <Row className='float-right'>
+                                <InputGroup style={{width: 500}}>
+                                    <InputGroupAddon type="prepend"><InputGroupText><i className="fa fa-search"/></InputGroupText></InputGroupAddon>
+                                    <FormInput value={searchPublicationContent} placeholder="Search for publications, authors, and years" onChange={(e) => dispatch(saveSearchPublicationContent(e.target.value))}/>
+                                    <Button pill style={{marginRight: 15, marginLeft: 15}} onClick={() => {
+                                        dispatch(setDashboardState(true));
+                                        dispatch(saveDisplayingPublicationLabel('New Publication'));
+                                    }}>New &nbsp;<i className='fa fa-plus'/>
+                                    </Button>
+                                </InputGroup>
+                            </Row>}
                         <Row className='float-right' style={{marginTop: 10}}>
                             {(displayingPublicationLabel === 'Publication Details' && loggedUser.isAdmin) ?
                                 isApproving ? <span style={{marginRight: 20}}><ClipLoader size={25} color={'#157ffb'} loading/></span> :

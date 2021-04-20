@@ -45,7 +45,6 @@ class Login extends Component {
             this.props.saveLoggedUser(user);
         }, (message) => {
             this.setState({errorResponse: message});
-
         })
     }
     render() {
@@ -69,8 +68,7 @@ class Login extends Component {
                                     }}>{this.state.emailCheckedResult}</p>
                                     <InputGroup className="mb-2">
                                         <InputGroupAddon type="prepend">
-                                            <InputGroupText><i className="fa fa-envelope"
-                                                               style={{width: 20}}/></InputGroupText>
+                                            <InputGroupText><i className="fa fa-envelope" style={{width: 20}}/></InputGroupText>
                                         </InputGroupAddon>
                                         <FormInput placeholder="Email" type="email" onChange={this.onTypingEmail}/>
                                     </InputGroup>
@@ -80,8 +78,7 @@ class Login extends Component {
                                     }}>{this.state.passwordCheckedResult}</p>
                                     <InputGroup className="mb-2">
                                         <InputGroupAddon type="prepend">
-                                            <InputGroupText><i className="fa fa-lock"
-                                                               style={{width: 20}}/>
+                                            <InputGroupText><i className="fa fa-lock" style={{width: 20}}/>
                                             </InputGroupText>
                                         </InputGroupAddon>
                                         <FormInput placeholder="Password" type="password" onChange={this.onTypingPassword}/>

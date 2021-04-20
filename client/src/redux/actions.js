@@ -213,6 +213,10 @@ export const saveViewingPublicationId = (viewingPublicationId) => ({
     type: 'SAVE_VIEWING_PUBLICATION_ID',
     data: {viewingPublicationId: viewingPublicationId}
 });
+export const saveSearchPublicationContent = (searchPublicationContent) => ({
+    type: 'SAVE_SEARCH_CONTENT',
+    data: {searchPublicationContent: searchPublicationContent}
+});
 
 export const resetPublication = () => ({
     type: 'RESET_PUBLICATION',

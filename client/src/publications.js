@@ -15,6 +15,7 @@ export default function Publications({approvalFilter, pendingFilter}) {
     const filteredDivisions = useSelector(store => store.filter.divisions);
     const filteredYearFrom = useSelector(store => store.filter.yearFrom);
     const filteredYearTo = useSelector(store => store.filter.yearTo);
+    const searchPublicationContent = useSelector(store => store.publication.searchPublicationContent);
 
     useEffect(() => {
         const body = {
@@ -69,9 +70,22 @@ export default function Publications({approvalFilter, pendingFilter}) {
     let showOnlyApproval = approvalFilter && !pendingFilter
     let showOnlyPending = !approvalFilter && pendingFilter
     let filteredItems = publications.filter(item => (showAll ? item : (showOnlyApproval ? item.isApproved : (showOnlyPending ? !item.isApproved : item.isApproved === undefined))));
+    let finalFilteredItemsAfterSearch = [];
+    filteredItems.forEach(fi => {
+        let canAdd = false;
+        const searchKey = searchPublicationContent.toLowerCase();
+        if (fi.title.toLowerCase().includes(searchKey)) canAdd = true;
+        if (fi.selectedDate.toLowerCase().includes(searchKey)) canAdd = true;
+        fi.creators.forEach(c => {
+            if ((c.familyName + ' ' + c.givenName + ' ' + c.email).toLowerCase().includes(searchKey)) {
+                canAdd = true
+            }
+        })
+        if (canAdd) finalFilteredItemsAfterSearch.push(fi);
+    })
     return (
         <Fragment>
-            {isLoading ? loading : filteredItems.map(item => (
+            {isLoading ? loading : finalFilteredItemsAfterSearch.map(item => (
                 <PublicationRow triggerUpdateUI={() => setTriggerReload(!triggerReload)} type={item.type} title={item.title} authors={item.creators} approved={item.isApproved} publicationId={item.id} selectedDate={item.selectedDate}/>
             ))}
         </Fragment>

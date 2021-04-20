@@ -63,7 +63,7 @@ export default function Home() {
                     </Col>
                 </Row> :
                 <Row style={{paddingLeft: 50, paddingRight: 50}}>
-                    <Col><Profile/></Col>
+                    <Col><Profile title={loggedUser.familyName + ' ' + loggedUser.givenName}/></Col>
                 </Row>}
             <Footer/>
         </Fragment>

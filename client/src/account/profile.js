@@ -6,7 +6,8 @@ import {sha256} from "js-sha256";
 import {useState} from 'react'
 import {ClipLoader} from "react-spinners";
 
-export default function Profile({triggerReload}) {
+export default function Profile({title, triggerReload}) {
+    const loggedUser = useSelector(store => store.user.loggedUser);
     const {givenName, familyName, email, department, isAdmin, address, description, password} = useSelector(store => ({
         givenName: store.newUser.givenName,
         familyName: store.newUser.familyName,
@@ -24,16 +25,16 @@ export default function Profile({triggerReload}) {
             <CardHeader>
                 <Row>
                     <Col>
-                        <h5 style={{marginTop: 10, marginRight: 30}}><i className='fa fa-user'/>&nbsp;&nbsp; Profile</h5>
+                        <h5 style={{marginTop: 10, marginRight: 30}}><i className='fa fa-user'/>&nbsp;&nbsp; {title}</h5>
                     </Col>
-                    <Col>
+                    {!title.includes(loggedUser.familyName + ' ' + loggedUser.givenName) ? <Col>
                         <div className='float-right'>
                             <Button pill theme="light" onClick={() => {
                                 dispatch(saveOpeningProfileTab(false));
                                 dispatch(resetUserInformation());
                             }}><i className='fa fa-times'/></Button>
                         </div>
-                    </Col>
+                    </Col> : ''}
                 </Row>
             </CardHeader>
             <CardBody style={{paddingRight: 50, paddingLeft: 50}}>

@@ -1,5 +1,6 @@
 const initialState = {
     articleId: null,
+    searchPublicationContent: '',
     publicationTitle: '',
     publicationAbstract: '',
     creators: [{familyName: '', givenName: '', email: '', department: ''}],
@@ -230,9 +231,14 @@ export default (state = initialState, action) => {
         const data = action.data;
         return {...state, articleId: data.articleId}
     }
+    if (action.type === 'SAVE_SEARCH_CONTENT') {
+        const data = action.data;
+        return {...state, searchPublicationContent: data.searchPublicationContent}
+    }
     if (action.type === 'RESET_PUBLICATION') {
         return {
             articleId: null,
+            searchPublicationContent: '',
             publicationTitle: '',
             publicationAbstract: '',
             creators: [{familyName: '', givenName: '', email: '', department: ''}],
