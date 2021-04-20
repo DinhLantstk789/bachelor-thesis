@@ -417,10 +417,10 @@ export default function NewPublication() {
                             dispatch(saveViewingPublicationId(null));
                         }, 1000);
                     }, (error) => {
-                        console.log('error:', error);
+                        alert(error);
                         setSubmissionProgress(3);
                     });
-                }}>{submitButtonText}&nbsp;<i className={submitButtonIcon}/>
+                }}>{submitButtonText}&nbsp; <i className={submitButtonIcon}/>
                 </Button>
             }
         </Row>

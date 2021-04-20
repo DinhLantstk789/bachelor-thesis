@@ -12,22 +12,16 @@ class CorporateCreators extends Component {
                     this.props.savePublicationCorporateCreators(this.props.corporateCreators.concat({corporateCreator: ''}))
                 }}/></h6></div>
                 {this.props.corporateCreators.map((item, index) => (
-                    <Row style={{marginTop: 10}}>
-                        <Col sm={11}>
-                            <Row>
-                                <Col><FormInput placeholder="Corporate Creators" value={item.corporateCreator} valid={item.corporateCreator.length > 5} onChange={(e) => {
-                                    let corporateCreators = this.props.corporateCreators;
-                                    corporateCreators[index].corporateCreator = e.target.value;
-                                    this.props.savePublicationCorporateCreators(corporateCreators);
-                                    this.forceUpdate();
-                                }}/></Col>
-                            </Row>
-                        </Col>
-                        <Col sm={1}>
-                            <i className="fa fa-times-circle" style={{fontSize: 22, marginTop: 10}} onClick={() =>
-                                this.savePublicationCorporateCreators(this.props.corporateCreators.filter((value, key) => key !== index))
-                            }/>
-                        </Col>
+                    <Row style={{marginTop: 10, paddingRight: 20}}>
+                        <Col><FormInput placeholder="Corporate Creators" value={item.corporateCreator} valid={item.corporateCreator.length > 5} onChange={(e) => {
+                            let corporateCreators = this.props.corporateCreators;
+                            corporateCreators[index].corporateCreator = e.target.value;
+                            this.props.savePublicationCorporateCreators(corporateCreators);
+                            this.forceUpdate();
+                        }}/></Col>
+                        <i className="fa fa-times-circle" style={{fontSize: 22, marginTop: 10}} onClick={() =>
+                            this.savePublicationCorporateCreators(this.props.corporateCreators.filter((value, key) => key !== index))
+                        }/>
                     </Row>
                 ))}
             </Fragment>

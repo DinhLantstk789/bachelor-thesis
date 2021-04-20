@@ -61,7 +61,6 @@ function parseAuthors(creators) {
 
 export default function PublicationRow({triggerUpdateUI, type, title, authors, approved, publicationId, selectedDate}) {
     const [isApproved, setIsApproved] = useState();
-    const [isClicking, setIsClicking] = useState(false);
     const [tooltipId, setTooltipId] = useState("tt_" + publicationId);
     const [open, setOpen] = useState(false);
     const loggedUser = useSelector(store => store.user.loggedUser);
@@ -81,9 +80,9 @@ export default function PublicationRow({triggerUpdateUI, type, title, authors, a
             publication.funders.forEach(f => funders.push({funder: f}));
             publication.projects.forEach(p => projects.push({projectName: p}));
             let initialDivisions = [{name: 'Advanced Institute of Engineering and Technology (AVITECH)', isEnable: false},
-                {name: ' Department of Civil Engineering and Transportation (CET)', isEnable: false},
-                {name: ' Center for Electronics and Telecommunications Research (CETR)', isEnable: false},
-                {name: ' Faculty of Agriculture Technology (FAT)', isEnable: false},
+                {name: 'Department of Civil Engineering and Transportation (CET)', isEnable: false},
+                {name: 'Center for Electronics and Telecommunications Research (CETR)', isEnable: false},
+                {name: 'Faculty of Agriculture Technology (FAT)', isEnable: false},
                 {name: 'Faculty of Electronics and Telecommunications (FET)', isEnable: false},
                 {name: 'Faculty of Engineering Mechanics and Automation (FEMA)', isEnable: false},
                 {name: 'Faculty of Engineering Physics and Nanotechnology (FEPN)', isEnable: false},
