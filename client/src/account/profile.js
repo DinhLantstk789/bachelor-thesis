@@ -65,8 +65,8 @@ export default function Profile({title, triggerReload}) {
                             {loggedUser.divisions.map(d => <option value={d}>{d}</option>)}
                         </FormSelect>
                         <FormSelect value={isAdmin ? 'admin' : 'user'} style={{marginTop: 10}} onChange={(e) => dispatch(saveIsAdmin(e.target.value === 'admin'))}>
-                            <option value="user">Normal User</option>
-                            <option value="admin">Administrator</option>
+                            <option value="user">Ordinary User</option>
+                            {loggedUser.divisions.length === 1 ? '' : <option value="admin">Administrator</option>}
                         </FormSelect>
                         <FormInput placeholder="Address" value={address} onChange={(e) => dispatch(saveAddress(e.target.value))} style={{marginTop: 10}}/>
                         <FormTextarea placeholder="Description" value={description} onChange={(e) => dispatch(saveUserDescription(e.target.value))} style={{marginTop: 10}}/>
