@@ -49,8 +49,8 @@ import {
     saveThesisType,
     saveViewingPublicationId,
     setDashboardState
-} from "../../redux/actions";
-import * as apiCalls from "../../apiCalls";
+} from "../redux/actions";
+import * as apiCalls from "../apiCalls";
 
 
 function parseAuthors(creators) {

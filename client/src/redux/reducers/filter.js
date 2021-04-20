@@ -52,9 +52,8 @@ export default (state = initialState, action) => {
     }
     if (action.type === 'UNSELECT_PUBLICATION_FILTER') {
         return {
+            ...state,
             triggerReloadAllPublication: false,
-            yearFrom: 2000,
-            yearTo: 2021,
             divisions: [{name: 'Advanced Institute of Engineering and Technology (AVITECH)', isEnable: false},
                 {name: 'Department of Civil Engineering and Transportation (CET)', isEnable: false},
                 {name: 'Center for Electronics and Telecommunications Research (CETR)', isEnable: false},

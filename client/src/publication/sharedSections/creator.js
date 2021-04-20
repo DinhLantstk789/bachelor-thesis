@@ -1,5 +1,5 @@
 import {Component, Fragment} from 'react';
-import {Col, FormInput, Row} from "shards-react";
+import {Col, DropdownItem, DropdownMenu, FormInput, Row} from "shards-react";
 import {connect} from "react-redux";
 import validator from "../../utils/validator";
 import {savePublicationCreators} from "../../redux/actions";
@@ -52,6 +52,11 @@ class Creator extends Component {
                                         this.updateMatchedUser(i);
                                         this.forceUpdate();
                                     }}/>
+                                    <DropdownMenu>
+                                        <DropdownItem>Action</DropdownItem>
+                                        <DropdownItem>Another action</DropdownItem>
+                                        <DropdownItem>Something else here</DropdownItem>
+                                    </DropdownMenu>
                                 </Col>
                                 <Col style={{marginRight: -10, marginLeft: -10}}>
                                     <FormInput placeholder="Family Name" value={item.familyName} valid={item.familyName.length > 0} onChange={(e) => {

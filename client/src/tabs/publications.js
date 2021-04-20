@@ -1,9 +1,9 @@
 import {Fragment, useEffect, useState} from 'react';
 import {List} from "react-content-loader";
 import {useDispatch, useSelector} from "react-redux";
-import PublicationRow from "./publication/rows/publicationRow";
-import {fetchPublication} from "./apiCalls";
-import {setTriggerReloadAllPublication} from "./redux/actions";
+import PublicationRow from "../rows/publicationRow";
+import {fetchPublication} from "../apiCalls";
+import {setTriggerReloadAllPublication} from "../redux/actions";
 
 export default function Publications({approvalFilter, pendingFilter}) {
     const [isLoading, setIsLoading] = useState(true);

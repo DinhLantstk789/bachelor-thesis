@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {Badge, Button, Card, CardBody, CardHeader, Col, FormCheckbox, FormInput, InputGroup, InputGroupAddon, InputGroupText, Row} from "shards-react";
-import NewPublication from "./publication/newPublication";
+import NewPublication from "../publication/newPublication";
 import Publications from "./publications";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -14,8 +14,8 @@ import {
     saveSearchPublicationContent,
     saveViewingPublicationId,
     setDashboardState
-} from "./redux/actions";
-import * as apiCalls from "./apiCalls";
+} from "../redux/actions";
+import * as apiCalls from "../apiCalls";
 import {ClipLoader} from "react-spinners";
 
 export default function Dashboard() {
@@ -48,7 +48,7 @@ export default function Dashboard() {
                 <Row>
                     <Col>
                         <Row>
-                            {isAddingPublication ? <Button pill theme='success' style={{marginRight: 15}} onClick={() => {
+                            {isAddingPublication ? <Button pill theme='light' style={{marginRight: 15}} onClick={() => {
                                 dispatch(setDashboardState(false));
                                 dispatch(resetArticle());
                                 dispatch(resetBookSection());
@@ -57,13 +57,12 @@ export default function Dashboard() {
                                 dispatch(resetTechnicalReport());
                                 dispatch(saveDisplayingPublicationLabel('My Publications'));
                                 dispatch(saveViewingPublicationId(null));
-                            }}><i className='fa fa-backward'/>&nbsp; Back
-                            </Button> : ''}
+                            }}><i className='fa fa-chevron-left'/>&nbsp; Back</Button> : ''}
                             <h5 style={{marginTop: 10, marginLeft: 10, marginRight: 30}}>
                                 {displayingPublicationLabel}
                             </h5>
                             {isAddingPublication ? '' : <div style={{paddingTop: 10}}>
-                                <Badge theme={approvalFilter ? 'primary' : 'light'} href="#" pill style={{marginRight: 5, paddingLeft: 10, paddingRight: 10}} onClick={() => {
+                                <Badge theme={approvalFilter ? 'success' : 'light'} href="#" pill style={{marginRight: 5, paddingLeft: 10, paddingRight: 10}} onClick={() => {
                                     setApprovalFilter(!approvalFilter);
                                 }}>Approved &nbsp;<i className="fas fa-check"/> </Badge>
                                 <Badge theme={pendingFilter ? 'primary' : 'light'} href="#" pill style={{marginLeft: 5, paddingLeft: 10, paddingRight: 10}} onClick={() => {
@@ -78,7 +77,7 @@ export default function Dashboard() {
                                 <InputGroup style={{width: 500}}>
                                     <InputGroupAddon type="prepend"><InputGroupText><i className="fa fa-search"/></InputGroupText></InputGroupAddon>
                                     <FormInput value={searchPublicationContent} placeholder="Search for publications, authors, and years" onChange={(e) => dispatch(saveSearchPublicationContent(e.target.value))}/>
-                                    <Button pill style={{marginRight: 15, marginLeft: 15}} onClick={() => {
+                                    <Button pill theme='light' style={{marginRight: 15, marginLeft: 15}} onClick={() => {
                                         dispatch(setDashboardState(true));
                                         dispatch(saveDisplayingPublicationLabel('New Publication'));
                                     }}>New &nbsp;<i className='fa fa-plus'/>

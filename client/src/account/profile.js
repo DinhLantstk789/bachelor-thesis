@@ -3,7 +3,7 @@ import {resetUserInformation, saveAddress, saveDepartment, saveEmail, saveFamily
 import {useDispatch, useSelector} from "react-redux";
 import * as apiCalls from "../apiCalls";
 import {sha256} from "js-sha256";
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {ClipLoader} from "react-spinners";
 
 export default function Profile({title, triggerReload}) {
@@ -20,6 +20,24 @@ export default function Profile({title, triggerReload}) {
     }))
     const [isSubmitting, setIsSubmitting] = useState(false);
     const dispatch = useDispatch();
+
+    const isProfileViewing = () => { /* viewing profile or adding users? */
+        return title === loggedUser.familyName + ' ' + loggedUser.givenName;
+    }
+
+    useEffect(() => {
+        if (isProfileViewing()) {
+            console.log(loggedUser);
+            dispatch(saveGivenName(loggedUser.givenName));
+            dispatch(saveFamilyName(loggedUser.familyName));
+            dispatch(saveEmail(loggedUser.email));
+            dispatch(saveDepartment(loggedUser.divisions[0]));
+            dispatch(saveIsAdmin(loggedUser.isAdmin));
+            dispatch(saveAddress(loggedUser.address));
+            dispatch(saveUserDescription(loggedUser.description));
+        }
+    }, [])
+
     return (
         <Card>
             <CardHeader>
@@ -27,12 +45,12 @@ export default function Profile({title, triggerReload}) {
                     <Col>
                         <h5 style={{marginTop: 10, marginRight: 30}}><i className='fa fa-user'/>&nbsp;&nbsp; {title}</h5>
                     </Col>
-                    {!title.includes(loggedUser.familyName + ' ' + loggedUser.givenName) ? <Col>
+                    {!isProfileViewing() ? <Col>
                         <div className='float-right'>
-                            <Button pill theme="light" onClick={() => {
+                            <i style={{fontSize: 25, marginTop: 10, marginRight: 10}} className='fa fa-times' onClick={() => {
                                 dispatch(saveOpeningProfileTab(false));
                                 dispatch(resetUserInformation());
-                            }}><i className='fa fa-times'/></Button>
+                            }}/>
                         </div>
                     </Col> : ''}
                 </Row>
@@ -59,14 +77,12 @@ export default function Profile({title, triggerReload}) {
                 <Row>
                     <Col>
                         <FormInput placeholder="Password" type='password' value={password} onChange={(e) => dispatch(savePassword(e.target.value))} style={{marginTop: 10}}/>
-                        <FormSelect value={department} style={{marginTop: 10}} onChange={(e) => {
-                            dispatch(saveDepartment(e.target.value));
-                        }}>
+                        <FormSelect value={department} style={{marginTop: 10}} onChange={(e) => dispatch(saveDepartment(e.target.value))}>
                             {loggedUser.divisions.map(d => <option value={d}>{d}</option>)}
                         </FormSelect>
                         <FormSelect value={isAdmin ? 'admin' : 'user'} style={{marginTop: 10}} onChange={(e) => dispatch(saveIsAdmin(e.target.value === 'admin'))}>
                             <option value="user">Ordinary User</option>
-                            {loggedUser.divisions.length === 1 ? '' : <option value="admin">Administrator</option>}
+                            {loggedUser.divisions.length === 1 && !loggedUser.isAdmin ? '' : <option value="admin">Administrator</option>}
                         </FormSelect>
                         <FormInput placeholder="Address" value={address} onChange={(e) => dispatch(saveAddress(e.target.value))} style={{marginTop: 10}}/>
                         <FormTextarea placeholder="Description" value={description} onChange={(e) => dispatch(saveUserDescription(e.target.value))} style={{marginTop: 10}}/>
@@ -74,14 +90,10 @@ export default function Profile({title, triggerReload}) {
                             <Button pill theme={isSubmitting ? 'secondary' : 'success'} onClick={() => {
                                 if (!isSubmitting) {
                                     const body = {
-                                        email: email,
-                                        familyName: familyName,
-                                        givenName: givenName,
-                                        password: sha256(password),
-                                        department: department,
-                                        address: address,
-                                        isAdmin: isAdmin,
-                                        description: description
+                                        email: email, familyName: familyName,
+                                        givenName: givenName, password: sha256(password),
+                                        department: department, address: address,
+                                        isAdmin: isAdmin, description: description
                                     }
                                     setIsSubmitting(true);
                                     apiCalls.addUser(body, (email) => {

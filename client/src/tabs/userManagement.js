@@ -1,8 +1,8 @@
 import {Button, Card, CardBody, CardHeader, Col, Row} from "shards-react";
-import Profile from "./profile";
+import Profile from "../account/profile";
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import UserRow from "./userRow";
+import UserRow from "../rows/userRow";
 import {List} from "react-content-loader";
 import * as apiCalls from "../apiCalls";
 import {saveOpeningProfileTab} from "../redux/actions";
@@ -51,13 +51,13 @@ export default function UserManagement() {
                                     </h5>
                                 </Row>
                             </Col>
-                            <Col md={4}>
+                            {!openingProfileTab ? <Col md={4}>
                                 <Row className='float-right'>
-                                    <Button pill theme="success" style={{marginRight: 10}} onClick={() => dispatch(saveOpeningProfileTab(true))}>
-                                        New user &nbsp;<i className='fa fa-plus'/>
+                                    <Button pill theme="light" style={{marginRight: 10}} onClick={() => dispatch(saveOpeningProfileTab(true))}>
+                                        Add &nbsp;<i className='fa fa-plus'/>
                                     </Button>
                                 </Row>
-                            </Col>
+                            </Col> : ''}
                         </Row>
                     </CardHeader>
                     <CardBody>
