@@ -62,17 +62,7 @@ export default function Profile({title, triggerReload}) {
                         <FormSelect value={department} style={{marginTop: 10}} onChange={(e) => {
                             dispatch(saveDepartment(e.target.value));
                         }}>
-                            <option value="Faculty of Information Technology (FIT)">Faculty of Information Technology (FIT)</option>
-                            <option value="Advanced Institute of Engineering and Technology (AVITECH)">Advanced Institute of Engineering and Technology (AVITECH)</option>
-                            <option value="Department of Civil Engineering and Transportation (CET)">Department of Civil Engineering and Transportation (CET)</option>
-                            <option value="Center for Electronics and Telecommunications Research (CETR)">Center for Electronics and Telecommunications Research (CETR)</option>
-                            <option value="Faculty of Agriculture Technology (FAT)">Faculty of Agriculture Technology (FAT)</option>
-                            <option value="Faculty of Electronics and Telecommunications (FET)">Faculty of Electronics and Telecommunications (FET)</option>
-                            <option value="Faculty of Engineering Mechanics and Automation (FEMA)">Faculty of Engineering Mechanics and Automation (FEMA)</option>
-                            <option value="Faculty of Engineering Physics and Nanotechnology (FEPN)">Faculty of Engineering Physics and Nanotechnology (FEPN)</option>
-                            <option value="Key Laboratory for Nanotechnology (Nano Lab)">Key Laboratory for Nanotechnology (Nano Lab)</option>
-                            <option value="School of Aerospace Engineering (SAE)">School of Aerospace Engineering (SAE)</option>
-                            <option value="Key Laboratory for Smart Integrated Systems (SISLAB)">Key Laboratory for Smart Integrated Systems (SISLAB)</option>
+                            {loggedUser.divisions.map(d => <option value={d}>{d}</option>)}
                         </FormSelect>
                         <FormSelect value={isAdmin ? 'admin' : 'user'} style={{marginTop: 10}} onChange={(e) => dispatch(saveIsAdmin(e.target.value === 'admin'))}>
                             <option value="user">Normal User</option>
