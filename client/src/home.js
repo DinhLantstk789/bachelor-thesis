@@ -58,7 +58,7 @@ export default function Home() {
             {currentTab === 'user-management' ? <UserManagement/> : currentTab === 'statistics' ? <Statistics/> : currentTab === 'publication-main' ?
                 <Row style={{marginLeft: 20}}>
                     <Col md={8}><Dashboard/></Col>
-                    <Col md={4}>
+                    <Col md={4} style={{paddingLeft: 20}}>
                         {isAddingPublication ? '' : <Filter/>}
                     </Col>
                 </Row> :

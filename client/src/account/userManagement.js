@@ -17,21 +17,17 @@ export default function UserManagement() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (isFirstLoading) {
-            apiCalls.fetchUsers(users => {
-                setIsFirstLoading(false);
-                setUserAccounts(users);
-            }, (message) => {
-                alert(message);
-            })
-        }
-    }, []);
-
-    useEffect(() => {
         if (isTriggerReload) {
             apiCalls.fetchUsers(users => {
+                setIsFirstLoading(false);
                 setIsTriggerReload(!isTriggerReload);
-                setUserAccounts(users);
+                let filteredUsers = [];
+                users.map(u => {
+                    if (u.email !== 'admin@eprints.vnu.edu.vn' && u.email !== loggedUser.email) { /* ignore super admin and the current user */
+                        filteredUsers.push(u);
+                    }
+                })
+                setUserAccounts(filteredUsers);
             }, (message) => {
                 alert(message);
             })

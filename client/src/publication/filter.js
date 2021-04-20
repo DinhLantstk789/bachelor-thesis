@@ -2,7 +2,7 @@ import {Button, Slider} from "shards-react";
 import DivisionSelector from "./sharedSections/divisionSelector";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect, useState} from 'react';
-import {resetPublicationFilter, savePublicationFilterDivisions, savePublicationFilterYearFrom, savePublicationFilterYearTo, setTriggerReloadAllPublication, unSelectPublicationFilter} from "../redux/actions";
+import {resetPublicationFilter, savePublicationFilterYearFrom, savePublicationFilterYearTo, setTriggerReloadAllPublication, unSelectPublicationFilter} from "../redux/actions";
 
 export default function Filter() {
     const loggedUser = useSelector(store => store.user.loggedUser);
@@ -49,7 +49,7 @@ export default function Filter() {
                 }}>Reset Filters &nbsp;<i className="fas fa-redo-alt"/></Button>
                 <Button style={{marginLeft: 5}} theme='light' pill onClick={() => {
                     dispatch(setTriggerReloadAllPublication(true));
-                }}>Apply Selected Filters &nbsp;<i className="fas fa-check"/></Button>
+                }}>Apply Filters &nbsp;<i className="fas fa-check"/></Button>
             </div>
         </div>
     )
