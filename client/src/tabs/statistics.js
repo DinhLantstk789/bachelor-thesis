@@ -112,19 +112,19 @@ export default function Statistics() {
                     <b>First term: </b>{firstTerm} ({firstTerm / (firstTerm + secondTerm) * 100})%<br/>
                     <b>Second term: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%<br/>
                     <br/>
-                    <span style={{color: '#8884d8'}}><b>Article: </b>{firstTerm} ({firstTerm / (firstTerm + secondTerm) * 100})%</span><br/>
-                    <span style={{color: '#82ca9d'}}><b>Conference or Workshop Item: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
-                    <span style={{color: '#ffc658'}}><b>Technical Report: </b>{firstTerm} ({firstTerm / (firstTerm + secondTerm) * 100})%</span><br/>
-                    <span style={{color: '#E0B474'}}><b>Book section: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
-                    <span style={{color: '#AFB0A8'}}><b>Book: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
-                    <span style={{color: '#9B6155'}}><b>Thesis: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
-                    <span style={{color: '#DE8C64'}}><b>Patent: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
-                    <span style={{color: '#2F3330'}}><b>Image: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
-                    <span style={{color: '#5BCCDE'}}><b>Video: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
-                    <span style={{color: '#5F5490'}}><b>Dataset: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
-                    <span style={{color: '#AD5C73'}}><b>Experiment: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
-                    <span style={{color: '#F1C773'}}><b>Teaching Resource: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
                     <span style={{color: '#EF622F'}}><b>Project-Grant: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
+                    <span style={{color: '#F1C773'}}><b>Teaching Resource: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
+                    <span style={{color: '#AD5C73'}}><b>Experiment: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
+                    <span style={{color: '#5F5490'}}><b>Dataset: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
+                    <span style={{color: '#5BCCDE'}}><b>Video: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
+                    <span style={{color: '#2F3330'}}><b>Image: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
+                    <span style={{color: '#DE8C64'}}><b>Patent: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
+                    <span style={{color: '#9B6155'}}><b>Thesis: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
+                    <span style={{color: '#AFB0A8'}}><b>Book: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
+                    <span style={{color: '#E0B474'}}><b>Book section: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
+                    <span style={{color: '#ffc658'}}><b>Technical Report: </b>{firstTerm} ({firstTerm / (firstTerm + secondTerm) * 100})%</span><br/>
+                    <span style={{color: '#82ca9d'}}><b>Conference or Workshop: </b>{secondTerm} ({secondTerm / (firstTerm + secondTerm) * 100})%</span><br/>
+                    <span style={{color: '#8884d8'}}><b>Article: </b>{firstTerm} ({firstTerm / (firstTerm + secondTerm) * 100})%</span><br/>
                 </div>
             );
         }
@@ -134,9 +134,9 @@ export default function Statistics() {
     return (
         <Fragment>
             <Row>
-                <div>
+                <div style={{paddingLeft: 50}}>
                     <h6 style={{textAlign: 'center'}}>The Number of publications across different types over time</h6>
-                    <AreaChart width={1200} height={800} data={data}>
+                    <AreaChart width={1200} height={750} data={data}>
                         <CartesianGrid strokeDasharray="3 3"/>
                         <XAxis dataKey="name"/>
                         <YAxis/>

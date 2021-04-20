@@ -69,68 +69,68 @@ module.exports = {
     /* if filteringConfigs === null, no filter*/
     /* if userEmail === null --> isAdmin, so fetch all without user filter
     *  publicationId === null --> get all possbile publications. else: get a targeted publication */
-    fetchPublications: async (filteringConfigs, publicationId, userEmail) => {
+    fetchPublications: async (filteringConfigs, publicationId, userEmail, isAdmin) => {
         let filteringCondition = 'WHERE true ';
-
-        /* filtering by division */
+        /* filterin by user divisions permission */
+        const divs = await eprints.query('SELECT division_name FROM user_division WHERE user_email = $1', {bind: [userEmail], type: QueryTypes.SELECT});
+        let filteredDivisions = divs.map(d => d.division_name);
+        /* filtering by inputted division */
         let filterdPublicationIdsByDivision = null; /* null if have no filtered id */
+        console.log(filteredDivisions);
         if (filteringConfigs !== null && filteringConfigs.isFiltering) {
-            let divisions = [];
-            filteringConfigs.filteredDivisions.forEach(fc => {
-                if (fc.isEnable) divisions.push(fc.name);
-            })
+            const filteringConfigsDivision = filteringConfigs.filteredDivisions.filter(v => v.isEnable).map(d => d.name);
+            console.log(filteringConfigsDivision);
+            filteredDivisions = filteredDivisions.filter(value => filteringConfigsDivision.includes(value));
             filteringCondition = 'WHERE date_part(\'year\', date) >= ' + filteringConfigs.filteredYearFrom + ' and date_part(\'year\', date) <= ' + filteringConfigs.filteredYearTo + ' ';
-            let r;
-            if (divisions.length > 0) {
-                r = await eprints.query('SELECT distinct(publication_id) FROM publication_division WHERE division_name IN (:divisionNames);', {replacements: {divisionNames: divisions}, type: QueryTypes.SELECT});
-            } else {
-                r = await eprints.query('SELECT distinct(publication_id) FROM publication_division WHERE false;', {type: QueryTypes.SELECT});
-            }
-            filterdPublicationIdsByDivision = r.map(r => r.publication_id);
-            console.log(filterdPublicationIdsByDivision);
         }
+        let r = [];
+        if (filteredDivisions.length > 0) {
+            r = await eprints.query('SELECT distinct(publication_id) FROM publication_division WHERE division_name IN (:divisionNames);', {replacements: {divisionNames: filteredDivisions}, type: QueryTypes.SELECT});
+        }
+        filterdPublicationIdsByDivision = r.map(r => r.publication_id);
+        console.log(filterdPublicationIdsByDivision);
 
         /* filtering by users and publication ID */
-        let filterByUsers = [];
+        let finalFilter = [];
         let filter = filteringCondition + 'AND id IN (:pubIds)';
-        if (userEmail !== null) {
+        if (!isAdmin) {
             let authorisedPublicationIDs = await eprints.query('select publication_id from publication_creator where creator_email = $1', {bind: [userEmail], type: QueryTypes.SELECT});
             authorisedPublicationIDs.forEach(ap => {
                 if (filterdPublicationIdsByDivision != null) {
                     if (filterdPublicationIdsByDivision.includes(ap.publication_id)) {
-                        filterByUsers.push(ap.publication_id);
+                        finalFilter.push(ap.publication_id);
                     }
                 } else {
-                    filterByUsers.push(ap.publication_id);
+                    finalFilter.push(ap.publication_id);
                 }
             });
             if (publicationId !== null) {
                 if (filterdPublicationIdsByDivision != null) {
                     if (filterdPublicationIdsByDivision.includes(publicationId)) {
-                        filterByUsers = filterByUsers.includes(publicationId) ? [publicationId] : [];
+                        finalFilter = finalFilter.includes(publicationId) ? [publicationId] : [];
                     }
                 } else {
-                    filterByUsers = filterByUsers.includes(publicationId) ? [publicationId] : [];
+                    finalFilter = finalFilter.includes(publicationId) ? [publicationId] : [];
                 }
             }
         } else {
             if (publicationId !== null) {
                 if (filterdPublicationIdsByDivision != null) {
                     if (filterdPublicationIdsByDivision.includes(publicationId)) {
-                        filterByUsers = [publicationId];
+                        finalFilter = [publicationId];
                     }
                 } else {
-                    filterByUsers = [publicationId];
+                    finalFilter = [publicationId];
                 }
             } else {
-                filterByUsers = filterdPublicationIdsByDivision;
+                finalFilter = filterdPublicationIdsByDivision;
             }
         }
-        if (filterByUsers.length === 0) filter = filteringCondition + 'AND false';
+        if (finalFilter.length === 0) filter = filteringCondition + 'AND false';
 
         let selectedFields = publicationId === null ? 'id, item_type, title, is_approved, date' : '*';
         let returnedResult = [];
-        let selectedPublications = await eprints.query('SELECT ' + selectedFields + ' FROM publication ' + filter + ' ORDER BY db_created_on DESC;', {replacements: {pubIds: filterByUsers}, type: QueryTypes.SELECT});
+        let selectedPublications = await eprints.query('SELECT ' + selectedFields + ' FROM publication ' + filter + ' ORDER BY db_created_on DESC;', {replacements: {pubIds: finalFilter}, type: QueryTypes.SELECT});
         for (const p of selectedPublications) {
             let creators = [];
             for (const e of await eprints.query('SELECT creator_email FROM publication_creator WHERE publication_id = $1 ORDER BY author_order;', {bind: [p.id], type: QueryTypes.SELECT})) {
