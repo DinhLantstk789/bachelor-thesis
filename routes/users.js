@@ -18,7 +18,8 @@ router.post('/login', (req, res) => {
                     email: user.email,
                     familyName: user.family_name,
                     givenName: user.given_name,
-                    isAdmin: user.is_admin
+                    isAdmin: user.is_admin,
+                    divisions: user.divisions
                 }
                 let accessToken = jwt.sign(returnedUser, configs.SECRET, {expiresIn: configs.ACCESS_TOKEN_LIFE});
                 saveNewAccessToken(accessToken, returnedUser);

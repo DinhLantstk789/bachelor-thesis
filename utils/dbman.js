@@ -72,6 +72,7 @@ module.exports = {
     fetchPublications: async (filteringConfigs, publicationId, userEmail) => {
         let filteringCondition = 'WHERE true ';
 
+        console.log(filteringConfigs);
         /* filtering by division*/
         let filterdPublicationIdsByDivision = null; /* null if have no filtered id */
         if (filteringConfigs !== null && filteringConfigs.isFiltering) {
@@ -87,6 +88,7 @@ module.exports = {
                 r = await eprints.query('SELECT distinct(publication_id) FROM publication_division WHERE false;', {type: QueryTypes.SELECT});
             }
             filterdPublicationIdsByDivision = r.map(r => r.publication_id);
+            console.log(filterdPublicationIdsByDivision);
         }
 
         /* filtering by users and publication ID */
@@ -361,6 +363,11 @@ module.exports = {
     },
     findUser: async (email) => {
         let users = await eprints.query('SELECT email, password, family_name, given_name, is_admin FROM users WHERE email = $1', {bind: [email], type: QueryTypes.SELECT});
-        return users.length === 1 ? users[0] : null;
+        if (users.length !== 1) return null;
+        const loggedUser = users[0];
+        const uEmail = loggedUser.email;
+        let divisions = await eprints.query('SELECT division_name FROM user_division WHERE user_email = $1', {bind: [uEmail], type: QueryTypes.SELECT});
+        loggedUser.divisions = divisions.map(d => d.division_name);
+        return loggedUser;
     }
 }

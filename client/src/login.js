@@ -2,7 +2,7 @@ import {Component, Fragment} from 'react';
 import Validator from "./utils/validator";
 import {Button, Card, CardBody, Col, FormCheckbox, FormInput, InputGroup, InputGroupAddon, InputGroupText, Row} from "shards-react";
 import Footer from "./footer";
-import {saveLoggedUser} from "./redux/actions";
+import {saveLoggedUser, savePublicationFilterDivisions} from "./redux/actions";
 import {connect} from "react-redux";
 import {login} from "./apiCalls";
 import {sha256} from "js-sha256";
@@ -120,5 +120,5 @@ class Login extends Component {
 }
 
 let mapStateToProps = null;
-let mapDispatchToProps = {saveLoggedUser};
+let mapDispatchToProps = {saveLoggedUser, savePublicationFilterDivisions};
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
