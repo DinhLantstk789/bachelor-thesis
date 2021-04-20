@@ -6,7 +6,7 @@ import Statistics from "./tabs/statistics";
 import Profile from "./account/profile";
 import {useDispatch, useSelector} from "react-redux";
 import UserManagement from "./tabs/userManagement";
-import {logout} from "./apiCalls";
+import {logout} from "./utils/apiCalls";
 import {resetPublication, resetPublicationFilter, resetUserInformation, saveLoggedUser} from "./redux/actions";
 import {ClipLoader} from "react-spinners";
 import Filter from "./publication/filter";

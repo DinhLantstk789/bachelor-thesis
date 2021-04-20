@@ -1,7 +1,7 @@
 import {Button, Card, CardBody, CardHeader, Col, FormInput, FormSelect, FormTextarea, Row} from "shards-react";
 import {resetUserInformation, saveAddress, saveDepartment, saveEmail, saveFamilyName, saveGivenName, saveIsAdmin, saveOpeningProfileTab, savePassword, saveUserDescription} from "../redux/actions";
 import {useDispatch, useSelector} from "react-redux";
-import * as apiCalls from "../apiCalls";
+import * as apiCalls from "../utils/apiCalls";
 import {sha256} from "js-sha256";
 import {useEffect, useState} from 'react'
 import {ClipLoader} from "react-spinners";

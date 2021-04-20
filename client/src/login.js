@@ -4,7 +4,7 @@ import {Button, Card, CardBody, Col, FormCheckbox, FormInput, InputGroup, InputG
 import Footer from "./footer";
 import {saveLoggedUser, savePublicationFilterDivisions} from "./redux/actions";
 import {connect} from "react-redux";
-import {login} from "./apiCalls";
+import {login} from "./utils/apiCalls";
 import {sha256} from "js-sha256";
 
 

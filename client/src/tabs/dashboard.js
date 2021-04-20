@@ -15,7 +15,7 @@ import {
     saveViewingPublicationId,
     setDashboardState
 } from "../redux/actions";
-import * as apiCalls from "../apiCalls";
+import * as apiCalls from "../utils/apiCalls";
 import {ClipLoader} from "react-spinners";
 
 export default function Dashboard() {
@@ -58,9 +58,7 @@ export default function Dashboard() {
                                 dispatch(saveDisplayingPublicationLabel('My Publications'));
                                 dispatch(saveViewingPublicationId(null));
                             }}><i className='fa fa-chevron-left'/>&nbsp; Back</Button> : ''}
-                            <h5 style={{marginTop: 10, marginLeft: 10, marginRight: 30}}>
-                                {displayingPublicationLabel}
-                            </h5>
+                            <h5 style={{marginTop: 10, marginLeft: 10, marginRight: 30}}>{displayingPublicationLabel}</h5>
                             {isAddingPublication ? '' : <div style={{paddingTop: 10}}>
                                 <Badge theme={approvalFilter ? 'success' : 'light'} href="#" pill style={{marginRight: 5, paddingLeft: 10, paddingRight: 10}} onClick={() => {
                                     setApprovalFilter(!approvalFilter);

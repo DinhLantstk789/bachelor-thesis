@@ -2,7 +2,7 @@ import {Fragment, useEffect, useState} from 'react';
 import {List} from "react-content-loader";
 import {useDispatch, useSelector} from "react-redux";
 import PublicationRow from "../rows/publicationRow";
-import {fetchPublication} from "../apiCalls";
+import {fetchPublication} from "../utils/apiCalls";
 import {setTriggerReloadAllPublication} from "../redux/actions";
 
 export default function Publications({approvalFilter, pendingFilter}) {

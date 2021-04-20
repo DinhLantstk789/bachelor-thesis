@@ -3,7 +3,7 @@ import {Col, DropdownItem, DropdownMenu, FormInput, Row} from "shards-react";
 import {connect} from "react-redux";
 import validator from "../../utils/validator";
 import {savePublicationCreators} from "../../redux/actions";
-import * as apiCalls from "../../apiCalls";
+import * as apiCalls from "../../utils/apiCalls";
 
 class Creator extends Component {
 

@@ -17,7 +17,7 @@ import Editors from "./sharedSections/editors";
 import ArticleMain from "./mainSections/article";
 import TechnicalReport from "./mainSections/technicalReport";
 import BookMain from "./mainSections/book";
-import * as apiCalls from "../apiCalls";
+import * as apiCalls from "../utils/apiCalls";
 import {
     resetArticle,
     resetBookSection,

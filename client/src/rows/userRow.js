@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {Badge, Col, Row} from "shards-react";
-import * as apiCalls from "../apiCalls";
+import * as apiCalls from "../utils/apiCalls";
 import {useDispatch} from "react-redux";
 import {ClipLoader} from "react-spinners";
 import {saveAddress, saveDepartment, saveEmail, saveFamilyName, saveGivenName, saveIsAdmin, saveOpeningProfileTab, saveUserDescription} from "../redux/actions";

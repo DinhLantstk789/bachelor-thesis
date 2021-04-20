@@ -50,7 +50,7 @@ import {
     saveViewingPublicationId,
     setDashboardState
 } from "../redux/actions";
-import * as apiCalls from "../apiCalls";
+import * as apiCalls from "../utils/apiCalls";
 
 
 function parseAuthors(creators) {

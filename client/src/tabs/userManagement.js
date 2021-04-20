@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import UserRow from "../rows/userRow";
 import {List} from "react-content-loader";
-import * as apiCalls from "../apiCalls";
+import * as apiCalls from "../utils/apiCalls";
 import {saveOpeningProfileTab} from "../redux/actions";
 
 
