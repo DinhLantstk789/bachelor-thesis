@@ -27,7 +27,7 @@ export default function Home() {
                     <Col xs={5} md={5} sm={5}>
                         <Row className="float-right">
                             <Button style={{marginLeft: 10, marginRight: 5}} theme={currentTab === 'publication-main' ? 'primary' : 'light'} pill onClick={() => setCurrentTab('publication-main')}><i
-                                className="fas fa-file-alt"/> &nbsp; Publications</Button>
+                                className="fas fa-file"/> &nbsp; Publications</Button>
                             {loggedUser.isAdmin ?
                                 <Button style={{marginLeft: 5, marginRight: 5}} theme={currentTab === 'statistics' ? 'primary' : 'light'} pill onClick={() => setCurrentTab('statistics')}><i
                                     className="fas fa-chart-line"/> &nbsp; Statistics</Button> : ''}

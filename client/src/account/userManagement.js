@@ -51,7 +51,7 @@ export default function UserManagement() {
                             <Col md={8}>
                                 <Row>
                                     <h5 style={{marginTop: 10, marginLeft: 10, marginRight: 30}}><i className='fa fa-users'/>&nbsp;&nbsp; Registered users
-                                        {loggedUser.divisions.length === 1 ? ' in the ' + loggedUser.divisions[0] : ''}
+                                        {loggedUser.divisions.length === 1 ? ' in the ' + loggedUser.divisions[0] : ' in all departments'}
                                     </h5>
                                 </Row>
                             </Col>

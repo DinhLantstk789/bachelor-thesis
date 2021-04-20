@@ -291,8 +291,6 @@ export default (state = initialState, action) => {
                 {name: 'Key Laboratory for Smart Integrated Systems (SISLAB)', isEnable: false}]
         }
     }
-
     return state;
-
 }
 

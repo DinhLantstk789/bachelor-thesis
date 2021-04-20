@@ -72,8 +72,7 @@ module.exports = {
     fetchPublications: async (filteringConfigs, publicationId, userEmail) => {
         let filteringCondition = 'WHERE true ';
 
-        console.log(filteringConfigs);
-        /* filtering by division*/
+        /* filtering by division */
         let filterdPublicationIdsByDivision = null; /* null if have no filtered id */
         if (filteringConfigs !== null && filteringConfigs.isFiltering) {
             let divisions = [];
@@ -323,11 +322,18 @@ module.exports = {
         await insertUserDivision(email, department);
         return addedUser[0][0].email;
     },
-    fetchUserInformation: async (email) => {
-        let filter = 'WHERE is_approved = true ' + (email === null ? '' : ('AND email = $1'));
+    /* email === null -> fetch all, otherwise, indicates a specific user */
+    /* loggedUserEmail is the ID of admin requesting */
+    fetchUserInformation: async (email, loggedUserEmail) => {
+        const divisions = await eprints.query('SELECT division_name FROM user_division WHERE user_email = $1', {bind: [loggedUserEmail], type: QueryTypes.SELECT});
+        const divisionNames = divisions.map(d => d.division_name);
+        let userEmailsInTheDivision = await eprints.query('SELECT user_email FROM user_division WHERE division_name IN(:divisionNames)', {replacements: {divisionNames: divisionNames}, type: QueryTypes.SELECT});
+
+        let filter = 'WHERE is_approved = true ' + (email === null ? '' : ('AND email = :specifiedEmail')) + ' AND email in (:userEmailsInTheDivision)';
         let selectedFields = email === null ? 'given_name, family_name, email, is_admin' : '*';
         let returnedResult = [];
-        let selectedUsers = await eprints.query('SELECT ' + selectedFields + ' FROM users ' + filter + ' ORDER BY db_created_on DESC;', {bind: email === null ? [] : [email], type: QueryTypes.SELECT});
+        let selectedUsers = await eprints.query('SELECT ' + selectedFields + ' FROM users ' + filter + ' ORDER BY db_created_on DESC;',
+            {replacements: {userEmailsInTheDivision: userEmailsInTheDivision.map(ue => ue.user_email), specifiedEmail: email}, type: QueryTypes.SELECT});
         for (const u of selectedUsers) {
             if (email === null || email === undefined) {
                 returnedResult.push({
