@@ -1,21 +1,14 @@
 import {Button, Slider} from "shards-react";
 import DivisionSelector from "./sharedSections/divisionSelector";
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {resetPublicationFilter, savePublicationFilterYearFrom, savePublicationFilterYearTo, setTriggerReloadAllPublication, unSelectPublicationFilter} from "../redux/actions";
 
 export default function Filter() {
-    const loggedUser = useSelector(store => store.user.loggedUser);
     const yearFrom = useSelector(store => store.filter.yearFrom);
     const yearTo = useSelector(store => store.filter.yearTo);
     const dispatch = useDispatch();
     const [range, setRange] = useState([2000, 2021]);
-
-    useEffect(() => {
-        // let filteredDivisions = []
-        // loggedUser.divisions.forEach(d => filteredDivisions.push({name: d, isEnable: true}));
-        // dispatch(savePublicationFilterDivisions(filteredDivisions));
-    })
 
     return (
         <div>

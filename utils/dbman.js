@@ -76,10 +76,8 @@ module.exports = {
         let filteredDivisions = divs.map(d => d.division_name);
         /* filtering by inputted division */
         let filterdPublicationIdsByDivision = null; /* null if have no filtered id */
-        console.log(filteredDivisions);
         if (filteringConfigs !== null && filteringConfigs.isFiltering) {
             const filteringConfigsDivision = filteringConfigs.filteredDivisions.filter(v => v.isEnable).map(d => d.name);
-            console.log(filteringConfigsDivision);
             filteredDivisions = filteredDivisions.filter(value => filteringConfigsDivision.includes(value));
             filteringCondition = 'WHERE date_part(\'year\', date) >= ' + filteringConfigs.filteredYearFrom + ' and date_part(\'year\', date) <= ' + filteringConfigs.filteredYearTo + ' ';
         }
@@ -88,7 +86,6 @@ module.exports = {
             r = await eprints.query('SELECT distinct(publication_id) FROM publication_division WHERE division_name IN (:divisionNames);', {replacements: {divisionNames: filteredDivisions}, type: QueryTypes.SELECT});
         }
         filterdPublicationIdsByDivision = r.map(r => r.publication_id);
-        console.log(filterdPublicationIdsByDivision);
 
         /* filtering by users and publication ID */
         let finalFilter = [];
