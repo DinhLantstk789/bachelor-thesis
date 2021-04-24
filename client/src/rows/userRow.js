@@ -5,7 +5,7 @@ import {useDispatch} from "react-redux";
 import {ClipLoader} from "react-spinners";
 import {
     saveAddress,
-    saveDepartment, saveDisplayingPublicationLabel,
+    saveDepartment,
     saveEmail,
     saveFamilyName,
     saveGivenName,
