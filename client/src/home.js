@@ -7,15 +7,7 @@ import Profile from "./profile";
 import {useDispatch, useSelector} from "react-redux";
 import Management from "./tabs/management";
 import {logout} from "./utils/apiCalls";
-import {
-    resetImpactScore,
-    resetPublication,
-    resetPublicationFilter,
-    resetUserInformation,
-    saveImpactScoreSearchPublicationContent,
-    saveLoggedUser,
-    saveSearchPublicationContent
-} from "./redux/actions";
+import {resetImpactScore, resetPublication, resetPublicationFilter, resetUserInformation, saveImpactScoreSearchPublicationContent, saveLoggedUser, saveSearchPublicationContent} from "./redux/actions";
 import {ClipLoader} from "react-spinners";
 import Filter from "./publication/filter";
 import ImpactScore from "./tabs/impactScore";

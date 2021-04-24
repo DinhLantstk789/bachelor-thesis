@@ -1,5 +1,5 @@
 import {Badge, Button, Card, CardBody, CardHeader, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, FormInput, InputGroup, InputGroupAddon, InputGroupText, Row} from "shards-react";
-import React, {useState, useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import UserRow from "../rows/userRow";
 import {List} from "react-content-loader";
@@ -9,6 +9,7 @@ import {
     saveImpactScoreOpeningPublicationDetails,
     saveImpactScoreOpeningUserEmail,
     saveImpactScoreOpeningUserName,
+    saveImpactScoreOpeningUserResearchHoursThreshold,
     saveImpactScorePublicationDetailSortBy,
     saveImpactScoreSearchPublicationContent,
     saveImpactScoreTriggerReloadAllPublication,
@@ -19,6 +20,7 @@ import {
 import PublicationList from "./publicationList";
 import {ClipLoader} from "react-spinners";
 import {CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
+import {academicTitleToRequiredWorkingHours, managerToExemption, unionTitleToExemption} from "../utils/configs";
 
 
 export default function ImpactScore() {
@@ -83,6 +85,7 @@ export default function ImpactScore() {
                     } else {
                         if (u.email === loggedUser.email) {
                             filteredUsers.push(u);
+                            dispatch(saveImpactScoreOpeningUserResearchHoursThreshold(academicTitleToRequiredWorkingHours[u.academicTitle] * managerToExemption[u.managerTitle] * unionTitleToExemption[u.unionTitle]));
                         }
                     }
                 })
