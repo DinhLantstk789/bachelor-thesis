@@ -4,6 +4,7 @@ import * as apiCalls from "../utils/apiCalls";
 import {useDispatch} from "react-redux";
 import {ClipLoader} from "react-spinners";
 import {
+    saveAcademicTitle,
     saveAddress,
     saveDepartment,
     saveEmail,
@@ -15,11 +16,13 @@ import {
     saveImpactScoreOpeningUserScore,
     saveImpactScoreTriggerReloadAllPublication,
     saveIsAdmin,
+    saveManagerTitle,
     saveOpeningProfileTab,
+    saveUnionTitle,
     saveUserDescription
 } from "../redux/actions";
 
-export default function UserRow({triggerReload, impactScore, givenName, familyName, email, isAdmin, department}) {
+export default function UserRow({academicTitle, triggerReload, impactScore, givenName, familyName, email, isAdmin, department}) {
     const [isDeleting, setIsDeleting] = useState(false);
     const [isViewing, setIsViewing] = useState(false);
     const dispatch = useDispatch();
@@ -27,7 +30,7 @@ export default function UserRow({triggerReload, impactScore, givenName, familyNa
         <Row>
             <Col md={8}>
                 <Row style={{marginLeft: 0}}>
-                    <h6>{isAdmin ? <Badge theme="secondary" pill style={{marginRight: 10}}>Admin</Badge> : ''}{givenName}&nbsp;{familyName}</h6>
+                    <h6>{isAdmin ? <Badge theme="secondary" pill style={{marginRight: 10}}>Admin</Badge> : ''}{academicTitle}{givenName}&nbsp;{familyName}</h6>
                 </Row>
                 <Row style={{marginLeft: 0, marginTop: -10}}>
                     <p style={{fontSize: 14}}>{email}, {department}</p>
@@ -55,6 +58,9 @@ export default function UserRow({triggerReload, impactScore, givenName, familyNa
                                         dispatch(saveIsAdmin(u[0].isAdmin));
                                         dispatch(saveDepartment(u[0].department));
                                         dispatch(saveUserDescription(u[0].userDescription));
+                                        dispatch(saveAcademicTitle(u[0].academicTitle));
+                                        dispatch(saveManagerTitle(u[0].managerTitle));
+                                        dispatch(saveUnionTitle(u[0].unionTitle));
                                         setIsViewing(false);
                                         dispatch(saveOpeningProfileTab(true));
                                     }, (message) => {

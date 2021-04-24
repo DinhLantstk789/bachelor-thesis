@@ -327,12 +327,12 @@ module.exports = {
         }
         return returnedResult;
     },
-    insertUser: async (email, familyName, givenName, password, department, address, isAdmin, description, registrationDate, isApproved) => {
+    insertUser: async (email, familyName, givenName, password, department, address, isAdmin, description, academicTitle, managerTitle, unionTitle, registrationDate, isApproved) => {
         let addedUser = await eprints.query(
-            'INSERT INTO users(email, family_name, given_name, password, address, is_admin, description, registration_date, is_approved)' +
-            'VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) ON CONFLICT(email) DO UPDATE SET family_name = $2, given_name = $3, password = $4, address = $5 , is_admin = $6,' +
-            ' description = $7, registration_date = $8, is_approved = $9 ' + 'RETURNING email;', {
-                bind: [email, familyName, givenName, password, address, isAdmin, description, registrationDate, isApproved],
+            'INSERT INTO users(email, family_name, given_name, password, address, is_admin, description, academic_title, manager_title, union_title, registration_date, is_approved)' +
+            'VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) ON CONFLICT(email) DO UPDATE SET family_name = $2, given_name = $3, password = $4, address = $5 , is_admin = $6,' +
+            ' description = $7, academic_title = $8, manager_title = $9, union_title = $10, registration_date = $11, is_approved = $12 ' + 'RETURNING email;', {
+                bind: [email, familyName, givenName, password, address, isAdmin, description, academicTitle, managerTitle, unionTitle, registrationDate, isApproved],
                 type: QueryTypes.INSERT
             }
         );
@@ -347,9 +347,8 @@ module.exports = {
         let userEmailsInTheDivision = await eprints.query('SELECT user_email FROM user_division WHERE division_name IN(:divisionNames)', {replacements: {divisionNames: divisionNames}, type: QueryTypes.SELECT});
 
         let filter = 'WHERE ' + (filterApproved ? 'is_approved = true' : 'true') + ' ' + (email === null ? '' : ('AND email = :specifiedEmail')) + ' AND email in (:userEmailsInTheDivision)';
-        let selectedFields = email === null ? 'given_name, family_name, email, is_admin, db_created_on' : '*';
         let returnedResult = [];
-        let selectedUsers = await eprints.query('SELECT ' + selectedFields + ' FROM users ' + filter + ' ORDER BY db_created_on DESC;',
+        let selectedUsers = await eprints.query('SELECT * FROM users ' + filter + ' ORDER BY db_created_on DESC;',
             {replacements: {userEmailsInTheDivision: userEmailsInTheDivision.map(ue => ue.user_email), specifiedEmail: email}, type: QueryTypes.SELECT});
         for (const u of selectedUsers) {
             if (email === null || email === undefined) {
@@ -360,6 +359,9 @@ module.exports = {
                     isAdmin: u.is_admin,
                     department: await getDivisionOfUser(u.email),
                     databaseAddedOn: u.db_created_on,
+                    academicTitle: u.academic_title,
+                    managerTitle: u.manager_title,
+                    unionTitle: u.union_title,
                     impactScore: Math.round(Math.random() * 100)
                 })
             } else {
@@ -372,6 +374,9 @@ module.exports = {
                     department: await getDivisionOfUser(u.email),
                     userDescription: u.description,
                     databaseAddedOn: u.db_created_on,
+                    academicTitle: u.academic_title,
+                    managerTitle: u.manager_title,
+                    unionTitle: u.union_title,
                     impactScore: Math.round(Math.random() * 100)
                 });
             }

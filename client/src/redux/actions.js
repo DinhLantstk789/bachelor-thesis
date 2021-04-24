@@ -272,6 +272,21 @@ export const saveDepartment = (department) => ({
     type: 'SAVE_DEPARTMENT',
     data: {department: department}
 });
+
+export const saveAcademicTitle = (academicTitle) => ({
+    type: 'SAVE_ACADEMIC_TITLE',
+    data: {academicTitle: academicTitle}
+});
+export const saveManagerTitle = (managerTitle) => ({
+    type: 'SAVE_MANAGER_TITLE',
+    data: {managerTitle: managerTitle}
+});
+export const saveUnionTitle = (unionTitle) => ({
+    type: 'SAVE_UNION_TITLE',
+    data: {unionTitle: unionTitle}
+});
+
+
 export const saveIsAdmin = (isAdmin) => ({
     type: 'SAVE_IS_ADMIN',
     data: {isAdmin: isAdmin}

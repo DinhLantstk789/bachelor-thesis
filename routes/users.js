@@ -20,7 +20,12 @@ router.post('/login', (req, res) => {
                         familyName: user.family_name,
                         givenName: user.given_name,
                         isAdmin: user.is_admin,
-                        divisions: user.divisions
+                        divisions: user.divisions,
+                        address: user.address,
+                        description: user.description,
+                        academicTitle: user.academic_title,
+                        managerTitle: user.manager_title,
+                        unionTitle: user.union_title
                     }
                     let accessToken = jwt.sign(returnedUser, configs.SECRET, {expiresIn: configs.ACCESS_TOKEN_LIFE});
                     saveNewAccessToken(accessToken, returnedUser);
@@ -49,10 +54,14 @@ router.post('/addUser', (req, res) => {
         let address = req.body.address;
         let isAdmin = req.body.isAdmin;
         let description = req.body.description;
+        let academicTitle = req.body.academicTitle;
+        let managerTitle = req.body.managerTitle;
+        let unionTitle = req.body.unionTitle;
         let registrationDate = new Date();
         let isApproved = true;
+        console.log(req.body);
         bcrypt.hash(password, 10, function (err, hash) {
-            dbman.insertUser(email, familyName, givenName, hash, department, address, isAdmin, description, registrationDate, isApproved).then(email => {
+            dbman.insertUser(email, familyName, givenName, hash, department, address, isAdmin, description, academicTitle, managerTitle, unionTitle, registrationDate, isApproved).then(email => {
                 return res.json({status: 200, message: 'Successfully added user:', email: email});
             }).catch(console.log);
         });

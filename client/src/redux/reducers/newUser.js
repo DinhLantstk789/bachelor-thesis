@@ -7,7 +7,10 @@ const initialState = {
     isAdmin: false,
     password: '',
     userDescription: '',
-    openingProfileTab: false
+    openingProfileTab: false,
+    academicTitle: 'None',
+    managerTitle: 'None',
+    unionTitle: 'None'
 };
 
 export default (state = initialState, action) => {
@@ -43,6 +46,18 @@ export default (state = initialState, action) => {
         const data = action.data;
         return {...state, password: data.password}
     }
+    if (action.type === 'SAVE_ACADEMIC_TITLE') {
+        const data = action.data;
+        return {...state, academicTitle: data.academicTitle}
+    }
+    if (action.type === 'SAVE_MANAGER_TITLE') {
+        const data = action.data;
+        return {...state, managerTitle: data.managerTitle}
+    }
+    if (action.type === 'SAVE_UNION_TITLE') {
+        const data = action.data;
+        return {...state, unionTitle: data.unionTitle}
+    }
     if (action.type === 'SAVE_OPENING_PROFILE_TAB') {
         const data = action.data;
         return {...state, openingProfileTab: data.openingProfileTab}
@@ -58,7 +73,10 @@ export default (state = initialState, action) => {
             password: '',
             isAdmin: false,
             userDescription: '',
-            openingProfileTab: false
+            openingProfileTab: false,
+            academicTitle: 'None',
+            managerTitle: 'None',
+            unionTitle: 'None'
         }
     }
     return state;

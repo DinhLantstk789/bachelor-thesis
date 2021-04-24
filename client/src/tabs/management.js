@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import UserRow from "../rows/userRow";
 import {List} from "react-content-loader";
 import * as apiCalls from "../utils/apiCalls";
-import {saveDisplayingPublicationLabel, saveOpeningProfileTab, savePublicationSortBy, saveSearchPublicationContent, setDashboardState} from "../redux/actions";
+import {saveOpeningProfileTab} from "../redux/actions";
 
 
 export default function Management() {
@@ -103,7 +103,8 @@ export default function Management() {
                             <FormInput value={searchContent} placeholder="Search for registered users" onChange={(e) => setSearchContent(e.target.value)}/>
                         </InputGroup> : ''}
                         {isFirstLoading ? loading : finalFilteredUserAccountsAfterSearch.map(item => (
-                            <UserRow triggerReload={() => setIsTriggerReload(!isTriggerReload)} givenName={item.givenName} familyName={item.familyName} email={item.email} isAdmin={item.isAdmin} department={item.department}/>
+                            <UserRow triggerReload={() => setIsTriggerReload(!isTriggerReload)} academicTitle={item.academicTitle === 'None' ? '' : item.academicTitle + ' '}
+                                     givenName={item.givenName} familyName={item.familyName} email={item.email} isAdmin={item.isAdmin} department={item.department}/>
                         ))}
                     </CardBody>
                 </Card>
