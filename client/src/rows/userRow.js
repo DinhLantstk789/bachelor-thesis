@@ -12,7 +12,8 @@ import {
     saveGivenName,
     saveImpactScoreOpeningPublicationDetails,
     saveImpactScoreOpeningUserEmail,
-    saveImpactScoreOpeningUserName, saveImpactScoreOpeningUserResearchHoursThreshold,
+    saveImpactScoreOpeningUserName,
+    saveImpactScoreOpeningUserResearchHoursThreshold,
     saveImpactScoreOpeningUserScore,
     saveImpactScoreTriggerReloadAllPublication,
     saveIsAdmin,
@@ -51,7 +52,7 @@ export default function UserRow({academicTitle, managerTitle, unionTitle, trigge
                             dispatch(saveImpactScoreTriggerReloadAllPublication(true));
                         }}>Mandatory Research Hours &nbsp;&nbsp;
                             <label style={{fontSize: 23}}>
-                                <Badge style={{paddingLeft: 10, paddingRight: 10, paddingTop: 5, paddingBottom: 5}} href="#" pill theme='primary'>
+                                <Badge style={{paddingLeft: 10, paddingRight: 10, paddingTop: 5, paddingBottom: 5}} href="#" pill theme='secondary'>
                                     {academicTitleToRequiredWorkingHours[academicTitle] * managerToExemption[managerTitle] * unionTitleToExemption[unionTitle]}
                                 </Badge>
                             </label>

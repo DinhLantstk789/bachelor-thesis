@@ -7,7 +7,7 @@ import Profile from "./profile";
 import {useDispatch, useSelector} from "react-redux";
 import Management from "./tabs/management";
 import {logout} from "./utils/apiCalls";
-import {resetImpactScore, resetPublication, resetPublicationFilter, resetUserInformation, saveImpactScoreSearchPublicationContent, saveLoggedUser, saveSearchPublicationContent} from "./redux/actions";
+import {resetImpactScore, resetPublication, resetPublicationFilter, resetUserInformation, saveImpactScoreSearchPublicationContent, saveLoggedUser, saveSearchPublicationContent, setDashboardState} from "./redux/actions";
 import {ClipLoader} from "react-spinners";
 import Filter from "./publication/filter";
 import ResearchHours from "./tabs/researchHours";
@@ -24,6 +24,7 @@ export default function Home() {
     const dispatch = useDispatch();
 
     const clearData = () => {
+        dispatch(setDashboardState(false));
         dispatch(saveImpactScoreSearchPublicationContent(''));
         dispatch(saveSearchPublicationContent(''));
         dispatch(resetImpactScore());

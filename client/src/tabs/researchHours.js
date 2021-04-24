@@ -192,7 +192,10 @@ export default function ResearchHours() {
                                                 <DropdownItem onClick={() => dispatch(saveImpactScorePublicationDetailSortBy(s))}>{s}</DropdownItem>)}
                                         </DropdownMenu>
                                         <Button pill theme='light' style={{marginLeft: 10}} onClick={() => {
-                                            if (publicationDetailsSearchOpen) dispatch(saveSearchPublicationContent(''));
+                                            if (publicationDetailsSearchOpen) {
+                                                dispatch(saveSearchPublicationContent(''));
+                                                dispatch(saveImpactScoreSearchPublicationContent(''));
+                                            }
                                             setPublicationDetailsSearchOpen(!publicationDetailsSearchOpen);
                                         }}><i className='fa fa-search'/>
                                         </Button>
@@ -208,7 +211,7 @@ export default function ResearchHours() {
                         {publicationDetailsSearchOpen ? <InputGroup style={{marginBottom: 30}}>
                             <InputGroupAddon type="prepend"><InputGroupText><i className="fa fa-search"/></InputGroupText></InputGroupAddon>
                             <FormInput value={searchPublicationContent} placeholder="Search publications, authors, and years" onChange={(e) => {
-                                dispatch(saveImpactScoreSearchPublicationContent(e.target.value))
+                                dispatch(saveImpactScoreSearchPublicationContent(e.target.value));
                             }}/>
                         </InputGroup> : ''}
                         <Row>
