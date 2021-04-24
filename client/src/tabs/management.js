@@ -79,7 +79,7 @@ export default function Management() {
                             <Col md={5}>
                                 <Row className='float-right'>
                                     <Dropdown open={sortingOpen} toggle={() => setSortingOpen(!sortingOpen)} className='mr-2'>
-                                        <DropdownToggle theme='light' pill>Sorted by {sortBy} &nbsp; <i className="fa fa-sort"/></DropdownToggle>
+                                        <DropdownToggle theme='light' pill>{sortBy} &nbsp; <i className="fa fa-sort"/></DropdownToggle>
                                         <DropdownMenu>
                                             {['Recently Added', 'Name Ascending', 'Name Descending', 'Email Ascending', 'Email Descending'].map(s => <DropdownItem onClick={() => setSortBy(s)}>{s}</DropdownItem>)}
                                         </DropdownMenu>

@@ -9,7 +9,7 @@ import {
     resetConference,
     resetPublication,
     resetTechnicalReport,
-    saveDisplayingPublicationLabel, saveImpactScoreSearchPublicationContent,
+    saveDisplayingPublicationLabel,
     savePublicationApproval,
     savePublicationSortBy,
     saveSearchPublicationContent,
@@ -79,7 +79,7 @@ export default function Publications() {
                         {isAddingPublication ? '' :
                             <Row className='float-right'>
                                 <Dropdown open={sortingOpen} toggle={() => setSortingOpen(!sortingOpen)} className='mr-2'>
-                                    <DropdownToggle theme='light' pill>Sorted by {sortBy} &nbsp; <i className="fa fa-sort"/></DropdownToggle>
+                                    <DropdownToggle theme='light' pill>{sortBy} &nbsp; <i className="fa fa-sort"/></DropdownToggle>
                                     <DropdownMenu>
                                         {['Recently Added', 'Title Ascending', 'Title Descending', 'Date Ascending', 'Date Descending'].map(s =>
                                             <DropdownItem onClick={() => dispatch(savePublicationSortBy(s))}>{s}</DropdownItem>)}

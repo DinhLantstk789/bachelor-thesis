@@ -1,5 +1,3 @@
-import {saveImpactScoreOpeningPublicationDetails, saveImpactScoreOpeningUserEmail, saveImpactScoreOpeningUserScore, saveImpactScoreSearchPublicationContent, saveResearchHoursByYears} from "../actions";
-
 const initialState = {
     openingPublicationDetails: false,
     searchPublicationContent: '',

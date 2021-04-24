@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@progress/kendo-file-saver": "^1.1.0",
     "axios": "^0.21.1",
     "js-sha256": "^0.9.0",
     "react": "^17.0.1",

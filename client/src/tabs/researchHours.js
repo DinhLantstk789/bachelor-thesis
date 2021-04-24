@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import UserRow from "../rows/userRow";
 import {List} from "react-content-loader";
 import * as apiCalls from "../utils/apiCalls";
+import {encodeBase64, saveAs} from '@progress/kendo-file-saver';
 import {
     resetImpactScore,
     saveImpactScoreOpeningPublicationDetails,
@@ -32,7 +33,6 @@ export default function ResearchHours() {
     const dispatch = useDispatch();
 
     const [sortingOpen, setSortingOpen] = useState(false);
-
     const [searchOpen, setSearchOpen] = useState(false);
     const [searchUserContent, setSearchUserContent] = useState('');
 
@@ -47,6 +47,7 @@ export default function ResearchHours() {
     const userSortBy = useSelector(store => store.impactScore.userSortBy);
     const publicationDetailsSortBy = useSelector(store => store.impactScore.publicationDetailsSortBy);
     const researchHoursStatisticByYear = useSelector(store => store.impactScore.researchHoursByYears);
+    const impactScoreOpeningUserName = useSelector(store => store.impactScore.openingUserName);
 
     const CustomTooltip = ({active, payload, label}) => {
         if (active && payload && payload.length) {
@@ -138,7 +139,7 @@ export default function ResearchHours() {
                             <Col md={5}>
                                 <Row className='float-right'>
                                     <Dropdown open={sortingOpen} toggle={() => setSortingOpen(!sortingOpen)} className='mr-2'>
-                                        <DropdownToggle theme='light' pill>Sorted by {userSortBy} &nbsp; <i className="fa fa-sort"/></DropdownToggle>
+                                        <DropdownToggle theme='light' pill>{userSortBy} &nbsp; <i className="fa fa-sort"/></DropdownToggle>
                                         <DropdownMenu>
                                             {['Recently Added', 'Score Ascending', 'Score Descending', 'Name Ascending', 'Name Descending', 'Email Ascending', 'Email Descending'].map(s =>
                                                 <DropdownItem onClick={() => dispatch(saveImpactScoreUserSortBy(s))}>{s}</DropdownItem>
@@ -186,7 +187,7 @@ export default function ResearchHours() {
                             <Col md={6}>
                                 <Row className='float-right'>
                                     <Dropdown open={publicationDetailsSortingOpen} toggle={() => setPublicationDetailsSortingOpen(!publicationDetailsSortingOpen)} className='mr-2'>
-                                        <DropdownToggle theme='light' pill>Sorted by {publicationDetailsSortBy} &nbsp; <i className="fa fa-sort"/></DropdownToggle>
+                                        <DropdownToggle theme='light' pill>{publicationDetailsSortBy} &nbsp; <i className="fa fa-sort"/></DropdownToggle>
                                         <DropdownMenu>
                                             {['Recently Added', 'Score Ascending', 'Score Descending', 'Title Ascending', 'Title Descending', 'Date Ascending', 'Date Descending'].map(s =>
                                                 <DropdownItem onClick={() => dispatch(saveImpactScorePublicationDetailSortBy(s))}>{s}</DropdownItem>)}
@@ -200,6 +201,15 @@ export default function ResearchHours() {
                                         }}><i className='fa fa-search'/>
                                         </Button>
                                     </Dropdown>
+                                    <Button id='exportStatistic' pill theme='light' style={{marginLeft: 3, marginRight: 10}} onClick={() => {
+                                        let payload = '';
+                                        researchHoursStatisticByYear.forEach(rh => {
+                                            payload += 'Year ' + rh.name + ': Completed ' + rh.hours + ' hours, Required ' + rh.threshold + ' hours, Completion rate: ' + (rh.hours / rh.threshold * 100).toFixed(2) + '%\n';
+                                        })
+                                        const dataURI = "data:text/plain;base64," + encodeBase64(payload);
+                                        saveAs(dataURI, 'Research Hours of ' + impactScoreOpeningUserName + '.TXT');
+                                    }}><i className='fa fa-download'/>
+                                    </Button>
                                     <i style={{fontSize: 20, marginTop: 10, marginRight: 10, marginLeft: 10, cursor: 'pointer'}} className='fa fa-times' onClick={() => {
                                         dispatch(resetImpactScore());
                                     }}/>

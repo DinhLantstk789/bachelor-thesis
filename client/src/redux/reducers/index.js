@@ -8,7 +8,7 @@ import conference from "./conference";
 import newUser from "./newUser";
 import filter from "./filter";
 import statistics from "./statistics";
-import impactScore from "./impactScore";
+import impactScore from "./researchHours";
 
 
 export default combineReducers({user, newUser, article, bookSection, publication, technicalReport, conference, filter, statistics, impactScore});
