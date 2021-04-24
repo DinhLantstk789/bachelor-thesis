@@ -12,7 +12,7 @@ import {
     saveGivenName,
     saveImpactScoreOpeningPublicationDetails,
     saveImpactScoreOpeningUserEmail,
-    saveImpactScoreOpeningUserName,
+    saveImpactScoreOpeningUserName, saveImpactScoreOpeningUserResearchHoursThreshold,
     saveImpactScoreOpeningUserScore,
     saveImpactScoreTriggerReloadAllPublication,
     saveIsAdmin,
@@ -45,10 +45,11 @@ export default function UserRow({academicTitle, managerTitle, unionTitle, trigge
                             dispatch(saveImpactScoreOpeningPublicationDetails(true));
                             dispatch(saveResearchHoursByYears(null));
                             dispatch(saveImpactScoreOpeningUserEmail(email));
+                            dispatch(saveImpactScoreOpeningUserResearchHoursThreshold(academicTitleToRequiredWorkingHours[academicTitle] * managerToExemption[managerTitle] * unionTitleToExemption[unionTitle]));
                             dispatch(saveImpactScoreOpeningUserScore(null));
                             dispatch(saveImpactScoreOpeningUserName(givenName + ' ' + familyName));
                             dispatch(saveImpactScoreTriggerReloadAllPublication(true));
-                        }}>Required Hours &nbsp;&nbsp;
+                        }}>Mandatory Research Hours &nbsp;&nbsp;
                             <label style={{fontSize: 23}}>
                                 <Badge style={{paddingLeft: 10, paddingRight: 10, paddingTop: 5, paddingBottom: 5}} href="#" pill theme='primary'>
                                     {academicTitleToRequiredWorkingHours[academicTitle] * managerToExemption[managerTitle] * unionTitleToExemption[unionTitle]}

@@ -4,7 +4,7 @@ import {Badge, Button, Card, CardBody, CardHeader, Col, Dropdown, DropdownItem, 
 import {List} from "react-content-loader";
 import {fetchPublication} from "../utils/apiCalls";
 import {ClipLoader} from "react-spinners";
-import {resetPublicationFilter, resetStatisticFilter, setTriggerReloadAllStatistics, unSelectStatisticFilter} from "../redux/actions";
+import {resetStatisticFilter, setTriggerReloadAllStatistics, unSelectStatisticFilter} from "../redux/actions";
 import DivisionSelector from "../publication/sharedSections/divisionSelector";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -43,8 +43,8 @@ export default function Statistics() {
                 <div style={{backgroundColor: '#FFFFFF', opacity: 0.6, padding: 10}}>
                     <h5 className="label">{`Total publications in ${label}: ${totalPublications}`}</h5>
                     <h6 style={{marginBottom: 10, marginTop: 15}}><i className='fa fa-check'/>&nbsp; By semesters</h6>
-                    <b>First term: </b>{currentPoint.firstTerm} ({Math.round(currentPoint.firstTerm / (currentPoint.firstTerm + currentPoint.secondTerm) * 100)})%<br/>
-                    <b>Second term: </b>{currentPoint.secondTerm} ({Math.round(currentPoint.secondTerm / (currentPoint.firstTerm + currentPoint.secondTerm) * 100)})%<br/>
+                    <b>First term: </b>{currentPoint.firstTerm} {Math.round(currentPoint.firstTerm / (currentPoint.firstTerm + currentPoint.secondTerm) * 100).toFixed(2)}%<br/>
+                    <b>Second term: </b>{currentPoint.secondTerm} {Math.round(currentPoint.secondTerm / (currentPoint.firstTerm + currentPoint.secondTerm) * 100).toFixed(2)}%<br/>
                     <h6 style={{marginBottom: 10, marginTop: 15}}><i className='fa fa-check'/>&nbsp; By publication types</h6>
                     {allPublicationTypes.slice(0).reverse().map((t, i) => (<div>
                         <Badge style={{width: 50, marginRight: 15, marginBottom: 5, backgroundColor: allPublicationColor[allPublicationTypes.length - 1 - i]}}>

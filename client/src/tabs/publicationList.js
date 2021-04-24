@@ -23,6 +23,7 @@ export default function PublicationList({isForImpactScore, approvalFilter, pendi
     const impactScoreOpeningUserEmail = useSelector(store => store.impactScore.openingUserEmail);
     const impactScoreOpeningUserName = useSelector(store => store.impactScore.openingUserName);
     const impactScoreOpeningUserScore = useSelector(store => store.impactScore.openingUserScore);
+    const openingUserResearchHoursThreshold = useSelector(store => store.impactScore.openingUserResearchHoursThreshold);
 
     const parseYearCount = (publications) => {
         let publicationYearCount = {};
@@ -55,7 +56,7 @@ export default function PublicationList({isForImpactScore, approvalFilter, pendi
         for (let i = minYear; i <= maxYear; i += 1) {
             finalHoursCount[i] = hoursCount[i] ? hoursCount[i] : 0;
         }
-        dispatch(saveResearchHoursByYears(Object.keys(finalHoursCount).map(y => ({name: y, hours: finalHoursCount[y]}))));
+        dispatch(saveResearchHoursByYears(Object.keys(finalHoursCount).map(y => ({name: y, hours: finalHoursCount[y], threshold: openingUserResearchHoursThreshold}))));
         dispatch(saveImpactScoreOpeningUserScore(totalScore));
     }
 

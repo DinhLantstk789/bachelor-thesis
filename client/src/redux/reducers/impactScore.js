@@ -7,6 +7,7 @@ const initialState = {
     publicationDetailsSortBy: 'Recently Added',
     openingUserEmail: null,
     openingUserName: null,
+    openingUserResearchHoursThreshold: null,
     openingUserScore: null,
     triggerReloadAllPublication: false,
     researchHoursByYears: null
@@ -16,6 +17,10 @@ export default (state = initialState, action) => {
     if (action.type === 'IMPACT_SCORE_SAVE_OPENING_PUBLICATION_DETAILS') {
         const data = action.data;
         return {...state, openingPublicationDetails: data.openingPublicationDetails}
+    }
+    if (action.type === 'IMPACT_SCORE_SAVE_OPENING_USER_RESEARCH_HOURS_THRESHOLD') {
+        const data = action.data;
+        return {...state, openingUserResearchHoursThreshold: data.openingUserResearchHoursThreshold}
     }
     if (action.type === 'SAVE_RESEARCH_HOURS_BY_YEARS') {
         const data = action.data;
@@ -56,6 +61,7 @@ export default (state = initialState, action) => {
             userSortBy: 'Recently Added',
             publicationDetailsSortBy: 'Recently Added',
             openingUserEmail: null,
+            openingUserResearchHoursThreshold: null,
             openingUserName: null,
             openingUserScore: null,
             triggerReloadAllPublication: false,

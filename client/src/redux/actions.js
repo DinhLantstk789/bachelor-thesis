@@ -360,6 +360,10 @@ export const saveImpactScoreOpeningUserEmail = (openingUserEmail) => ({
     type: 'IMPACT_SCORE_SAVE_OPENING_USER_EMAIL',
     data: {openingUserEmail: openingUserEmail}
 })
+export const saveImpactScoreOpeningUserResearchHoursThreshold = (openingUserResearchHoursThreshold) => ({
+    type: 'IMPACT_SCORE_SAVE_OPENING_USER_RESEARCH_HOURS_THRESHOLD',
+    data: {openingUserResearchHoursThreshold: openingUserResearchHoursThreshold}
+})
 export const saveImpactScoreOpeningUserName = (openingUserName) => ({
     type: 'IMPACT_SCORE_SAVE_OPENING_USER_NAME',
     data: {openingUserName: openingUserName}

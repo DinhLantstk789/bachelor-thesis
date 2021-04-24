@@ -9,7 +9,6 @@ import {
     saveImpactScoreOpeningPublicationDetails,
     saveImpactScoreOpeningUserEmail,
     saveImpactScoreOpeningUserName,
-    saveImpactScoreOpeningUserScore,
     saveImpactScorePublicationDetailSortBy,
     saveImpactScoreSearchPublicationContent,
     saveImpactScoreTriggerReloadAllPublication,
@@ -46,6 +45,25 @@ export default function ImpactScore() {
     const userSortBy = useSelector(store => store.impactScore.userSortBy);
     const publicationDetailsSortBy = useSelector(store => store.impactScore.publicationDetailsSortBy);
     const researchHoursStatisticByYear = useSelector(store => store.impactScore.researchHoursByYears);
+
+    const CustomTooltip = ({active, payload, label}) => {
+        if (active && payload && payload.length) {
+            let currentPoint = null;
+            researchHoursStatisticByYear.forEach(d => {
+                if (label === d.name) currentPoint = d;
+            });
+// {name: y, hours: finalHoursCount[y], threshold: openingUserResearchHoursThreshold, completion: (finalHoursCount[y] / openingUserResearchHoursThreshold).toFixed(2)}))));
+//             completion:
+            return (
+                <div style={{backgroundColor: '#FFFFFF', opacity: 0.6, padding: 10}}>
+                    <h5 className="label">{`Total research hours in ${label}: ${currentPoint.hours}`}</h5>
+                    <b>Mandatory Research Hours: </b>{currentPoint.threshold}<br/>
+                    <b>Completion Rate: </b>{(100 * currentPoint.hours / currentPoint.threshold).toFixed(2)}% {currentPoint.hours > currentPoint.threshold ? <label style={{color: 'green'}}><i className='fa fa-check'/></label> : '☹️'}<br/>
+                </div>
+            );
+        }
+        return null;
+    };
 
     useEffect(() => {
         if (isTriggerReload) {
@@ -196,7 +214,7 @@ export default function ImpactScore() {
                                                 <CartesianGrid strokeDasharray="3 3"/>
                                                 <XAxis dataKey="name" padding={{left: 20, right: 20}}/>
                                                 <YAxis/>
-                                                <Tooltip/>
+                                                <Tooltip content={<CustomTooltip/>}/>
                                                 <Line type="monotone" dataKey="hours" stroke="#8884d8" activeDot={{r: 5}}/>
                                             </LineChart>
                                         </ResponsiveContainer>
