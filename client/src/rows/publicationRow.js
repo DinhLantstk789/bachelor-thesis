@@ -195,7 +195,7 @@ export default function PublicationRow({isForImpactScore, impactScore, triggerUp
                                             open={scoreOpen}
                                             target={"#score" + tooltipId}
                                             toggle={() => setScoreOpen(!scoreOpen)}>
-                                            Scored at {impactScore} points
+                                            Valued at {impactScore} hours
                                         </Tooltip>
                                     </h5>
                                 </div> : <i style={{fontSize: 20, marginLeft: 20, marginRight: 10, marginTop: 4, cursor: 'pointer'}} className='fa fa-edit' onClick={() => {

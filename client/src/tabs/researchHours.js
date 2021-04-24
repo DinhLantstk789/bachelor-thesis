@@ -205,10 +205,16 @@ export default function ResearchHours() {
                         </Row>
                     </CardHeader>
                     <CardBody>
+                        {publicationDetailsSearchOpen ? <InputGroup style={{marginBottom: 30}}>
+                            <InputGroupAddon type="prepend"><InputGroupText><i className="fa fa-search"/></InputGroupText></InputGroupAddon>
+                            <FormInput value={searchPublicationContent} placeholder="Search publications, authors, and years" onChange={(e) => {
+                                dispatch(saveImpactScoreSearchPublicationContent(e.target.value))
+                            }}/>
+                        </InputGroup> : ''}
                         <Row>
                             <Col>
                                 <div style={{marginBottom: 30, marginRight: 10}}>
-                                    <h6 style={{textAlign: 'center'}}>Number of mandatory research hours over years</h6>
+                                    <h6 style={{textAlign: 'center'}}>Number of completed research hours over years</h6>
                                     {researchHoursStatisticByYear === null ? <div style={{height: 250, textAlign: 'center', padding: 70}}><ClipLoader size={60} color={'#157ffb'} loading/></div> :
                                         <ResponsiveContainer width='100%' height={200}>
                                             <LineChart data={researchHoursStatisticByYear}>
@@ -223,12 +229,6 @@ export default function ResearchHours() {
                                 </div>
                             </Col>
                         </Row>
-                        {publicationDetailsSearchOpen ? <InputGroup style={{marginBottom: 30}}>
-                            <InputGroupAddon type="prepend"><InputGroupText><i className="fa fa-search"/></InputGroupText></InputGroupAddon>
-                            <FormInput value={searchPublicationContent} placeholder="Search publications, authors, and years" onChange={(e) => {
-                                dispatch(saveImpactScoreSearchPublicationContent(e.target.value))
-                            }}/>
-                        </InputGroup> : ''}
                         <PublicationList isForImpactScore={true} approvalFilter={approvalFilter} pendingFilter={pendingFilter}/>
                     </CardBody>
                 </Card>
