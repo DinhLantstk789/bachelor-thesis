@@ -23,10 +23,6 @@ export const saveBookSectionTitle = (bookSectionTitle) => ({
         bookSectionTitle: bookSectionTitle
     }
 })
-export const setTriggerReloadAllPublication = (triggerReloadAllPublication) => ({
-    type: 'TRIGGER_RELOAD_ALL_PUBLICATIONS',
-    data: {triggerReloadAllPublication: triggerReloadAllPublication}
-})
 export const saveBookSectionPublicationPlace = (bookSectionPublicationPlace) => ({
     type: 'SAVE_BOOK_SECTION_PUBLICATION_PLACE',
     data: {bookSectionPublicationPlace: bookSectionPublicationPlace}
@@ -120,15 +116,15 @@ export const savePublicationCorporateCreators = (corporateCreators) => ({
     type: 'SAVE_PUBLICATION_CORPORATE_CREATORS',
     data: {corporateCreators: corporateCreators}
 });
-export const savePublicationRelatedURL= (relatedURLs) => ({
+export const savePublicationRelatedURL = (relatedURLs) => ({
     type: 'SAVE_PUBLICATION_RELATED_URL',
     data: {relatedURLs: relatedURLs}
 });
-export const savePublicationFunders= (funders) => ({
+export const savePublicationFunders = (funders) => ({
     type: 'SAVE_PUBLICATION_FUNDERS',
     data: {funders: funders}
 });
-export const savePublicationProjects= (projects) => ({
+export const savePublicationProjects = (projects) => ({
     type: 'SAVE_PUBLICATION_PROJECTS',
     data: {projects: projects}
 });
@@ -149,19 +145,19 @@ export const savePublicationRefereed = (selectedRefereed) => ({
     type: 'SAVE_PUBLICATION_REFEREED',
     data: {selectedRefereed: selectedRefereed}
 });
-export const savePublicationDate= (selectedDate) => ({
+export const savePublicationDate = (selectedDate) => ({
     type: 'SAVE_PUBLICATION_DATE',
     data: {selectedDate: selectedDate}
 });
-export const savePublicationId= (publicationId) => ({
+export const savePublicationId = (publicationId) => ({
     type: 'SAVE_PUBLICATION_ID',
     data: {publicationId: publicationId}
 });
-export const savePublicationURL= (publicationURL) => ({
+export const savePublicationURL = (publicationURL) => ({
     type: 'SAVE_PUBLICATION_URL',
     data: {publicationURL: publicationURL}
 });
-export const savePublicationEmailAddress= (emailAddress) => ({
+export const savePublicationEmailAddress = (emailAddress) => ({
     type: 'SAVE_PUBLICATION_EMAIL_ADDRESS',
     data: {emailAddress: emailAddress}
 });
@@ -241,6 +237,14 @@ export const savePublicationApproval = (approval) => ({
     type: 'SAVE_PUBLICATION_APPROVAL',
     data: {publicationApproval: approval}
 });
+export const savePublicationStatisticByYears = (statisticsByYears) => ({
+    type: 'SAVE_STATISTIC_BY_YEARS',
+    data: {statisticsByYears: statisticsByYears}
+});
+export const savePublicationSortBy = (sortBy) => ({
+    type: 'SAVE_PUBLICATION_SORT_BY',
+    data: {sortBy: sortBy}
+});
 
 /* profile */
 export const saveGivenName = (givenName) => ({
@@ -297,22 +301,69 @@ export const savePublicationFilterYearTo = (yearTo) => ({
     type: 'SAVE_FILTER_YEAR_TO',
     data: {yearTo: yearTo}
 });
-export const savePublicationFilterFirstTerm = (isFirstTerm) => ({
-    type: 'SAVE_FILTER_FIRST_TERM',
-    data: {isFirstTerm: isFirstTerm}
+export const resetPublicationFilter = (userAllowedDivision) => ({
+    type: 'RESET_PUBLICATION_FILTER',
+    data: {userAllowedDivision: userAllowedDivision}
 });
-export const savePublicationFilterSecondTerm = (isSecondTerm) => ({
-    type: 'SAVE_FILTER_SECOND_TERM',
-    data: {isSecondTerm: isSecondTerm}
+export const unSelectPublicationFilter = (userAllowedDivision) => ({
+    type: 'UNSELECT_PUBLICATION_FILTER',
+    data: {userAllowedDivision: userAllowedDivision}
 });
-export const resetPublicationFilter = () => ({
-    type: 'RESET_PUBLICATION_FILTER'
+export const setTriggerReloadAllPublication = (triggerReloadAllPublication) => ({
+    type: 'TRIGGER_RELOAD_ALL_PUBLICATIONS',
+    data: {triggerReloadAllPublication: triggerReloadAllPublication}
+})
+
+/* statistics */
+export const setTriggerReloadAllStatistics = (triggerReloadAllStatistics) => ({
+    type: 'TRIGGER_RELOAD_ALL_STATISTICS',
+    data: {triggerReloadAllStatistics: triggerReloadAllStatistics}
+})
+export const saveStatisticsFilterDivisions = (divisions) => ({
+    type: 'SAVE_STATISTIC_FILTER_DIVISIONS',
+    data: {divisions: divisions}
 });
-export const unSelectPublicationFilter = () => ({
-    type: 'UNSELECT_PUBLICATION_FILTER'
+export const resetStatisticFilter = (userAllowedDivision) => ({
+    type: 'RESET_STATISTIC_FILTER',
+    data: {userAllowedDivision: userAllowedDivision}
+});
+export const unSelectStatisticFilter = (userAllowedDivision) => ({
+    type: 'UNSELECT_STATISTIC_FILTER',
+    data: {userAllowedDivision: userAllowedDivision}
 });
 
-
+/* impact score */
+export const saveImpactScoreOpeningPublicationDetails = (openingPublicationDetails) => ({
+    type: 'IMPACT_SCORE_SAVE_OPENING_PUBLICATION_DETAILS',
+    data: {openingPublicationDetails: openingPublicationDetails}
+})
+export const saveImpactScoreOpeningUserEmail = (openingUserEmail) => ({
+    type: 'IMPACT_SCORE_SAVE_OPENING_USER_EMAIL',
+    data: {openingUserEmail: openingUserEmail}
+})
+export const saveImpactScoreOpeningUserName = (openingUserName) => ({
+    type: 'IMPACT_SCORE_SAVE_OPENING_USER_NAME',
+    data: {openingUserName: openingUserName}
+})
+export const resetImpactScore = () => ({
+    type: 'RESET_IMPACT_SCORE'
+})
+export const saveImpactScoreSearchPublicationContent = (searchPublicationContent) => ({
+    type: 'IMPACT_SCORE_SAVE_SEARCH_CONTENT',
+    data: {searchPublicationContent: searchPublicationContent}
+});
+export const saveImpactScoreUserSortBy = (userSortBy) => ({
+    type: 'IMPACT_SCORE_SAVE_USER_SORT_BY',
+    data: {userSortBy: userSortBy}
+});
+export const saveImpactScorePublicationDetailSortBy = (publicationDetailsSortBy) => ({
+    type: 'IMPACT_SCORE_SAVE_PUBLICATION_DETAIL_SORT_BY',
+    data: {publicationDetailsSortBy: publicationDetailsSortBy}
+});
+export const saveImpactScoreTriggerReloadAllPublication = (triggerReloadAllPublication) => ({
+    type: 'IMPACT_SCORE_TRIGGER_RELOAD_ALL_PUBLICATION',
+    data: {triggerReloadAllPublication: triggerReloadAllPublication}
+});
 
 
 

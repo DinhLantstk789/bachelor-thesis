@@ -1,12 +1,12 @@
 #menuNav {
     top: 0px;
     display: block;
-    position: relative;
     height: 90px;
+    width: 100%;
+    position: relative;
     margin-bottom: 50px;
     background-color: white;
     border-bottom-style: solid;
     border-width: 0.1em;
-    /*border-bottom-color: steelblue;*/
-    box-shadow: 0 8px 15px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 15px 0 rgba(0, 0, 0, 0.06);
 }

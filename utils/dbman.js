@@ -26,7 +26,7 @@ async function insertDivision(divisionName) {
 
 async function insertCreatorOrEditor(publication_id, user, authorOrder, linked_table) {
     let isApproved = await eprints.query('SELECT is_approved FROM users WHERE email = $1;', {bind: [user.email], type: QueryTypes.SELECT});
-    let onConflict = (isApproved.length === 0 || isApproved[0].is_approved) ? 'NOTHING ' : 'UPDATE SET family_name = $2, given_name = $3'
+    let onConflict = (isApproved.length === 0 || isApproved[0].is_approved) ? 'NOTHING ' : 'UPDATE SET family_name = $2, given_name = $3 '
     await eprints.query(
         'INSERT INTO users (email, family_name, given_name)' +
         'VALUES ($1, $2, $3) ON CONFLICT (email) DO ' +
@@ -72,7 +72,7 @@ module.exports = {
     *  publicationId === null --> get all possbile publications. else: get a targeted publication */
     fetchPublications: async (filteringConfigs, publicationId, userEmail, isAdmin) => {
         let filteringCondition = 'WHERE true ';
-        /* filterin by user divisions permission */
+        /* filtering by user divisions permission */
         const divs = await eprints.query('SELECT division_name FROM user_division WHERE user_email = $1', {bind: [userEmail], type: QueryTypes.SELECT});
         let filteredDivisions = divs.map(d => d.division_name);
         /* filtering by inputted division */
@@ -80,7 +80,9 @@ module.exports = {
         if (filteringConfigs !== null && filteringConfigs.isFiltering) {
             const filteringConfigsDivision = filteringConfigs.filteredDivisions.filter(v => v.isEnable).map(d => d.name);
             filteredDivisions = filteredDivisions.filter(value => filteringConfigsDivision.includes(value));
-            filteringCondition = 'WHERE date_part(\'year\', date) >= ' + filteringConfigs.filteredYearFrom + ' and date_part(\'year\', date) <= ' + filteringConfigs.filteredYearTo + ' ';
+            if (filteringConfigs.filteredYearFrom && filteringConfigs.filteredYearTo) {
+                filteringCondition = 'WHERE date_part(\'year\', date) >= ' + filteringConfigs.filteredYearFrom + ' and date_part(\'year\', date) <= ' + filteringConfigs.filteredYearTo + ' ';
+            }
         }
         let r = [];
         if (filteredDivisions.length > 0) {
@@ -126,7 +128,7 @@ module.exports = {
         }
         if (finalFilter.length === 0) filter = filteringCondition + 'AND false';
 
-        let selectedFields = publicationId === null ? 'id, item_type, title, is_approved, date' : '*';
+        let selectedFields = publicationId === null ? 'id, item_type, title, is_approved, date, db_created_on' : '*';
         let returnedResult = [];
         let selectedPublications = await eprints.query('SELECT ' + selectedFields + ' FROM publication ' + filter + ' ORDER BY db_created_on DESC;', {replacements: {pubIds: finalFilter}, type: QueryTypes.SELECT});
         for (const p of selectedPublications) {
@@ -142,72 +144,89 @@ module.exports = {
                     });
                 }
             }
-            if (publicationId === null) {
-                returnedResult.push({
-                    id: p.id,
-                    type: p.item_type,
-                    title: p.title,
-                    creators: creators,
-                    isApproved: p.is_approved,
-                    selectedDate: p.date
-                })
-            } else {
-                let editors = [];
-                for (const e of await eprints.query('SELECT editor_email FROM publication_editor WHERE publication_id = $1 ORDER BY db_created_on;', {bind: [p.id], type: QueryTypes.SELECT})) {
-                    let resultEditors = await eprints.query('SELECT * FROM users WHERE email = $1;', {bind: [e.editor_email], type: QueryTypes.SELECT});
-                    resultEditors.forEach(e => editors.push({
-                        familyName: e.family_name,
-                        givenName: e.given_name,
-                        email: e.email
-                    }));
+            /* check if the author includes the targeted on */
+            let includedTargetedAuthor = filteringConfigs === null || filteringConfigs.targetedUserEmail === undefined || filteringConfigs.targetedUserEmail === null;
+            if (filteringConfigs !== null && filteringConfigs.targetedUserEmail !== undefined && filteringConfigs.targetedUserEmail) {
+                for (let i = 0; i < creators.length; i++) {
+                    const c = creators[i];
+                    if (c.email === filteringConfigs.targetedUserEmail) {
+                        includedTargetedAuthor = true;
+                        break;
+                    }
                 }
+            }
+            if (includedTargetedAuthor) {
+                if (publicationId === null) {
+                    returnedResult.push({
+                        id: p.id,
+                        type: p.item_type,
+                        title: p.title,
+                        creators: creators,
+                        isApproved: p.is_approved,
+                        selectedDate: p.date,
+                        databaseAddedOn: p.db_created_on,
+                        impactScore: Math.round(Math.random() * 100)
+                    })
+                } else {
+                    let editors = [];
+                    for (const e of await eprints.query('SELECT editor_email FROM publication_editor WHERE publication_id = $1 ORDER BY db_created_on;', {bind: [p.id], type: QueryTypes.SELECT})) {
+                        let resultEditors = await eprints.query('SELECT * FROM users WHERE email = $1;', {bind: [e.editor_email], type: QueryTypes.SELECT});
+                        resultEditors.forEach(e => editors.push({
+                            familyName: e.family_name,
+                            givenName: e.given_name,
+                            email: e.email
+                        }));
+                    }
 
-                let finalDivisions = await eprints.query('SELECT division_name FROM publication_division WHERE publication_id =$1;', {bind: [p.id], type: QueryTypes.SELECT})
-                returnedResult.push({
-                    id: p.id,
-                    type: p.item_type,
-                    title: p.title,
-                    publicationAbstract: p.abstract,
-                    creators: creators,
-                    corporateCreators: p.corporate_creators,
-                    divisions: finalDivisions.map(d => d.division_name),
-                    selectedStatus: p.status,
-                    kind: p.kind,
-                    selectedRefereed: p.is_refereed,
-                    bookSectionFirstPage: p.page_range[0],
-                    bookSectionEndPage: p.page_range[1],
-                    bookSectionTitle: p.publication_title,
-                    bookSectionPublicationPlace: p.place_of_publication,
-                    bookSectionPublisher: p.publisher,
-                    bookSectionPageNumber: p.number_of_pages,
-                    bookSectionSeriesName: p.series_name,
-                    bookSectionISBN: p.issn_isbn,
-                    bookSectionVolume: p.volume,
-                    bookSectionNumber: p.number,
-                    subjects: p.subjects,
-                    editors: editors,
-                    selectedDateType: p.date_type,
-                    selectedDate: p.date,
-                    publicationId: p.identification_number,
-                    publicationURL: p.official_url,
-                    relatedURLs: [],
-                    funders: p.funders,
-                    projects: p.projects,
-                    emailAddress: p.contact_email_address,
-                    references: p.reference,
-                    unKeyword: p.uncontrolled_keywords,
-                    addInformation: p.additional_infor,
-                    comment: p.comments_and_suggestions,
-                    monographType: p.monograph_type,
-                    presentationType: p.presentation_type,
-                    thesisType: p.thesis_type,
-                    institution: p.institution,
-                    patentApplicant: p.patent_applicant,
-                    mediaOutput: p.media_output,
-                    copyrightHolder: p.copyright_holder,
-                    publicationDepartment: p.publication_department,
-                    isApproved: p.is_approved
-                })
+                    let finalDivisions = await eprints.query('SELECT division_name FROM publication_division WHERE publication_id =$1;', {bind: [p.id], type: QueryTypes.SELECT})
+                    returnedResult.push({
+                        id: p.id,
+                        type: p.item_type,
+                        title: p.title,
+                        publicationAbstract: p.abstract,
+                        creators: creators,
+                        corporateCreators: p.corporate_creators,
+                        divisions: finalDivisions.map(d => d.division_name),
+                        selectedStatus: p.status,
+                        kind: p.kind,
+                        selectedRefereed: p.is_refereed,
+                        bookSectionFirstPage: p.page_range[0],
+                        bookSectionEndPage: p.page_range[1],
+                        bookSectionTitle: p.publication_title,
+                        bookSectionPublicationPlace: p.place_of_publication,
+                        bookSectionPublisher: p.publisher,
+                        bookSectionPageNumber: p.number_of_pages,
+                        bookSectionSeriesName: p.series_name,
+                        bookSectionISBN: p.issn_isbn,
+                        bookSectionVolume: p.volume,
+                        bookSectionNumber: p.number,
+                        subjects: p.subjects,
+                        editors: editors,
+                        selectedDateType: p.date_type,
+                        selectedDate: p.date,
+                        publicationId: p.identification_number,
+                        publicationURL: p.official_url,
+                        relatedURLs: [],
+                        funders: p.funders,
+                        projects: p.projects,
+                        emailAddress: p.contact_email_address,
+                        references: p.reference,
+                        unKeyword: p.uncontrolled_keywords,
+                        addInformation: p.additional_infor,
+                        comment: p.comments_and_suggestions,
+                        monographType: p.monograph_type,
+                        presentationType: p.presentation_type,
+                        thesisType: p.thesis_type,
+                        institution: p.institution,
+                        patentApplicant: p.patent_applicant,
+                        mediaOutput: p.media_output,
+                        copyrightHolder: p.copyright_holder,
+                        publicationDepartment: p.publication_department,
+                        isApproved: p.is_approved,
+                        databaseAddedOn: p.db_created_on,
+                        impactScore: Math.round(Math.random() * 100)
+                    })
+                }
             }
         }
         return returnedResult;
@@ -223,18 +242,18 @@ module.exports = {
             throw new Error(e);
         }
     },
+    checkDuplicatedPublication: async (title, abstract) => {
+        const refinedTitle = title.toLowerCase().trim();
+        const refinedAbstract = abstract.toLowerCase().trim();
+        const result = await eprints.query('SELECT id FROM publication WHERE trim(lower(title)) = $1 or trim(lower(abstract)) = $2 ', {bind: [refinedTitle, refinedAbstract], type: QueryTypes.SELECT});
+        return result.length > 0;
+    },
     insertNewPublication: async (type, title, abstract, monographType, presentationType, thesisType, institution, creators, corporateCreators, divisions,
                                  status, kind, patentApplicant, mediaOutput, copyrightHolder, referred,
                                  firstPage, endPage, bookSectionTitle, publicationPlace, publisher, publicationDepartment,
                                  pageNumber, seriesName, isbn, volume, number,
                                  subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
-                                 emailAddress, references, unKeyword, addInformation, comment,isApproved, databaseId) => {
-        console.log(type, title, abstract, monographType, presentationType, thesisType, institution, creators, corporateCreators, divisions,
-            status, kind, patentApplicant, mediaOutput, copyrightHolder, referred,
-            firstPage, endPage, bookSectionTitle, publicationPlace, publisher, publicationDepartment,
-            pageNumber, seriesName, isbn, volume, number,
-            subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
-            emailAddress, references, unKeyword, addInformation, comment, databaseId);
+                                 emailAddress, references, unKeyword, addInformation, comment, isApproved, databaseId) => {
         let finalRelatedURLs = '';
         relatedURLs.forEach(i => finalRelatedURLs += ('("' + i.URL + '","' + i.URLType + '")' + ','))
         finalRelatedURLs = '{' + finalRelatedURLs.substring(0, finalRelatedURLs.length - 1) + '}';
@@ -246,6 +265,7 @@ module.exports = {
         let finalSubjects = convertToSQLArray(subjects);
         let pubId;
         if (databaseId !== undefined && databaseId !== null) {
+            await eprints.query('DELETE FROM publication_division WHERE publication_id = $1;', {bind: [databaseId], type: QueryTypes.DELETE});
             await eprints.query('DELETE FROM publication_creator WHERE publication_id = $1;', {bind: [databaseId], type: QueryTypes.DELETE});
             await eprints.query('DELETE FROM publication_editor WHERE publication_id = $1;', {bind: [databaseId], type: QueryTypes.DELETE});
             pubId = await eprints.query(
@@ -260,7 +280,7 @@ module.exports = {
                         publicationURL, parseInt(volume), publicationPlace, parseInt(pageNumber), parseInt(number),
                         '{' + firstPage + ',' + endPage + '}', date, dateType, publicationId, seriesName,
                         finalRelatedURLs, finalFunders, finalProjects, emailAddress, references, unKeyword,
-                        addInformation, comment, finalSubjects, isApproved,databaseId]
+                        addInformation, comment, finalSubjects, isApproved, databaseId]
                     , type: QueryTypes.UPDATE
                 }
             );
@@ -321,13 +341,13 @@ module.exports = {
     },
     /* email === null -> fetch all, otherwise, indicates a specific user */
     /* loggedUserEmail is the ID of admin requesting */
-    fetchUserInformation: async (email, loggedUserEmail) => {
+    fetchUserInformation: async (email, filterApproved, loggedUserEmail) => {
         const divisions = await eprints.query('SELECT division_name FROM user_division WHERE user_email = $1', {bind: [loggedUserEmail], type: QueryTypes.SELECT});
         const divisionNames = divisions.map(d => d.division_name);
         let userEmailsInTheDivision = await eprints.query('SELECT user_email FROM user_division WHERE division_name IN(:divisionNames)', {replacements: {divisionNames: divisionNames}, type: QueryTypes.SELECT});
 
-        let filter = 'WHERE is_approved = true ' + (email === null ? '' : ('AND email = :specifiedEmail')) + ' AND email in (:userEmailsInTheDivision)';
-        let selectedFields = email === null ? 'given_name, family_name, email, is_admin' : '*';
+        let filter = 'WHERE ' + (filterApproved ? 'is_approved = true' : 'true') + ' ' + (email === null ? '' : ('AND email = :specifiedEmail')) + ' AND email in (:userEmailsInTheDivision)';
+        let selectedFields = email === null ? 'given_name, family_name, email, is_admin, db_created_on' : '*';
         let returnedResult = [];
         let selectedUsers = await eprints.query('SELECT ' + selectedFields + ' FROM users ' + filter + ' ORDER BY db_created_on DESC;',
             {replacements: {userEmailsInTheDivision: userEmailsInTheDivision.map(ue => ue.user_email), specifiedEmail: email}, type: QueryTypes.SELECT});
@@ -338,7 +358,9 @@ module.exports = {
                     givenName: u.given_name,
                     familyName: u.family_name,
                     isAdmin: u.is_admin,
-                    department: await getDivisionOfUser(u.email)
+                    department: await getDivisionOfUser(u.email),
+                    databaseAddedOn: u.db_created_on,
+                    impactScore: Math.round(Math.random() * 100)
                 })
             } else {
                 returnedResult.push({
@@ -348,8 +370,9 @@ module.exports = {
                     isAdmin: u.is_admin,
                     address: u.address,
                     department: await getDivisionOfUser(u.email),
-                    isAdmin: u.is_admin,
-                    userDescription: u.description
+                    userDescription: u.description,
+                    databaseAddedOn: u.db_created_on,
+                    impactScore: Math.round(Math.random() * 100)
                 });
             }
         }

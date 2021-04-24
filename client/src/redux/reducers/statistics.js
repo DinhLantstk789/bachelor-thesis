@@ -1,7 +1,5 @@
 const initialState = {
-    triggerReloadAllPublication: false,
-    yearFrom: 2000,
-    yearTo: 2021,
+    triggerReloadAllStatistics: false,
     divisions: [{name: 'Advanced Institute of Engineering and Technology (AVITECH)', isEnable: true},
         {name: 'Department of Civil Engineering and Transportation (CET)', isEnable: true},
         {name: 'Center for Electronics and Telecommunications Research (CETR)', isEnable: true},
@@ -16,23 +14,15 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-    if (action.type === 'TRIGGER_RELOAD_ALL_PUBLICATIONS') {
+    if (action.type === 'TRIGGER_RELOAD_ALL_STATISTICS') {
         const data = action.data;
-        return {...state, triggerReloadAllPublication: data.triggerReloadAllPublication}
+        return {...state, triggerReloadAllStatistics: data.triggerReloadAllStatistics}
     }
-    if (action.type === 'SAVE_FILTER_YEAR_FROM') {
-        const data = action.data;
-        return {...state, yearFrom: data.yearFrom}
-    }
-    if (action.type === 'SAVE_FILTER_YEAR_TO') {
-        const data = action.data;
-        return {...state, yearTo: data.yearTo}
-    }
-    if (action.type === 'SAVE_PUBLICATION_FILTER_DIVISIONS') {
+    if (action.type === 'SAVE_STATISTIC_FILTER_DIVISIONS') {
         const data = action.data;
         return {...state, divisions: data.divisions}
     }
-    if (action.type === 'RESET_PUBLICATION_FILTER') {
+    if (action.type === 'RESET_STATISTIC_FILTER') {
         const userAllowedDivision = action.data.userAllowedDivision;
         let newDivisions = [{name: 'Advanced Institute of Engineering and Technology (AVITECH)', isEnable: true},
             {name: 'Department of Civil Engineering and Transportation (CET)', isEnable: true},
@@ -47,13 +37,11 @@ export default (state = initialState, action) => {
             {name: 'Key Laboratory for Smart Integrated Systems (SISLAB)', isEnable: true}]
         if (userAllowedDivision) newDivisions = newDivisions.filter(value => userAllowedDivision.includes(value.name));
         return {
-            triggerReloadAllPublication: false,
-            yearFrom: 2000,
-            yearTo: 2021,
+            triggerReloadAllStatistics: false,
             divisions: newDivisions
         }
     }
-    if (action.type === 'UNSELECT_PUBLICATION_FILTER') {
+    if (action.type === 'UNSELECT_STATISTIC_FILTER') {
         const userAllowedDivision = action.data.userAllowedDivision;
         let newDivisions = [{name: 'Advanced Institute of Engineering and Technology (AVITECH)', isEnable: false},
             {name: 'Department of Civil Engineering and Transportation (CET)', isEnable: false},
@@ -68,9 +56,7 @@ export default (state = initialState, action) => {
             {name: 'Key Laboratory for Smart Integrated Systems (SISLAB)', isEnable: false}]
         if (userAllowedDivision) newDivisions = newDivisions.filter(value => userAllowedDivision.includes(value.name));
         return {
-            triggerReloadAllPublication: false,
-            yearFrom: 2000,
-            yearTo: 2021,
+            triggerReloadAllStatistics: false,
             divisions: newDivisions
         }
     }

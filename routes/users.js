@@ -9,32 +9,34 @@ const {securityCheck} = require("./base");
 
 router.post('/login', (req, res) => {
     let email = req.body.email, receivedPassword = req.body.password;
-    dbman.findUser(email).then(user => {
-        if (user === null) return res.json({status: 401, message: 'Account not found'});
-        let hashedPassword = user.password;
-        bcrypt.compare(receivedPassword, hashedPassword, (err, bcryptRes) => {
-            if (bcryptRes) {
-                let returnedUser = {
-                    email: user.email,
-                    familyName: user.family_name,
-                    givenName: user.given_name,
-                    isAdmin: user.is_admin,
-                    divisions: user.divisions
+    setTimeout(() => {
+        dbman.findUser(email).then(user => {
+            if (user === null) return res.json({status: 401, message: 'Account not found'});
+            let hashedPassword = user.password;
+            bcrypt.compare(receivedPassword, hashedPassword, (err, bcryptRes) => {
+                if (bcryptRes) {
+                    let returnedUser = {
+                        email: user.email,
+                        familyName: user.family_name,
+                        givenName: user.given_name,
+                        isAdmin: user.is_admin,
+                        divisions: user.divisions
+                    }
+                    let accessToken = jwt.sign(returnedUser, configs.SECRET, {expiresIn: configs.ACCESS_TOKEN_LIFE});
+                    saveNewAccessToken(accessToken, returnedUser);
+                    let cookieConfig = {
+                        maxAge: configs.ACCESS_TOKEN_LIFE * 1000,
+                        secure: false,
+                        httpOnly: true /* prevent cookie being read by JS */
+                    }
+                    res.cookie('accessToken', accessToken, cookieConfig);
+                    return res.json({status: 200, user: returnedUser})
+                } else {
+                    return res.json({status: 401, message: 'Username and password do not match.'});
                 }
-                let accessToken = jwt.sign(returnedUser, configs.SECRET, {expiresIn: configs.ACCESS_TOKEN_LIFE});
-                saveNewAccessToken(accessToken, returnedUser);
-                let cookieConfig = {
-                    maxAge: configs.ACCESS_TOKEN_LIFE * 1000,
-                    secure: false,
-                    httpOnly: true /* prevent cookie being read by JS */
-                }
-                res.cookie('accessToken', accessToken, cookieConfig);
-                return res.json({status: 200, user: returnedUser})
-            } else {
-                return res.json({status: 401, message: 'Username and password do not match.'});
-            }
-        });
-    }).catch(console.log);
+            });
+        }).catch(console.log);
+    }, configs.API_DELAY)
 })
 
 router.post('/addUser', (req, res) => {
@@ -56,10 +58,18 @@ router.post('/addUser', (req, res) => {
         });
     })
 });
-router.get('/fetchUser', (req, res) => {
+router.post('/fetchUser', (req, res) => {
     securityCheck(req, res, (loggedUser) => {
-        dbman.fetchUserInformation(null, loggedUser.email).then(userList => {
+        dbman.fetchUserInformation(null, req.body.filterApproved, loggedUser.email).then(userList => {
             return res.json({status: 200, userList: userList});
+        }).catch(console.log);
+    })
+});
+
+router.post('/fetchFullyUserData', (req, res) => {
+    securityCheck(req, res, (loggedUser) => {
+        dbman.fetchUserInformation(req.body.email, true, loggedUser.email).then(userData => {
+            return res.json({status: 200, userData: userData});
         }).catch(console.log);
     })
 });
@@ -71,13 +81,6 @@ router.post('/deleteUser', (req, res) => {
                 res.json({status: 200, message: 'User deleted'});
             }
         }).catch(console.log)
-    })
-});
-router.post('/fetchFullyUserData', (req, res) => {
-    securityCheck(req, res, (loggedUser) => {
-        dbman.fetchUserInformation(req.body.email, loggedUser.email).then(userData => {
-            return res.json({status: 200, userData: userData});
-        }).catch(console.log);
     })
 });
 

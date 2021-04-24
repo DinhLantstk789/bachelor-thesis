@@ -4,14 +4,14 @@ const dbman = require("../utils/dbman");
 const {securityCheck} = require("./base");
 
 
-router.post('/fetch',  (req, res) =>{
+router.post('/fetch', (req, res) => {
     securityCheck(req, res, (loggedUser) => {
         dbman.fetchPublications(req.body, null, loggedUser.email, loggedUser.isAdmin).then(publications => {
             return res.json({status: 200, publications: publications});
         }).catch(console.log);
     })
 });
-router.post('/view',  (req, res)=> {
+router.post('/view', (req, res) => {
     securityCheck(req, res, (loggedUser) => {
         let publicationId = req.body.id;
         dbman.fetchPublications(null, publicationId, loggedUser.email, loggedUser.isAdmin).then(publications => {
@@ -91,13 +91,20 @@ router.post('/add', (req, res) => {
         let patentApplicant = req.body.patentApplicant;
         let mediaOutput = req.body.mediaOutput;
         let copyrightHolder = req.body.copyrightHolder;
-        dbman.insertNewPublication(type, title, abstract, monographType, presentationType, thesisType, institution, creators, corporateCreators, divisions, status, kind, patentApplicant,
-            mediaOutput, copyrightHolder, selectedRefereed,
-            firstPage, endPage, bookSectionTitle, publicationPlace, publisher, publicationDepartment,
-            pageNumber, seriesName, bookSectionISBN, volume, number,
-            subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
-            emailAddress, references, unKeyword, addInformation, comment,false, databaseId).then(pubId => {
-            return res.json({status: 200, message: 'Successfully added publication:' + pubId.toString()});
+
+        dbman.checkDuplicatedPublication(title, abstract).then((isDuplicated) => {
+            if (!isDuplicated) {
+                dbman.insertNewPublication(type, title, abstract, monographType, presentationType, thesisType, institution, creators, corporateCreators, divisions, status, kind, patentApplicant,
+                    mediaOutput, copyrightHolder, selectedRefereed,
+                    firstPage, endPage, bookSectionTitle, publicationPlace, publisher, publicationDepartment,
+                    pageNumber, seriesName, bookSectionISBN, volume, number,
+                    subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
+                    emailAddress, references, unKeyword, addInformation, comment, false, databaseId).then(pubId => {
+                    return res.json({status: 200, message: 'Successfully added publication:' + pubId.toString()});
+                }).catch(console.log);
+            } else {
+                return res.json({status: 500, message: 'Publication already exists'});
+            }
         }).catch(console.log);
     })
 });

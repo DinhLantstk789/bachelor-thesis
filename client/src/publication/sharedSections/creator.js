@@ -1,19 +1,68 @@
-import {Component, Fragment} from 'react';
+import {Component, Fragment, useState} from 'react';
 import {Col, FormInput, Row, Tooltip} from "shards-react";
-import {connect} from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import validator from "../../utils/validator";
 import {savePublicationCreators} from "../../redux/actions";
 import * as apiCalls from "../../utils/apiCalls";
 
-class Creator extends Component {
+function AutoCompletedTextField({index, email, creatorData, forceReload}) {
+    const [emailInputSuggestionOpen, setEmailInputSuggestionOpen] = useState(false);
+    const creators = useSelector(store => store.publication.creators);
+    const dispatch = useDispatch();
 
+    const updateMatchedUser = () => {
+        let email = creators[index].email;
+        if (email in creatorData) {
+            let tmpCreators = creators;
+            tmpCreators[index] = creatorData[email];
+            dispatch(savePublicationCreators(tmpCreators));
+        }
+    };
+
+    const getSuggestionEmails = () => {
+        let filteredEmails = [];
+        Object.keys(creatorData).forEach(email => {
+            if (email.includes(creators[index].email) && email !== 'admin@eprints.vnu.edu.vn') {
+                filteredEmails.push(email);
+            }
+        })
+        return filteredEmails;
+    };
+
+    return (
+        <Fragment>
+            <FormInput id={'emailInput' + index} placeholder="Email" value={email} valid={validator.validateEmail(email)} onChange={(e) => {
+                let tmpCreators = creators;
+                tmpCreators[index].email = e.target.value;
+                dispatch(savePublicationCreators(tmpCreators));
+                updateMatchedUser();
+                forceReload();
+            }} onFocus={() => {
+                setEmailInputSuggestionOpen(true);
+            }}/>
+            {getSuggestionEmails(index).length > 0 ?
+                <Tooltip open={emailInputSuggestionOpen} target={'#emailInput' + index}>
+                    {getSuggestionEmails(index).map(email => (<label style={{cursor: 'pointer'}} onClick={() => {
+                        setEmailInputSuggestionOpen(false);
+                        let tmpCreators = creators;
+                        tmpCreators[index].email = email;
+                        dispatch(savePublicationCreators(tmpCreators));
+                        updateMatchedUser(index);
+                        forceReload();
+                    }}>{email}</label>))}
+                </Tooltip>
+                : ''}
+        </Fragment>
+    )
+}
+
+class Creator extends Component {
     state = {
-        creatorData: {},
-        emailInputSuggestionOpen: false
+        creatorData: {}
     }
 
     componentDidMount() {
-        apiCalls.fetchUsers(users => {
+        apiCalls.fetchUsers({filterApproved: false}, users => {
             users.forEach(u => {
                 let prevCreatorData = this.state.creatorData;
                 prevCreatorData[u.email] = {
@@ -26,26 +75,6 @@ class Creator extends Component {
         })
     }
 
-    updateMatchedUser(index) {
-        let email = this.props.creators[index].email;
-        if (email in this.state.creatorData) {
-            let creators = this.props.creators;
-            creators[index] = this.state.creatorData[email];
-            this.props.savePublicationCreators(creators);
-        }
-    };
-
-    getSuggestionEmails(i) {
-        let filteredEmails = [];
-        Object.keys(this.state.creatorData).forEach(email => {
-            if (email.includes(this.props.creators[i].email)) {
-                filteredEmails.push(email);
-            }
-        })
-        return filteredEmails;
-    };
-
-
     render() {
         return (
             <Fragment>
@@ -55,29 +84,7 @@ class Creator extends Component {
                 {this.props.creators.map((item, i) => (
                     <Row style={{marginTop: 10, paddingRight: 20}}>
                         <Col style={{marginRight: -10}}>
-                            <FormInput id='emailInput' placeholder="Email" value={item.email} valid={validator.validateEmail(item.email)} onChange={(e) => {
-                                let creators = this.props.creators;
-                                creators[i].email = e.target.value;
-                                this.props.savePublicationCreators(creators);
-                                this.updateMatchedUser(i);
-                                this.forceUpdate();
-                            }} onFocus={() => {
-                                this.setState({emailInputSuggestionOpen: true});
-                            }}/>
-                            {this.getSuggestionEmails(i).length > 0 ?
-                                <Tooltip
-                                    open={this.state.emailInputSuggestionOpen}
-                                    target={"#emailInput"}>
-                                    {this.getSuggestionEmails(i).map(email => (<label style={{cursor: 'pointer'}} onClick={() => {
-                                        this.setState({emailInputSuggestionOpen: false});
-                                        let creators = this.props.creators;
-                                        creators[i].email = email;
-                                        this.props.savePublicationCreators(creators);
-                                        this.updateMatchedUser(i);
-                                        this.forceUpdate();
-                                    }}>{email}</label>))}
-                                </Tooltip>
-                                : ''}
+                            <AutoCompletedTextField index={i} email={item.email} creatorData={this.state.creatorData} forceReload={() => this.forceUpdate()}/>
                         </Col>
                         <Col style={{marginRight: -10, marginLeft: -10}}>
                             <FormInput placeholder="Family Name" value={item.familyName} valid={item.familyName.length > 0} onChange={(e) => {
@@ -113,8 +120,13 @@ class Creator extends Component {
     }
 }
 
-let mapStateToProps = (store)=>{
-    return{ creators:store.publication.creators}
-} ;
-let mapDispatchToProps = {savePublicationCreators};
+let mapStateToProps = (store) => {
+        return {creators: store.publication.creators}
+    }
+;
+let mapDispatchToProps =
+    {
+        savePublicationCreators
+    }
+;
 export default connect(mapStateToProps, mapDispatchToProps)(Creator);

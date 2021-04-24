@@ -1,4 +1,4 @@
-import {Fragment, useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {Badge, Col, Row, Tooltip} from "shards-react";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -51,6 +51,7 @@ import {
     setDashboardState
 } from "../redux/actions";
 import * as apiCalls from "../utils/apiCalls";
+import {ClipLoader, ScaleLoader} from "react-spinners";
 
 
 function parseAuthors(creators) {
@@ -59,10 +60,13 @@ function parseAuthors(creators) {
     return finalAuthors.substring(0, finalAuthors.length - 2);
 }
 
-export default function PublicationRow({triggerUpdateUI, type, title, authors, approved, publicationId, selectedDate}) {
+export default function PublicationRow({isForImpactScore, impactScore, triggerUpdateUI, type, title, authors, approved, publicationId, selectedDate}) {
+    const [isClickingViewing, setIsClickingView] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
     const [isApproved, setIsApproved] = useState();
     const [tooltipId, setTooltipId] = useState("tt_" + publicationId);
-    const [open, setOpen] = useState(false);
+    const [approvalOpen, setOpen] = useState(false);
+    const [scoreOpen, setScoreOpen] = useState(false);
     const loggedUser = useSelector(store => store.user.loggedUser);
     const dispatch = useDispatch();
 
@@ -72,9 +76,8 @@ export default function PublicationRow({triggerUpdateUI, type, title, authors, a
     });
 
     let updateDbIntoRedux = (displayingPublicationLabel) => {
-        dispatch(setDashboardState(true));
-        dispatch(saveDisplayingPublicationLabel(displayingPublicationLabel));
-        apiCalls.viewPublication( {id: publicationId}, (publication) => {
+        setIsClickingView(true);
+        apiCalls.viewPublication({id: publicationId}, (publication) => {
             let corporateCreators = [], funders = [], projects = [];
             publication.corporateCreators.forEach(c => corporateCreators.push({corporateCreator: c}));
             publication.funders.forEach(f => funders.push({funder: f}));
@@ -92,9 +95,7 @@ export default function PublicationRow({triggerUpdateUI, type, title, authors, a
                 {name: 'Key Laboratory for Smart Integrated Systems (SISLAB)', isEnable: false}];
             publication.divisions.forEach(d => {
                 initialDivisions.map(item => {
-                    if (item.name === d) {
-                        item.isEnable = true;
-                    }
+                    if (item.name === d) item.isEnable = true;
                 })
             });
             let initialSubjects = [{name: 'Aerospace Engineering', isEnable: false},
@@ -157,8 +158,10 @@ export default function PublicationRow({triggerUpdateUI, type, title, authors, a
             dispatch(savePublicationDepartment(publication.publicationDepartment));
             dispatch(savePublicationId(publication.publicationId));
             dispatch(savePublicationApproval(publication.isApproved));
+            dispatch(setDashboardState(true));
+            dispatch(saveDisplayingPublicationLabel(displayingPublicationLabel));
         }, (message) => {
-            console.log('error:', message);
+            alert(message);
         })
     }
 
@@ -167,12 +170,15 @@ export default function PublicationRow({triggerUpdateUI, type, title, authors, a
             <Row>
                 <Col md={10}>
                     <Row style={{marginLeft: 0}}>
-                        <h6 onClick={() => {
-                            updateDbIntoRedux('Publication Details');
-                            dispatch(disableAllElements(true));
-                        }}><Badge theme="secondary" style={{marginRight: 8}}>
-                            {type}
-                        </Badge>{title}</h6>
+                        <h6 style={{lineHeight: 2, cursor: 'pointer'}} onClick={() => {
+                            if (!isForImpactScore) {
+                                updateDbIntoRedux('Publication Details');
+                                dispatch(disableAllElements(true));
+                            }
+                        }}>
+                            <Badge theme="secondary" style={{marginRight: 8}}>{type}</Badge>
+                            {title}
+                        </h6>
                     </Row>
                     <Row style={{marginLeft: 0, marginTop: -10}}>
                         <p style={{fontSize: 14}}>{parseAuthors(authors)} ({selectedDate.split('-')[0]})</p>
@@ -180,33 +186,47 @@ export default function PublicationRow({triggerUpdateUI, type, title, authors, a
                 </Col>
                 <Col md={2}>
                     <Row className='float-right' style={{marginRight: 10, marginTop: 13}}>
-                        <i style={{fontSize: 20, marginLeft: 20, marginRight: 10, marginTop: 4}} className='fa fa-edit'
-                           onClick={() => {
-                               dispatch(saveViewingPublicationId(publicationId));
-                               updateDbIntoRedux('Update Publication');
-                           }}
-                        />
-                        {loggedUser.isAdmin ? <span>&nbsp; &nbsp;</span> :
-                            <i style={{fontSize: 20, marginLeft: 20, marginRight: 20, marginTop: 4}} className='fa fa-trash'
-                               onClick={() => {
-                                   apiCalls.deletePublication({publicationId: publicationId}, () => {
-                                       triggerUpdateUI();
-                                   }, (message) => {
-                                       console.log(message);
-                                   })
-                               }}
-                            />
+                        {isClickingViewing ? <div style={{marginTop: 4}}><ScaleLoader height={25} width={4} margin={3} color={'#5b6168'} loading/></div> :
+                            <Row style={{marginRight: 0}}>
+                                {isForImpactScore ? <div style={{textAlign: 'center', marginRight: 5}}>
+                                    <h5>
+                                        <Badge id={'score' + tooltipId} theme='secondary' href="#" pill>{impactScore}</Badge>
+                                        <Tooltip
+                                            open={scoreOpen}
+                                            target={"#score" + tooltipId}
+                                            toggle={() => setScoreOpen(!scoreOpen)}>
+                                            Scored at {impactScore} points
+                                        </Tooltip>
+                                    </h5>
+                                </div> : <i style={{fontSize: 20, marginLeft: 20, marginRight: 10, marginTop: 4, cursor: 'pointer'}} className='fa fa-edit' onClick={() => {
+                                    dispatch(saveViewingPublicationId(publicationId));
+                                    updateDbIntoRedux('Update Publication');
+                                }}
+                                />}
+                                {loggedUser.isAdmin ? <span>&nbsp; &nbsp;</span> : !isForImpactScore ? <div style={{fontSize: 20, marginLeft: 10, marginRight: 20}}>
+                                    {isDeleting ? <ClipLoader size={20} color={'#5a6169'} loading/> : <i className='fa fa-trash' style={{cursor: 'pointer'}} onClick={() => {
+                                        setIsDeleting(true);
+                                        apiCalls.deletePublication({publicationId: publicationId}, () => {
+                                            setIsDeleting(false);
+                                            triggerUpdateUI();
+                                        }, (message) => {
+                                            alert(message);
+                                        })
+                                    }}
+                                    />}
+                                </div> : <span style={{marginRight: 10}}/>}
+                                <div>
+                                    {isApproved === true ? <i style={{fontSize: 20, marginTop: 4}} className="fa fa-check" aria-hidden="true" id={tooltipId}/> :
+                                        <i style={{fontSize: 20, marginTop: 4}} className="fa fa-clock" aria-hidden="true" id={tooltipId}/>}
+                                    <Tooltip
+                                        open={approvalOpen}
+                                        target={"#" + tooltipId}
+                                        toggle={() => setOpen(!approvalOpen)}>
+                                        {isApproved === true ? '✌️ Woo! Publication is approved.' : '🥺 Publication is still being processed.'}
+                                    </Tooltip>
+                                </div>
+                            </Row>
                         }
-                        <div>
-                            {isApproved === true ? <i style={{fontSize: 20, marginTop: 4}} className="fa fa-check" aria-hidden="true" id={tooltipId}/> :
-                                <i style={{fontSize: 20, marginTop: 4}} className="fa fa-clock" aria-hidden="true" id={tooltipId}/>}
-                            <Tooltip
-                                open={open}
-                                target={"#" + tooltipId}
-                                toggle={() => setOpen(!open)}>
-                                {isApproved === true ? '✌️ Woo! Publication is approved.' : '🥺 Publication is still being processed.'}
-                            </Tooltip>
-                        </div>
                     </Row>
                 </Col>
             </Row>

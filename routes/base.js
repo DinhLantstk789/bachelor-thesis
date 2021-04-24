@@ -21,7 +21,7 @@ module.exports = {
                 if (accessTokenCached[accessToken]) {
                     setTimeout(() => {
                         onSuccess(accessTokenCached[accessToken]);
-                    }, 1000);
+                    }, configs.API_DELAY);
                 } else {
                     return res.json({status: 401, message: 'Access token is invalid or has been revoked. Please try again.'});
                 }

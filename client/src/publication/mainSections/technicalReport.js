@@ -4,7 +4,7 @@ import {saveBookSectionPageNumber, saveBookSectionPublicationPlace, saveBookSect
 import {useDispatch, useSelector} from "react-redux";
 
 export default function TechnicalReport() {
-    const { bookSectionPublicationPlace, bookSectionPublisher, bookSectionPageNumber, institution, publicationDepartment} = useSelector(store => ({
+    const {bookSectionPublicationPlace, bookSectionPublisher, bookSectionPageNumber, institution, publicationDepartment} = useSelector(store => ({
         bookSectionPublicationPlace: store.bookSection.bookSectionPublicationPlace,
         bookSectionPublisher: store.bookSection.bookSectionPublisher,
         bookSectionPageNumber: store.bookSection.bookSectionPageNumber,
@@ -25,5 +25,5 @@ export default function TechnicalReport() {
             <FormInput placeholder="Enter Number of Pages" style={{marginTop: 10}} value={bookSectionPageNumber} onChange={(e) =>
                 dispatch(saveBookSectionPageNumber(e.target.value))}/>
         </Fragment>
-        )
+    )
 }

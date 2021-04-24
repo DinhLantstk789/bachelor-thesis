@@ -2,11 +2,11 @@ import axios from "axios";
 
 const reqConfigs = {
     withCredentials: true, /* accept cookie */
-    baseURL: 'http://localhost:1234/'
+    baseURL: 'http://localhost:1234'
 }
 
-export const fetchUsers = (onSuccess, onFailed) => {
-    axios.get('users/fetchUser', reqConfigs).then(res => {
+export const fetchUsers = (body, onSuccess, onFailed) => {
+    axios.post('users/fetchUser', body, reqConfigs).then(res => {
         let status = res.data.status;
         if (status === 200) {
             onSuccess(res.data.userList);
@@ -26,13 +26,13 @@ export const fetchFullyUserData = (body, onSuccess, onFailed) => {
         }
     })
 }
-export const addUser =(body,onSuccess, onFailed)=>{
-    axios.post('users/addUser', body,reqConfigs).then(res => {
+export const addUser = (body, onSuccess, onFailed) => {
+    axios.post('users/addUser', body, reqConfigs).then(res => {
         let status = res.data.status;
         if (status === 200) {
             onSuccess(res.data.email)
         } else {
-            onFailed( res.data.message)
+            onFailed(res.data.message)
         }
     })
 }

@@ -1,5 +1,5 @@
-import {Fragment, useState} from 'react';
-import {Button, FormInput, FormTextarea, Row} from "shards-react";
+import React, {Fragment, useEffect, useState} from 'react';
+import {Button, FormInput, FormTextarea, Modal, ModalBody, ModalHeader, Row} from "shards-react";
 import ReferredArticle from "./sharedSections/referredArticle";
 import RadioGroup from "../radioGroup";
 import {useDispatch, useSelector} from "react-redux";
@@ -52,16 +52,18 @@ import {
     saveViewingPublicationId,
     setDashboardState
 } from "../redux/actions";
+import {ClipLoader} from "react-spinners";
 
 export default function NewPublication() {
     const [isComponentLoading, setIsComponentLoading] = useState(false);
-    const [currentType, setCurrentType] = useState('article');
+    const [currentType, setCurrentType] = useState(null);
     const [submissionProgress, setSubmissionProgress] = useState(0);
     const [showEmailAddress, setShowEmailAddress] = useState(true);
     const [showReferences, setShowReferences] = useState(true);
     const [showUncontrolledKeyword, setShowUncontrolledKeyword] = useState(true);
     const [showAddInformation, setShowAddInformation] = useState(true);
     const [showComment, setShowComment] = useState(true);
+    const [modalOpen, setModalOpen] = useState(false);
     const dispatch = useDispatch();
 
     const {
@@ -124,19 +126,19 @@ export default function NewPublication() {
     switch (submissionProgress) {
         case 1:
             submitButtonText = 'Submitting';
-            submitButtonIcon = 'fa fa-spinner';
+            submitButtonIcon = <ClipLoader size={15} color={'#ffffff'} loading/>;
             break;
         case 2:
             submitButtonText = 'Success';
-            submitButtonIcon = 'fa fa-check';
+            submitButtonIcon = <i className='fa fa-check'/>;
             break;
         case 3:
             submitButtonText = 'Failed';
-            submitButtonIcon = 'fa fa-exclamation-triangle';
+            submitButtonIcon = <i className='fa fa-exclamation-triangle'/>;
             break;
         default:
             submitButtonText = displayingPublicationLabel === 'New Publication' ? 'Deposit' : (displayingPublicationLabel === 'Update Publication' ? 'Update' : '');
-            submitButtonIcon = 'fa fa-paper-plane';
+            submitButtonIcon = <i className='fa fa-paper-plane'/>;
     }
     let mainComponent = null;
     let addComponent = null;
@@ -189,19 +191,14 @@ export default function NewPublication() {
             mainComponent = <div><ReferredArticle/></div>
             addComponent = <div style={{marginTop: 20, marginBottom: -10}}>
                 <h6 style={{marginRight: 38, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Presentation Type:</h6>
-                <RadioGroup selectedId={presentationType} enableTooltip={false} inline={true} radioArray={[{
-                    name: 'Paper', id: 'paper',
-                }, {
-                    name: 'Lecture', id: 'lecture',
-                }, {
-                    name: 'Speech', id: 'speech',
-                }, {
-                    name: 'Poster', id: 'poster',
-                }, {
-                    name: 'Keynote', id: 'keynote',
-                }, {
-                    name: 'Other', id: 'otherConference',
-                }]} onSelected={(selectedId) => dispatch(savePresentationType(selectedId))}/>
+                <RadioGroup selectedId={presentationType} enableTooltip={false} inline={true} radioArray={[
+                    {name: 'Paper', id: 'paper'},
+                    {name: 'Lecture', id: 'lecture'},
+                    {name: 'Speech', id: 'speech'},
+                    {name: 'Poster', id: 'poster'},
+                    {name: 'Keynote', id: 'keynote'},
+                    {name: 'Other', id: 'otherConference'}
+                ]} onSelected={(selectedId) => dispatch(savePresentationType(selectedId))}/>
             </div>
             break;
         case 'book':
@@ -212,29 +209,25 @@ export default function NewPublication() {
             break;
         case 'thesis':
             mainComponent = <div>
-                <FormInput placeholder="Enter Institution" style={{marginTop: 10}} value={institution} style={{marginTop: 10}} onChange={(e) => dispatch(saveInstitution(e.target.value))}/>
-                <FormInput placeholder="Enter Department" style={{marginTop: 10}} value={publicationDepartment} style={{marginTop: 10}} onChange={(e) => dispatch(savePublicationDepartment(e.target.value))}/>
-                <FormInput placeholder="Enter Number of Pages" style={{marginTop: 10}} value={bookSectionPageNumber} style={{marginTop: 10}} onChange={(e) => dispatch(saveBookSectionPageNumber(e.target.value))}/>
+                <FormInput placeholder="Enter Institution" value={institution} style={{marginTop: 10}} onChange={(e) => dispatch(saveInstitution(e.target.value))}/>
+                <FormInput placeholder="Enter Department" value={publicationDepartment} style={{marginTop: 10}} onChange={(e) => dispatch(savePublicationDepartment(e.target.value))}/>
+                <FormInput placeholder="Enter Number of Pages" value={bookSectionPageNumber} style={{marginTop: 10}} onChange={(e) => dispatch(saveBookSectionPageNumber(e.target.value))}/>
             </div>
             addComponent = <div style={{marginTop: 20, marginBottom: -10}}>
                 <h6 style={{marginTop: 10, marginRight: 20, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Thesis Type:</h6>
-                <RadioGroup selectedId={thesisType} enableTooltip={false} inline={true} radioArray={[{
-                    name: 'Diploma', id: 'diploma',
-                }, {
-                    name: 'Masters', id: 'masters',
-                }, {
-                    name: 'Doctoral', id: 'doctoral',
-                }, {
-                    name: 'Post-Doctoral', id: 'Post-Doctoral',
-                }, {
-                    name: 'Other', id: 'otherThesis',
-                }]} onSelected={(selectedId) => dispatch(saveThesisType(selectedId))}/>
+                <RadioGroup selectedId={thesisType} enableTooltip={false} inline={true} radioArray={[
+                    {name: 'Diploma', id: 'diploma'},
+                    {name: 'Masters', id: 'masters'},
+                    {name: 'Doctoral', id: 'doctoral'},
+                    {name: 'Post-Doctoral', id: 'Post-Doctoral'},
+                    {name: 'Other', id: 'otherThesis'}
+                ]} onSelected={(selectedId) => dispatch(saveThesisType(selectedId))}/>
             </div>
             break;
         case 'patent':
             mainComponent = <div>
-                <FormInput placeholder="Enter Patent Applicant" style={{marginTop: 10}} value={patentApplicant} style={{marginTop: 10}} onChange={(e) => dispatch(savePatentApplicant(e.target.value))}/>
-                <FormInput placeholder="Enter Number of Pages" style={{marginTop: 10}} value={bookSectionPageNumber} style={{marginTop: 10}} onChange={(e) => dispatch(saveBookSectionPageNumber(e.target.value))}/>
+                <FormInput placeholder="Enter Patent Applicant" value={patentApplicant} style={{marginTop: 10}} onChange={(e) => dispatch(savePatentApplicant(e.target.value))}/>
+                <FormInput placeholder="Enter Number of Pages" value={bookSectionPageNumber} style={{marginTop: 10}} onChange={(e) => dispatch(saveBookSectionPageNumber(e.target.value))}/>
             </div>
             break;
         case 'image':
@@ -286,34 +279,28 @@ export default function NewPublication() {
         <Creator/>
         <CorporateCreators/>
         {detailComponent}
-        <DivisionSelector isOneColumn={false}/>
+        <DivisionSelector pageBeingUsedOn='new-publication'/>
         <hr style={{marginTop: 22, marginBottom: 22}}/>
         <label style={{fontSize: 20, marginBottom: 20}}>Publication Details</label>
         <div>
             <h6 style={{marginRight: 41, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Status:</h6>
-            <RadioGroup selectedId={selectedStatus} enableTooltip={false} inline={true} radioArray={[{
-                name: 'Published', id: 'published',
-            }, {
-                name: 'In Press', id: 'inPress',
-            }, {
-                name: 'Submitted', id: 'submitted',
-            }, {
-                name: 'Unpublished', id: 'unPublished',
-            }]} onSelected={(selectedId) => dispatch(savePublicationStatus(selectedId))}/>
+            <RadioGroup selectedId={selectedStatus} enableTooltip={false} inline={true} radioArray={[
+                {name: 'Published', id: 'published'},
+                {name: 'In Press', id: 'inPress'},
+                {name: 'Submitted', id: 'submitted'},
+                {name: 'Unpublished', id: 'unPublished'}
+            ]} onSelected={(selectedId) => dispatch(savePublicationStatus(selectedId))}/>
         </div>
         {mainComponent}
         <div style={{marginTop: 10}}>
             <h6 style={{marginRight: 10, display: "inline", marginTop: 10}}><i className='fa fa-star' style={{marginRight: 10}}/>Date Type:</h6>
             <span style={{marginTop: 10}}>
-                <RadioGroup selectedId={selectedDateType} enableTooltip={false} inline={true} radioArray={[{
-                    name: 'Unspecified', id: 'unSpecified',
-                }, {
-                    name: 'Publication', id: 'publication',
-                }, {
-                    name: 'Submission', id: 'submission',
-                }, {
-                    name: 'Completion', id: 'completion',
-                }]} onSelected={(selectedId) => dispatch(savePublicationDateType(selectedId))}/>
+                <RadioGroup selectedId={selectedDateType} enableTooltip={false} inline={true} radioArray={[
+                    {name: 'Unspecified', id: 'unSpecified'},
+                    {name: 'Publication', id: 'publication'},
+                    {name: 'Submission', id: 'submission'},
+                    {name: 'Completion', id: 'completion'}
+                ]} onSelected={(selectedId) => dispatch(savePublicationDateType(selectedId))}/>
             </span>
             <h6 style={{marginTop: 10, marginLeft: 20, marginRight: 20, display: "inline"}}>Date</h6>
             <FormInput placeholder="My form input" type="date" style={{width: 200, display: 'inline'}} value={selectedDate} onChange={(e) => {
@@ -326,24 +313,24 @@ export default function NewPublication() {
         <hr style={{marginTop: 22, marginBottom: 22}}/>
         <Funder/>
         <Project/>
-        <Row style={{marginTop: 20}}>
-            <Button theme={showEmailAddress ? 'primary' : 'light'} pill onClick={() => {
+        <Row style={{marginTop: 20, marginLeft: -10}}>
+            <Button size='sm' theme={showEmailAddress ? 'primary' : 'light'} pill onClick={() => {
                 setShowEmailAddress(!showEmailAddress)
-            }} style={{marginLeft: 10}}> Contact Email Address</Button>
-            <Button theme={showReferences ? 'primary' : 'light'} pill onClick={() => {
+            }} style={{marginLeft: 10}}> Contact Email Address &nbsp;<i className='fa fa-plus'/></Button>
+            <Button size='sm' theme={showReferences ? 'primary' : 'light'} pill onClick={() => {
                 setShowReferences(!showReferences)
-            }} style={{marginLeft: 10}}>References</Button>
-            <Button theme={showUncontrolledKeyword ? 'primary' : 'light'} pill onClick={() => {
+            }} style={{marginLeft: 10}}>References &nbsp;<i className='fa fa-plus'/></Button>
+            <Button size='sm' theme={showUncontrolledKeyword ? 'primary' : 'light'} pill onClick={() => {
                 setShowUncontrolledKeyword(!showUncontrolledKeyword)
-            }} style={{marginLeft: 10}}>Uncontrolled Keywords</Button>
-            <Button theme={showAddInformation ? 'primary' : 'light'} pill onClick={() => {
+            }} style={{marginLeft: 10}}>Uncontrolled Keywords &nbsp;<i className='fa fa-plus'/></Button>
+            <Button size='sm' theme={showAddInformation ? 'primary' : 'light'} pill onClick={() => {
                 setShowAddInformation(!showAddInformation)
-            }} style={{marginLeft: 10}}>Additional Information</Button>
-            <Button theme={showComment ? 'primary' : 'light'} pill onClick={() => {
+            }} style={{marginLeft: 10}}>Additional Information &nbsp;<i className='fa fa-plus'/></Button>
+            <Button size='sm' theme={showComment ? 'primary' : 'light'} pill onClick={() => {
                 setShowComment(!showComment)
-            }} style={{marginLeft: 10}}>Comments and Suggestions</Button>
+            }} style={{marginLeft: 10}}>Comments and Suggestions &nbsp;<i className='fa fa-plus'/></Button>
         </Row>
-        <div>
+        <div style={{marginTop: 20}}>
             <FormInput type="text" id="emailAddress" placeholder="Email Address" value={emailAddress} onChange={(e) => dispatch(savePublicationEmailAddress(e.target.value))}
                        style={{marginTop: 10, display: showEmailAddress ? 'block' : 'none'}}/>
             <FormInput type="text" id="references" placeholder="References" value={references} onChange={(e) => dispatch(savePublicationReferences(e.target.value))}
@@ -353,7 +340,7 @@ export default function NewPublication() {
             <FormInput type="text" id="addInformation" placeholder="Additional Information" value={addInformation} onChange={(e) => dispatch(savePublicationAddInformation(e.target.value))}
                        style={{marginTop: 10, display: showAddInformation ? 'block' : 'none'}}/>
             <FormTextarea type="text" id="comment" placeholder="Comments and Suggestions" value={comment} onChange={(e) => dispatch(savePublicationComment(e.target.value))}
-                          style={{marginTop: 10, display: showComment ? 'block' : 'none'}}/>
+                          style={{marginTop: 10, height: 100, display: showComment ? 'block' : 'none'}}/>
         </div>
         <Subject/>
         <Row className='float-right'>
@@ -413,27 +400,35 @@ export default function NewPublication() {
                             dispatch(resetPublication());
                             dispatch(resetTechnicalReport());
                             dispatch(setDashboardState(false));
-                            dispatch(saveDisplayingPublicationLabel('My Publications'));
+                            dispatch(saveDisplayingPublicationLabel('Publications'));
                             dispatch(saveViewingPublicationId(null));
                         }, 1000);
                     }, (error) => {
-                        alert(error);
-                        setSubmissionProgress(3);
+                        setSubmissionProgress(0);
+                        if (error === 'Publication already exists') {
+                            setModalOpen(true);
+                        } else {
+                            alert(error);
+                        }
                     });
-                }}>{submitButtonText}&nbsp; <i className={submitButtonIcon}/>
+                }}>{submitButtonText}&nbsp; {submitButtonIcon}
                 </Button>
             }
         </Row>
     </div>
     return (
         <Fragment>
+            <Modal open={modalOpen} toggle={() => setModalOpen(!modalOpen)}>
+                <ModalHeader>Duplicated publication!</ModalHeader>
+                <ModalBody><label style={{textAlign: 'center'}}>
+                    ⚠️ The publication you are about to add already exists. Please search and check it carefully before proceed
+                </label></ModalBody>
+            </Modal>
             <fieldset disabled={isDisable}>
                 <ArticleType/>
                 <br/>
                 {isComponentLoading ? <ContentLoader viewBox="0 0 400 160">
-                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-                        <rect x="0" y={5 + item * 16} rx="5" ry="5" width="400" height="6"/>
-                    ))}
+                    {[...Array(10).keys()].map((item) => (<rect x="0" y={5 + item * 16} rx="5" ry="5" width="400" height="6"/>))}
                 </ContentLoader> : loadedComponent}
             </fieldset>
         </Fragment>

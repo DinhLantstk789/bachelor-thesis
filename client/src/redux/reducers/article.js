@@ -1,5 +1,5 @@
 const initialState = {
-    articleType: 'conference-workshop-item'
+    articleType: 'article'
 };
 
 export default (state = initialState, action) => {

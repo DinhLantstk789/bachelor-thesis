@@ -6,6 +6,7 @@ import {saveLoggedUser, savePublicationFilterDivisions} from "./redux/actions";
 import {connect} from "react-redux";
 import {login} from "./utils/apiCalls";
 import {sha256} from "js-sha256";
+import {ClipLoader} from "react-spinners";
 
 
 class Login extends Component {
@@ -15,7 +16,8 @@ class Login extends Component {
         enteredPassword: '',
         passwordCheckedResult: '',
         errorResponse: '',
-        enteredCheckbox: true
+        enteredCheckbox: true,
+        isLoggingIn: false,
     }
     onTypingEmail = (event) => {
         this.setState({errorResponse: ''});
@@ -41,12 +43,16 @@ class Login extends Component {
             email: this.state.enteredEmail,
             password: sha256(this.state.enteredPassword)
         }
+        this.setState({isLoggingIn: true});
         login(credentials, (user) => {
             this.props.saveLoggedUser(user);
+            this.setState({isLoggingIn: false});
         }, (message) => {
+            this.setState({isLoggingIn: false});
             this.setState({errorResponse: message});
         })
     }
+
     render() {
         let isDisabled = this.state.emailCheckedResult.length !== 0 || this.state.passwordCheckedResult.length !== 0;
         return (
@@ -64,7 +70,7 @@ class Login extends Component {
                                         account</h4>
                                     <p style={{
                                         textAlign: 'center',
-                                        marginBottom: 10,color:"red"
+                                        marginBottom: 10, color: "red"
                                     }}>{this.state.emailCheckedResult}</p>
                                     <InputGroup className="mb-2">
                                         <InputGroupAddon type="prepend">
@@ -74,7 +80,7 @@ class Login extends Component {
                                     </InputGroup>
                                     <p style={{
                                         textAlign: 'center',
-                                        marginBottom: 10,color:"red"
+                                        marginBottom: 10, color: "red"
                                     }}>{this.state.passwordCheckedResult}</p>
                                     <InputGroup className="mb-2">
                                         <InputGroupAddon type="prepend">
@@ -98,8 +104,8 @@ class Login extends Component {
                                         <Col xs={6} md={6} sm={6}>
                                             <Button type="submit" className="float-right" onClick={this.onSubmit}
                                                     disabled={isDisabled} pill
-                                                    theme="primary">
-                                                Login &rarr;
+                                                    theme={this.state.isLoggingIn ? "success" : "primary"}>
+                                                {this.state.isLoggingIn ? <span>Waiting &nbsp;<ClipLoader size={12} color={'#ffffff'} loading/></span> : <span>Login &nbsp;<i className="fa fa-arrow-right"/></span>}
                                             </Button>
                                         </Col>
                                     </Row>

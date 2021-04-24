@@ -1,6 +1,8 @@
 const initialState = {
     articleId: null,
+    statisticsByYears: null,
     searchPublicationContent: '',
+    sortBy: 'Recently Added',
     publicationTitle: '',
     publicationAbstract: '',
     creators: [{familyName: '', givenName: '', email: '', department: ''}],
@@ -27,7 +29,7 @@ const initialState = {
     kind: '',
     isAddingPublication: false,
     isDisable: false,
-    displayingPublicationLabel: 'My Publications',
+    displayingPublicationLabel: 'Publications',
     viewingPublicationId: null,
     publicationApproval: false,
     subjects: [{name: 'Aerospace Engineering', isEnable: false},
@@ -235,10 +237,20 @@ export default (state = initialState, action) => {
         const data = action.data;
         return {...state, searchPublicationContent: data.searchPublicationContent}
     }
+    if (action.type === 'SAVE_STATISTIC_BY_YEARS') {
+        const data = action.data;
+        return {...state, statisticsByYears: data.statisticsByYears}
+    }
+    if (action.type === 'SAVE_PUBLICATION_SORT_BY') {
+        const data = action.data;
+        return {...state, sortBy: data.sortBy}
+    }
     if (action.type === 'RESET_PUBLICATION') {
         return {
             articleId: null,
+            statisticsByYears: null,
             searchPublicationContent: '',
+            sortBy: 'Recently Added',
             publicationTitle: '',
             publicationAbstract: '',
             creators: [{familyName: '', givenName: '', email: '', department: ''}],
@@ -265,7 +277,7 @@ export default (state = initialState, action) => {
             kind: '',
             isAddingPublication: false,
             isDisable: false,
-            displayingPublicationLabel: 'My Publications',
+            displayingPublicationLabel: 'Publications',
             viewingPublicationId: null,
             publicationApproval: false,
             subjects: [{name: 'Aerospace Engineering', isEnable: false},
