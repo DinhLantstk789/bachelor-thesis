@@ -393,7 +393,7 @@ module.exports = {
         }
     },
     findUser: async (email) => {
-        let users = await eprints.query('SELECT email, password, family_name, given_name, is_admin FROM users WHERE email = $1', {bind: [email], type: QueryTypes.SELECT});
+        let users = await eprints.query('SELECT * FROM users WHERE email = $1', {bind: [email], type: QueryTypes.SELECT});
         if (users.length !== 1) return null;
         const loggedUser = users[0];
         const uEmail = loggedUser.email;
