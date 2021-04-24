@@ -10,7 +10,7 @@ import {logout} from "./utils/apiCalls";
 import {resetImpactScore, resetPublication, resetPublicationFilter, resetUserInformation, saveImpactScoreSearchPublicationContent, saveLoggedUser, saveSearchPublicationContent} from "./redux/actions";
 import {ClipLoader} from "react-spinners";
 import Filter from "./publication/filter";
-import ImpactScore from "./tabs/impactScore";
+import ResearchHours from "./tabs/researchHours";
 import {CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 
 export default function Home() {
@@ -88,7 +88,7 @@ export default function Home() {
                     </Col>
                 </Row>
             </Alert>
-            {currentTab === 'user-management' ? <Management/> : currentTab === 'impact-score' ? <ImpactScore/> : currentTab === 'statistics' ? <Statistics/> :
+            {currentTab === 'user-management' ? <Management/> : currentTab === 'impact-score' ? <ResearchHours/> : currentTab === 'statistics' ? <Statistics/> :
                 <Row style={{marginLeft: 20}}>
                     <Col md={8}><Publications/></Col>
                     <Col md={4}>

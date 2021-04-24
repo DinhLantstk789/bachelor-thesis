@@ -23,7 +23,7 @@ import {CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAx
 import {academicTitleToRequiredWorkingHours, managerToExemption, unionTitleToExemption} from "../utils/configs";
 
 
-export default function ImpactScore() {
+export default function ResearchHours() {
     const loggedUser = useSelector(store => store.user.loggedUser);
     const [isFirstLoading, setIsFirstLoading] = useState(true);
     const [isTriggerReload, setIsTriggerReload] = useState(true);
