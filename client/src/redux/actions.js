@@ -348,6 +348,10 @@ export const unSelectStatisticFilter = (userAllowedDivision) => ({
 });
 
 /* impact score */
+export const saveResearchHoursByYears = (researchHoursByYears) => ({
+    type: 'SAVE_RESEARCH_HOURS_BY_YEARS',
+    data: {researchHoursByYears: researchHoursByYears}
+})
 export const saveImpactScoreOpeningPublicationDetails = (openingPublicationDetails) => ({
     type: 'IMPACT_SCORE_SAVE_OPENING_PUBLICATION_DETAILS',
     data: {openingPublicationDetails: openingPublicationDetails}

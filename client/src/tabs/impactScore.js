@@ -5,6 +5,7 @@ import UserRow from "../rows/userRow";
 import {List} from "react-content-loader";
 import * as apiCalls from "../utils/apiCalls";
 import {
+    resetImpactScore,
     saveImpactScoreOpeningPublicationDetails,
     saveImpactScoreOpeningUserEmail,
     saveImpactScoreOpeningUserName,
@@ -13,9 +14,12 @@ import {
     saveImpactScoreSearchPublicationContent,
     saveImpactScoreTriggerReloadAllPublication,
     saveImpactScoreUserSortBy,
+    saveResearchHoursByYears,
     saveSearchPublicationContent
 } from "../redux/actions";
 import PublicationList from "./publicationList";
+import {ClipLoader} from "react-spinners";
+import {CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 
 
 export default function ImpactScore() {
@@ -41,12 +45,14 @@ export default function ImpactScore() {
 
     const userSortBy = useSelector(store => store.impactScore.userSortBy);
     const publicationDetailsSortBy = useSelector(store => store.impactScore.publicationDetailsSortBy);
+    const researchHoursStatisticByYear = useSelector(store => store.impactScore.researchHoursByYears);
 
     useEffect(() => {
         if (isTriggerReload) {
             if (!loggedUser.isAdmin) {
                 dispatch(saveImpactScoreOpeningPublicationDetails(true));
                 dispatch(saveImpactScoreOpeningUserEmail(loggedUser.email));
+                dispatch(saveResearchHoursByYears(null));
                 dispatch(saveImpactScoreOpeningUserName(loggedUser.givenName + ' ' + loggedUser.familyName));
                 dispatch(saveImpactScoreTriggerReloadAllPublication(true));
             }
@@ -55,7 +61,7 @@ export default function ImpactScore() {
                 setIsTriggerReload(!isTriggerReload);
                 let filteredUsers = [];
                 users.map(u => {
-                    if (u.email === loggedUser.email) dispatch(saveImpactScoreOpeningUserScore(u.impactScore));
+                    // if (u.email === loggedUser.email) dispatch(saveImpactScoreOpeningUserScore(u.impactScore));
                     if (loggedUser.isAdmin && u.email !== 'admin@eprints.vnu.edu.vn') {
                         filteredUsers.push(u);
                     } else {
@@ -173,17 +179,31 @@ export default function ImpactScore() {
                                         </Button>
                                     </Dropdown>
                                     <i style={{fontSize: 20, marginTop: 10, marginRight: 10, marginLeft: 10, cursor: 'pointer'}} className='fa fa-times' onClick={() => {
-                                        dispatch(saveImpactScoreOpeningPublicationDetails(false));
-                                        dispatch(saveImpactScoreSearchPublicationContent(''));
-                                        dispatch(saveImpactScoreOpeningUserEmail(null));
-                                        dispatch(saveImpactScoreOpeningUserScore(null));
-                                        dispatch(saveImpactScoreOpeningUserName(null));
+                                        dispatch(resetImpactScore());
                                     }}/>
                                 </Row>
                             </Col>
                         </Row>
                     </CardHeader>
                     <CardBody>
+                        <Row>
+                            <Col>
+                                <div style={{marginBottom: 30, marginRight: 10}}>
+                                    <h6 style={{textAlign: 'center'}}>Number of research hours over years</h6>
+                                    {researchHoursStatisticByYear === null ? <div style={{height: 250, textAlign: 'center', padding: 70}}><ClipLoader size={60} color={'#157ffb'} loading/></div> :
+                                        <ResponsiveContainer width='100%' height={200}>
+                                            <LineChart data={researchHoursStatisticByYear}>
+                                                <CartesianGrid strokeDasharray="3 3"/>
+                                                <XAxis dataKey="name" padding={{left: 20, right: 20}}/>
+                                                <YAxis/>
+                                                <Tooltip/>
+                                                <Line type="monotone" dataKey="hours" stroke="#8884d8" activeDot={{r: 5}}/>
+                                            </LineChart>
+                                        </ResponsiveContainer>
+                                    }
+                                </div>
+                            </Col>
+                        </Row>
                         {publicationDetailsSearchOpen ? <InputGroup style={{marginBottom: 30}}>
                             <InputGroupAddon type="prepend"><InputGroupText><i className="fa fa-search"/></InputGroupText></InputGroupAddon>
                             <FormInput value={searchPublicationContent} placeholder="Search publications, authors, and years" onChange={(e) => {

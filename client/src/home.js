@@ -8,13 +8,10 @@ import {useDispatch, useSelector} from "react-redux";
 import Management from "./tabs/management";
 import {logout} from "./utils/apiCalls";
 import {
+    resetImpactScore,
     resetPublication,
     resetPublicationFilter,
     resetUserInformation,
-    saveImpactScoreOpeningPublicationDetails,
-    saveImpactScoreOpeningUserEmail,
-    saveImpactScoreOpeningUserName,
-    saveImpactScoreOpeningUserScore,
     saveImpactScoreSearchPublicationContent,
     saveLoggedUser,
     saveSearchPublicationContent
@@ -37,10 +34,7 @@ export default function Home() {
     const clearData = () => {
         dispatch(saveImpactScoreSearchPublicationContent(''));
         dispatch(saveSearchPublicationContent(''));
-        dispatch(saveImpactScoreOpeningUserEmail(null));
-        dispatch(saveImpactScoreOpeningUserName(null));
-        dispatch(saveImpactScoreOpeningUserScore(null));
-        dispatch(saveImpactScoreOpeningPublicationDetails(false));
+        dispatch(resetImpactScore());
     }
 
     return (

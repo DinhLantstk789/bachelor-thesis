@@ -3,7 +3,7 @@ import {List} from "react-content-loader";
 import {useDispatch, useSelector} from "react-redux";
 import PublicationRow from "../rows/publicationRow";
 import {fetchPublication} from "../utils/apiCalls";
-import {saveImpactScoreTriggerReloadAllPublication, savePublicationStatisticByYears, setTriggerReloadAllPublication} from "../redux/actions";
+import {saveImpactScoreOpeningUserScore, saveImpactScoreTriggerReloadAllPublication, savePublicationStatisticByYears, saveResearchHoursByYears, setTriggerReloadAllPublication} from "../redux/actions";
 import {Badge} from "shards-react";
 
 export default function PublicationList({isForImpactScore, approvalFilter, pendingFilter}) {
@@ -40,6 +40,25 @@ export default function PublicationList({isForImpactScore, approvalFilter, pendi
         dispatch(savePublicationStatisticByYears(Object.keys(finalPublicationsCount).map(y => ({name: y, publications: finalPublicationsCount[y]}))));
     }
 
+    const parseHoursCount = (publications) => {
+        let hoursCount = {};
+        let minYear = 3000, maxYear = 0;
+        let totalScore = 0;
+        publications.forEach(p => {
+            const y = parseInt(p.selectedDate.split('-')[0]);
+            minYear = y < minYear ? y : minYear;
+            maxYear = y > maxYear ? y : maxYear;
+            hoursCount[y] = hoursCount[y] ? hoursCount[y] + p.impactScore : p.impactScore
+            totalScore += p.impactScore;
+        });
+        let finalHoursCount = {};
+        for (let i = minYear; i <= maxYear; i += 1) {
+            finalHoursCount[i] = hoursCount[i] ? hoursCount[i] : 0;
+        }
+        dispatch(saveResearchHoursByYears(Object.keys(finalHoursCount).map(y => ({name: y, hours: finalHoursCount[y]}))));
+        dispatch(saveImpactScoreOpeningUserScore(totalScore));
+    }
+
     useEffect(() => {
         const body = {
             isFiltering: true,
@@ -54,6 +73,7 @@ export default function PublicationList({isForImpactScore, approvalFilter, pendi
             dispatch(setTriggerReloadAllPublication(false));
             setPublications(publications);
             parseYearCount(publications);
+            if (isForImpactScore) parseHoursCount(publications);
         }, (message) => alert(message));
     }, [triggerReload]);
 
@@ -74,6 +94,7 @@ export default function PublicationList({isForImpactScore, approvalFilter, pendi
                 setIsLoading(false);
                 setPublications(publications);
                 parseYearCount(publications);
+                if (isForImpactScore) parseHoursCount(publications);
             }, (message) => alert(message));
         }
     });
@@ -110,9 +131,9 @@ export default function PublicationList({isForImpactScore, approvalFilter, pendi
     return (
         <Fragment>
             {impactScoreOpeningUserName !== null ? <div style={{textAlign: 'center', marginBottom: 25}}><label style={{fontSize: 18}}>
-                {impactScoreOpeningUserName} has the total score of &nbsp;
-                <Badge theme='primary' pill>{impactScoreOpeningUserScore}</Badge>
-                &nbsp; including the following publications
+                {impactScoreOpeningUserName} has &nbsp;
+                <Badge theme='primary' pill>{impactScoreOpeningUserScore}</Badge>&nbsp;
+                research hours of all time, including the following publications
             </label></div> : ''}
             {isLoading ? loading : finalFilteredItemsAfterSearch.map(item => (
                 <PublicationRow isForImpactScore={isForImpactScore} impactScore={item.impactScore} triggerUpdateUI={() => setTriggerReload(true)} type={item.type} title={item.title} authors={item.creators} approved={item.isApproved}

@@ -18,6 +18,7 @@ import {
     saveIsAdmin,
     saveManagerTitle,
     saveOpeningProfileTab,
+    saveResearchHoursByYears,
     saveUnionTitle,
     saveUserDescription
 } from "../redux/actions";
@@ -42,15 +43,15 @@ export default function UserRow({academicTitle, managerTitle, unionTitle, trigge
                     {impactScore ?
                         <div style={{textAlign: 'center', marginTop: -10, cursor: 'pointer'}} onClick={() => {
                             dispatch(saveImpactScoreOpeningPublicationDetails(true));
+                            dispatch(saveResearchHoursByYears(null));
                             dispatch(saveImpactScoreOpeningUserEmail(email));
-                            dispatch(saveImpactScoreOpeningUserScore(impactScore));
+                            dispatch(saveImpactScoreOpeningUserScore(null));
                             dispatch(saveImpactScoreOpeningUserName(givenName + ' ' + familyName));
                             dispatch(saveImpactScoreTriggerReloadAllPublication(true));
-                        }}>Total Hours &nbsp;&nbsp;
+                        }}>Required Hours &nbsp;&nbsp;
                             <label style={{fontSize: 23}}>
-                                <Badge style={{paddingLeft: 10, paddingRight: 10}} href="#" pill
-                                       theme={impactScore >= academicTitleToRequiredWorkingHours[academicTitle] * managerToExemption[managerTitle] * unionTitleToExemption[unionTitle] ? 'success' : 'light'}>
-                                    {impactScore} / {academicTitleToRequiredWorkingHours[academicTitle] * managerToExemption[managerTitle] * unionTitleToExemption[unionTitle]}
+                                <Badge style={{paddingLeft: 10, paddingRight: 10, paddingTop: 5, paddingBottom: 5}} href="#" pill theme='primary'>
+                                    {academicTitleToRequiredWorkingHours[academicTitle] * managerToExemption[managerTitle] * unionTitleToExemption[unionTitle]}
                                 </Badge>
                             </label>
                         </div> : <div>

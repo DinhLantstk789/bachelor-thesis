@@ -13,6 +13,22 @@ function convertToSQLArray(arr) {
     return '{' + r.substring(0, r.length - 1) + '}';
 }
 
+const typeToHoursCount = {
+    'article' : 1200,
+    'conference-workshop-item': 900,
+    'technical-report': 0,
+    'book-section': 1200,
+    'book': 2700,
+    'thesis': 0,
+    'patent': 3000,
+    'image': 0,
+    'video':0,
+    'dataset':0,
+    'experiment':0,
+    'teaching-resource':0,
+    'project-grant': 500
+}
+
 /* replace existing  division */
 async function insertUserDivision(userEmail, divisionName) {
     await eprints.query('DELETE FROM user_division WHERE user_email = $1;', {bind: [userEmail], type: QueryTypes.DELETE});
@@ -165,7 +181,7 @@ module.exports = {
                         isApproved: p.is_approved,
                         selectedDate: p.date,
                         databaseAddedOn: p.db_created_on,
-                        impactScore: Math.round(Math.random() * 100)
+                        impactScore: typeToHoursCount[p.item_type]
                     })
                 } else {
                     let editors = [];
@@ -224,7 +240,7 @@ module.exports = {
                         publicationDepartment: p.publication_department,
                         isApproved: p.is_approved,
                         databaseAddedOn: p.db_created_on,
-                        impactScore: Math.round(Math.random() * 100)
+                        impactScore: typeToHoursCount[p.item_type]
                     })
                 }
             }
