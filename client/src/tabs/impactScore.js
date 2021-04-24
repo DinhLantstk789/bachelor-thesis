@@ -1,5 +1,5 @@
 import {Badge, Button, Card, CardBody, CardHeader, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, FormInput, InputGroup, InputGroupAddon, InputGroupText, Row} from "shards-react";
-import React, {useEffect, useState} from "react";
+import React, {useState, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import UserRow from "../rows/userRow";
 import {List} from "react-content-loader";
@@ -52,8 +52,6 @@ export default function ImpactScore() {
             researchHoursStatisticByYear.forEach(d => {
                 if (label === d.name) currentPoint = d;
             });
-// {name: y, hours: finalHoursCount[y], threshold: openingUserResearchHoursThreshold, completion: (finalHoursCount[y] / openingUserResearchHoursThreshold).toFixed(2)}))));
-//             completion:
             return (
                 <div style={{backgroundColor: '#FFFFFF', opacity: 0.6, padding: 10}}>
                     <h5 className="label">{`Total research hours in ${label}: ${currentPoint.hours}`}</h5>
@@ -207,7 +205,7 @@ export default function ImpactScore() {
                         <Row>
                             <Col>
                                 <div style={{marginBottom: 30, marginRight: 10}}>
-                                    <h6 style={{textAlign: 'center'}}>Number of research hours over years</h6>
+                                    <h6 style={{textAlign: 'center'}}>Number of mandatory research hours over years</h6>
                                     {researchHoursStatisticByYear === null ? <div style={{height: 250, textAlign: 'center', padding: 70}}><ClipLoader size={60} color={'#157ffb'} loading/></div> :
                                         <ResponsiveContainer width='100%' height={200}>
                                             <LineChart data={researchHoursStatisticByYear}>

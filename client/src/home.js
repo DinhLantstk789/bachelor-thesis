@@ -67,7 +67,7 @@ export default function Home() {
                                 setCurrentTab('impact-score');
                                 clearData();
                             }}><i
-                                className="fas fa-star"/> &nbsp; Impact Score</Button>
+                                className="fas fa-star"/> &nbsp; Research Hours</Button>
                             {loggedUser.isAdmin ?
                                 <Button style={{marginLeft: 7, marginRight: 7}} theme={currentTab === 'user-management' ? 'primary' : 'light'} pill onClick={() => {
                                     setCurrentTab('user-management');
