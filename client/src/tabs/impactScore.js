@@ -4,7 +4,17 @@ import {useDispatch, useSelector} from "react-redux";
 import UserRow from "../rows/userRow";
 import {List} from "react-content-loader";
 import * as apiCalls from "../utils/apiCalls";
-import {saveImpactScoreOpeningPublicationDetails, saveImpactScoreOpeningUserEmail, saveImpactScoreOpeningUserName, saveImpactScorePublicationDetailSortBy, saveImpactScoreSearchPublicationContent, saveImpactScoreUserSortBy, saveSearchPublicationContent} from "../redux/actions";
+import {
+    saveImpactScoreOpeningPublicationDetails,
+    saveImpactScoreOpeningUserEmail,
+    saveImpactScoreOpeningUserName,
+    saveImpactScoreOpeningUserScore,
+    saveImpactScorePublicationDetailSortBy,
+    saveImpactScoreSearchPublicationContent,
+    saveImpactScoreTriggerReloadAllPublication,
+    saveImpactScoreUserSortBy,
+    saveSearchPublicationContent
+} from "../redux/actions";
 import PublicationList from "./publicationList";
 
 
@@ -34,17 +44,22 @@ export default function ImpactScore() {
 
     useEffect(() => {
         if (isTriggerReload) {
+            if (!loggedUser.isAdmin) {
+                dispatch(saveImpactScoreOpeningPublicationDetails(true));
+                dispatch(saveImpactScoreOpeningUserEmail(loggedUser.email));
+                dispatch(saveImpactScoreOpeningUserName(loggedUser.givenName + ' ' + loggedUser.familyName));
+                dispatch(saveImpactScoreTriggerReloadAllPublication(true));
+            }
             apiCalls.fetchUsers({filterApproved: true}, users => {
                 setIsFirstLoading(false);
                 setIsTriggerReload(!isTriggerReload);
                 let filteredUsers = [];
                 users.map(u => {
-                    if (loggedUser.isAdmin) {
-                        if (u.email !== 'admin@eprints.vnu.edu.vn' && u.email !== loggedUser.email) { /* ignore super admin and the current user */
-                            filteredUsers.push(u);
-                        }
+                    if (u.email === loggedUser.email) dispatch(saveImpactScoreOpeningUserScore(u.impactScore));
+                    if (loggedUser.isAdmin && u.email !== 'admin@eprints.vnu.edu.vn') {
+                        filteredUsers.push(u);
                     } else {
-                        if (u.email === loggedUser.email) { /* ignore super admin and the current user */
+                        if (u.email === loggedUser.email) {
                             filteredUsers.push(u);
                         }
                     }
@@ -84,7 +99,7 @@ export default function ImpactScore() {
 
     return (
         <Row style={{marginRight: 50, marginLeft: 50}}>
-            <Col md={openingPublicationDetails ? 6 : 12}>
+            {loggedUser.isAdmin ? <Col md={openingPublicationDetails ? 6 : 12}>
                 <Card>
                     <CardHeader>
                         <Row>
@@ -120,12 +135,13 @@ export default function ImpactScore() {
                             <FormInput value={searchUserContent} placeholder="Search for registered users" onChange={(e) => setSearchUserContent(e.target.value)}/>
                         </InputGroup> : ''}
                         {isFirstLoading ? loading : finalFilteredUserAccountsAfterSearch.map(item => (
-                            <UserRow triggerReload={() => setIsTriggerReload(!isTriggerReload)} impactScore={item.impactScore} givenName={item.givenName} familyName={item.familyName} email={item.email} isAdmin={item.isAdmin} department={item.department}/>
+                            <UserRow triggerReload={() => setIsTriggerReload(!isTriggerReload)} impactScore={item.impactScore} givenName={item.givenName} familyName={item.familyName} email={item.email} isAdmin={item.isAdmin}
+                                     department={item.department}/>
                         ))}
                     </CardBody>
                 </Card>
-            </Col>
-            {openingPublicationDetails ? <Col md={6}>
+            </Col> : ''}
+            {openingPublicationDetails ? <Col md={loggedUser.isAdmin ? 6 : 12}>
                 <Card>
                     <CardHeader>
                         <Row>
@@ -160,6 +176,7 @@ export default function ImpactScore() {
                                         dispatch(saveImpactScoreOpeningPublicationDetails(false));
                                         dispatch(saveImpactScoreSearchPublicationContent(''));
                                         dispatch(saveImpactScoreOpeningUserEmail(null));
+                                        dispatch(saveImpactScoreOpeningUserScore(null));
                                         dispatch(saveImpactScoreOpeningUserName(null));
                                     }}/>
                                 </Row>

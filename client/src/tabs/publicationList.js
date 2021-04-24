@@ -1,9 +1,10 @@
-import {Fragment, useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {List} from "react-content-loader";
 import {useDispatch, useSelector} from "react-redux";
 import PublicationRow from "../rows/publicationRow";
 import {fetchPublication} from "../utils/apiCalls";
 import {saveImpactScoreTriggerReloadAllPublication, savePublicationStatisticByYears, setTriggerReloadAllPublication} from "../redux/actions";
+import {Badge} from "shards-react";
 
 export default function PublicationList({isForImpactScore, approvalFilter, pendingFilter}) {
     const [isLoading, setIsLoading] = useState(true);
@@ -21,6 +22,7 @@ export default function PublicationList({isForImpactScore, approvalFilter, pendi
     const triggerReloadAllPublicationFromImpactScore = useSelector(store => store.impactScore.triggerReloadAllPublication);
     const impactScoreOpeningUserEmail = useSelector(store => store.impactScore.openingUserEmail);
     const impactScoreOpeningUserName = useSelector(store => store.impactScore.openingUserName);
+    const impactScoreOpeningUserScore = useSelector(store => store.impactScore.openingUserScore);
 
     const parseYearCount = (publications) => {
         let publicationYearCount = {};
@@ -107,9 +109,14 @@ export default function PublicationList({isForImpactScore, approvalFilter, pendi
     })
     return (
         <Fragment>
-            {impactScoreOpeningUserName !== null ? <h6 style={{marginBottom: 20}}>Score Details of {impactScoreOpeningUserName}</h6> : ''}
+            {impactScoreOpeningUserName !== null ? <div style={{textAlign: 'center', marginBottom: 25}}><label style={{fontSize: 18}}>
+                {impactScoreOpeningUserName} has the total score of &nbsp;
+                <Badge theme='primary' pill>{impactScoreOpeningUserScore}</Badge>
+                &nbsp; including the following publications
+            </label></div> : ''}
             {isLoading ? loading : finalFilteredItemsAfterSearch.map(item => (
-                <PublicationRow isForImpactScore={isForImpactScore} impactScore={item.impactScore} triggerUpdateUI={() => setTriggerReload(true)} type={item.type} title={item.title} authors={item.creators} approved={item.isApproved} publicationId={item.id} selectedDate={item.selectedDate}/>
+                <PublicationRow isForImpactScore={isForImpactScore} impactScore={item.impactScore} triggerUpdateUI={() => setTriggerReload(true)} type={item.type} title={item.title} authors={item.creators} approved={item.isApproved}
+                                publicationId={item.id} selectedDate={item.selectedDate}/>
             ))}
         </Fragment>
     )

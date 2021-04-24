@@ -1,5 +1,5 @@
-import React, {Fragment, useEffect, useState} from 'react';
-import {Alert, Button, Card, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody, ModalHeader, Row} from "shards-react";
+import React, {Fragment, useState} from 'react';
+import {Alert, Button, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody, ModalHeader, Row} from "shards-react";
 import Footer from "./footer";
 import Publications from "./tabs/publications";
 import Statistics from "./tabs/statistics";
@@ -7,11 +7,22 @@ import Profile from "./profile";
 import {useDispatch, useSelector} from "react-redux";
 import Management from "./tabs/management";
 import {logout} from "./utils/apiCalls";
-import {resetPublication, resetPublicationFilter, resetUserInformation, saveImpactScoreOpeningPublicationDetails, saveImpactScoreOpeningUserEmail, saveImpactScoreOpeningUserName, saveImpactScoreSearchPublicationContent, saveLoggedUser, saveSearchPublicationContent} from "./redux/actions";
+import {
+    resetPublication,
+    resetPublicationFilter,
+    resetUserInformation,
+    saveImpactScoreOpeningPublicationDetails,
+    saveImpactScoreOpeningUserEmail,
+    saveImpactScoreOpeningUserName,
+    saveImpactScoreOpeningUserScore,
+    saveImpactScoreSearchPublicationContent,
+    saveLoggedUser,
+    saveSearchPublicationContent
+} from "./redux/actions";
 import {ClipLoader} from "react-spinners";
 import Filter from "./publication/filter";
 import ImpactScore from "./tabs/impactScore";
-import {LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer} from "recharts";
+import {CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 
 export default function Home() {
     const [currentTab, setCurrentTab] = useState('publication-main');
@@ -22,6 +33,15 @@ export default function Home() {
     const isAddingPublication = useSelector(store => store.publication.isAddingPublication);
     const statisticsByYears = useSelector(store => store.publication.statisticsByYears);
     const dispatch = useDispatch();
+
+    const clearData = () => {
+        dispatch(saveImpactScoreSearchPublicationContent(''));
+        dispatch(saveSearchPublicationContent(''));
+        dispatch(saveImpactScoreOpeningUserEmail(null));
+        dispatch(saveImpactScoreOpeningUserName(null));
+        dispatch(saveImpactScoreOpeningUserScore(null));
+        dispatch(saveImpactScoreOpeningPublicationDetails(false));
+    }
 
     return (
         <Fragment>
@@ -41,39 +61,23 @@ export default function Home() {
                         <Row className="float-right">
                             <Button style={{marginLeft: 10, marginRight: 7}} theme={currentTab === 'publication-main' ? 'primary' : 'light'} pill onClick={() => {
                                 setCurrentTab('publication-main');
-                                dispatch(saveImpactScoreSearchPublicationContent(''));
-                                dispatch(saveSearchPublicationContent(''));
-                                dispatch(saveImpactScoreOpeningUserEmail(null));
-                                dispatch(saveImpactScoreOpeningUserName(null));
-                                dispatch(saveImpactScoreOpeningPublicationDetails(false));
+                                clearData();
                             }}><i
                                 className="fas fa-file"/> &nbsp; Publications</Button>
                             <Button style={{marginLeft: 7, marginRight: 7}} theme={currentTab === 'statistics' ? 'primary' : 'light'} pill onClick={() => {
                                 setCurrentTab('statistics');
-                                dispatch(saveImpactScoreSearchPublicationContent(''));
-                                dispatch(saveSearchPublicationContent(''));
-                                dispatch(saveImpactScoreOpeningUserEmail(null));
-                                dispatch(saveImpactScoreOpeningUserName(null));
-                                dispatch(saveImpactScoreOpeningPublicationDetails(false));
+                                clearData();
                             }}><i
                                 className="fas fa-chart-line"/> &nbsp; Statistics</Button>
                             <Button style={{marginLeft: 7, marginRight: 7}} theme={currentTab === 'impact-score' ? 'primary' : 'light'} pill onClick={() => {
                                 setCurrentTab('impact-score');
-                                dispatch(saveImpactScoreSearchPublicationContent(''));
-                                dispatch(saveSearchPublicationContent(''));
-                                dispatch(saveImpactScoreOpeningUserEmail(null));
-                                dispatch(saveImpactScoreOpeningUserName(null));
-                                dispatch(saveImpactScoreOpeningPublicationDetails(false));
+                                clearData();
                             }}><i
                                 className="fas fa-star"/> &nbsp; Impact Score</Button>
                             {loggedUser.isAdmin ?
                                 <Button style={{marginLeft: 7, marginRight: 7}} theme={currentTab === 'user-management' ? 'primary' : 'light'} pill onClick={() => {
                                     setCurrentTab('user-management');
-                                    dispatch(saveImpactScoreSearchPublicationContent(''));
-                                    dispatch(saveSearchPublicationContent(''));
-                                    dispatch(saveImpactScoreOpeningUserEmail(null));
-                                    dispatch(saveImpactScoreOpeningUserName(null));
-                                    dispatch(saveImpactScoreOpeningPublicationDetails(false));
+                                    clearData();
                                 }}><i className="fas fa-users"/> &nbsp; User Management</Button> : ''}
                             <Dropdown open={openAccount} toggle={() => setOpenAccount(!openAccount)}>
                                 <DropdownToggle theme={currentTab === 'profile' ? 'primary' : 'light'} pill id="dropdown1" style={{fontSize: 20, marginRight: 30, marginLeft: 5}} className="float-right">
@@ -89,11 +93,7 @@ export default function Home() {
                                             dispatch(resetPublicationFilter(loggedUser.divisions));
                                             dispatch(resetUserInformation());
                                             dispatch(resetPublication());
-                                            dispatch(saveImpactScoreSearchPublicationContent(''));
-                                            dispatch(saveSearchPublicationContent(''));
-                                            dispatch(saveImpactScoreOpeningUserEmail(null));
-                                            dispatch(saveImpactScoreOpeningUserName(null));
-                                            dispatch(saveImpactScoreOpeningPublicationDetails(false));
+                                            clearData();
                                         }, (errorMessage) => alert(errorMessage));
                                     }}><i className="fas fa-sign-out"/>&nbsp;&nbsp; Logout</DropdownItem>
                                 </DropdownMenu>

@@ -345,6 +345,10 @@ export const saveImpactScoreOpeningUserName = (openingUserName) => ({
     type: 'IMPACT_SCORE_SAVE_OPENING_USER_NAME',
     data: {openingUserName: openingUserName}
 })
+export const saveImpactScoreOpeningUserScore = (openingUserScore) => ({
+    type: 'IMPACT_SCORE_SAVE_OPENING_USER_SCORE',
+    data: {openingUserScore: openingUserScore}
+})
 export const resetImpactScore = () => ({
     type: 'RESET_IMPACT_SCORE'
 })

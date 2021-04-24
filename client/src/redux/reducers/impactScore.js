@@ -5,6 +5,7 @@ const initialState = {
     publicationDetailsSortBy: 'Recently Added',
     openingUserEmail: null,
     openingUserName: null,
+    openingUserScore: null,
     triggerReloadAllPublication: false
 };
 
@@ -33,6 +34,10 @@ export default (state = initialState, action) => {
         const data = action.data;
         return {...state, openingUserName: data.openingUserName}
     }
+    if (action.type === 'IMPACT_SCORE_SAVE_OPENING_USER_SCORE') {
+        const data = action.data;
+        return {...state, openingUserScore: data.openingUserScore}
+    }
     if (action.type === 'IMPACT_SCORE_TRIGGER_RELOAD_ALL_PUBLICATION') {
         const data = action.data;
         return {...state, triggerReloadAllPublication: data.triggerReloadAllPublication}
@@ -45,6 +50,7 @@ export default (state = initialState, action) => {
             publicationDetailsSortBy: 'Recently Added',
             openingUserEmail: null,
             openingUserName: null,
+            openingUserScore: null,
             triggerReloadAllPublication: false
         }
     }

@@ -3,7 +3,21 @@ import {Badge, Col, Row} from "shards-react";
 import * as apiCalls from "../utils/apiCalls";
 import {useDispatch} from "react-redux";
 import {ClipLoader} from "react-spinners";
-import {saveAddress, saveDepartment, saveEmail, saveFamilyName, saveGivenName, saveImpactScoreOpeningPublicationDetails, saveImpactScoreOpeningUserEmail, saveImpactScoreOpeningUserName, saveImpactScoreTriggerReloadAllPublication, saveIsAdmin, saveOpeningProfileTab, saveUserDescription, setTriggerReloadAllPublication} from "../redux/actions";
+import {
+    saveAddress,
+    saveDepartment, saveDisplayingPublicationLabel,
+    saveEmail,
+    saveFamilyName,
+    saveGivenName,
+    saveImpactScoreOpeningPublicationDetails,
+    saveImpactScoreOpeningUserEmail,
+    saveImpactScoreOpeningUserName,
+    saveImpactScoreOpeningUserScore,
+    saveImpactScoreTriggerReloadAllPublication,
+    saveIsAdmin,
+    saveOpeningProfileTab,
+    saveUserDescription
+} from "../redux/actions";
 
 export default function UserRow({triggerReload, impactScore, givenName, familyName, email, isAdmin, department}) {
     const [isDeleting, setIsDeleting] = useState(false);
@@ -22,15 +36,14 @@ export default function UserRow({triggerReload, impactScore, givenName, familyNa
             <Col md={4}>
                 <Row className='float-right' style={{marginRight: 10, marginTop: 13}}>
                     {impactScore ?
-                        <div style={{textAlign: 'center', marginTop: -20}}>Score
-                            <h5 onClick={() => {
-                                dispatch(saveImpactScoreOpeningPublicationDetails(true));
-                                dispatch(saveImpactScoreOpeningUserEmail(email));
-                                dispatch(saveImpactScoreOpeningUserName(givenName + ' ' + familyName));
-                                dispatch(saveImpactScoreTriggerReloadAllPublication(true));
-                            }}><Badge theme='primary' href="#" pill>{impactScore}</Badge></h5>
-                        </div>
-                        : <div>
+                        <div style={{textAlign: 'center', marginTop: -10, cursor: 'pointer'}} onClick={() => {
+                            dispatch(saveImpactScoreOpeningPublicationDetails(true));
+                            dispatch(saveImpactScoreOpeningUserEmail(email));
+                            dispatch(saveImpactScoreOpeningUserScore(impactScore));
+                            dispatch(saveImpactScoreOpeningUserName(givenName + ' ' + familyName));
+                            dispatch(saveImpactScoreTriggerReloadAllPublication(true));
+                        }}>Total Score &nbsp;&nbsp;<label style={{fontSize: 23}}><Badge theme='primary' href="#" pill>{impactScore}</Badge></label>
+                        </div> : <div>
                             <span style={{marginLeft: 20, marginRight: 20}} onClick={() => {
                                 if (!isViewing) {
                                     setIsViewing(true);
@@ -59,7 +72,7 @@ export default function UserRow({triggerReload, impactScore, givenName, familyNa
                                         triggerReload();
                                     }, (message) => {
                                         setIsDeleting(false);
-                                        console.log(message);
+                                        alert(message);
                                     })
                                 }
                             }}>{isDeleting ? <ClipLoader size={18} color={'#5a6169'} loading/> : <i style={{fontSize: 20, cursor: 'pointer'}} className='fa fa-trash'/>}

@@ -10,7 +10,8 @@ import {
     resetPublication,
     resetTechnicalReport,
     saveDisplayingPublicationLabel,
-    savePublicationApproval, savePublicationSortBy,
+    savePublicationApproval,
+    savePublicationSortBy,
     saveSearchPublicationContent,
     saveViewingPublicationId,
     setDashboardState
