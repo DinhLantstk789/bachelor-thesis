@@ -135,7 +135,7 @@ export default function ImpactScore() {
                             <FormInput value={searchUserContent} placeholder="Search for registered users" onChange={(e) => setSearchUserContent(e.target.value)}/>
                         </InputGroup> : ''}
                         {isFirstLoading ? loading : finalFilteredUserAccountsAfterSearch.map(item => (
-                            <UserRow triggerReload={() => setIsTriggerReload(!isTriggerReload)} academicTitle={item.academicTitle === 'None' ? '' : (item.academicTitle + ' ')}
+                            <UserRow triggerReload={() => setIsTriggerReload(!isTriggerReload)} academicTitle={item.academicTitle} managerTitle={item.managerTitle} unionTitle={item.unionTitle}
                                      impactScore={item.impactScore} givenName={item.givenName} familyName={item.familyName} email={item.email} isAdmin={item.isAdmin} department={item.department}/>
                         ))}
                     </CardBody>

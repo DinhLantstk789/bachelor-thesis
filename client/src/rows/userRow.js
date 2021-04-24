@@ -21,8 +21,9 @@ import {
     saveUnionTitle,
     saveUserDescription
 } from "../redux/actions";
+import {academicTitleToRequiredWorkingHours, managerToExemption, unionTitleToExemption} from "../utils/configs";
 
-export default function UserRow({academicTitle, triggerReload, impactScore, givenName, familyName, email, isAdmin, department}) {
+export default function UserRow({academicTitle, managerTitle, unionTitle, triggerReload, impactScore, givenName, familyName, email, isAdmin, department}) {
     const [isDeleting, setIsDeleting] = useState(false);
     const [isViewing, setIsViewing] = useState(false);
     const dispatch = useDispatch();
@@ -30,7 +31,7 @@ export default function UserRow({academicTitle, triggerReload, impactScore, give
         <Row>
             <Col md={8}>
                 <Row style={{marginLeft: 0}}>
-                    <h6>{isAdmin ? <Badge theme="secondary" pill style={{marginRight: 10}}>Admin</Badge> : ''}{academicTitle}{givenName}&nbsp;{familyName}</h6>
+                    <h6>{isAdmin ? <Badge theme="secondary" pill style={{marginRight: 10}}>Admin</Badge> : ''}{academicTitle === 'None' ? '' : academicTitle + ' '}{givenName}&nbsp;{familyName}</h6>
                 </Row>
                 <Row style={{marginLeft: 0, marginTop: -10}}>
                     <p style={{fontSize: 14}}>{email}, {department}</p>
@@ -45,7 +46,13 @@ export default function UserRow({academicTitle, triggerReload, impactScore, give
                             dispatch(saveImpactScoreOpeningUserScore(impactScore));
                             dispatch(saveImpactScoreOpeningUserName(givenName + ' ' + familyName));
                             dispatch(saveImpactScoreTriggerReloadAllPublication(true));
-                        }}>Total Score &nbsp;&nbsp;<label style={{fontSize: 23}}><Badge theme='primary' href="#" pill>{impactScore}</Badge></label>
+                        }}>Total Hours &nbsp;&nbsp;
+                            <label style={{fontSize: 23}}>
+                                <Badge style={{paddingLeft: 10, paddingRight: 10}} href="#" pill
+                                       theme={impactScore >= academicTitleToRequiredWorkingHours[academicTitle] * managerToExemption[managerTitle] * unionTitleToExemption[unionTitle] ? 'success' : 'light'}>
+                                    {impactScore} / {academicTitleToRequiredWorkingHours[academicTitle] * managerToExemption[managerTitle] * unionTitleToExemption[unionTitle]}
+                                </Badge>
+                            </label>
                         </div> : <div>
                             <span style={{marginLeft: 20, marginRight: 20}} onClick={() => {
                                 if (!isViewing) {

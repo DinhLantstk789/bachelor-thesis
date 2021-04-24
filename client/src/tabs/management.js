@@ -103,7 +103,7 @@ export default function Management() {
                             <FormInput value={searchContent} placeholder="Search for registered users" onChange={(e) => setSearchContent(e.target.value)}/>
                         </InputGroup> : ''}
                         {isFirstLoading ? loading : finalFilteredUserAccountsAfterSearch.map(item => (
-                            <UserRow triggerReload={() => setIsTriggerReload(!isTriggerReload)} academicTitle={item.academicTitle === 'None' ? '' : item.academicTitle + ' '}
+                            <UserRow triggerReload={() => setIsTriggerReload(!isTriggerReload)} academicTitle={item.academicTitle} managerTitle={item.managerTitle} unionTitle={item.unionTitle}
                                      givenName={item.givenName} familyName={item.familyName} email={item.email} isAdmin={item.isAdmin} department={item.department}/>
                         ))}
                     </CardBody>
