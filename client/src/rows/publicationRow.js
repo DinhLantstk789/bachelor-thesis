@@ -68,6 +68,7 @@ export default function PublicationRow({isForImpactScore, impactScore, triggerUp
     const [approvalOpen, setOpen] = useState(false);
     const [scoreOpen, setScoreOpen] = useState(false);
     const loggedUser = useSelector(store => store.user.loggedUser);
+    const impactScoreOpeningUserEmail = useSelector(store => store.impactScore.openingUserEmail);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -165,6 +166,32 @@ export default function PublicationRow({isForImpactScore, impactScore, triggerUp
         })
     }
 
+    let isMainAuthor = () => {
+        if (impactScoreOpeningUserEmail !== null) {
+            for (let i = 0; i < authors.length; i++) {
+                if (authors[i].email === impactScoreOpeningUserEmail) {
+                    return i === 0 || i === authors.length - 1;
+                }
+            }
+        }
+        return false;
+    }
+
+    let getFinalHours = () => {
+        if (impactScoreOpeningUserEmail !== null) {
+            const nPart = authors.length + 2
+            for (let i = 0; i < authors.length; i++) {
+                if (authors[i].email === impactScoreOpeningUserEmail) {
+                    if (i === 0 || i === authors.length - 1) {
+                        return impactScore / nPart * 2;
+                    }
+                    return impactScore / nPart;
+                }
+            }
+        }
+        return impactScore;
+    }
+
     return (
         <Fragment>
             <Row>
@@ -190,12 +217,12 @@ export default function PublicationRow({isForImpactScore, impactScore, triggerUp
                             <Row style={{marginRight: 0}}>
                                 {isForImpactScore ? <div style={{textAlign: 'center', marginRight: 5}}>
                                     <h5>
-                                        <Badge id={'score' + tooltipId} theme='secondary' href="#" pill>{impactScore}</Badge>
+                                        <Badge id={'score' + tooltipId} theme='secondary' href="#" pill>{getFinalHours()}</Badge>
                                         <Tooltip
                                             open={scoreOpen}
                                             target={"#score" + tooltipId}
                                             toggle={() => setScoreOpen(!scoreOpen)}>
-                                            Valued at {impactScore} hours
+                                            {isMainAuthor() ? 'Main author ' : 'Author '} valued at {getFinalHours()} of {impactScore} hours
                                         </Tooltip>
                                     </h5>
                                 </div> : <i style={{fontSize: 20, marginLeft: 20, marginRight: 10, marginTop: 4, cursor: 'pointer'}} className='fa fa-edit' onClick={() => {
