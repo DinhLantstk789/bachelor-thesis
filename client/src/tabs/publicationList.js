@@ -25,6 +25,22 @@ export default function PublicationList({isForImpactScore, approvalFilter, pendi
     const impactScoreOpeningUserScore = useSelector(store => store.impactScore.openingUserScore);
     const openingUserResearchHoursThreshold = useSelector(store => store.impactScore.openingUserResearchHoursThreshold);
 
+    /* weighing based on the authorship order */
+    let getFinalHours = (score, authors) => {
+        if (impactScoreOpeningUserEmail !== null) {
+            const nPart = authors.length + 2
+            for (let i = 0; i < authors.length; i++) {
+                if (authors[i].email === impactScoreOpeningUserEmail) {
+                    if (i === 0 || i === authors.length - 1) {
+                        return score / nPart * 2;
+                    }
+                    return score / nPart;
+                }
+            }
+        }
+        return score;
+    }
+
     const parseYearCount = (publications) => {
         let publicationYearCount = {};
         let minYear = 3000, maxYear = 0;
@@ -41,17 +57,22 @@ export default function PublicationList({isForImpactScore, approvalFilter, pendi
         dispatch(savePublicationStatisticByYears(Object.keys(finalPublicationsCount).map(y => ({name: y, publications: finalPublicationsCount[y]}))));
     }
 
+    /* parse the corresponding hours of each publication for the targeted author */
     const parseHoursCount = (publications) => {
+        let newPublications = publications;
         let hoursCount = {};
         let minYear = 3000, maxYear = 0;
         let totalScore = 0;
-        publications.forEach(p => {
+        newPublications.forEach(p => {
             const y = parseInt(p.selectedDate.split('-')[0]);
             minYear = y < minYear ? y : minYear;
             maxYear = y > maxYear ? y : maxYear;
-            hoursCount[y] = hoursCount[y] ? hoursCount[y] + p.impactScore : p.impactScore
-            totalScore += p.impactScore;
+            const weighedImpactScore = getFinalHours(p.impactScore, p.creators);
+            p['weighedImpactScore'] = weighedImpactScore;
+            hoursCount[y] = hoursCount[y] ? hoursCount[y] + weighedImpactScore : weighedImpactScore;
+            totalScore += weighedImpactScore;
         });
+        setPublications(newPublications);
         let finalHoursCount = {};
         for (let i = minYear; i <= maxYear; i += 1) {
             finalHoursCount[i] = hoursCount[i] ? hoursCount[i] : 0;
@@ -137,7 +158,8 @@ export default function PublicationList({isForImpactScore, approvalFilter, pendi
                 research hours of all time, including the following publications
             </label></div> : ''}
             {isLoading ? loading : finalFilteredItemsAfterSearch.map(item => (
-                <PublicationRow isForImpactScore={isForImpactScore} impactScore={item.impactScore} triggerUpdateUI={() => setTriggerReload(true)} type={item.type} title={item.title} authors={item.creators} approved={item.isApproved}
+                <PublicationRow isForImpactScore={isForImpactScore} impactScore={item.impactScore} weighedImpactScore={item.weighedImpactScore} triggerUpdateUI={() => setTriggerReload(true)} type={item.type} title={item.title} authors={item.creators}
+                                approved={item.isApproved}
                                 publicationId={item.id} selectedDate={item.selectedDate}/>
             ))}
         </Fragment>

@@ -60,7 +60,7 @@ function parseAuthors(creators) {
     return finalAuthors.substring(0, finalAuthors.length - 2);
 }
 
-export default function PublicationRow({isForImpactScore, impactScore, triggerUpdateUI, type, title, authors, approved, publicationId, selectedDate}) {
+export default function PublicationRow({isForImpactScore, impactScore, weighedImpactScore, triggerUpdateUI, type, title, authors, approved, publicationId, selectedDate}) {
     const [isClickingViewing, setIsClickingView] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isApproved, setIsApproved] = useState();
@@ -99,7 +99,8 @@ export default function PublicationRow({isForImpactScore, impactScore, triggerUp
                     if (item.name === d) item.isEnable = true;
                 })
             });
-            let initialSubjects = [{name: 'Aerospace Engineering', isEnable: false},
+            let initialSubjects = [
+                {name: 'Aerospace Engineering', isEnable: false},
                 {name: 'Communications', isEnable: false},
                 {name: 'Electronics and Computer Engineering', isEnable: false},
                 {name: 'Engineering Mechanics', isEnable: false},
@@ -108,7 +109,8 @@ export default function PublicationRow({isForImpactScore, impactScore, triggerUp
                 {name: 'Information Technology (IT)', isEnable: false},
                 {name: 'Scopus-indexed journals', isEnable: false},
                 {name: 'Transportation Technology', isEnable: false},
-                {name: 'Civil Engineering', isEnable: false}];
+                {name: 'Civil Engineering', isEnable: false}
+            ];
             publication.subjects.forEach(s => {
                 initialSubjects.map(item => {
                     if (item.name === s) {
@@ -177,20 +179,6 @@ export default function PublicationRow({isForImpactScore, impactScore, triggerUp
         return false;
     }
 
-    let getFinalHours = () => {
-        if (impactScoreOpeningUserEmail !== null) {
-            const nPart = authors.length + 2
-            for (let i = 0; i < authors.length; i++) {
-                if (authors[i].email === impactScoreOpeningUserEmail) {
-                    if (i === 0 || i === authors.length - 1) {
-                        return impactScore / nPart * 2;
-                    }
-                    return impactScore / nPart;
-                }
-            }
-        }
-        return impactScore;
-    }
 
     return (
         <Fragment>
@@ -217,12 +205,12 @@ export default function PublicationRow({isForImpactScore, impactScore, triggerUp
                             <Row style={{marginRight: 0}}>
                                 {isForImpactScore ? <div style={{textAlign: 'center', marginRight: 5}}>
                                     <h5>
-                                        <Badge id={'score' + tooltipId} theme='secondary' href="#" pill>{getFinalHours()}</Badge>
+                                        <Badge id={'score' + tooltipId} theme='secondary' href="#" pill>{weighedImpactScore}</Badge>
                                         <Tooltip
                                             open={scoreOpen}
                                             target={"#score" + tooltipId}
                                             toggle={() => setScoreOpen(!scoreOpen)}>
-                                            {isMainAuthor() ? 'Main author ' : 'Author '} valued at {getFinalHours()} of {impactScore} hours
+                                            {isMainAuthor() ? 'Main author ' : 'Author '} valued at {weighedImpactScore} of {impactScore} hours
                                         </Tooltip>
                                     </h5>
                                 </div> : <i style={{fontSize: 20, marginLeft: 20, marginRight: 10, marginTop: 4, cursor: 'pointer'}} className='fa fa-edit' onClick={() => {
