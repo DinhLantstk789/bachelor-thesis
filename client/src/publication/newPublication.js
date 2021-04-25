@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {Fragment, useState} from 'react';
 import {Button, FormInput, FormTextarea, Modal, ModalBody, ModalHeader, Row} from "shards-react";
 import ReferredArticle from "./sharedSections/referredArticle";
 import RadioGroup from "../radioGroup";
@@ -55,17 +55,6 @@ import {
 import {ClipLoader} from "react-spinners";
 
 export default function NewPublication() {
-    const [isComponentLoading, setIsComponentLoading] = useState(false);
-    const [currentType, setCurrentType] = useState(null);
-    const [submissionProgress, setSubmissionProgress] = useState(0);
-    const [showEmailAddress, setShowEmailAddress] = useState(true);
-    const [showReferences, setShowReferences] = useState(true);
-    const [showUncontrolledKeyword, setShowUncontrolledKeyword] = useState(true);
-    const [showAddInformation, setShowAddInformation] = useState(true);
-    const [showComment, setShowComment] = useState(true);
-    const [modalOpen, setModalOpen] = useState(false);
-    const dispatch = useDispatch();
-
     const {
         type, viewingPublicationId, publicationTitle, publicationAbstract, creators, corporateCreators, selectedStatus,
         subjects, editors, selectedDateType, selectedDate, publicationId, publicationURL, relatedURLs, funders, projects,
@@ -120,6 +109,17 @@ export default function NewPublication() {
         displayingPublicationLabel: store.publication.displayingPublicationLabel,
         isDisable: store.publication.isDisable
     }))
+
+    const [isComponentLoading, setIsComponentLoading] = useState(false);
+    const [currentType, setCurrentType] = useState(null);
+    const [submissionProgress, setSubmissionProgress] = useState(0);
+    const [showEmailAddress, setShowEmailAddress] = useState(emailAddress !== '');
+    const [showReferences, setShowReferences] = useState(references !== '');
+    const [showUncontrolledKeyword, setShowUncontrolledKeyword] = useState(unKeyword !== '');
+    const [showAddInformation, setShowAddInformation] = useState(addInformation !== '');
+    const [showComment, setShowComment] = useState(comment !== '');
+    const [modalOpen, setModalOpen] = useState(false);
+    const dispatch = useDispatch();
 
     let submitButtonText;
     let submitButtonIcon;

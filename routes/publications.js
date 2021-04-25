@@ -92,20 +92,31 @@ router.post('/add', (req, res) => {
         let mediaOutput = req.body.mediaOutput;
         let copyrightHolder = req.body.copyrightHolder;
 
-        dbman.checkDuplicatedPublication(title, abstract).then((isDuplicated) => {
-            if (!isDuplicated) {
-                dbman.insertNewPublication(type, title, abstract, monographType, presentationType, thesisType, institution, creators, corporateCreators, divisions, status, kind, patentApplicant,
-                    mediaOutput, copyrightHolder, selectedRefereed,
-                    firstPage, endPage, bookSectionTitle, publicationPlace, publisher, publicationDepartment,
-                    pageNumber, seriesName, bookSectionISBN, volume, number,
-                    subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
-                    emailAddress, references, unKeyword, addInformation, comment, false, databaseId).then(pubId => {
-                    return res.json({status: 200, message: 'Successfully added publication:' + pubId.toString()});
-                }).catch(console.log);
-            } else {
-                return res.json({status: 500, message: 'Publication already exists'});
-            }
-        }).catch(console.log);
+        if (databaseId === null) {
+            dbman.checkDuplicatedPublication(title, abstract).then((isDuplicated) => {
+                if (!isDuplicated) {
+                    dbman.insertNewPublication(type, title, abstract, monographType, presentationType, thesisType, institution, creators, corporateCreators, divisions, status, kind, patentApplicant,
+                        mediaOutput, copyrightHolder, selectedRefereed,
+                        firstPage, endPage, bookSectionTitle, publicationPlace, publisher, publicationDepartment,
+                        pageNumber, seriesName, bookSectionISBN, volume, number,
+                        subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
+                        emailAddress, references, unKeyword, addInformation, comment, false, databaseId).then(pubId => {
+                        return res.json({status: 200, message: 'Successfully added publication:' + pubId.toString()});
+                    }).catch(console.log);
+                } else {
+                    return res.json({status: 500, message: 'Publication already exists'});
+                }
+            }).catch(console.log);
+        } else {
+            dbman.insertNewPublication(type, title, abstract, monographType, presentationType, thesisType, institution, creators, corporateCreators, divisions, status, kind, patentApplicant,
+                mediaOutput, copyrightHolder, selectedRefereed,
+                firstPage, endPage, bookSectionTitle, publicationPlace, publisher, publicationDepartment,
+                pageNumber, seriesName, bookSectionISBN, volume, number,
+                subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
+                emailAddress, references, unKeyword, addInformation, comment, false, databaseId).then(pubId => {
+                return res.json({status: 200, message: 'Successfully added publication:' + pubId.toString()});
+            }).catch(console.log);
+        }
     })
 });
 
