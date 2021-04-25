@@ -173,7 +173,7 @@ export default function ResearchHours() {
                         <Row>
                             <Col md={6}>
                                 <Row>
-                                    <h5 style={{marginTop: 10, marginLeft: 10, marginRight: 30}}><span>&nbsp; </span>Publications</h5>
+                                    <h5 style={{marginTop: 10, marginLeft: 10, marginRight: 30}}><span>&nbsp; </span>Research Hours</h5>
                                     <div style={{paddingTop: 10}}>
                                         <Badge theme={approvalFilter ? 'success' : 'light'} href="#" pill style={{marginRight: 5, paddingLeft: 10, paddingRight: 10}} onClick={() => {
                                             setApprovalFilter(!approvalFilter);
@@ -202,12 +202,12 @@ export default function ResearchHours() {
                                         </Button>
                                     </Dropdown>
                                     <Button id='exportStatistic' pill theme='light' style={{marginLeft: 3, marginRight: 10}} onClick={() => {
-                                        let payload = '';
+                                        let payload = 'year, required hours, completed hours, progress, completed\n';
                                         researchHoursStatisticByYear.forEach(rh => {
-                                            payload += 'Year ' + rh.name + ': Completed ' + rh.hours + ' hours, Required ' + rh.threshold + ' hours, Completion rate: ' + (rh.hours / rh.threshold * 100).toFixed(2) + '%\n';
+                                            payload += rh.name + ',' +  rh.threshold + ',' + rh.hours + ',' + (rh.hours / rh.threshold * 100).toFixed(2)  + '%,' + (rh.hours >= rh.threshold ? 'yes': 'no') + '\n';
                                         })
                                         const dataURI = "data:text/plain;base64," + encodeBase64(payload);
-                                        saveAs(dataURI, 'Research Hours of ' + impactScoreOpeningUserName + '.TXT');
+                                        saveAs(dataURI, 'research-hours-statistic-of-' + impactScoreOpeningUserName.replaceAll(' ','-').toLowerCase() + '.csv');
                                     }}><i className='fa fa-download'/>
                                     </Button>
                                     <i style={{fontSize: 20, marginTop: 10, marginRight: 10, marginLeft: 10, cursor: 'pointer'}} className='fa fa-times' onClick={() => {
