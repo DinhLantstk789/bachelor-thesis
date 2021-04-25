@@ -7,7 +7,7 @@ const initialState = {
     isAdmin: false,
     password: '',
     userDescription: '',
-    openingProfileTab: false,
+    openingProfileTab: null,
     academicTitle: 'None',
     managerTitle: 'None',
     unionTitle: 'None'
@@ -73,7 +73,7 @@ export default (state = initialState, action) => {
             password: '',
             isAdmin: false,
             userDescription: '',
-            openingProfileTab: false,
+            openingProfileTab: null,
             academicTitle: 'None',
             managerTitle: 'None',
             unionTitle: 'None'

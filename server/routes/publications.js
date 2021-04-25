@@ -91,16 +91,15 @@ router.post('/add', (req, res) => {
         let patentApplicant = req.body.patentApplicant;
         let mediaOutput = req.body.mediaOutput;
         let copyrightHolder = req.body.copyrightHolder;
-
+        let ranking = req.body.ranking;
         if (databaseId === null) {
             dbman.checkDuplicatedPublication(title, abstract).then((isDuplicated) => {
                 if (!isDuplicated) {
                     dbman.insertNewPublication(type, title, abstract, monographType, presentationType, thesisType, institution, creators, corporateCreators, divisions, status, kind, patentApplicant,
-                        mediaOutput, copyrightHolder, selectedRefereed,
-                        firstPage, endPage, bookSectionTitle, publicationPlace, publisher, publicationDepartment,
+                        mediaOutput, copyrightHolder, selectedRefereed, firstPage, endPage, bookSectionTitle, publicationPlace, publisher, publicationDepartment,
                         pageNumber, seriesName, bookSectionISBN, volume, number,
                         subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
-                        emailAddress, references, unKeyword, addInformation, comment, false, databaseId).then(pubId => {
+                        emailAddress, references, unKeyword, addInformation, comment, false, ranking, databaseId).then(pubId => {
                         return res.json({status: 200, message: 'Successfully added publication:' + pubId.toString()});
                     }).catch(console.log);
                 } else {
@@ -109,11 +108,10 @@ router.post('/add', (req, res) => {
             }).catch(console.log);
         } else {
             dbman.insertNewPublication(type, title, abstract, monographType, presentationType, thesisType, institution, creators, corporateCreators, divisions, status, kind, patentApplicant,
-                mediaOutput, copyrightHolder, selectedRefereed,
-                firstPage, endPage, bookSectionTitle, publicationPlace, publisher, publicationDepartment,
+                mediaOutput, copyrightHolder, selectedRefereed, firstPage, endPage, bookSectionTitle, publicationPlace, publisher, publicationDepartment,
                 pageNumber, seriesName, bookSectionISBN, volume, number,
                 subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
-                emailAddress, references, unKeyword, addInformation, comment, false, databaseId).then(pubId => {
+                emailAddress, references, unKeyword, addInformation, comment, false, ranking, databaseId).then(pubId => {
                 return res.json({status: 200, message: 'Successfully added publication:' + pubId.toString()});
             }).catch(console.log);
         }

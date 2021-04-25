@@ -50,7 +50,7 @@ export default function UserRow({academicTitle, managerTitle, unionTitle, trigge
                             dispatch(saveImpactScoreOpeningUserScore(null));
                             dispatch(saveImpactScoreOpeningUserName(givenName + ' ' + familyName));
                             dispatch(saveImpactScoreTriggerReloadAllPublication(true));
-                        }}>Mandatory Research Hours &nbsp;&nbsp;
+                        }}>Required Hours &nbsp;&nbsp;
                             <label style={{fontSize: 23}}>
                                 <Badge style={{paddingLeft: 10, paddingRight: 10, paddingTop: 5, paddingBottom: 5}} href="#" pill theme='secondary'>
                                     {academicTitleToRequiredWorkingHours[academicTitle] * managerToExemption[managerTitle] * unionTitleToExemption[unionTitle]}
@@ -72,7 +72,7 @@ export default function UserRow({academicTitle, managerTitle, unionTitle, trigge
                                         dispatch(saveManagerTitle(u[0].managerTitle));
                                         dispatch(saveUnionTitle(u[0].unionTitle));
                                         setIsViewing(false);
-                                        dispatch(saveOpeningProfileTab(true));
+                                        dispatch(saveOpeningProfileTab('Update user'));
                                     }, (message) => {
                                         alert(message);
                                     });

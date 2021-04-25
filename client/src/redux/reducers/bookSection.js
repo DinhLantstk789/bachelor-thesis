@@ -1,6 +1,7 @@
 const initialState = {
     bookSectionTitle: '',
     bookSectionPublicationPlace: '',
+    ranking: '',
     bookSectionPublisher: '',
     bookSectionPageNumber: '',
     bookSectionSeriesName: '',
@@ -14,10 +15,11 @@ const initialState = {
 export default (state = initialState, action) => {
     if (action.type === 'SAVE_BOOK_SECTION_TITLE') {
         const data = action.data;
-        return {
-            ...state,
-            bookSectionTitle: data.bookSectionTitle
-        }
+        return {...state, bookSectionTitle: data.bookSectionTitle}
+    }
+    if (action.type === 'SAVE_RANKING') {
+        const data = action.data;
+        return {...state, ranking: data.ranking}
     }
     if (action.type === 'SAVE_BOOK_SECTION_PUBLICATION_PLACE') {
         const data = action.data;
@@ -82,7 +84,7 @@ export default (state = initialState, action) => {
             bookSectionEndPage: data.bookSectionEndPage
         }
     }
-    if (action.type === 'RESET_ BOOK_SECTION') {
+    if (action.type === 'RESET_BOOK_SECTION') {
         return initialState;
     }
     return state;

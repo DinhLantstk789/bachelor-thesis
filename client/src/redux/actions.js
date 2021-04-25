@@ -19,9 +19,11 @@ export const saveArticleId = (articleId) => ({
 /* Book section */
 export const saveBookSectionTitle = (bookSectionTitle) => ({
     type: 'SAVE_BOOK_SECTION_TITLE',
-    data: {
-        bookSectionTitle: bookSectionTitle
-    }
+    data: {bookSectionTitle: bookSectionTitle}
+})
+export const saveRanking = (ranking) => ({
+    type: 'SAVE_RANKING',
+    data: {ranking: ranking}
 })
 export const saveBookSectionPublicationPlace = (bookSectionPublicationPlace) => ({
     type: 'SAVE_BOOK_SECTION_PUBLICATION_PLACE',
@@ -224,7 +226,7 @@ export const resetConference = () => ({
     type: 'RESET_CONFERENCE',
 });
 export const resetBookSection = () => ({
-    type: 'RESET_ BOOK_SECTION',
+    type: 'RESET_BOOK_SECTION',
 });
 export const resetArticle = () => ({
     type: 'RESET_ARTICLE_REPORT',

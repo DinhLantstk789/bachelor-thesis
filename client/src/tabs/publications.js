@@ -85,9 +85,7 @@ export default function Publications() {
                                             <DropdownItem onClick={() => dispatch(savePublicationSortBy(s))}>{s}</DropdownItem>)}
                                     </DropdownMenu>
                                     <Button pill theme='light' style={{marginLeft: 10}} onClick={() => {
-                                        if (searchOpen) {
-                                            dispatch(saveSearchPublicationContent(''));
-                                        }
+                                        if (searchOpen) dispatch(saveSearchPublicationContent(''));
                                         setSearchOpen(!searchOpen);
                                     }}><i className='fa fa-search'/>
                                     </Button>

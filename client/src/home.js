@@ -7,7 +7,7 @@ import Profile from "./profile";
 import {useDispatch, useSelector} from "react-redux";
 import Management from "./tabs/management";
 import {logout} from "./utils/apiCalls";
-import {resetImpactScore, resetPublication, resetPublicationFilter, resetUserInformation, saveImpactScoreSearchPublicationContent, saveLoggedUser, saveSearchPublicationContent, setDashboardState} from "./redux/actions";
+import {resetImpactScore, resetPublication, resetPublicationFilter, resetUserInformation, saveImpactScoreSearchPublicationContent, saveLoggedUser, saveOpeningProfileTab, saveSearchPublicationContent, setDashboardState} from "./redux/actions";
 import {ClipLoader} from "react-spinners";
 import Filter from "./publication/filter";
 import ResearchHours from "./tabs/researchHours";
@@ -37,7 +37,7 @@ export default function Home() {
                     <Row style={{marginLeft: 0, marginRight: 0}}>Your profile</Row>
                 </ModalHeader>
                 <ModalBody>
-                    <Profile title='Your profile' triggerReload={() => {
+                    <Profile triggerReload={() => {
                     }}/>
                 </ModalBody>
             </Modal>
@@ -71,7 +71,10 @@ export default function Home() {
                                     {isLoggingOut ? <ClipLoader size={15} color={'#157ffb'} loading/> : <i className={"fa fa-user"}/>}
                                 </DropdownToggle>
                                 <DropdownMenu right>
-                                    <DropdownItem onClick={() => setProfileDetailsOpen(true)}><i className="fas fa-user-circle"/>&nbsp;&nbsp; Profile</DropdownItem>
+                                    <DropdownItem onClick={() => {
+                                        setProfileDetailsOpen(true);
+                                        dispatch(saveOpeningProfileTab('Your profile'));
+                                    }}><i className="fas fa-user-circle"/>&nbsp;&nbsp; Profile</DropdownItem>
                                     <DropdownItem onClick={() => {
                                         setIsLoggingOut(true);
                                         logout(successMessage => {

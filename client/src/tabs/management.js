@@ -65,7 +65,7 @@ export default function Management() {
 
     return (
         <Row style={{marginRight: 50, marginLeft: 50}}>
-            <Col md={openingProfileTab ? 8 : 12}>
+            <Col md={openingProfileTab === 'Add user' || openingProfileTab === 'Update user' ? 8 : 12}>
                 <Card>
                     <CardHeader>
                         <Row>
@@ -88,9 +88,10 @@ export default function Management() {
                                             setSearchOpen(!searchOpen);
                                         }}><i className='fa fa-search'/>
                                         </Button>
-                                        {!openingProfileTab ?
-                                            <Button pill theme="light" style={{marginRight: 10, marginLeft: 10}} onClick={() => dispatch(saveOpeningProfileTab(true))}>
-                                                Add &nbsp;<i className='fa fa-plus'/>
+                                        {!(openingProfileTab === 'Add user' || openingProfileTab === 'Update user') ?
+                                            <Button pill theme="light" style={{marginRight: 10, marginLeft: 10}} onClick={() => {
+                                                dispatch(saveOpeningProfileTab('Add user'));
+                                            }}>Add &nbsp;<i className='fa fa-plus'/>
                                             </Button> : ''}
                                     </Dropdown>
                                 </Row>
@@ -109,7 +110,10 @@ export default function Management() {
                     </CardBody>
                 </Card>
             </Col>
-            {openingProfileTab ? <Col md={4} style={{paddingLeft: 40, paddingRight: 30}}><Profile title={'Add new user'} triggerReload={() => setIsTriggerReload(!isTriggerReload)}/></Col> : ''}
+            {openingProfileTab === 'Add user' || openingProfileTab === 'Update user' ?
+                <Col md={4} style={{paddingLeft: 40, paddingRight: 30}}>
+                    <Profile triggerReload={() => setIsTriggerReload(!isTriggerReload)}/>
+                </Col> : ''}
         </Row>
     );
 }

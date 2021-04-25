@@ -7,8 +7,9 @@ import {useEffect, useState} from 'react'
 import {ClipLoader} from "react-spinners";
 import {academicTitleToRequiredWorkingHours, managerToExemption, unionTitleToExemption} from "./utils/configs";
 
-export default function Profile({title, triggerReload}) {
+export default function Profile({triggerReload}) {
     const loggedUser = useSelector(store => store.user.loggedUser);
+    const openingProfileTab = useSelector(store => store.newUser.openingProfileTab);
     const {givenName, familyName, email, department, isAdmin, address, description, password, academicTitle, managerTitle, unionTitle} = useSelector(store => ({
         givenName: store.newUser.givenName,
         familyName: store.newUser.familyName,
@@ -26,14 +27,8 @@ export default function Profile({title, triggerReload}) {
     const dispatch = useDispatch();
 
 
-
-
-    const isProfileViewing = () => { /* viewing profile or adding users? */
-        return title === 'Your profile';
-    }
-
     useEffect(() => {
-        if (isProfileViewing()) {
+        if (openingProfileTab === 'Your profile') {
             dispatch(saveGivenName(loggedUser.givenName));
             dispatch(saveFamilyName(loggedUser.familyName));
             dispatch(saveEmail(loggedUser.email));
@@ -49,15 +44,15 @@ export default function Profile({title, triggerReload}) {
 
     return (
         <div>
-            {isProfileViewing() ? '' :
+            {openingProfileTab === 'Your profile' ? '' :
                 <Row style={{marginBottom: 20}}>
                     <Col>
-                        <h5 style={{marginTop: 10, marginRight: 30}}>{title}</h5>
+                        <h5 style={{marginTop: 10, marginRight: 30}}>{openingProfileTab}</h5>
                     </Col>
                     <Col>
                         <div className='float-right'>
                             <i style={{fontSize: 25, marginTop: 10, cursor: 'pointer'}} className='fa fa-times' onClick={() => {
-                                dispatch(saveOpeningProfileTab(false));
+                                dispatch(saveOpeningProfileTab(null));
                                 dispatch(resetUserInformation());
                             }}/>
                         </div>
@@ -123,7 +118,7 @@ export default function Profile({title, triggerReload}) {
                                 apiCalls.addUser(body, (email) => {
                                     triggerReload();
                                     setIsSubmitting(false);
-                                    if (!isProfileViewing()) {
+                                    if (openingProfileTab !== 'Your profile') {
                                         dispatch(resetUserInformation());
                                     }
                                 }, (message) => {
@@ -131,7 +126,7 @@ export default function Profile({title, triggerReload}) {
                                 });
                             }
                         }
-                        }>{isProfileViewing() ? 'Update' : 'Submit'} &nbsp;{isSubmitting ? <ClipLoader size={13} color={'#ffffff'} loading/> : <i className='fa fa-arrow-right'/>}</Button>
+                        }>{openingProfileTab === 'Your profile' ? 'Update' : 'Submit'} &nbsp;{isSubmitting ? <ClipLoader size={13} color={'#ffffff'} loading/> : <i className='fa fa-arrow-right'/>}</Button>
                     </div>
                 </Col>
             </Row>

@@ -1,5 +1,5 @@
 import React, {Fragment, useState} from 'react';
-import {Button, FormInput, FormTextarea, Modal, ModalBody, ModalHeader, Row} from "shards-react";
+import {Button, Col, FormInput, FormSelect, FormTextarea, Modal, ModalBody, ModalHeader, Row} from "shards-react";
 import ReferredArticle from "./sharedSections/referredArticle";
 import RadioGroup from "../radioGroup";
 import {useDispatch, useSelector} from "react-redux";
@@ -47,12 +47,14 @@ import {
     savePublicationStatus,
     savePublicationTitle,
     savePublicationUnKeyword,
-    savePublicationURL,
+    savePublicationURL, saveRanking,
     saveThesisType,
     saveViewingPublicationId,
     setDashboardState
 } from "../redux/actions";
 import {ClipLoader} from "react-spinners";
+import ConferenceMain from "./mainSections/conferenceMain";
+import {publicationRankingToResearchHours} from "../utils/configs";
 
 export default function NewPublication() {
     const {
@@ -62,7 +64,7 @@ export default function NewPublication() {
         bookSectionEndPage, bookSectionTitle, bookSectionPublicationPlace, bookSectionPublisher, bookSectionPageNumber,
         bookSectionSeriesName, bookSectionISBN, bookSectionVolume, bookSectionNumber, monographType, presentationType,
         thesisType, institution, patentApplicant, mediaOutput, copyrightHolder,
-        publicationDepartment, kind, displayingPublicationLabel, isDisable
+        publicationDepartment, kind, displayingPublicationLabel, isDisable, ranking
     } = useSelector(store => ({
         type: store.article.articleType,
         viewingPublicationId: store.publication.viewingPublicationId,
@@ -107,7 +109,8 @@ export default function NewPublication() {
         publicationDepartment: store.publication.publicationDepartment,
         kind: store.publication.kind,
         displayingPublicationLabel: store.publication.displayingPublicationLabel,
-        isDisable: store.publication.isDisable
+        isDisable: store.publication.isDisable,
+        ranking: store.bookSection.ranking
     }))
 
     const [isComponentLoading, setIsComponentLoading] = useState(false);
@@ -140,9 +143,7 @@ export default function NewPublication() {
             submitButtonText = displayingPublicationLabel === 'New Publication' ? 'Deposit' : (displayingPublicationLabel === 'Update Publication' ? 'Update' : '');
             submitButtonIcon = <i className='fa fa-paper-plane'/>;
     }
-    let mainComponent = null;
-    let addComponent = null;
-    let detailComponent = null;
+    let mainComponent = null, addComponent = null, detailComponent = null;
     if (type !== currentType) {
         setCurrentType(type);
         setIsComponentLoading(true);
@@ -152,43 +153,10 @@ export default function NewPublication() {
     }
     switch (type) {
         case 'article':
-            mainComponent = <div>
-                <ReferredArticle/>
-                <ArticleMain/>
-            </div>
-            break;
-        case 'book-section':
-            mainComponent = <div>
-                <ReferredArticle/>
-                <BookSectionMain/>
-            </div>
-            detailComponent = <Editors/>
-            break;
-        case 'technical-report':
-            mainComponent = <div>
-                <TechnicalReport/>
-            </div>
-            addComponent = <div style={{marginTop: 20, marginBottom: -10}}>
-                <h6 style={{display: "inline", marginRight: 20}}><i className='fa fa-star' style={{marginRight: 10}}/>Monograph Type</h6>
-                <RadioGroup selectedId={monographType} enableTooltip={false} inline={true} radioArray={[{
-                    name: 'Technical Report', id: 'technical-reportMonoType',
-                }, {
-                    name: 'Project Report', id: 'project-reportMonoType',
-                }, {
-                    name: 'Documentation', id: 'documentationMonoType',
-                }, {
-                    name: 'Manual', id: 'manualMonoType',
-                }, {
-                    name: 'Working Paper', id: 'working-paperMonoType',
-                }, {
-                    name: 'Discussion Paper', id: 'discussion-paperMonoType',
-                }, {
-                    name: 'Other', id: 'otherMonoType',
-                }]} onSelected={(selectedId) => dispatch(saveMonographType(selectedId))}/>
-            </div>
+            mainComponent = <div><ReferredArticle/><ArticleMain/></div>
             break;
         case 'conference-workshop-item':
-            mainComponent = <div><ReferredArticle/></div>
+            mainComponent = <div><ReferredArticle/><ConferenceMain/></div>
             addComponent = <div style={{marginTop: 20, marginBottom: -10}}>
                 <h6 style={{marginRight: 38, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Presentation Type:</h6>
                 <RadioGroup selectedId={presentationType} enableTooltip={false} inline={true} radioArray={[
@@ -201,11 +169,27 @@ export default function NewPublication() {
                 ]} onSelected={(selectedId) => dispatch(savePresentationType(selectedId))}/>
             </div>
             break;
-        case 'book':
-            mainComponent = <div>
-                <ReferredArticle/>
-                <BookMain/>
+        case 'technical-report':
+            mainComponent = <div><TechnicalReport/></div>
+            addComponent = <div style={{marginTop: 20, marginBottom: -10}}>
+                <h6 style={{display: "inline", marginRight: 20}}><i className='fa fa-star' style={{marginRight: 10}}/>Monograph Type</h6>
+                <RadioGroup selectedId={monographType} enableTooltip={false} inline={true} radioArray={[
+                    {name: 'Technical Report', id: 'technical-reportMonoType'},
+                    {name: 'Project Report', id: 'project-reportMonoType'},
+                    {name: 'Documentation', id: 'documentationMonoType'},
+                    {name: 'Manual', id: 'manualMonoType'},
+                    {name: 'Working Paper', id: 'working-paperMonoType'},
+                    {name: 'Discussion Paper', id: 'discussion-paperMonoType'},
+                    {name: 'Other', id: 'otherMonoType'}
+                ]} onSelected={(selectedId) => dispatch(saveMonographType(selectedId))}/>
             </div>
+            break;
+        case 'book-section':
+            mainComponent = <div><ReferredArticle/><BookSectionMain/></div>
+            detailComponent = <Editors/>
+            break;
+        case 'book':
+            mainComponent = <div><ReferredArticle/><BookMain/></div>
             break;
         case 'thesis':
             mainComponent = <div>
@@ -225,43 +209,58 @@ export default function NewPublication() {
             </div>
             break;
         case 'patent':
-            mainComponent = <div>
-                <FormInput placeholder="Enter Patent Applicant" value={patentApplicant} style={{marginTop: 10}} onChange={(e) => dispatch(savePatentApplicant(e.target.value))}/>
-                <FormInput placeholder="Enter Number of Pages" value={bookSectionPageNumber} style={{marginTop: 10}} onChange={(e) => dispatch(saveBookSectionPageNumber(e.target.value))}/>
-            </div>
+            mainComponent =
+                <div>
+                    <Row>
+                        <Col style={{marginLeft: 0, marginRight: -10}}>
+                            <FormInput placeholder="Enter Patent Applicant" value={patentApplicant} style={{marginTop: 10}} onChange={(e) => dispatch(savePatentApplicant(e.target.value))}/>
+                        </Col>
+                        <Col style={{marginLeft: -10, marginRight: 0}}>
+                            <FormSelect value={ranking} style={{marginTop: 10}} onChange={(e) => dispatch(saveRanking(e.target.value))}>
+                                {Object.keys(publicationRankingToResearchHours['patent']).map(d => <option value={d}>{d}</option>)}
+                            </FormSelect>
+                        </Col>
+                    </Row>
+                    <FormInput placeholder="Enter Number of Pages" value={bookSectionPageNumber} style={{marginTop: 10}} onChange={(e) => dispatch(saveBookSectionPageNumber(e.target.value))}/>
+                </div>
             break;
         case 'image':
-            mainComponent = <div>
-                <FormInput placeholder="Enter Media of Output" style={{marginTop: 10}} value={mediaOutput} style={{marginTop: 10}} onChange={(e) => dispatch(saveMediaOutput(e.target.value))}/>
-                <FormInput placeholder="Enter Publisher" style={{marginTop: 10}} value={bookSectionPublisher} onChange={(e) => dispatch(saveBookSectionPublisher(e.target.value))}/>
-            </div>
+            mainComponent =
+                <div>
+                    <FormInput placeholder="Enter Media of Output" style={{marginTop: 10}} value={mediaOutput} style={{marginTop: 10}} onChange={(e) => dispatch(saveMediaOutput(e.target.value))}/>
+                    <FormInput placeholder="Enter Publisher" style={{marginTop: 10}} value={bookSectionPublisher} onChange={(e) => dispatch(saveBookSectionPublisher(e.target.value))}/>
+                </div>
             break;
         case 'video':
-            mainComponent = <div>
-                <FormInput placeholder="Enter Media of Output" style={{marginTop: 10}} value={mediaOutput} style={{marginTop: 10}} onChange={(e) => dispatch(saveMediaOutput(e.target.value))}/>
-                <FormInput placeholder="Enter Publisher" style={{marginTop: 10}} value={bookSectionPublisher} onChange={(e) => dispatch(saveBookSectionPublisher(e.target.value))}/>
-            </div>
+            mainComponent =
+                <div>
+                    <FormInput placeholder="Enter Media of Output" style={{marginTop: 10}} value={mediaOutput} style={{marginTop: 10}} onChange={(e) => dispatch(saveMediaOutput(e.target.value))}/>
+                    <FormInput placeholder="Enter Publisher" style={{marginTop: 10}} value={bookSectionPublisher} onChange={(e) => dispatch(saveBookSectionPublisher(e.target.value))}/>
+                </div>
             break;
         case 'dataset':
-            mainComponent = <div>
-                <FormInput placeholder="Enter Media of Output" style={{marginTop: 10}} value={mediaOutput} style={{marginTop: 10}} onChange={(e) => dispatch(saveMediaOutput(e.target.value))}/>
-                <FormInput placeholder="Enter Publisher" style={{marginTop: 10}} value={bookSectionPublisher} onChange={(e) => dispatch(saveBookSectionPublisher(e.target.value))}/>
-            </div>
+            mainComponent =
+                <div>
+                    <FormInput placeholder="Enter Media of Output" style={{marginTop: 10}} value={mediaOutput} style={{marginTop: 10}} onChange={(e) => dispatch(saveMediaOutput(e.target.value))}/>
+                    <FormInput placeholder="Enter Publisher" style={{marginTop: 10}} value={bookSectionPublisher} onChange={(e) => dispatch(saveBookSectionPublisher(e.target.value))}/>
+                </div>
             break;
         case 'experiment':
             mainComponent = null;
             break;
         case 'teaching-resource':
-            mainComponent = <div>
-                <FormInput placeholder="Copyright Holder" value={copyrightHolder} style={{marginTop: 10}} onChange={(e) => dispatch(saveCopyrightHolder(e.target.value))}/>
-                <FormInput placeholder="Enter Publisher" style={{marginTop: 10}} value={bookSectionPublisher} onChange={(e) => dispatch(saveBookSectionPublisher(e.target.value))}/>
-            </div>
+            mainComponent =
+                <div>
+                    <FormInput placeholder="Copyright Holder" value={copyrightHolder} style={{marginTop: 10}} onChange={(e) => dispatch(saveCopyrightHolder(e.target.value))}/>
+                    <FormInput placeholder="Enter Publisher" style={{marginTop: 10}} value={bookSectionPublisher} onChange={(e) => dispatch(saveBookSectionPublisher(e.target.value))}/>
+                </div>
             break;
         case 'project-grant':
-            mainComponent = <div>
-                <FormInput placeholder="Enter Place of Publication" style={{marginTop: 10}} value={bookSectionPublicationPlace} onChange={(e) => dispatch(saveBookSectionPublicationPlace(e.target.value))}/>
-                <FormInput placeholder="Enter Publisher" style={{marginTop: 10}} value={bookSectionPublisher} onChange={(e) => dispatch(saveBookSectionPublisher(e.target.value))}/>
-            </div>
+            mainComponent =
+                <div>
+                    <FormInput placeholder="Enter Place of Publication" style={{marginTop: 10}} value={bookSectionPublicationPlace} onChange={(e) => dispatch(saveBookSectionPublicationPlace(e.target.value))}/>
+                    <FormInput placeholder="Enter Publisher" style={{marginTop: 10}} value={bookSectionPublisher} onChange={(e) => dispatch(saveBookSectionPublisher(e.target.value))}/>
+                </div>
             break;
     }
     let loadedComponent = <div>
@@ -270,11 +269,9 @@ export default function NewPublication() {
         {addComponent}
         <div style={{marginTop: 20, marginBottom: -20}}>
             <h6 style={{marginRight: 41, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Kind:</h6>
-            <RadioGroup selectedId={kind} enableTooltip={false} inline={true} radioArray={[{
-                name: 'Domestic', id: 'domestic',
-            }, {
-                name: 'International', id: 'international',
-            }]} onSelected={(selectedId) => dispatch(savePublicationKind(selectedId))}/>
+            <RadioGroup selectedId={kind} enableTooltip={false} inline={true} radioArray={[
+                {name: 'Domestic', id: 'domestic'}, {name: 'International', id: 'international'}
+            ]} onSelected={(selectedId) => dispatch(savePublicationKind(selectedId))}/>
         </div>
         <Creator/>
         <CorporateCreators/>
@@ -285,10 +282,8 @@ export default function NewPublication() {
         <div>
             <h6 style={{marginRight: 41, display: "inline"}}><i className='fa fa-star' style={{marginRight: 10}}/>Status:</h6>
             <RadioGroup selectedId={selectedStatus} enableTooltip={false} inline={true} radioArray={[
-                {name: 'Published', id: 'published'},
-                {name: 'In Press', id: 'inPress'},
-                {name: 'Submitted', id: 'submitted'},
-                {name: 'Unpublished', id: 'unPublished'}
+                {name: 'Published', id: 'published'}, {name: 'In Press', id: 'inPress'},
+                {name: 'Submitted', id: 'submitted'}, {name: 'Unpublished', id: 'unPublished'}
             ]} onSelected={(selectedId) => dispatch(savePublicationStatus(selectedId))}/>
         </div>
         {mainComponent}
@@ -296,10 +291,8 @@ export default function NewPublication() {
             <h6 style={{marginRight: 10, display: "inline", marginTop: 10}}><i className='fa fa-star' style={{marginRight: 10}}/>Date Type:</h6>
             <span style={{marginTop: 10}}>
                 <RadioGroup selectedId={selectedDateType} enableTooltip={false} inline={true} radioArray={[
-                    {name: 'Unspecified', id: 'unSpecified'},
-                    {name: 'Publication', id: 'publication'},
-                    {name: 'Submission', id: 'submission'},
-                    {name: 'Completion', id: 'completion'}
+                    {name: 'Unspecified', id: 'unSpecified'}, {name: 'Publication', id: 'publication'},
+                    {name: 'Submission', id: 'submission'}, {name: 'Completion', id: 'completion'}
                 ]} onSelected={(selectedId) => dispatch(savePublicationDateType(selectedId))}/>
             </span>
             <h6 style={{marginTop: 10, marginLeft: 20, marginRight: 20, display: "inline"}}>Date</h6>
@@ -389,6 +382,7 @@ export default function NewPublication() {
                         mediaOutput: mediaOutput,
                         copyrightHolder: copyrightHolder,
                         publicationDepartment: publicationDepartment,
+                        ranking: ranking
                     }
                     setSubmissionProgress(1);
                     apiCalls.addPublication(body, () => {

@@ -28,17 +28,19 @@ export default function PublicationList({isForImpactScore, approvalFilter, pendi
     /* weighing based on the authorship order */
     let getFinalHours = (score, authors) => {
         if (impactScoreOpeningUserEmail !== null) {
-            const nPart = authors.length + 2
+            // const nPart = authors.length + 2
             for (let i = 0; i < authors.length; i++) {
                 if (authors[i].email === impactScoreOpeningUserEmail) {
                     if (i === 0 || i === authors.length - 1) {
-                        return score / nPart * 2;
+                        return score / (authors.length + 1) * 2;
+                        // return score / nPart * 2;
                     }
-                    return score / nPart;
+                    // return score / nPart;
+                    return score / authors.length;
                 }
             }
         }
-        return score;
+        return score / authors.length;
     }
 
     const parseYearCount = (publications) => {
@@ -154,13 +156,12 @@ export default function PublicationList({isForImpactScore, approvalFilter, pendi
         <Fragment>
             {impactScoreOpeningUserName !== null ? <div style={{textAlign: 'center', marginBottom: 25}}><label style={{fontSize: 18}}>
                 {impactScoreOpeningUserName} has &nbsp;
-                <Badge theme='primary' pill>{impactScoreOpeningUserScore}</Badge>&nbsp;
+                <Badge theme='primary' pill>{Math.round(impactScoreOpeningUserScore)}</Badge>&nbsp;
                 research hours of all time, including the following publications
             </label></div> : ''}
             {isLoading ? loading : finalFilteredItemsAfterSearch.map(item => (
                 <PublicationRow isForImpactScore={isForImpactScore} impactScore={item.impactScore} weighedImpactScore={item.weighedImpactScore} triggerUpdateUI={() => setTriggerReload(true)} type={item.type} title={item.title} authors={item.creators}
-                                approved={item.isApproved}
-                                publicationId={item.id} selectedDate={item.selectedDate}/>
+                                approved={item.isApproved} publicationId={item.id} selectedDate={item.selectedDate}/>
             ))}
         </Fragment>
     )

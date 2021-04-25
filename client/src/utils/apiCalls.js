@@ -2,7 +2,7 @@ import axios from "axios";
 
 const reqConfigs = {
     withCredentials: true, /* accept cookie */
-    baseURL: 'http://localhost:1234'
+    baseURL: 'http://localhost:1234/'
 }
 
 export const fetchUsers = (body, onSuccess, onFailed) => {

@@ -13,20 +13,33 @@ function convertToSQLArray(arr) {
     return '{' + r.substring(0, r.length - 1) + '}';
 }
 
-const typeToHoursCount = {
-    'article' : 1200,
-    'conference-workshop-item': 900,
-    'technical-report': 0,
-    'book-section': 1200,
-    'book': 2700,
-    'thesis': 0,
-    'patent': 3000,
-    'image': 0,
-    'video':0,
-    'dataset':0,
-    'experiment':0,
-    'teaching-resource':0,
-    'project-grant': 500
+const publicationRankingToResearchHours = {
+    'article': {
+        'Select Ranking': 0, 'Q1, Q2 (ISI)': 1200, 'Q3, Q4 (ISI)': 1100, 'Scopus': 1000, 'VNU Journals': 900, 'Reputed Journals (not included in ISI/Scopus)': 900,
+        'Reputed Domestic Journals': 600, 'Domestic Journals Having ISSN': 300,
+    },
+    'conference-workshop-item': {
+        'Select Ranking': 0, 'ISI/Scopus Conference Proceedings or Reputed Sponsors': 900, 'English Peer-reviewed Conference Proceedings': 600,
+        'National Conference Proceedings Having ISBN': 450, 'UET Proceedings': 320
+    },
+    'book': {
+        'Select Ranking': 0, 'Internationally Published Book': 2700, 'Domestic Book': 1800, 'Internationally Published Textbook': 1800, 'Domestic Textbook': 900
+    },
+    'book-section': {
+        'Select Ranking': 0, 'Internationally Published Book Chapter': 1200
+    },
+    'patent': {
+        'Select Ranking': 0, 'International Patent (US, Europe, Northeast Asia)': 3000,
+        'Domestic Patent': 1200, 'International/National Awards': 600, 'Accepted Patent Application': 300
+    },
+}
+
+function getHoursCount(type, ranking) {
+    if (publicationRankingToResearchHours[type]) {
+        if (publicationRankingToResearchHours[type][ranking]) {
+            return publicationRankingToResearchHours[type][ranking];
+        } else return 0;
+    } else return 0;
 }
 
 /* replace existing  division */
@@ -144,7 +157,7 @@ module.exports = {
         }
         if (finalFilter.length === 0) filter = filteringCondition + 'AND false';
 
-        let selectedFields = publicationId === null ? 'id, item_type, title, is_approved, date, db_created_on' : '*';
+        let selectedFields = publicationId === null ? 'id, item_type, title, is_approved, date, db_created_on, ranking' : '*';
         let returnedResult = [];
         let selectedPublications = await eprints.query('SELECT ' + selectedFields + ' FROM publication ' + filter + ' ORDER BY db_created_on DESC;', {replacements: {pubIds: finalFilter}, type: QueryTypes.SELECT});
         for (const p of selectedPublications) {
@@ -181,7 +194,8 @@ module.exports = {
                         isApproved: p.is_approved,
                         selectedDate: p.date,
                         databaseAddedOn: p.db_created_on,
-                        impactScore: typeToHoursCount[p.item_type]
+                        ranking: p.ranking,
+                        impactScore: getHoursCount(p.item_type, p.ranking)
                     })
                 } else {
                     let editors = [];
@@ -240,7 +254,8 @@ module.exports = {
                         publicationDepartment: p.publication_department,
                         isApproved: p.is_approved,
                         databaseAddedOn: p.db_created_on,
-                        impactScore: typeToHoursCount[p.item_type]
+                        ranking: p.ranking,
+                        impactScore: getHoursCount(p.item_type, p.ranking)
                     })
                 }
             }
@@ -269,7 +284,7 @@ module.exports = {
                                  firstPage, endPage, bookSectionTitle, publicationPlace, publisher, publicationDepartment,
                                  pageNumber, seriesName, isbn, volume, number,
                                  subjects, editors, dateType, date, publicationId, publicationURL, relatedURLs, funders, projects,
-                                 emailAddress, references, unKeyword, addInformation, comment, isApproved, databaseId) => {
+                                 emailAddress, references, unKeyword, addInformation, comment, isApproved, ranking, databaseId) => {
         let finalRelatedURLs = '';
         relatedURLs.forEach(i => finalRelatedURLs += ('("' + i.URL + '","' + i.URLType + '")' + ','))
         finalRelatedURLs = '{' + finalRelatedURLs.substring(0, finalRelatedURLs.length - 1) + '}';
@@ -290,13 +305,13 @@ module.exports = {
                 'issn_isbn = $16, publisher = $17,publication_department = $18, official_url = $19,' +
                 'volume = $20, place_of_publication = $21, number_of_pages = $22, number = $23, page_range = $24, date = $25, date_type = $26, identification_number = $27,' +
                 ' series_name = $28, related_urls = $29, funders = $30, projects = $31,' +
-                'contact_email_address = $32, reference = $33, uncontrolled_keywords = $34, additional_infor = $35, comments_and_suggestions = $36, subjects = $37, is_approved = $38 WHERE id = $39 RETURNING id', {
+                'contact_email_address = $32, reference = $33, uncontrolled_keywords = $34, additional_infor = $35, comments_and_suggestions = $36, subjects = $37, is_approved = $38, ranking = $39 WHERE id = $40 RETURNING id', {
                     bind: [type, title, abstract, monographType, presentationType, thesisType, institution, finalCorporateCreators, referred === 'yes',
                         status, kind, patentApplicant, mediaOutput, copyrightHolder, bookSectionTitle, isbn, publisher, publicationDepartment,
                         publicationURL, parseInt(volume), publicationPlace, parseInt(pageNumber), parseInt(number),
                         '{' + firstPage + ',' + endPage + '}', date, dateType, publicationId, seriesName,
                         finalRelatedURLs, finalFunders, finalProjects, emailAddress, references, unKeyword,
-                        addInformation, comment, finalSubjects, isApproved, databaseId]
+                        addInformation, comment, finalSubjects, isApproved, ranking, databaseId]
                     , type: QueryTypes.UPDATE
                 }
             );
@@ -305,15 +320,15 @@ module.exports = {
                 'INSERT INTO publication (item_type, title, abstract, monograph_type, presentation_type, thesis_type,institution, corporate_creators, ' +
                 ' is_refereed, status,kind,patent_applicant,media_output,copyright_holder, publication_title, issn_isbn, publisher,publication_department, official_url,' +
                 ' volume, place_of_publication, number_of_pages, number, page_range, date, date_type, identification_number, series_name, related_urls, funders, projects, ' +
-                'contact_email_address, reference, uncontrolled_keywords, additional_infor, comments_and_suggestions, subjects)' +
-                'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29,$30,$31,$32,$33,$34,$35,$36,$37) ' +
+                'contact_email_address, reference, uncontrolled_keywords, additional_infor, comments_and_suggestions, subjects, ranking)' +
+                'VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29,$30,$31,$32,$33,$34,$35,$36,$37,$38) ' +
                 'RETURNING id;', {
                     bind: [type, title, abstract, monographType, presentationType, thesisType, institution, finalCorporateCreators, referred === 'yes',
                         status, kind, patentApplicant, mediaOutput, copyrightHolder, bookSectionTitle, isbn, publisher, publicationDepartment,
                         publicationURL, parseInt(volume), publicationPlace, parseInt(pageNumber), parseInt(number),
                         '{' + firstPage + ',' + endPage + '}', date, dateType, publicationId, seriesName,
                         finalRelatedURLs, finalFunders, finalProjects, emailAddress, references, unKeyword,
-                        addInformation, comment, finalSubjects]
+                        addInformation, comment, finalSubjects, ranking]
                     , type: QueryTypes.INSERT
                 }
             );

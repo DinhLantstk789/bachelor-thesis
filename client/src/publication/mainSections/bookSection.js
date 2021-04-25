@@ -1,5 +1,5 @@
 import {Fragment} from 'react';
-import {Col, FormInput, Row} from "shards-react";
+import {Col, FormInput, FormSelect, Row} from "shards-react";
 import {useDispatch, useSelector} from "react-redux";
 import {
     saveBookSectionEndPage,
@@ -11,13 +11,14 @@ import {
     saveBookSectionPublisher,
     saveBookSectionSeriesName,
     saveBookSectionTitle,
-    saveBookSectionVolume
+    saveBookSectionVolume, saveRanking
 } from "../../redux/actions";
+import {publicationRankingToResearchHours} from "../../utils/configs";
 
 export default function BookSection() {
     const {
         bookSectionTitle, bookSectionPublicationPlace, bookSectionPublisher, bookSectionPageNumber, bookSectionSeriesName, bookSectionISBN, bookSectionVolume,
-        bookSectionNumber, bookSectionFirstPage, bookSectionEndPage
+        bookSectionNumber, bookSectionFirstPage, bookSectionEndPage, ranking
     } = useSelector(store => ({
         bookSectionTitle: store.bookSection.bookSectionTitle,
         bookSectionPublicationPlace: store.bookSection.bookSectionPublicationPlace,
@@ -28,7 +29,8 @@ export default function BookSection() {
         bookSectionVolume: store.bookSection.bookSectionVolume,
         bookSectionNumber: store.bookSection.bookSectionNumber,
         bookSectionFirstPage: store.bookSection.bookSectionFirstPage,
-        bookSectionEndPage: store.bookSection.bookSectionEndPage
+        bookSectionEndPage: store.bookSection.bookSectionEndPage,
+        ranking: store.bookSection.ranking
     }));
     const dispatch = useDispatch();
     return (
@@ -41,7 +43,16 @@ export default function BookSection() {
             </Row>
             <FormInput type="text" placeholder="Enter Title of Book" value={bookSectionTitle} style={{marginTop: 10}} onChange={(e) => dispatch(saveBookSectionTitle(e.target.value))}/>
             <FormInput type="text" placeholder="Enter Place of Publication" value={bookSectionPublicationPlace} style={{marginTop: 10}} onChange={(e) => dispatch(saveBookSectionPublicationPlace(e.target.value))}/>
-            <FormInput type="text" placeholder="Enter Publisher" style={{marginTop: 10}} value={bookSectionPublisher} onChange={(e) => dispatch(saveBookSectionPublisher(e.target.value))}/>
+            <Row>
+                <Col style={{marginLeft: 0, marginRight: -10}}>
+                    <FormInput type="text" placeholder="Enter Publisher" style={{marginTop: 10}} value={bookSectionPublisher} onChange={(e) => dispatch(saveBookSectionPublisher(e.target.value))}/>
+                </Col>
+                <Col style={{marginLeft: -10, marginRight: 0}}>
+                    <FormSelect value={ranking} style={{marginTop: 10}} onChange={(e) => dispatch(saveRanking(e.target.value))}>
+                        {Object.keys(publicationRankingToResearchHours['book-section']).map(d => <option value={d}>{d}</option>)}
+                    </FormSelect>
+                </Col>
+            </Row>
             <FormInput type="text" placeholder="Enter Number of Pages" style={{marginTop: 10}} value={bookSectionPageNumber} onChange={(e) => dispatch(saveBookSectionPageNumber(e.target.value))}/>
             <FormInput type="text" placeholder="Enter Series Name" style={{marginTop: 10}} value={bookSectionSeriesName} onChange={(e) => dispatch(saveBookSectionSeriesName(e.target.value))}/>
             <Row style={{marginTop: 10}}>

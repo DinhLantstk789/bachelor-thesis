@@ -45,7 +45,7 @@ import {
     savePublicationSubjects,
     savePublicationTitle,
     savePublicationUnKeyword,
-    savePublicationURL,
+    savePublicationURL, saveRanking,
     saveThesisType,
     saveViewingPublicationId,
     setDashboardState
@@ -78,11 +78,11 @@ export default function PublicationRow({isForImpactScore, impactScore, weighedIm
 
     let updateDbIntoRedux = (displayingPublicationLabel) => {
         setIsClickingView(true);
-        apiCalls.viewPublication({id: publicationId}, (publication) => {
+        apiCalls.viewPublication({id: publicationId}, (p) => {
             let corporateCreators = [], funders = [], projects = [];
-            publication.corporateCreators.forEach(c => corporateCreators.push({corporateCreator: c}));
-            publication.funders.forEach(f => funders.push({funder: f}));
-            publication.projects.forEach(p => projects.push({projectName: p}));
+            p.corporateCreators.forEach(c => corporateCreators.push({corporateCreator: c}));
+            p.funders.forEach(f => funders.push({funder: f}));
+            p.projects.forEach(p => projects.push({projectName: p}));
             let initialDivisions = [{name: 'Advanced Institute of Engineering and Technology (AVITECH)', isEnable: false},
                 {name: 'Department of Civil Engineering and Transportation (CET)', isEnable: false},
                 {name: 'Center for Electronics and Telecommunications Research (CETR)', isEnable: false},
@@ -94,7 +94,7 @@ export default function PublicationRow({isForImpactScore, impactScore, weighedIm
                 {name: 'Key Laboratory for Nanotechnology (Nano Lab)', isEnable: false},
                 {name: 'School of Aerospace Engineering (SAE)', isEnable: false},
                 {name: 'Key Laboratory for Smart Integrated Systems (SISLAB)', isEnable: false}];
-            publication.divisions.forEach(d => {
+            p.divisions.forEach(d => {
                 initialDivisions.map(item => {
                     if (item.name === d) item.isEnable = true;
                 })
@@ -111,7 +111,7 @@ export default function PublicationRow({isForImpactScore, impactScore, weighedIm
                 {name: 'Transportation Technology', isEnable: false},
                 {name: 'Civil Engineering', isEnable: false}
             ];
-            publication.subjects.forEach(s => {
+            p.subjects.forEach(s => {
                 initialSubjects.map(item => {
                     if (item.name === s) {
                         item.isEnable = true;
@@ -119,48 +119,49 @@ export default function PublicationRow({isForImpactScore, impactScore, weighedIm
                 })
             });
             dispatch(saveArticleId(publicationId));
-            dispatch(saveArticleType(publication.type));
-            dispatch(savePublicationTitle(publication.title));
-            dispatch(savePublicationCreators(publication.creators));
-            dispatch(savePublicationAbstract(publication.publicationAbstract));
+            dispatch(saveArticleType(p.type));
+            dispatch(savePublicationTitle(p.title));
+            dispatch(savePublicationCreators(p.creators));
+            dispatch(savePublicationAbstract(p.publicationAbstract));
             dispatch(savePublicationCorporateCreators(corporateCreators));
             dispatch(savePublicationDivisions(initialDivisions));
-            dispatch(savePublicationStatus(publication.selectedStatus));
-            dispatch(savePublicationKind(publication.kind));
-            dispatch(savePublicationRefereed(publication.selectedRefereed));
-            dispatch(saveBookSectionFirstPage(publication.bookSectionFirstPage));
-            dispatch(saveBookSectionEndPage(publication.bookSectionEndPage));
-            dispatch(saveBookSectionTitle(publication.bookSectionTitle));
-            dispatch(saveBookSectionPublicationPlace(publication.bookSectionPublicationPlace));
-            dispatch(saveBookSectionPublisher(publication.bookSectionPublisher));
-            dispatch(saveBookSectionPageNumber(publication.bookSectionPageNumber));
-            dispatch(saveBookSectionSeriesName(publication.bookSectionSeriesName));
-            dispatch(saveBookSectionISBN(publication.bookSectionISBN));
-            dispatch(saveBookSectionVolume(publication.bookSectionVolume));
-            dispatch(saveBookSectionNumber(publication.bookSectionNumber));
+            dispatch(savePublicationStatus(p.selectedStatus));
+            dispatch(savePublicationKind(p.kind));
+            dispatch(savePublicationRefereed(p.selectedRefereed));
+            dispatch(saveBookSectionFirstPage(p.bookSectionFirstPage));
+            dispatch(saveBookSectionEndPage(p.bookSectionEndPage));
+            dispatch(saveBookSectionTitle(p.bookSectionTitle));
+            dispatch(saveBookSectionPublicationPlace(p.bookSectionPublicationPlace));
+            dispatch(saveBookSectionPublisher(p.bookSectionPublisher));
+            dispatch(saveBookSectionPageNumber(p.bookSectionPageNumber));
+            dispatch(saveBookSectionSeriesName(p.bookSectionSeriesName));
+            dispatch(saveBookSectionISBN(p.bookSectionISBN));
+            dispatch(saveBookSectionVolume(p.bookSectionVolume));
+            dispatch(saveBookSectionNumber(p.bookSectionNumber));
             dispatch(savePublicationSubjects(initialSubjects));
-            dispatch(savePublicationEditors(publication.editors));
-            dispatch(savePublicationDateType(publication.selectedDateType));
-            dispatch(savePublicationDate(publication.selectedDate));
-            dispatch(savePublicationURL(publication.publicationURL));
+            dispatch(savePublicationEditors(p.editors));
+            dispatch(savePublicationDateType(p.selectedDateType));
+            dispatch(savePublicationDate(p.selectedDate));
+            dispatch(savePublicationURL(p.publicationURL));
             // dispatch(savePublicationRelatedURL(publication.relatedURLs));
             dispatch(savePublicationFunders(funders));
             dispatch(savePublicationProjects(projects));
-            dispatch(savePublicationEmailAddress(publication.emailAddress));
-            dispatch(savePublicationReferences(publication.references));
-            dispatch(savePublicationUnKeyword(publication.unKeyword));
-            dispatch(savePublicationAddInformation(publication.addInformation));
-            dispatch(savePublicationComment(publication.comment));
-            dispatch(saveMonographType(publication.monographType));
-            dispatch(savePresentationType(publication.presentationType));
-            dispatch(saveThesisType(publication.thesisType));
-            dispatch(saveInstitution(publication.institution));
-            dispatch(savePatentApplicant(publication.patentApplicant));
-            dispatch(saveMediaOutput(publication.mediaOutput));
-            dispatch(saveCopyrightHolder(publication.copyrightHolder));
-            dispatch(savePublicationDepartment(publication.publicationDepartment));
-            dispatch(savePublicationId(publication.publicationId));
-            dispatch(savePublicationApproval(publication.isApproved));
+            dispatch(savePublicationEmailAddress(p.emailAddress));
+            dispatch(savePublicationReferences(p.references));
+            dispatch(savePublicationUnKeyword(p.unKeyword));
+            dispatch(savePublicationAddInformation(p.addInformation));
+            dispatch(savePublicationComment(p.comment));
+            dispatch(saveMonographType(p.monographType));
+            dispatch(savePresentationType(p.presentationType));
+            dispatch(saveThesisType(p.thesisType));
+            dispatch(saveInstitution(p.institution));
+            dispatch(savePatentApplicant(p.patentApplicant));
+            dispatch(saveMediaOutput(p.mediaOutput));
+            dispatch(saveCopyrightHolder(p.copyrightHolder));
+            dispatch(savePublicationDepartment(p.publicationDepartment));
+            dispatch(savePublicationId(p.publicationId));
+            dispatch(savePublicationApproval(p.isApproved));
+            dispatch(saveRanking(p.ranking));
             dispatch(setDashboardState(true));
             dispatch(saveDisplayingPublicationLabel(displayingPublicationLabel));
         }, (message) => {
@@ -178,7 +179,6 @@ export default function PublicationRow({isForImpactScore, impactScore, weighedIm
         }
         return false;
     }
-
 
     return (
         <Fragment>
@@ -205,12 +205,12 @@ export default function PublicationRow({isForImpactScore, impactScore, weighedIm
                             <Row style={{marginRight: 0}}>
                                 {isForImpactScore ? <div style={{textAlign: 'center', marginRight: 5}}>
                                     <h5>
-                                        <Badge id={'score' + tooltipId} theme='secondary' href="#" pill>{weighedImpactScore}</Badge>
+                                        <Badge id={'score' + tooltipId} theme='secondary' href="#" pill>{Math.round(weighedImpactScore)}</Badge>
                                         <Tooltip
                                             open={scoreOpen}
                                             target={"#score" + tooltipId}
                                             toggle={() => setScoreOpen(!scoreOpen)}>
-                                            {isMainAuthor() ? 'Main author ' : 'Author '} valued at {weighedImpactScore} of {impactScore} hours
+                                            {isMainAuthor() ? 'Main author ' : 'Author '} valued at {Math.round(weighedImpactScore)} of {Math.round(impactScore)} hours
                                         </Tooltip>
                                     </h5>
                                 </div> : <i style={{fontSize: 20, marginLeft: 20, marginRight: 10, marginTop: 4, cursor: 'pointer'}} className='fa fa-edit' onClick={() => {

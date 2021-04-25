@@ -57,8 +57,8 @@ export default function ResearchHours() {
             });
             return (
                 <div style={{backgroundColor: '#FFFFFF', opacity: 0.6, padding: 10}}>
-                    <h5 className="label">{`Total research hours in ${label}: ${currentPoint.hours}`}</h5>
-                    <b>Mandatory Research Hours: </b>{currentPoint.threshold}<br/>
+                    <h5 className="label">{`Total research hours in ${label}: ${Math.round(currentPoint.hours)}`}</h5>
+                    <b>Required Research Hours: </b>{currentPoint.threshold}<br/>
                     <b>Completion Rate: </b>{(100 * currentPoint.hours / currentPoint.threshold).toFixed(2)}% {currentPoint.hours > currentPoint.threshold ? <label style={{color: 'green'}}><i className='fa fa-check'/></label> : '☹️'}<br/>
                 </div>
             );
@@ -204,10 +204,10 @@ export default function ResearchHours() {
                                     <Button id='exportStatistic' pill theme='light' style={{marginLeft: 3, marginRight: 10}} onClick={() => {
                                         let payload = 'year, required hours, completed hours, progress, completed\n';
                                         researchHoursStatisticByYear.forEach(rh => {
-                                            payload += rh.name + ',' +  rh.threshold + ',' + rh.hours + ',' + (rh.hours / rh.threshold * 100).toFixed(2)  + '%,' + (rh.hours >= rh.threshold ? 'yes': 'no') + '\n';
+                                            payload += rh.name + ',' + rh.threshold + ',' + rh.hours + ',' + (rh.hours / rh.threshold * 100).toFixed(2) + '%,' + (rh.hours >= rh.threshold ? 'yes' : 'no') + '\n';
                                         })
                                         const dataURI = "data:text/plain;base64," + encodeBase64(payload);
-                                        saveAs(dataURI, 'research-hours-statistic-of-' + impactScoreOpeningUserName.replaceAll(' ','-').toLowerCase() + '.csv');
+                                        saveAs(dataURI, 'research-hours-statistic-of-' + impactScoreOpeningUserName.replaceAll(' ', '-').toLowerCase() + '.csv');
                                     }}><i className='fa fa-download'/>
                                     </Button>
                                     <i style={{fontSize: 20, marginTop: 10, marginRight: 10, marginLeft: 10, cursor: 'pointer'}} className='fa fa-times' onClick={() => {
@@ -228,7 +228,7 @@ export default function ResearchHours() {
                             <Col>
                                 <div style={{marginBottom: 30, marginRight: 10}}>
                                     <h6 style={{textAlign: 'center'}}>Number of completed research hours over years</h6>
-                                    {researchHoursStatisticByYear === null ? <div style={{height: 250, textAlign: 'center', padding: 70}}><ClipLoader size={60} color={'#157ffb'} loading/></div> :
+                                    {researchHoursStatisticByYear === null ? <div style={{height: 200, textAlign: 'center', padding: 70}}><ClipLoader size={60} color={'#157ffb'} loading/></div> :
                                         <ResponsiveContainer width='100%' height={200}>
                                             <LineChart data={researchHoursStatisticByYear}>
                                                 <CartesianGrid strokeDasharray="3 3"/>
@@ -249,4 +249,3 @@ export default function ResearchHours() {
         </Row>
     );
 }
-
