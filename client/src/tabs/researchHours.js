@@ -57,7 +57,7 @@ export default function ResearchHours() {
             });
             return (
                 <div style={{backgroundColor: '#FFFFFF', opacity: 0.6, padding: 10}}>
-                    <h5 className="label">{`Total research hours in ${label}: ${currentPoint.hours}`}</h5>
+                    <h5 className="label">{`Total research hours in ${label}: ${Math.round(currentPoint.hours)}`}</h5>
                     <b>Required Research Hours: </b>{currentPoint.threshold}<br/>
                     <b>Completion Rate: </b>{(100 * currentPoint.hours / currentPoint.threshold).toFixed(2)}% {currentPoint.hours > currentPoint.threshold ? <label style={{color: 'green'}}><i className='fa fa-check'/></label> : '☹️'}<br/>
                 </div>
