@@ -105,7 +105,7 @@ module.exports = {
         const divs = await eprints.query('SELECT division_name FROM user_division WHERE user_email = $1', {bind: [userEmail], type: QueryTypes.SELECT});
         let filteredDivisions = divs.map(d => d.division_name);
         /* filtering by inputted division */
-        let filterdPublicationIdsByDivision = null; /* null if have no filtered id */
+        let filteredPublicationIdsByDivision = null; /* null if have no filtered id */
         if (filteringConfigs !== null && filteringConfigs.isFiltering) {
             const filteringConfigsDivision = filteringConfigs.filteredDivisions.filter(v => v.isEnable).map(d => d.name);
             filteredDivisions = filteredDivisions.filter(value => filteringConfigsDivision.includes(value));
@@ -117,7 +117,7 @@ module.exports = {
         if (filteredDivisions.length > 0) {
             r = await eprints.query('SELECT distinct(publication_id) FROM publication_division WHERE division_name IN (:divisionNames);', {replacements: {divisionNames: filteredDivisions}, type: QueryTypes.SELECT});
         }
-        filterdPublicationIdsByDivision = r.map(r => r.publication_id);
+        filteredPublicationIdsByDivision = r.map(r => r.publication_id);
 
         /* filtering by users and publication ID */
         let finalFilter = [];
@@ -125,8 +125,8 @@ module.exports = {
         if (!isAdmin) {
             let authorisedPublicationIDs = await eprints.query('select publication_id from publication_creator where creator_email = $1', {bind: [userEmail], type: QueryTypes.SELECT});
             authorisedPublicationIDs.forEach(ap => {
-                if (filterdPublicationIdsByDivision != null) {
-                    if (filterdPublicationIdsByDivision.includes(ap.publication_id)) {
+                if (filteredPublicationIdsByDivision != null) {
+                    if (filteredPublicationIdsByDivision.includes(ap.publication_id)) {
                         finalFilter.push(ap.publication_id);
                     }
                 } else {
@@ -134,8 +134,8 @@ module.exports = {
                 }
             });
             if (publicationId !== null) {
-                if (filterdPublicationIdsByDivision != null) {
-                    if (filterdPublicationIdsByDivision.includes(publicationId)) {
+                if (filteredPublicationIdsByDivision != null) {
+                    if (filteredPublicationIdsByDivision.includes(publicationId)) {
                         finalFilter = finalFilter.includes(publicationId) ? [publicationId] : [];
                     }
                 } else {
@@ -144,15 +144,15 @@ module.exports = {
             }
         } else {
             if (publicationId !== null) {
-                if (filterdPublicationIdsByDivision != null) {
-                    if (filterdPublicationIdsByDivision.includes(publicationId)) {
+                if (filteredPublicationIdsByDivision != null) {
+                    if (filteredPublicationIdsByDivision.includes(publicationId)) {
                         finalFilter = [publicationId];
                     }
                 } else {
                     finalFilter = [publicationId];
                 }
             } else {
-                finalFilter = filterdPublicationIdsByDivision;
+                finalFilter = filteredPublicationIdsByDivision;
             }
         }
         if (finalFilter.length === 0) filter = filteringCondition + 'AND false';
@@ -183,7 +183,9 @@ module.exports = {
                         break;
                     }
                 }
+                if (!p.is_approved) includedTargetedAuthor = false;
             }
+
             if (includedTargetedAuthor) {
                 if (publicationId === null) {
                     returnedResult.push({

@@ -57,7 +57,7 @@ export default function ResearchHours() {
             });
             return (
                 <div style={{backgroundColor: '#FFFFFF', opacity: 0.6, padding: 10}}>
-                    <h5 className="label">{`Total research hours in ${label}: ${Math.round(currentPoint.hours)}`}</h5>
+                    <h5 className="label">{`Total research hours in ${label}: ${currentPoint.hours}`}</h5>
                     <b>Required Research Hours: </b>{currentPoint.threshold}<br/>
                     <b>Completion Rate: </b>{(100 * currentPoint.hours / currentPoint.threshold).toFixed(2)}% {currentPoint.hours > currentPoint.threshold ? <label style={{color: 'green'}}><i className='fa fa-check'/></label> : '☹️'}<br/>
                 </div>
@@ -174,14 +174,6 @@ export default function ResearchHours() {
                             <Col md={6}>
                                 <Row>
                                     <h5 style={{marginTop: 10, marginLeft: 10, marginRight: 30}}><span>&nbsp; </span>Research Hours</h5>
-                                    <div style={{paddingTop: 10}}>
-                                        <Badge theme={approvalFilter ? 'success' : 'light'} href="#" pill style={{marginRight: 5, paddingLeft: 10, paddingRight: 10}} onClick={() => {
-                                            setApprovalFilter(!approvalFilter);
-                                        }}>Approved &nbsp;<i className="fas fa-check"/> </Badge>
-                                        <Badge theme={pendingFilter ? 'primary' : 'light'} href="#" pill style={{marginLeft: 5, paddingLeft: 10, paddingRight: 10}} onClick={() => {
-                                            setPendingFilter(!pendingFilter);
-                                        }}>Pending &nbsp;<i className="fas fa-clock"/> </Badge>
-                                    </div>
                                 </Row>
                             </Col>
                             <Col md={6}>
@@ -242,7 +234,7 @@ export default function ResearchHours() {
                                 </div>
                             </Col>
                         </Row>
-                        <PublicationList isForImpactScore={true} approvalFilter={approvalFilter} pendingFilter={pendingFilter}/>
+                        <PublicationList isForImpactScore={true} approvalFilter={true} pendingFilter={false}/>
                     </CardBody>
                 </Card>
             </Col> : ''}
