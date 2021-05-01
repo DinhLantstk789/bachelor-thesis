@@ -96,11 +96,11 @@ export default function Profile({triggerReload}) {
                         </Col>
                     </Row>
                     <FormSelect value={isAdmin ? 'admin' : 'user'} style={{marginTop: 10}} onChange={(e) => dispatch(saveIsAdmin(e.target.value === 'admin'))}>
-                        <option value="user">Ordinary User</option>
-                        {loggedUser.divisions.length === 1 && !loggedUser.isAdmin ? '' : <option value="admin">Administrator</option>}
+                        <option value="user">Người dùng</option>
+                        {loggedUser.divisions.length === 1 && !loggedUser.isAdmin ? '' : <option value="admin">Quản trị viên</option>}
                     </FormSelect>
                     <FormSelect value={department} style={{marginTop: 10}} onChange={(e) => dispatch(saveDepartment(e.target.value))}>
-                        {loggedUser.divisions.map(d => <option value={d}>{d}</option>)}
+                        {loggedUser.divisions.filter(d => !d.includes(':')).map(d => <option value={d}>{d}</option>)}
                     </FormSelect>
                     <FormInput placeholder="Address" value={address} onChange={(e) => dispatch(saveAddress(e.target.value))} style={{marginTop: 10}}/>
                     <FormTextarea placeholder="Description" value={description} onChange={(e) => dispatch(saveUserDescription(e.target.value))} style={{marginTop: 10, height: 100}}/>

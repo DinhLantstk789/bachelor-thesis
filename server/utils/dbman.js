@@ -74,8 +74,9 @@ async function insertCreatorOrEditor(publication_id, user, authorOrder, linked_t
 
 async function getDivisionOfUser(email) {
     const r = await eprints.query('SELECT division_name from user_division where user_email = $1;', {bind: [email], type: QueryTypes.SELECT});
-    if (r.length > 0)
-        return r[0].division_name;
+    const refinedR = r.filter(r => r.division_name.includes('('));
+    if (refinedR.length > 0)
+        return refinedR[0].division_name;
     return 'Khoa Công Nghệ Thông Tin (FIT)';
 }
 
