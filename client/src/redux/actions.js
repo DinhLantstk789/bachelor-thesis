@@ -362,6 +362,14 @@ export const saveImpactScoreOpeningUserEmail = (openingUserEmail) => ({
     type: 'IMPACT_SCORE_SAVE_OPENING_USER_EMAIL',
     data: {openingUserEmail: openingUserEmail}
 })
+export const saveImpactScoreOpeningUserThreshold = (openingUserThreshold) => ({
+    type: 'IMPACT_SCORE_SAVE_OPENING_USER_THRESHOLD',
+    data: {openingUserThreshold: openingUserThreshold}
+})
+export const saveImpactScoreOpeningUserTotalHours = (openingUserTotalHours) => ({
+    type: 'IMPACT_SCORE_SAVE_OPENING_USER_TOTAL_HOURS',
+    data: {openingUserTotalHours: openingUserTotalHours}
+})
 export const saveImpactScoreOpeningUserResearchHoursThreshold = (openingUserResearchHoursThreshold) => ({
     type: 'IMPACT_SCORE_SAVE_OPENING_USER_RESEARCH_HOURS_THRESHOLD',
     data: {openingUserResearchHoursThreshold: openingUserResearchHoursThreshold}
@@ -385,6 +393,10 @@ export const saveImpactScoreUserSortBy = (userSortBy) => ({
     type: 'IMPACT_SCORE_SAVE_USER_SORT_BY',
     data: {userSortBy: userSortBy}
 });
+export const saveImpactScoreUserSelectedYear = (userListSelectedYear) => ({
+    type: 'IMPACT_SCORE_SAVE_USER_SELECTED_YEAR',
+    data: {userListSelectedYear: userListSelectedYear}
+});
 export const saveImpactScorePublicationDetailSortBy = (publicationDetailsSortBy) => ({
     type: 'IMPACT_SCORE_SAVE_PUBLICATION_DETAIL_SORT_BY',
     data: {publicationDetailsSortBy: publicationDetailsSortBy}
@@ -394,7 +406,18 @@ export const saveImpactScoreTriggerReloadAllPublication = (triggerReloadAllPubli
     data: {triggerReloadAllPublication: triggerReloadAllPublication}
 });
 
-
+// home
+export const resetHome = () => ({
+    type: 'RESET_HOME_REDUX'
+});
+export const saveHomeYearsRange = (yearsRange) => ({
+    type: 'SAVE_YEARS_RANGE',
+    data: {yearsRange: yearsRange}
+});
+export const saveWindowHeight = (windowHeight) => ({
+    type: 'SAVE_WINDOWS_HEIGHT',
+    data: {windowHeight: windowHeight}
+});
 
 
 

@@ -52,6 +52,7 @@ import {
 } from "../redux/actions";
 import * as apiCalls from "../utils/apiCalls";
 import {ClipLoader, ScaleLoader} from "react-spinners";
+import {getAllDivisions, getAllSubjects} from "../utils/configs";
 
 
 function parseAuthors(creators) {
@@ -83,34 +84,13 @@ export default function PublicationRow({isForImpactScore, impactScore, weighedIm
             p.corporateCreators.forEach(c => corporateCreators.push({corporateCreator: c}));
             p.funders.forEach(f => funders.push({funder: f}));
             p.projects.forEach(p => projects.push({projectName: p}));
-            let initialDivisions = [{name: 'Advanced Institute of Engineering and Technology (AVITECH)', isEnable: false},
-                {name: 'Department of Civil Engineering and Transportation (CET)', isEnable: false},
-                {name: 'Center for Electronics and Telecommunications Research (CETR)', isEnable: false},
-                {name: 'Faculty of Agriculture Technology (FAT)', isEnable: false},
-                {name: 'Faculty of Electronics and Telecommunications (FET)', isEnable: false},
-                {name: 'Faculty of Engineering Mechanics and Automation (FEMA)', isEnable: false},
-                {name: 'Faculty of Engineering Physics and Nanotechnology (FEPN)', isEnable: false},
-                {name: 'Faculty of Information Technology (FIT)', isEnable: false},
-                {name: 'Key Laboratory for Nanotechnology (Nano Lab)', isEnable: false},
-                {name: 'School of Aerospace Engineering (SAE)', isEnable: false},
-                {name: 'Key Laboratory for Smart Integrated Systems (SISLAB)', isEnable: false}];
+            let initialDivisions = getAllDivisions(false);
             p.divisions.forEach(d => {
                 initialDivisions.map(item => {
                     if (item.name === d) item.isEnable = true;
                 })
             });
-            let initialSubjects = [
-                {name: 'Aerospace Engineering', isEnable: false},
-                {name: 'Communications', isEnable: false},
-                {name: 'Electronics and Computer Engineering', isEnable: false},
-                {name: 'Engineering Mechanics', isEnable: false},
-                {name: 'Engineering Physics', isEnable: false},
-                {name: 'ISI-indexed journals', isEnable: false},
-                {name: 'Information Technology (IT)', isEnable: false},
-                {name: 'Scopus-indexed journals', isEnable: false},
-                {name: 'Transportation Technology', isEnable: false},
-                {name: 'Civil Engineering', isEnable: false}
-            ];
+            let initialSubjects = getAllSubjects(false);
             p.subjects.forEach(s => {
                 initialSubjects.map(item => {
                     if (item.name === s) {
@@ -183,8 +163,8 @@ export default function PublicationRow({isForImpactScore, impactScore, weighedIm
     return (
         <Fragment>
             <Row>
-                <Col md={10}>
-                    <Row style={{marginLeft: 0}}>
+                <Col style={{marginRight: 50}}>
+                    <Row style={{marginLeft: 5}}>
                         <h6 style={{lineHeight: 2, cursor: 'pointer'}} onClick={() => {
                             if (!isForImpactScore) {
                                 updateDbIntoRedux('Publication Details');
@@ -195,24 +175,24 @@ export default function PublicationRow({isForImpactScore, impactScore, weighedIm
                             {title}
                         </h6>
                     </Row>
-                    <Row style={{marginLeft: 0, marginTop: -10}}>
+                    <Row style={{marginLeft: 5, marginTop: -10}}>
                         <p style={{fontSize: 14}}>{parseAuthors(authors)} ({selectedDate.split('-')[0]})</p>
                     </Row>
                 </Col>
-                <Col md={2}>
+                <div style={{marginRight: 20}}>
                     <Row className='float-right' style={{marginRight: 10, marginTop: 13}}>
                         {isClickingViewing ? <div style={{marginTop: 4}}><ScaleLoader height={25} width={4} margin={3} color={'#5b6168'} loading/></div> :
                             <Row style={{marginRight: 0}}>
-                                {isForImpactScore ? <div style={{textAlign: 'center', marginRight: 5}}>
-                                    <h5>
-                                        <Badge id={'score' + tooltipId} theme='secondary' href="#" pill>{Math.round(weighedImpactScore)}</Badge>
-                                        <Tooltip
-                                            open={scoreOpen}
-                                            target={"#score" + tooltipId}
-                                            toggle={() => setScoreOpen(!scoreOpen)}>
-                                            {isMainAuthor() ? 'Main author ' : 'Author '} valued at {Math.round(weighedImpactScore)} of {Math.round(impactScore)} hours
-                                        </Tooltip>
-                                    </h5>
+                                {isForImpactScore ? <div style={{textAlign: 'center', marginRight: 0}}>
+                                    <Badge id={'score' + tooltipId} style={{paddingLeft: 10, paddingRight: 10, paddingTop: 7, paddingBottom: 7}} theme='secondary' pill>
+                                        <span style={{fontSize: 15}}>{Math.round(weighedImpactScore)}</span>
+                                    </Badge>
+                                    <Tooltip
+                                        open={scoreOpen} placement={'left'}
+                                        target={"#score" + tooltipId}
+                                        toggle={() => setScoreOpen(!scoreOpen)}>
+                                        {isMainAuthor() ? 'Tác giả chính ' : 'Đồng tác giả '} được tính {Math.round(weighedImpactScore)} trên tổng số {Math.round(impactScore)} giờ quy đổi
+                                    </Tooltip>
                                 </div> : <i style={{fontSize: 20, marginLeft: 20, marginRight: 10, marginTop: 4, cursor: 'pointer'}} className='fa fa-edit' onClick={() => {
                                     dispatch(saveViewingPublicationId(publicationId));
                                     updateDbIntoRedux('Update Publication');
@@ -237,13 +217,13 @@ export default function PublicationRow({isForImpactScore, impactScore, weighedIm
                                         open={approvalOpen}
                                         target={"#" + tooltipId}
                                         toggle={() => setOpen(!approvalOpen)}>
-                                        {isApproved === true ? '✌️ Woo! Publication is approved.' : '🥺 Publication is still being processed.'}
+                                        {isApproved === true ? '✌️ Bài báo đã được duyệt' : '🥺 Bài báo đang chờ duyệt'}
                                     </Tooltip>
                                 </div>
                             </Row>
                         }
                     </Row>
-                </Col>
+                </div>
             </Row>
         </Fragment>
     )

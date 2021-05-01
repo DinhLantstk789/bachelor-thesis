@@ -59,7 +59,6 @@ router.post('/addUser', (req, res) => {
         let unionTitle = req.body.unionTitle;
         let registrationDate = new Date();
         let isApproved = true;
-        console.log(req.body);
         bcrypt.hash(password, 10, function (err, hash) {
             dbman.insertUser(email, familyName, givenName, hash, department, address, isAdmin, description, academicTitle, managerTitle, unionTitle, registrationDate, isApproved).then(email => {
                 return res.json({status: 200, message: 'Successfully added user:', email: email});

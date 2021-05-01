@@ -6,9 +6,12 @@ import UserRow from "../rows/userRow";
 import {List} from "react-content-loader";
 import * as apiCalls from "../utils/apiCalls";
 import {saveOpeningProfileTab} from "../redux/actions";
+import {searchUsers, sortUsers, userSorting} from "../utils/configs";
+import SortingSelector from "../publication/sortingSelector";
 
 
 export default function Management() {
+    const windowHeight = useSelector(store => store.home.windowHeight);
     const loggedUser = useSelector(store => store.user.loggedUser);
     const [isFirstLoading, setIsFirstLoading] = useState(true);
     const [isTriggerReload, setIsTriggerReload] = useState(true);
@@ -16,8 +19,7 @@ export default function Management() {
     const openingProfileTab = useSelector(store => store.newUser.openingProfileTab);
     const dispatch = useDispatch();
 
-    const [sortingOpen, setSortingOpen] = useState(false);
-    const [sortBy, setSortBy] = useState('Recently Added');
+    const [sortBy, setSortBy] = useState(userSorting[0]);
     const [searchOpen, setSearchOpen] = useState(false);
     const [searchContent, setSearchContent] = useState('');
 
@@ -39,71 +41,42 @@ export default function Management() {
         }
     }, [isTriggerReload]);
 
-    let loading = <div>
-        <List/>
-        <List style={{marginTop: 20}}/>
-    </div>
-
-    /* filtering and sorting */
-    let filteredItems = userAccounts;
-    if (sortBy === 'Recently Added') filteredItems.sort((a, b) => a.databaseAddedOn > b.databaseAddedOn ? -1 : 1);
-    if (sortBy === 'Name Ascending') filteredItems.sort((a, b) => (a.givenName + a.familyName) < (b.givenName + b.familyName) ? -1 : 1);
-    if (sortBy === 'Name Descending') filteredItems.sort((a, b) => (a.givenName + a.familyName) > (b.givenName + b.familyName) ? -1 : 1);
-    if (sortBy === 'Email Ascending') filteredItems.sort((a, b) => a.email < b.email ? -1 : 1);
-    if (sortBy === 'Email Descending') filteredItems.sort((a, b) => a.email > b.email ? -1 : 1);
-    /* searching */
-    let finalFilteredUserAccountsAfterSearch = [];
-    filteredItems.forEach(fi => {
-        let canAdd = false;
-        const searchKey = searchContent.toLowerCase();
-        if (fi.givenName.toLowerCase().includes(searchKey)) canAdd = true;
-        else if (fi.familyName.toLowerCase().includes(searchKey)) canAdd = true;
-        else if (fi.email.toLowerCase().includes(searchKey)) canAdd = true;
-        else if (fi.department.toLowerCase().includes(searchKey)) canAdd = true;
-        if (canAdd) finalFilteredUserAccountsAfterSearch.push(fi);
-    })
-
+    let filteredUsers = searchUsers(sortUsers(userAccounts, sortBy), searchContent);
     return (
         <Row style={{marginRight: 50, marginLeft: 50}}>
             <Col md={openingProfileTab === 'Add user' || openingProfileTab === 'Update user' ? 8 : 12}>
                 <Card>
                     <CardHeader>
                         <Row>
-                            <Col md={7}>
+                            <Col md={8}>
                                 <Row>
-                                    <h5 style={{lineHeight: 1.5, marginTop: 10, marginLeft: 10, marginRight: 30}}><i className='fa fa-users'/>&nbsp;&nbsp; Registered users
-                                        {loggedUser.divisions.length === 1 ? (' in the ' + loggedUser.divisions[0]) : ' in all departments'}
+                                    <h5 style={{lineHeight: 1.5, marginTop: 10, marginLeft: 10, marginRight: 30}}>&nbsp;
+                                        {loggedUser.divisions.length === 1 ? ('Người dùng - ' + loggedUser.divisions[0]) : 'Tất cả người dùng'}
                                     </h5>
                                 </Row>
                             </Col>
-                            <Col md={5}>
+                            <Col md={4}>
                                 <Row className='float-right'>
-                                    <Dropdown open={sortingOpen} toggle={() => setSortingOpen(!sortingOpen)} className='mr-2'>
-                                        <DropdownToggle theme='light' pill>{sortBy} &nbsp; <i className="fa fa-sort"/></DropdownToggle>
-                                        <DropdownMenu>
-                                            {['Recently Added', 'Name Ascending', 'Name Descending', 'Email Ascending', 'Email Descending'].map(s => <DropdownItem onClick={() => setSortBy(s)}>{s}</DropdownItem>)}
-                                        </DropdownMenu>
-                                        <Button pill theme='light' style={{marginLeft: 10}} onClick={() => {
-                                            if (searchOpen) setSearchContent('');
-                                            setSearchOpen(!searchOpen);
-                                        }}><i className='fa fa-search'/>
-                                        </Button>
-                                        {!(openingProfileTab === 'Add user' || openingProfileTab === 'Update user') ?
-                                            <Button pill theme="light" style={{marginRight: 10, marginLeft: 10}} onClick={() => {
-                                                dispatch(saveOpeningProfileTab('Add user'));
-                                            }}>Add &nbsp;<i className='fa fa-plus'/>
-                                            </Button> : ''}
-                                    </Dropdown>
+                                    <Button pill theme='light' style={{marginRight: 10}} onClick={() => {
+                                        if (searchOpen) setSearchContent('');
+                                        setSearchOpen(!searchOpen);
+                                    }}><i className='fa fa-search'/>
+                                    </Button>
+                                    <SortingSelector sortingType='user' onSelected={(s) => setSortBy(s)}/>
+                                    {!(openingProfileTab === 'Add user' || openingProfileTab === 'Update user') ?
+                                        <Button pill theme="light" style={{marginRight: 10, marginLeft: 2}} onClick={() => dispatch(saveOpeningProfileTab('Add user'))}>
+                                            Thêm mới &nbsp;<i className='fa fa-plus'/>
+                                        </Button> : ''}
                                 </Row>
                             </Col>
                         </Row>
                     </CardHeader>
-                    <CardBody>
+                    <CardBody style={{overflow: "scroll", height: windowHeight - 270}}>
                         {searchOpen ? <InputGroup style={{marginBottom: 30}}>
                             <InputGroupAddon type="prepend"><InputGroupText><i className="fa fa-search"/></InputGroupText></InputGroupAddon>
-                            <FormInput value={searchContent} placeholder="Search for registered users" onChange={(e) => setSearchContent(e.target.value)}/>
+                            <FormInput value={searchContent} placeholder="Tìm người dùng theo tên hoặc email" onChange={(e) => setSearchContent(e.target.value)}/>
                         </InputGroup> : ''}
-                        {isFirstLoading ? loading : finalFilteredUserAccountsAfterSearch.map(item => (
+                        {isFirstLoading ? <div style={{width: 1000}}><List/><List style={{marginTop: 20}}/></div> : filteredUsers.map(item => (
                             <UserRow triggerReload={() => setIsTriggerReload(!isTriggerReload)} academicTitle={item.academicTitle} managerTitle={item.managerTitle} unionTitle={item.unionTitle}
                                      givenName={item.givenName} familyName={item.familyName} email={item.email} isAdmin={item.isAdmin} department={item.department}/>
                         ))}

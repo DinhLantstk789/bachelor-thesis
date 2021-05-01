@@ -335,78 +335,82 @@ export default function NewPublication() {
             <FormTextarea type="text" id="comment" placeholder="Comments and Suggestions" value={comment} onChange={(e) => dispatch(savePublicationComment(e.target.value))}
                           style={{marginTop: 10, height: 100, display: showComment ? 'block' : 'none'}}/>
         </div>
-        <Subject/>
         <Row className='float-right'>
+            <Col>
+                <Subject/>
+            </Col>
             {displayingPublicationLabel === 'Publication Details' ? "" :
-                <Button pill style={{marginTop: 20, marginRight: 20, fontSize: 18}} onClick={() => {
-                    const body = {
-                        databaseId: viewingPublicationId,
-                        type: type,
-                        title: publicationTitle,
-                        publicationAbstract: publicationAbstract,
-                        creators: creators,
-                        corporateCreators: corporateCreators.map(cor => cor.corporateCreator),
-                        divisions: divisions.filter(div => div.isEnable).map(div => div.name),
-                        selectedStatus: selectedStatus,
-                        kind: kind,
-                        selectedRefereed: selectedRefereed,
-                        bookSectionFirstPage: bookSectionFirstPage,
-                        bookSectionEndPage: bookSectionEndPage,
-                        bookSectionTitle: bookSectionTitle,
-                        bookSectionPublicationPlace: bookSectionPublicationPlace,
-                        bookSectionPublisher: bookSectionPublisher,
-                        bookSectionPageNumber: bookSectionPageNumber === '' ? 0 : bookSectionPageNumber,
-                        bookSectionSeriesName: bookSectionSeriesName,
-                        bookSectionISBN: bookSectionISBN,
-                        bookSectionVolume: bookSectionVolume === '' ? 0 : bookSectionVolume,
-                        bookSectionNumber: bookSectionNumber === '' ? 0 : bookSectionNumber,
-                        subjects: subjects.filter(sub => sub.isEnable).map(sub => sub.name),
-                        editors: editors,
-                        selectedDateType: selectedDateType,
-                        selectedDate: selectedDate,
-                        publicationId: publicationId,
-                        publicationURL: publicationURL,
-                        relatedURLs: relatedURLs,
-                        funders: funders.map(f => f.funder),
-                        projects: projects.map(p => p.projectName),
-                        emailAddress: emailAddress,
-                        references: references,
-                        unKeyword: unKeyword,
-                        addInformation: addInformation,
-                        comment: comment,
-                        monographType: monographType,
-                        presentationType: presentationType,
-                        thesisType: thesisType,
-                        institution: institution,
-                        patentApplicant: patentApplicant,
-                        mediaOutput: mediaOutput,
-                        copyrightHolder: copyrightHolder,
-                        publicationDepartment: publicationDepartment,
-                        ranking: ranking
-                    }
-                    setSubmissionProgress(1);
-                    apiCalls.addPublication(body, () => {
-                        setSubmissionProgress(2);
-                        setTimeout(() => {
-                            dispatch(resetArticle());
-                            dispatch(resetBookSection());
-                            dispatch(resetConference());
-                            dispatch(resetPublication());
-                            dispatch(resetTechnicalReport());
-                            dispatch(setDashboardState(false));
-                            dispatch(saveDisplayingPublicationLabel('Publications'));
-                            dispatch(saveViewingPublicationId(null));
-                        }, 1000);
-                    }, (error) => {
-                        setSubmissionProgress(0);
-                        if (error === 'Publication already exists') {
-                            setModalOpen(true);
-                        } else {
-                            alert(error);
+                <div>
+                    <Button pill style={{marginTop: 65, marginRight: 20, fontSize: 18}} onClick={() => {
+                        const body = {
+                            databaseId: viewingPublicationId,
+                            type: type,
+                            title: publicationTitle,
+                            publicationAbstract: publicationAbstract,
+                            creators: creators,
+                            corporateCreators: corporateCreators.map(cor => cor.corporateCreator),
+                            divisions: divisions.filter(div => div.isEnable).map(div => div.name),
+                            selectedStatus: selectedStatus,
+                            kind: kind,
+                            selectedRefereed: selectedRefereed,
+                            bookSectionFirstPage: bookSectionFirstPage,
+                            bookSectionEndPage: bookSectionEndPage,
+                            bookSectionTitle: bookSectionTitle,
+                            bookSectionPublicationPlace: bookSectionPublicationPlace,
+                            bookSectionPublisher: bookSectionPublisher,
+                            bookSectionPageNumber: bookSectionPageNumber === '' ? 0 : bookSectionPageNumber,
+                            bookSectionSeriesName: bookSectionSeriesName,
+                            bookSectionISBN: bookSectionISBN,
+                            bookSectionVolume: bookSectionVolume === '' ? 0 : bookSectionVolume,
+                            bookSectionNumber: bookSectionNumber === '' ? 0 : bookSectionNumber,
+                            subjects: subjects.filter(sub => sub.isEnable).map(sub => sub.name),
+                            editors: editors,
+                            selectedDateType: selectedDateType,
+                            selectedDate: selectedDate,
+                            publicationId: publicationId,
+                            publicationURL: publicationURL,
+                            relatedURLs: relatedURLs,
+                            funders: funders.map(f => f.funder),
+                            projects: projects.map(p => p.projectName),
+                            emailAddress: emailAddress,
+                            references: references,
+                            unKeyword: unKeyword,
+                            addInformation: addInformation,
+                            comment: comment,
+                            monographType: monographType,
+                            presentationType: presentationType,
+                            thesisType: thesisType,
+                            institution: institution,
+                            patentApplicant: patentApplicant,
+                            mediaOutput: mediaOutput,
+                            copyrightHolder: copyrightHolder,
+                            publicationDepartment: publicationDepartment,
+                            ranking: ranking
                         }
-                    });
-                }}>{submitButtonText}&nbsp; {submitButtonIcon}
-                </Button>
+                        setSubmissionProgress(1);
+                        apiCalls.addPublication(body, () => {
+                            setSubmissionProgress(2);
+                            setTimeout(() => {
+                                dispatch(resetArticle());
+                                dispatch(resetBookSection());
+                                dispatch(resetConference());
+                                dispatch(resetPublication());
+                                dispatch(resetTechnicalReport());
+                                dispatch(setDashboardState(false));
+                                dispatch(saveDisplayingPublicationLabel('Publications'));
+                                dispatch(saveViewingPublicationId(null));
+                            }, 1000);
+                        }, (error) => {
+                            setSubmissionProgress(0);
+                            if (error === 'Publication already exists') {
+                                setModalOpen(true);
+                            } else {
+                                alert(error);
+                            }
+                        });
+                    }}>{submitButtonText}&nbsp; {submitButtonIcon}
+                    </Button>
+                </div>
             }
         </Row>
     </div>

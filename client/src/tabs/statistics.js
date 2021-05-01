@@ -1,14 +1,17 @@
 import React, {useEffect, useState} from "react";
 import {Area, AreaChart, Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis} from 'recharts'
-import {Badge, Button, Card, CardBody, CardHeader, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, FormCheckbox, Row} from "shards-react";
+import {Badge, Button, Card, CardBody, CardHeader, Col, FormCheckbox, Row} from "shards-react";
 import {List} from "react-content-loader";
 import {fetchPublication} from "../utils/apiCalls";
 import {ClipLoader} from "react-spinners";
 import {resetStatisticFilter, setTriggerReloadAllStatistics, unSelectStatisticFilter} from "../redux/actions";
 import DivisionSelector from "../publication/sharedSections/divisionSelector";
 import {useDispatch, useSelector} from "react-redux";
+import YearSelector from "../publication/yearSelector";
+import {allPublicationColor, allPublicationTypes} from "../utils/configs";
 
 export default function Statistics() {
+    const windowHeight = useSelector(store => store.home.windowHeight);
     const loggedUser = useSelector(store => store.user.loggedUser);
     const filteredDivisions = useSelector(store => store.statistics.divisions);
     const triggerReloadAllStatistics = useSelector(store => store.statistics.triggerReloadAllStatistics);
@@ -16,14 +19,11 @@ export default function Statistics() {
     const [isLoading, setIsLoading] = useState(true);
     const [isCumulativeStats, setIsCumulativeStats] = useState(false);
 
-    const [publications, setPublications] = useState(null);
     const [statisticData, setStatisticData] = useState(null);
     const [rawStatisticData, setRawStatisticData] = useState(null);
     const [cumulativeStatisticData, setCumulativeStatisticData] = useState(null);
-
-    const [statisticYears, setStatisticYears] = useState([]); /* year -> {article: 1, conference: 3...|| [{name: 'article', count: 10},{name: 'article', count: 10}]}*/
-    const [selectedFilterByYear, setSelectedFilterByYear] = useState(null);
-    const [selectingYearOpen, setSelectingYearOpen] = useState(false);
+    const yearRange = useSelector(store => store.home.yearsRange);
+    const [selectedFilterByYear, setSelectedFilterByYear] = useState(yearRange[yearRange.length - 1]);
 
     const CustomTooltip = ({active, payload, label}) => {
         if (active && payload && payload.length) {
@@ -41,15 +41,13 @@ export default function Statistics() {
             allPublicationTypes.forEach(t => totalPublications += currentPoint[t]);
             return (
                 <div style={{backgroundColor: '#FFFFFF', opacity: 0.6, padding: 10}}>
-                    <h5 className="label">{`Total publications in ${label}: ${totalPublications}`}</h5>
-                    <h6 style={{marginBottom: 10, marginTop: 15}}><i className='fa fa-check'/>&nbsp; By semesters</h6>
-                    <b>First term: </b>{currentPoint.firstTerm} {Math.round(currentPoint.firstTerm / (currentPoint.firstTerm + currentPoint.secondTerm) * 100).toFixed(2)}%<br/>
-                    <b>Second term: </b>{currentPoint.secondTerm} {Math.round(currentPoint.secondTerm / (currentPoint.firstTerm + currentPoint.secondTerm) * 100).toFixed(2)}%<br/>
-                    <h6 style={{marginBottom: 10, marginTop: 15}}><i className='fa fa-check'/>&nbsp; By publication types</h6>
+                    <h5 className="label">{`Số lượng bài báo năm ${label}: ${totalPublications}`}</h5>
+                    <h6 style={{marginBottom: 10, marginTop: 15}}><i className='fa fa-check'/>&nbsp; Theo học kỳ</h6>
+                    <b>Học kỳ 1: </b>{currentPoint.firstTerm} {Math.round(currentPoint.firstTerm / (currentPoint.firstTerm + currentPoint.secondTerm) * 100).toFixed(2)}%<br/>
+                    <b>Học kỳ 2: </b>{currentPoint.secondTerm} {Math.round(currentPoint.secondTerm / (currentPoint.firstTerm + currentPoint.secondTerm) * 100).toFixed(2)}%<br/>
+                    <h6 style={{marginBottom: 10, marginTop: 15}}><i className='fa fa-check'/>&nbsp; Theo thể loại</h6>
                     {allPublicationTypes.slice(0).reverse().map((t, i) => (<div>
-                        <Badge style={{width: 50, marginRight: 15, marginBottom: 5, backgroundColor: allPublicationColor[allPublicationTypes.length - 1 - i]}}>
-                            &nbsp;&nbsp;
-                        </Badge>
+                        <Badge style={{width: 50, marginRight: 15, marginBottom: 5, backgroundColor: allPublicationColor[allPublicationTypes.length - 1 - i]}}>&nbsp;&nbsp;</Badge>
                         <b>{t}: </b>{currentPoint[t]}<br/>
                     </div>))}
                 </div>
@@ -58,8 +56,6 @@ export default function Statistics() {
         return null;
     };
 
-    const allPublicationTypes = ['article', 'conference-workshop-item', 'technical-report', 'book-section', 'book', 'thesis', 'patent', 'image', 'video', 'dataset', 'experiment', 'teaching-resource', 'project-grant'];
-    const allPublicationColor = ['#8884d8', '#82ca9d', '#ffc658', '#E0B474', '#AFB0A8', '#9B6155', '#DE8C64', '#2F3330', '#5BCCDE', '#5F5490', '#AD5C73', '#F1C773', '#EF622F'];
 
     const parseStats = (publications) => {
         const years = [];
@@ -80,7 +76,6 @@ export default function Statistics() {
                 publicationYearCumulativeCount[y][t] = 0;
             });
         }
-        setStatisticYears(years);
         setSelectedFilterByYear(years.length > 0 ? years[0] : null);
         publications.forEach(p => {
             const y = parseInt(p.selectedDate.split('-')[0]), m = parseInt(p.selectedDate.split('-')[1]), type = p.type;
@@ -142,11 +137,9 @@ export default function Statistics() {
     useEffect(() => {
         if (triggerReloadAllStatistics) {
             setIsLoading(true);
-            setPublications(null);
             setStatisticData(null);
             setRawStatisticData(null);
             setCumulativeStatisticData(null);
-            setStatisticYears([]);
             setSelectedFilterByYear(null);
             dispatch(setTriggerReloadAllStatistics(false));
             const body = {
@@ -154,7 +147,6 @@ export default function Statistics() {
                 filteredDivisions: filteredDivisions
             }
             fetchPublication(body, (publications) => {
-                setPublications(publications);
                 parseStats(publications);
                 setIsLoading(false);
             }, (message) => alert(message));
@@ -169,16 +161,10 @@ export default function Statistics() {
         }
         fetchPublication(body, (publications) => {
             setIsLoading(false);
-            setPublications(publications);
             parseStats(publications);
+            setSelectedFilterByYear(yearRange[yearRange.length - 1])
         }, (message) => alert(message));
     }, []);
-
-
-    let loading = <div style={{marginLeft: 30}}>
-        <List/>
-        <List style={{marginTop: 20}}/>
-    </div>
 
     return (
         <Row style={{marginLeft: 20}}>
@@ -187,19 +173,19 @@ export default function Statistics() {
                     <CardHeader>
                         <Row style={{marginLeft: 10, marginRight: 0, marginTop: 10}}>
                             <Col md={8}>
-                                <h5>Number of publications across different types over time</h5>
+                                <h5>Số lượng công bố khoa học qua các năm</h5>
                             </Col>
                             <Col md={4}>
                                 <Row className='float-right'>
-                                    <h6 style={{marginRight: 15, marginTop: 2}}>Cumulative</h6>
+                                    <h6 style={{marginRight: 15, marginTop: 2}}>Cộng dồn các năm</h6>
                                     <FormCheckbox toggle checked={isCumulativeStats} onChange={() => setIsCumulativeStats(!isCumulativeStats)}/>
                                 </Row>
                             </Col>
                         </Row>
                     </CardHeader>
                     <CardBody style={{paddingRight: 40, paddingLeft: 0}}>
-                        {isLoading ? loading : <div>
-                            <ResponsiveContainer width='100%' height={650}>
+                        {isLoading ? <div style={{marginLeft: 30, width: 1000}}><List/><List style={{marginTop: 20}}/></div> : <div>
+                            <ResponsiveContainer width='100%' height={windowHeight - 340}>
                                 <AreaChart data={isCumulativeStats ? cumulativeStatisticData : statisticData}>
                                     <CartesianGrid strokeDasharray="3 3"/>
                                     <XAxis dataKey="name" padding={{left: 20, right: 20}}/>
@@ -214,26 +200,15 @@ export default function Statistics() {
             </Col>
             <Col md={4}>
                 <div style={{marginRight: 50, marginBottom: 20}}>
-                    <div style={{textAlign: 'center'}}>
-                        <Dropdown open={selectingYearOpen} toggle={() => setSelectingYearOpen(!selectingYearOpen)} className='mr-2'>
-                            <Row style={{marginBottom: 10}}>
-                                <Col md={7}><h6 style={{textAlign: 'center', marginTop: 10, marginLeft: 15}}><span style={{marginRight: 20}}>Number of publications by types</span></h6></Col>
-                                <Col md={5}>
-                                    <Row className='float-right'>
-                                        <DropdownToggle theme='light' pill>Selected Year {selectedFilterByYear}&nbsp; <i className="fa fa-sort"/></DropdownToggle>
-                                        <DropdownMenu>
-                                            {statisticYears.map(y => <DropdownItem onClick={() => {
-                                                setSelectedFilterByYear(y);
-                                            }}>{y}</DropdownItem>)}
-                                        </DropdownMenu>
-                                    </Row>
-                                </Col>
-                            </Row>
-                        </Dropdown>
-                    </div>
+                    <Row style={{marginBottom: 10}}>
+                        <Col><h6 style={{textAlign: 'left', marginTop: 10, marginLeft: 30}}><span>Số lượng công bố mỗi năm theo thể loại</span></h6></Col>
+                        <Row className='float-right' style={{marginRight: 10}}>
+                            <YearSelector onSelected={(y) => setSelectedFilterByYear(y)}/>
+                        </Row>
+                    </Row>
                     {statisticData === null ? <div style={{height: 300, textAlign: 'center', padding: 70}}><ClipLoader size={60} color={'#157ffb'} loading/></div> :
-                        (!rawStatisticData[selectedFilterByYear]) ? <div style={{height: 300}}>
-                        </div> : <ResponsiveContainer width="100%" height={300}>
+                        (!rawStatisticData[selectedFilterByYear]) ? <div>
+                        </div> : <ResponsiveContainer width="100%" height={225}>
                             <BarChart
                                 data={rawStatisticData[selectedFilterByYear].dataPerType}
                                 barSize={20}>
@@ -245,20 +220,22 @@ export default function Statistics() {
                             </BarChart>
                         </ResponsiveContainer>
                     }
-                    <div style={{marginTop: 30, marginLeft: 55}}>
-                        <DivisionSelector pageBeingUsedOn='statistics'/>
-                    </div>
-                    <div style={{textAlign: 'center', marginTop: 20}}>
-                        <Button style={{marginRight: 5}} theme='light' pill onClick={() => {
-                            dispatch(unSelectStatisticFilter(loggedUser.divisions));
-                        }}>Unselect All &nbsp;<i className="fas fa-ban"/></Button>
-                        <Button style={{marginLeft: 5, marginRight: 5}} theme='light' pill onClick={() => {
-                            dispatch(resetStatisticFilter(loggedUser.divisions));
-                        }}>Reset Filters &nbsp;<i className="fas fa-redo-alt"/></Button>
-                        <Button style={{marginLeft: 5}} theme='light' pill onClick={() => {
-                            dispatch(setTriggerReloadAllStatistics(true));
-                        }}>Apply Filters &nbsp;<i className="fas fa-check"/></Button>
-                    </div>
+                    {loggedUser.isAdmin ?
+                        <span>
+                            <div style={{marginTop: 30, marginLeft: 10, overflow: "scroll", height: windowHeight - 575}}><DivisionSelector pageBeingUsedOn='statistics'/></div>
+                        <div style={{textAlign: 'center', marginTop: 20}}>
+                            <Button style={{marginRight: 5}} theme='light' pill onClick={() => {
+                                dispatch(unSelectStatisticFilter(loggedUser.divisions));
+                            }}>Unselect All &nbsp;<i className="fas fa-ban"/></Button>
+                            <Button style={{marginLeft: 5, marginRight: 5}} theme='light' pill onClick={() => {
+                                dispatch(resetStatisticFilter(loggedUser.divisions));
+                            }}>Reset Filters &nbsp;<i className="fas fa-redo-alt"/></Button>
+                            <Button style={{marginLeft: 5}} theme='light' pill onClick={() => {
+                                dispatch(setTriggerReloadAllStatistics(true));
+                            }}>Apply Filters &nbsp;<i className="fas fa-check"/></Button>
+                        </div>
+                        </span>
+                        : ''}
                 </div>
             </Col>
         </Row>

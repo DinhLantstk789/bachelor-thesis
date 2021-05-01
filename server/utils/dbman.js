@@ -44,7 +44,6 @@ function getHoursCount(type, ranking) {
 
 /* replace existing  division */
 async function insertUserDivision(userEmail, divisionName) {
-    await eprints.query('DELETE FROM user_division WHERE user_email = $1;', {bind: [userEmail], type: QueryTypes.DELETE});
     await eprints.query('INSERT INTO user_division (user_email, division_name) VALUES ($1, $2) ON CONFLICT (user_email, division_name) DO NOTHING RETURNING user_email;', {bind: [userEmail, divisionName], type: QueryTypes.INSERT});
 }
 
@@ -69,12 +68,15 @@ async function insertCreatorOrEditor(publication_id, user, authorOrder, linked_t
     }
     await insertDivision(user.department);
     await eprints.query(q, {bind: bind, type: QueryTypes.INSERT});
+    await eprints.query('DELETE FROM user_division WHERE user_email = $1;', {bind: [user.email], type: QueryTypes.DELETE});
     await insertUserDivision(user.email, user.department);
 }
 
 async function getDivisionOfUser(email) {
     const r = await eprints.query('SELECT division_name from user_division where user_email = $1;', {bind: [email], type: QueryTypes.SELECT});
-    return r[0].division_name;
+    if (r.length > 0)
+        return r[0].division_name;
+    return 'Khoa Công Nghệ Thông Tin (FIT)';
 }
 
 async function insertDivision(division) {
@@ -369,6 +371,14 @@ module.exports = {
                 type: QueryTypes.INSERT
             }
         );
+        await eprints.query('DELETE FROM user_division WHERE user_email = $1;', {bind: [email], type: QueryTypes.DELETE});
+        if (department.includes('(')) {
+            let subDivisions = await eprints.query('SELECT name FROM divisions WHERE name ~ $1;', {bind: [department.split('(')[1].split(')')[0].trim() + ':'], type: QueryTypes.SELECT})
+            for (let i = 0; i < subDivisions.length; i++) {
+                const d = subDivisions[i];
+                await insertUserDivision(email, d.name);
+            }
+        }
         await insertUserDivision(email, department);
         return addedUser[0][0].email;
     },
@@ -418,9 +428,8 @@ module.exports = {
     },
     deleteUser: async (email) => {
         try {
-            await eprints.query('DELETE FROM user_division WHERE user_email = $1', {bind: [email], type: QueryTypes.DELETE});
-            await eprints.query('DELETE FROM users WHERE email = $1', {bind: [email], type: QueryTypes.DELETE});
-            return {message: 'User is deleted'};
+            let r = await eprints.query('UPDATE users SET is_approved = false WHERE email = $1 RETURNING email', {bind: [email], type: QueryTypes.UPDATE});
+            return r[0];
         } catch (e) {
             throw new Error(e);
         }

@@ -1,9 +1,11 @@
+import {getAllDivisions} from "../../utils/configs";
+
 const initialState = {
     givenName: '',
     familyName: '',
     email: '',
     address: '',
-    department: 'Faculty of Information Technology (FIT)',
+    department: getAllDivisions(true)[0].name,
     isAdmin: false,
     password: '',
     userDescription: '',
@@ -69,7 +71,7 @@ export default (state = initialState, action) => {
             familyName: '',
             email: '',
             address: '',
-            department: 'Faculty of Information Technology (FIT)',
+            department: getAllDivisions(true)[0].name,
             password: '',
             isAdmin: false,
             userDescription: '',

@@ -1,8 +1,10 @@
+import {getAllDivisions, getAllSubjects} from "../../utils/configs";
+
 const initialState = {
     articleId: null,
     statisticsByYears: null,
     searchPublicationContent: '',
-    sortBy: 'Recently Added',
+    sortBy: 'Thêm gần đây',
     publicationTitle: '',
     publicationAbstract: '',
     creators: [{familyName: '', givenName: '', email: '', department: ''}],
@@ -32,28 +34,8 @@ const initialState = {
     displayingPublicationLabel: 'Publications',
     viewingPublicationId: null,
     publicationApproval: false,
-    subjects: [{name: 'Aerospace Engineering', isEnable: false},
-        {name: 'Communications', isEnable: false},
-        {name: 'Electronics and Computer Engineering', isEnable: false},
-        {name: 'Engineering Mechanics', isEnable: false},
-        {name: 'Engineering Physics', isEnable: false},
-        {name: 'ISI-indexed journals', isEnable: false},
-        {name: 'Information Technology (IT)', isEnable: false},
-        {name: 'Scopus-indexed journals', isEnable: false},
-        {name: 'Transportation Technology', isEnable: false},
-        {name: 'Civil Engineering', isEnable: false}],
-    divisions: [{name: 'Advanced Institute of Engineering and Technology (AVITECH)', isEnable: false},
-        {name: 'Department of Civil Engineering and Transportation (CET)', isEnable: false},
-        {name: 'Center for Electronics and Telecommunications Research (CETR)', isEnable: false},
-        {name: 'Faculty of Agriculture Technology (FAT)', isEnable: false},
-        {name: 'Faculty of Electronics and Telecommunications (FET)', isEnable: false},
-        {name: 'Faculty of Engineering Mechanics and Automation (FEMA)', isEnable: false},
-        {name: 'Faculty of Engineering Physics and Nanotechnology (FEPN)', isEnable: false},
-        {name: 'Faculty of Information Technology (FIT)', isEnable: false},
-        {name: 'Key Laboratory for Nanotechnology (Nano Lab)', isEnable: false},
-        {name: 'School of Aerospace Engineering (SAE)', isEnable: false},
-        {name: 'Key Laboratory for Smart Integrated Systems (SISLAB)', isEnable: false}]
-
+    subjects: getAllSubjects(false),
+    divisions: getAllDivisions(false)
 };
 
 export default (state = initialState, action) => {
@@ -250,7 +232,7 @@ export default (state = initialState, action) => {
             articleId: null,
             statisticsByYears: null,
             searchPublicationContent: '',
-            sortBy: 'Recently Added',
+            sortBy: 'Thêm gần đây',
             publicationTitle: '',
             publicationAbstract: '',
             creators: [{familyName: '', givenName: '', email: '', department: ''}],
@@ -280,27 +262,8 @@ export default (state = initialState, action) => {
             displayingPublicationLabel: 'Publications',
             viewingPublicationId: null,
             publicationApproval: false,
-            subjects: [{name: 'Aerospace Engineering', isEnable: false},
-                {name: 'Communications', isEnable: false},
-                {name: 'Electronics and Computer Engineering', isEnable: false},
-                {name: 'Engineering Mechanics', isEnable: false},
-                {name: 'Engineering Physics', isEnable: false},
-                {name: 'ISI-indexed journals', isEnable: false},
-                {name: 'Information Technology (IT)', isEnable: false},
-                {name: 'Scopus-indexed journals', isEnable: false},
-                {name: 'Transportation Technology', isEnable: false},
-                {name: 'Civil Engineering', isEnable: false}],
-            divisions: [{name: 'Advanced Institute of Engineering and Technology (AVITECH)', isEnable: false},
-                {name: 'Department of Civil Engineering and Transportation (CET)', isEnable: false},
-                {name: 'Center for Electronics and Telecommunications Research (CETR)', isEnable: false},
-                {name: 'Faculty of Agriculture Technology (FAT)', isEnable: false},
-                {name: 'Faculty of Electronics and Telecommunications (FET)', isEnable: false},
-                {name: 'Faculty of Engineering Mechanics and Automation (FEMA)', isEnable: false},
-                {name: 'Faculty of Engineering Physics and Nanotechnology (FEPN)', isEnable: false},
-                {name: 'Faculty of Information Technology (FIT)', isEnable: false},
-                {name: 'Key Laboratory for Nanotechnology (Nano Lab)', isEnable: false},
-                {name: 'School of Aerospace Engineering (SAE)', isEnable: false},
-                {name: 'Key Laboratory for Smart Integrated Systems (SISLAB)', isEnable: false}]
+            subjects: getAllSubjects(false),
+            divisions: getAllDivisions(false)
         }
     }
     return state;

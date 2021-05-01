@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import {Alert, Button, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Modal, ModalBody, ModalHeader, Row} from "shards-react";
 import Footer from "./footer";
 import Publications from "./tabs/publications";
@@ -6,14 +6,15 @@ import Statistics from "./tabs/statistics";
 import Profile from "./profile";
 import {useDispatch, useSelector} from "react-redux";
 import Management from "./tabs/management";
-import {logout} from "./utils/apiCalls";
-import {resetImpactScore, resetPublication, resetPublicationFilter, resetUserInformation, saveImpactScoreSearchPublicationContent, saveLoggedUser, saveOpeningProfileTab, saveSearchPublicationContent, setDashboardState} from "./redux/actions";
+import {fetchPublication, logout} from "./utils/apiCalls";
+import {resetImpactScore, resetPublication, resetPublicationFilter, resetUserInformation, saveHomeYearsRange, saveImpactScoreSearchPublicationContent, saveLoggedUser, saveOpeningProfileTab, saveSearchPublicationContent, saveWindowHeight, setDashboardState} from "./redux/actions";
 import {ClipLoader} from "react-spinners";
 import Filter from "./publication/filter";
 import ResearchHours from "./tabs/researchHours";
 import {CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 
 export default function Home() {
+    const windowHeight = useSelector(store => store.home.windowHeight);
     const [currentTab, setCurrentTab] = useState('publication-main');
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [profileDetailsOpen, setProfileDetailsOpen] = useState(false);
@@ -29,6 +30,30 @@ export default function Home() {
         dispatch(saveSearchPublicationContent(''));
         dispatch(resetImpactScore());
     }
+
+    const handleResize = () => {
+        dispatch(saveWindowHeight(window.innerHeight - 50));
+    }
+    useEffect(() => {
+        window.addEventListener('resize', () => handleResize());
+        return () => handleResize();
+    });
+
+    useEffect(() => {
+        fetchPublication({}, (pubs) => {
+            let minYear = 3000, maxYear = 0;
+            pubs.forEach(p => {
+                const y = parseInt(p.selectedDate.split('-')[0]);
+                minYear = y < minYear ? y : minYear;
+                maxYear = y > maxYear ? y : maxYear;
+            });
+            let yr = [];
+            for (let i = minYear; i <= maxYear; i++) yr.push(i);
+            console.log(yr);
+            dispatch(saveHomeYearsRange(yr))
+        }, (message) => alert(message));
+    }, []);
+
 
     return (
         <Fragment>
@@ -49,45 +74,37 @@ export default function Home() {
                             <Button style={{marginLeft: 10, marginRight: 7}} theme={currentTab === 'publication-main' ? 'primary' : 'light'} pill onClick={() => {
                                 setCurrentTab('publication-main');
                                 clearData();
-                            }}><i
-                                className="fas fa-file"/> &nbsp; Publications</Button>
+                            }}><i className="fas fa-microscope"/> &nbsp; Công bố khoa học</Button>
                             <Button style={{marginLeft: 7, marginRight: 7}} theme={currentTab === 'statistics' ? 'primary' : 'light'} pill onClick={() => {
                                 setCurrentTab('statistics');
                                 clearData();
-                            }}><i
-                                className="fas fa-chart-line"/> &nbsp; Statistics</Button>
+                            }}><i className="fas fa-chart-pie"/> &nbsp; Thống kê</Button>
                             <Button style={{marginLeft: 7, marginRight: 7}} theme={currentTab === 'impact-score' ? 'primary' : 'light'} pill onClick={() => {
                                 setCurrentTab('impact-score');
                                 clearData();
-                            }}><i
-                                className="fas fa-star"/> &nbsp; Research Hours</Button>
+                            }}><i className="fas fa-star"/> &nbsp; Giờ nghiên cứu</Button>
                             {loggedUser.isAdmin ?
                                 <Button style={{marginLeft: 7, marginRight: 7}} theme={currentTab === 'user-management' ? 'primary' : 'light'} pill onClick={() => {
                                     setCurrentTab('user-management');
                                     clearData();
-                                }}><i className="fas fa-users"/> &nbsp; User Management</Button> : ''}
-                            <Dropdown open={openAccount} toggle={() => setOpenAccount(!openAccount)}>
-                                <DropdownToggle theme={currentTab === 'profile' ? 'primary' : 'light'} pill id="dropdown1" style={{fontSize: 20, marginRight: 30, marginLeft: 5}} className="float-right">
-                                    {isLoggingOut ? <ClipLoader size={15} color={'#157ffb'} loading/> : <i className={"fa fa-user"}/>}
-                                </DropdownToggle>
-                                <DropdownMenu right>
-                                    <DropdownItem onClick={() => {
-                                        setProfileDetailsOpen(true);
-                                        dispatch(saveOpeningProfileTab('Your profile'));
-                                    }}><i className="fas fa-user-circle"/>&nbsp;&nbsp; Profile</DropdownItem>
-                                    <DropdownItem onClick={() => {
-                                        setIsLoggingOut(true);
-                                        logout(successMessage => {
-                                            setIsLoggingOut(false);
-                                            dispatch(saveLoggedUser(null));
-                                            dispatch(resetPublicationFilter(loggedUser.divisions));
-                                            dispatch(resetUserInformation());
-                                            dispatch(resetPublication());
-                                            clearData();
-                                        }, (errorMessage) => alert(errorMessage));
-                                    }}><i className="fas fa-sign-out"/>&nbsp;&nbsp; Logout</DropdownItem>
-                                </DropdownMenu>
-                            </Dropdown>
+                                }}><i className="fas fa-users"/> &nbsp; Quản lý người dùng</Button> : ''}
+                            <Button style={{marginLeft: 7, marginRight: 7}} theme='light' pill onClick={() => {
+                                setProfileDetailsOpen(true);
+                                dispatch(saveOpeningProfileTab('Your profile'));
+                            }}><i className="fas fa-user"/> &nbsp;{loggedUser.givenName + ' ' + loggedUser.familyName}</Button>
+                            <div style={{marginTop: 10, marginLeft: 10, marginRight: 10}}>
+                                {isLoggingOut ? <ClipLoader size={20} color={'#157ffb'} loading/> : <i style={{fontSize: 20, cursor: 'pointer', color: '#157ffb'}} className="fas fa-sign-out-alt" onClick={() => {
+                                    setIsLoggingOut(true);
+                                    logout(successMessage => {
+                                        setIsLoggingOut(false);
+                                        dispatch(saveLoggedUser(null));
+                                        dispatch(resetPublicationFilter(loggedUser.divisions));
+                                        dispatch(resetUserInformation());
+                                        dispatch(resetPublication());
+                                        clearData();
+                                    }, (errorMessage) => alert(errorMessage));
+                                }}/>}
+                            </div>
                         </Row>
                     </Col>
                 </Row>
@@ -98,9 +115,9 @@ export default function Home() {
                     <Col md={4}>
                         <div>
                             <div style={{marginRight: 50, marginBottom: 20}}>
-                                <h6 style={{textAlign: 'center'}}>Number of publications over years</h6>
+                                <h6 style={{textAlign: 'center', marginLeft: 40}}>Tổng quan số lượng công bố khoa học qua các năm</h6>
                                 {statisticsByYears === null ? <div style={{height: 250, textAlign: 'center', padding: 70}}><ClipLoader size={60} color={'#157ffb'} loading/></div> :
-                                    <ResponsiveContainer width='100%' height={250}>
+                                    <ResponsiveContainer width='100%' height={225}>
                                         <LineChart data={statisticsByYears}>
                                             <CartesianGrid strokeDasharray="3 3"/>
                                             <XAxis dataKey="name" padding={{left: 20, right: 20}}/>
@@ -116,7 +133,7 @@ export default function Home() {
                     </Col>
                 </Row>
             }
-            <Footer/>
+            <Footer institute={'Đại học Công Nghệ, Đại học quốc gia Hà Nội'}/>
         </Fragment>
     )
 }

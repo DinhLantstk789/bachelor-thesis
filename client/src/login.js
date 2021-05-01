@@ -59,29 +59,23 @@ class Login extends Component {
             <Fragment>
                 <Row>
                     <Col xs={2} md={4} sm={2}/>
-                    <Col xs={8} md={4} sm={8} style={{paddingLeft: 60, paddingRight: 60}}>
+                    <Col xs={8} md={4} sm={8} style={{paddingLeft: 80, paddingRight: 80}}>
                         <form>
                             <Card style={{marginTop: 100}}>
                                 <CardBody style={{paddingLeft: 40, paddingRight: 40}}>
                                     <div style={{textAlign: 'center', marginTop: 20, marginBottom: 30}}>
                                         <img src="images/logo.png" style={{width: 220}}/>
                                     </div>
-                                    <h4 style={{textAlign: "center", marginBottom: 20, marginTop: 20}}>Login to your
+                                    <h4 style={{textAlign: "center", marginBottom: 30, marginTop: 30}}>Login to your
                                         account</h4>
-                                    <p style={{
-                                        textAlign: 'center',
-                                        marginBottom: 10, color: "red"
-                                    }}>{this.state.emailCheckedResult}</p>
+                                    <p style={{textAlign: 'center', marginBottom: 10, color: "red"}}>{this.state.emailCheckedResult}</p>
                                     <InputGroup className="mb-2">
                                         <InputGroupAddon type="prepend">
                                             <InputGroupText><i className="fa fa-envelope" style={{width: 20}}/></InputGroupText>
                                         </InputGroupAddon>
                                         <FormInput placeholder="Email" type="email" onChange={this.onTypingEmail}/>
                                     </InputGroup>
-                                    <p style={{
-                                        textAlign: 'center',
-                                        marginBottom: 10, color: "red"
-                                    }}>{this.state.passwordCheckedResult}</p>
+                                    <p style={{textAlign: 'center', marginBottom: 10, marginTop: 5, color: "red"}}>{this.state.passwordCheckedResult}</p>
                                     <InputGroup className="mb-2">
                                         <InputGroupAddon type="prepend">
                                             <InputGroupText><i className="fa fa-lock" style={{width: 20}}/>
@@ -89,11 +83,8 @@ class Login extends Component {
                                         </InputGroupAddon>
                                         <FormInput placeholder="Password" type="password" onChange={this.onTypingPassword}/>
                                     </InputGroup>
-                                    <p style={{
-                                        textAlign: 'center',
-                                        marginBottom: 10
-                                    }}>{this.state.errorResponse}</p>
-                                    <Row style={{marginTop: 15}}>
+                                    <p style={{textAlign: 'center', marginBottom: 10, marginTop: 5}}>{this.state.errorResponse}</p>
+                                    <Row style={{marginTop: 20}}>
                                         <Col xs={6} md={6} sm={6} className="float-left" style={{marginTop: 10}}>
                                             <FormCheckbox
                                                 checked={this.state.enteredCheckbox}
@@ -110,7 +101,7 @@ class Login extends Component {
                                         </Col>
                                     </Row>
                                 </CardBody>
-                                <Footer/>
+                                <Footer institute={'Đại học Công Nghệ, ĐHQGHN'}/>
                             </Card>
                         </form>
                     </Col>

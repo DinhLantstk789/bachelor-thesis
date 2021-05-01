@@ -9,6 +9,7 @@ import newUser from "./newUser";
 import filter from "./filter";
 import statistics from "./statistics";
 import impactScore from "./researchHours";
+import home from "./home";
 
 
-export default combineReducers({user, newUser, article, bookSection, publication, technicalReport, conference, filter, statistics, impactScore});
+export default combineReducers({user, newUser, article, bookSection, publication, technicalReport, conference, filter, statistics, impactScore, home});
