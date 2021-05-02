@@ -77,6 +77,9 @@ async function getDivisionOfUser(email) {
     const refinedR = r.filter(r => r.division_name.includes('('));
     if (refinedR.length > 0)
         return refinedR[0].division_name;
+    console.log(r);
+    if (r.length > 0)
+        return r[0].division_name;
     return 'Khoa Công Nghệ Thông Tin (FIT)';
 }
 

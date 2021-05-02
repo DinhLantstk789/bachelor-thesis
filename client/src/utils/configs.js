@@ -1,5 +1,5 @@
 export const academicTitleToRequiredWorkingHours = {
-    'None': 600, 'Giáo sư': 850, 'Phó Giáo sư': 750, 'Tiến sĩ': 700
+    'Giảng viên': 600, 'Giáo sư': 850, 'Phó Giáo sư': 750, 'Tiến sĩ': 700
 }
 
 export const publicationRankingToResearchHours = {
@@ -24,13 +24,13 @@ export const publicationRankingToResearchHours = {
 }
 
 export const managerToExemption = {
-    'None': 1, 'Hiệu trưởng': 0.15, 'Phó hiệu trưởng': 0.2, 'Manager': 0.25, 'Vice Manager': 0.3, 'Trưởng khoa': 0.7,
+    'Không có chức vụ quản lý': 1, 'Hiệu trưởng': 0.15, 'Phó hiệu trưởng': 0.2, 'Manager': 0.25, 'Vice Manager': 0.3, 'Trưởng khoa': 0.7,
     'Phó trưởng khoa': 0.75, 'Trưởng bộ môn': 0.8, 'Phó trưởng bộ môn': 0.85
 }
 
 export const unionTitleToExemption = {
-    'None': 1, 'Party Secretary': 0.15, 'Deputy Party Secretary': 0.3, 'Secretary': 0.85, 'Deputy Secretary': 0.9, 'Secretary of Youth Union': 0.5,
-    'Deputy Secretary of Youth Union': 0.6, 'Student Union President': 0.6, 'Student Union Vice President': 0.7
+    'Không có chức vụ Đoàn thể': 1, 'Bí thư Đảng Uỷ': 0.15, 'Phó Bí thư Đảng Uỷ': 0.3, 'Bí thư Chi Bộ': 0.85, 'Phó Bí thư Chi Bộ': 0.9, 'Bí thư Đoàn Thanh Niên': 0.5,
+    'Phó Bí thư Đoàn Thanh Niên': 0.6, 'Chủ tịch Hội sinh viên': 0.6, 'Phó Chủ tịch Hội sinh viên': 0.7
 }
 
 export const publicationSorting = ['Thêm gần đây', 'Tiêu đề tăng dần', 'Tiêu đề giảm dần', 'Ngày tăng dần', 'Ngày giảm dần'];
