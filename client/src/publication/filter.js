@@ -10,7 +10,7 @@ export default function Filter() {
     const yearFrom = useSelector(store => store.filter.yearFrom);
     const yearTo = useSelector(store => store.filter.yearTo);
     const dispatch = useDispatch();
-    const [range, setRange] = useState([2000, 2020]);
+    const [range, setRange] = useState([2000, 2021]);
 
     useEffect(() => {
         dispatch(resetPublicationFilter(loggedUser.divisions));
@@ -29,7 +29,7 @@ export default function Filter() {
                         dispatch(savePublicationFilterYearTo(parseInt(e[1])));
                     }}
                     start={range}
-                    range={{min: 2000, max: 2020}}
+                    range={{min: 2000, max: 2021}}
                 />
             </div>
             {loggedUser.isAdmin ?

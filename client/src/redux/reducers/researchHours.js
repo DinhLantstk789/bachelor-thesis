@@ -11,7 +11,7 @@ const initialState = {
     openingUserScore: null,
     triggerReloadAllPublication: false,
     researchHoursByYears: null,
-    userListSelectedYear: 2020
+    userListSelectedYear: 2021
 };
 
 export default (state = initialState, action) => {
@@ -81,7 +81,7 @@ export default (state = initialState, action) => {
             openingUserScore: null,
             triggerReloadAllPublication: false,
             researchHoursByYears: null,
-            userListSelectedYear: 2020
+            userListSelectedYear: 2021
         }
     }
     return state;
