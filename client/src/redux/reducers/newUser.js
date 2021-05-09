@@ -10,9 +10,9 @@ const initialState = {
     password: '',
     userDescription: '',
     openingProfileTab: null,
-    academicTitle: 'None',
-    managerTitle: 'None',
-    unionTitle: 'None'
+    academicTitle: 'Giảng viên',
+    managerTitle: 'Không có chức vụ quản lý',
+    unionTitle: 'Không có chức vụ Đoàn thể'
 };
 
 export default (state = initialState, action) => {

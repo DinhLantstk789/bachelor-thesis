@@ -33,6 +33,10 @@ export const unionTitleToExemption = {
     'Phó Bí thư Đoàn Thanh Niên': 0.6, 'Chủ tịch Hội sinh viên': 0.6, 'Phó Chủ tịch Hội sinh viên': 0.7
 }
 
+export const getARandomNumber = (min, max) => {
+    return Math.round(Math.random() * (max - min) + min);
+}
+
 export const publicationSorting = ['Thêm gần đây', 'Tiêu đề tăng dần', 'Tiêu đề giảm dần', 'Ngày tăng dần', 'Ngày giảm dần'];
 export const sortPublications = (unsortedPublications, sortingType) => {
     let sorted = unsortedPublications;

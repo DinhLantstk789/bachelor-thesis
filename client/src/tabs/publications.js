@@ -20,14 +20,13 @@ export default function Publications() {
     const [pendingFilter, setPendingFilter] = useState(false);
     const [isApproving, setIsApproving] = useState(false);
 
-    const {loggedUser, searchPublicationContent, publicationId, publicationApproval, isAddingPublication, displayingPublicationLabel, sortBy} = useSelector(store => ({
+    const {loggedUser, searchPublicationContent, publicationId, publicationApproval, isAddingPublication, displayingPublicationLabel} = useSelector(store => ({
         loggedUser: store.user.loggedUser,
         searchPublicationContent: store.publication.searchPublicationContent,
         publicationId: store.publication.articleId,
         publicationApproval: store.publication.publicationApproval,
         isAddingPublication: store.publication.isAddingPublication,
-        displayingPublicationLabel: store.publication.displayingPublicationLabel,
-        sortBy: store.publication.sortBy
+        displayingPublicationLabel: store.publication.displayingPublicationLabel
     }));
     const dispatch = useDispatch();
 

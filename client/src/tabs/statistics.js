@@ -8,7 +8,7 @@ import {resetStatisticFilter, setTriggerReloadAllStatistics, unSelectStatisticFi
 import DivisionSelector from "../publication/sharedSections/divisionSelector";
 import {useDispatch, useSelector} from "react-redux";
 import YearSelector from "../publication/yearSelector";
-import {allPublicationColor, allPublicationTypes} from "../utils/configs";
+import {allPublicationColor, allPublicationTypes, getARandomNumber} from "../utils/configs";
 
 export default function Statistics() {
     const windowHeight = useSelector(store => store.home.windowHeight);
@@ -55,7 +55,11 @@ export default function Statistics() {
         }
         return null;
     };
-
+    
+    const defaultPublicationCount = () => {
+        return 0; // <-- legitimate
+        // return getARandomNumber(1, 5); // for testing
+    }
 
     const parseStats = (publications) => {
         const years = [];
@@ -69,11 +73,11 @@ export default function Statistics() {
         });
         for (let y = minYear; y <= maxYear; y++) {
             years.push(y);
-            publicationYearCount[y] = {name: y, firstTerm: 0, secondTerm: 0};
-            publicationYearCumulativeCount[y] = {name: y, firstTerm: 0, secondTerm: 0};
+            publicationYearCount[y] = {name: y, firstTerm: defaultPublicationCount(), secondTerm: defaultPublicationCount()};
+            publicationYearCumulativeCount[y] = {name: y, firstTerm: defaultPublicationCount(), secondTerm: defaultPublicationCount()};
             allPublicationTypes.forEach(t => {
-                publicationYearCount[y][t] = 0;
-                publicationYearCumulativeCount[y][t] = 0;
+                publicationYearCount[y][t] = defaultPublicationCount();
+                publicationYearCumulativeCount[y][t] = defaultPublicationCount();
             });
         }
         setSelectedFilterByYear(years.length > 0 ? years[0] : null);
