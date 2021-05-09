@@ -47,16 +47,14 @@ export default function Profile({triggerReload}) {
             {openingProfileTab === 'Your profile' ? '' :
                 <Row style={{marginBottom: 20}}>
                     <Col>
-                        <h5 style={{marginTop: 10, marginRight: 30}}>{openingProfileTab}</h5>
+                        <h5 style={{marginTop: 10, marginRight: 30}}>{openingProfileTab === 'Add user' ? 'Thêm người dùng' : 'Cập nhật hồ sơ người dùng'}</h5>
                     </Col>
-                    <Col>
-                        <div className='float-right'>
-                            <i style={{fontSize: 25, marginTop: 10, cursor: 'pointer'}} className='fa fa-times' onClick={() => {
-                                dispatch(saveOpeningProfileTab(null));
-                                dispatch(resetUserInformation());
-                            }}/>
-                        </div>
-                    </Col>
+                    <div className='float-right'>
+                        <i style={{fontSize: 25, marginTop: 10, marginRight: 20, cursor: 'pointer'}} className='fa fa-times' onClick={() => {
+                            dispatch(saveOpeningProfileTab(null));
+                            dispatch(resetUserInformation());
+                        }}/>
+                    </div>
                 </Row>
             }
             <Row>
@@ -71,10 +69,10 @@ export default function Profile({triggerReload}) {
                     </Row>
                     <Row>
                         <Col style={{marginLeft: -10, marginRight: -10}}>
-                            <FormInput placeholder="Given Name" value={givenName} onChange={(e) => dispatch(saveGivenName(e.target.value))}/>
+                            <FormInput placeholder="Tên " value={givenName} onChange={(e) => dispatch(saveGivenName(e.target.value))}/>
                         </Col>
                         <Col style={{marginLeft: -10, marginRight: 0}}>
-                            <FormInput placeholder="Family Name" type='email' value={familyName} onChange={(e) => dispatch(saveFamilyName(e.target.value))}/>
+                            <FormInput placeholder="Họ" value={familyName} onChange={(e) => dispatch(saveFamilyName(e.target.value))}/>
                         </Col>
                     </Row>
                 </Col>
@@ -82,7 +80,7 @@ export default function Profile({triggerReload}) {
             <Row>
                 <Col>
                     <FormInput placeholder="Email" value={email} onChange={(e) => dispatch(saveEmail(e.target.value))} style={{marginTop: 10}}/>
-                    <FormInput placeholder="Password" type='password' value={password} onChange={(e) => dispatch(savePassword(e.target.value))} style={{marginTop: 10}}/>
+                    <FormInput placeholder="Mật khẩu" type='password' value={password} onChange={(e) => dispatch(savePassword(e.target.value))} style={{marginTop: 10}}/>
                     <Row>
                         <Col style={{marginLeft: 0, marginRight: -10}}>
                             <FormSelect value={managerTitle} style={{marginTop: 10}} onChange={(e) => dispatch(saveManagerTitle(e.target.value))}>
@@ -102,8 +100,8 @@ export default function Profile({triggerReload}) {
                     <FormSelect value={department} style={{marginTop: 10}} onChange={(e) => dispatch(saveDepartment(e.target.value))}>
                         {loggedUser.divisions.map(d => <option value={d}>{d}</option>)}
                     </FormSelect>
-                    <FormInput placeholder="Address" value={address} onChange={(e) => dispatch(saveAddress(e.target.value))} style={{marginTop: 10}}/>
-                    <FormTextarea placeholder="Description" value={description} onChange={(e) => dispatch(saveUserDescription(e.target.value))} style={{marginTop: 10, height: 100}}/>
+                    <FormInput placeholder="Địa chỉ" value={address} onChange={(e) => dispatch(saveAddress(e.target.value))} style={{marginTop: 10}}/>
+                    <FormTextarea placeholder="Mô tả" value={description} onChange={(e) => dispatch(saveUserDescription(e.target.value))} style={{marginTop: 10, height: 100}}/>
                     <div className='float-right' style={{marginTop: 10}}>
                         <Button pill theme={isSubmitting ? 'secondary' : 'success'} onClick={() => {
                             if (!isSubmitting) {
@@ -126,7 +124,7 @@ export default function Profile({triggerReload}) {
                                 });
                             }
                         }
-                        }>{openingProfileTab === 'Your profile' ? 'Update' : 'Submit'} &nbsp;{isSubmitting ? <ClipLoader size={13} color={'#ffffff'} loading/> : <i className='fa fa-arrow-right'/>}</Button>
+                        }>{openingProfileTab === 'Your profile' ? 'Cập nhật' : 'Xác nhận'} &nbsp;{isSubmitting ? <ClipLoader size={13} color={'#ffffff'} loading/> : <i className='fa fa-arrow-right'/>}</Button>
                     </div>
                 </Col>
             </Row>
