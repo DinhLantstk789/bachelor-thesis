@@ -5,7 +5,7 @@ import {useSelector} from "react-redux";
 export default function YearSelector({linkedValue, onSelected}) {
     const yearRange = useSelector(store => store.home.yearsRange);
     const [selectedYearOpen, setSelectedYearOpen] = useState(false);
-    const [selectedYear, setSelectedYear] = useState(2020);
+    const [selectedYear, setSelectedYear] = useState(2021);
     const value = linkedValue ? linkedValue : selectedYear;
     return (
         <Dropdown open={selectedYearOpen} toggle={() => setSelectedYearOpen(!selectedYearOpen)} className='mr-2'>

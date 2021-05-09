@@ -198,7 +198,7 @@ export default function PublicationRow({isForImpactScore, impactScore, weighedIm
                                     updateDbIntoRedux('Update Publication');
                                 }}
                                 />}
-                                {loggedUser.isAdmin ? <span>&nbsp; &nbsp;</span> : !isForImpactScore ? <div style={{fontSize: 20, marginLeft: 10, marginRight: 20}}>
+                                {!isForImpactScore ? <div style={{fontSize: 20, marginLeft: 10, marginRight: 20}}>
                                     {isDeleting ? <ClipLoader size={20} color={'#5a6169'} loading/> : <i className='fa fa-trash' style={{cursor: 'pointer'}} onClick={() => {
                                         setIsDeleting(true);
                                         apiCalls.deletePublication({publicationId: publicationId}, () => {

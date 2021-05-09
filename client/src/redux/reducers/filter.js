@@ -3,7 +3,7 @@ import {getAllDivisions} from "../../utils/configs";
 const initialState = {
     triggerReloadAllPublication: false,
     yearFrom: 2000,
-    yearTo: 2020,
+    yearTo: 2021,
     divisions: getAllDivisions(true)
 };
 
@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
         return {
             triggerReloadAllPublication: false,
             yearFrom: 2000,
-            yearTo: 2020,
+            yearTo: 2021,
             divisions: newDivisions
         }
     }
@@ -42,7 +42,7 @@ export default (state = initialState, action) => {
         return {
             triggerReloadAllPublication: false,
             yearFrom: 2000,
-            yearTo: 2020,
+            yearTo: 2021,
             divisions: newDivisions
         }
     }
