@@ -128,19 +128,19 @@ export default function NewPublication() {
     let submitButtonIcon;
     switch (submissionProgress) {
         case 1:
-            submitButtonText = 'Submitting';
+            submitButtonText = 'Xin đợi';
             submitButtonIcon = <ClipLoader size={15} color={'#ffffff'} loading/>;
             break;
         case 2:
-            submitButtonText = 'Success';
+            submitButtonText = 'Thành công';
             submitButtonIcon = <i className='fa fa-check'/>;
             break;
         case 3:
-            submitButtonText = 'Failed';
+            submitButtonText = 'Lỗi hệ thống';
             submitButtonIcon = <i className='fa fa-exclamation-triangle'/>;
             break;
         default:
-            submitButtonText = displayingPublicationLabel === 'New Publication' ? 'Deposit' : (displayingPublicationLabel === 'Update Publication' ? 'Update' : '');
+            submitButtonText = displayingPublicationLabel === 'New Publication' ? 'Xác nhận' : (displayingPublicationLabel === 'Update Publication' ? 'Cập nhật' : '');
             submitButtonIcon = <i className='fa fa-paper-plane'/>;
     }
     let mainComponent = null, addComponent = null, detailComponent = null;

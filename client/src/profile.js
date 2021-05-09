@@ -63,7 +63,7 @@ export default function Profile({triggerReload}) {
                 </Col>
                 <Col md={9} style={{marginBottom: 10}}>
                     <Row style={{marginLeft: -10, marginRight: 0, marginBottom: 10}}>
-                        <FormSelect value={academicTitle} onChange={(e) => dispatch(saveAcademicTitle(e.target.value))}>
+                        <FormSelect disabled={!loggedUser.isAdmin} value={academicTitle} onChange={(e) => dispatch(saveAcademicTitle(e.target.value))}>
                             {Object.keys(academicTitleToRequiredWorkingHours).map(d => <option value={d}>{d}</option>)}
                         </FormSelect>
                     </Row>
@@ -79,21 +79,21 @@ export default function Profile({triggerReload}) {
             </Row>
             <Row>
                 <Col>
-                    <FormInput placeholder="Email" value={email} onChange={(e) => dispatch(saveEmail(e.target.value))} style={{marginTop: 10}}/>
+                    <FormInput placeholder="Email" disabled={openingProfileTab !== 'Add user'} value={email} onChange={(e) => dispatch(saveEmail(e.target.value))} style={{marginTop: 10}}/>
                     <FormInput placeholder="Mật khẩu" type='password' value={password} onChange={(e) => dispatch(savePassword(e.target.value))} style={{marginTop: 10}}/>
                     <Row>
                         <Col style={{marginLeft: 0, marginRight: -10}}>
-                            <FormSelect value={managerTitle} style={{marginTop: 10}} onChange={(e) => dispatch(saveManagerTitle(e.target.value))}>
+                            <FormSelect disabled={!loggedUser.isAdmin} value={managerTitle} style={{marginTop: 10}} onChange={(e) => dispatch(saveManagerTitle(e.target.value))}>
                                 {Object.keys(managerToExemption).map(d => <option value={d}>{d}</option>)}
                             </FormSelect>
                         </Col>
                         <Col style={{marginLeft: -10, marginRight: 0}}>
-                            <FormSelect value={unionTitle} style={{marginTop: 10}} onChange={(e) => dispatch(saveUnionTitle(e.target.value))}>
+                            <FormSelect disabled={!loggedUser.isAdmin} value={unionTitle} style={{marginTop: 10}} onChange={(e) => dispatch(saveUnionTitle(e.target.value))}>
                                 {Object.keys(unionTitleToExemption).map(d => <option value={d}>{d}</option>)}
                             </FormSelect>
                         </Col>
                     </Row>
-                    <FormSelect value={isAdmin ? 'admin' : 'user'} style={{marginTop: 10}} onChange={(e) => dispatch(saveIsAdmin(e.target.value === 'admin'))}>
+                    <FormSelect disabled={!loggedUser.isAdmin} value={isAdmin ? 'admin' : 'user'} style={{marginTop: 10}} onChange={(e) => dispatch(saveIsAdmin(e.target.value === 'admin'))}>
                         <option value="user">Người dùng</option>
                         {loggedUser.divisions.length === 1 && !loggedUser.isAdmin ? '' : <option value="admin">Quản trị viên</option>}
                     </FormSelect>
