@@ -207,7 +207,7 @@ export default function Statistics() {
                     <Row style={{marginBottom: 10}}>
                         <Col><h6 style={{textAlign: 'left', marginTop: 10, marginLeft: 30}}><span>Số lượng công bố mỗi năm theo thể loại</span></h6></Col>
                         <Row className='float-right' style={{marginRight: 10}}>
-                            <YearSelector onSelected={(y) => setSelectedFilterByYear(y)}/>
+                            <YearSelector linkedValue={selectedFilterByYear} onSelected={(y) => setSelectedFilterByYear(y)}/>
                         </Row>
                     </Row>
                     {statisticData === null ? <div style={{height: 300, textAlign: 'center', padding: 70}}><ClipLoader size={60} color={'#157ffb'} loading/></div> :

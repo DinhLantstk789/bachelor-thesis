@@ -37,8 +37,7 @@ function AutoCompletedTextField({index, email, creatorData, forceReload}) {
                 dispatch(savePublicationCreators(tmpCreators));
                 updateMatchedUser();
                 forceReload();
-            }} onFocus={() => {
-                setEmailInputSuggestionOpen(true);
+                setEmailInputSuggestionOpen(creators[index].email.length > 0);
             }}/>
             {getSuggestionEmails(index).length > 0 ?
                 <Tooltip open={emailInputSuggestionOpen} target={'#emailInput' + index}>
@@ -121,12 +120,7 @@ class Creator extends Component {
 }
 
 let mapStateToProps = (store) => {
-        return {creators: store.publication.creators}
-    }
-;
-let mapDispatchToProps =
-    {
-        savePublicationCreators
-    }
-;
+    return {creators: store.publication.creators}
+}
+let mapDispatchToProps = {savePublicationCreators}
 export default connect(mapStateToProps, mapDispatchToProps)(Creator);

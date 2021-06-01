@@ -332,7 +332,8 @@ COPY public.publication (id, item_type, title, abstract, corporate_creators, is_
 73	article	A Compositional Type Systems for Finding Log Memory Bounds of Transactional Programs	In our previous works, we proposed several type systems that can guarantee log memory bounds of transactional programs. One drawback of these type systems is their restricted compositionality. In this work, we develop a type system that is completely compositional. It allows us to type any sub-terms of the program, instead of bottom-up style in our previous works. In addition, we also extend the language with basic elements that are close to real world languages instead of abstract languages as in our previous works. This increases the implementability of our type systems to real world languages.	{""}	f	published	international	Proceedings of the Eighth International Symposium on Information and Communication Technology								https://dl.acm.org/doi/10.1145/3155133.3155183	0		0				0	{409,416}	2017-12-14	submission	https://doi.org/10.1145/3155133.3155183		{}	{""}	{""}						{Communications,"Information Technology (IT)"}	f	2021-05-31 10:55:10.339638	2021-05-31 10:55:10.339638	Q1, Q2 (ISI)
 74	article	PhO2: Smartphone based Blood Oxygen Level Measurement Systems using Near-IR and RED Wave-guided Light	Accurately measuring and monitoring patient's blood oxygen level plays a critical role in today's clinical diagnosis and healthcare practices. Existing techniques however either require a dedicated hardware or produce inaccurate measurements. To fill in this gap, we propose a phone-based oxygen level estimation system, called PhO2, using camera and flashlight functions that are readily available on today's off-the-shelf smart phones. Since phone's camera and flashlight are not made for this purpose, utilizing them for oxygen level estimation poses many challenges. We introduce a cost-effective add-on together with a set of algorithms for spatial and spectral optical signal modulation to amplify the optical signal of interest while minimizing noise. A light-based pressure detection algorithm and feedback mechanism are also proposed to mitigate the negative impacts of user's behavior during the measurement. We also derive a non-linear referencing model that allows PhO2 to estimate the oxygen level from color intensity ratios produced by smartphone's camera.\n\nAn evaluation using a custom-built optical element on COTS smartphone with 6 subjects shows that PhO2 can estimate the oxygen saturation within 3.5% error rate comparing to FDA-approved gold standard pulse oximetry. A user study to gauge the reception of PhO2 shows that users are comfortable self-operating the device, and willing to carry the device when going out.	{""}	f	published	international									https://dl.acm.org/doi/10.1145/3131672.3131696	0		0				0	{1,14}	2017-11-24	publication	https://doi.org/10.1145/3131672.3131696		{}	{""}	{""}						{}	f	2021-05-31 11:01:32.50496	2021-05-31 11:01:32.50496	Q3, Q4 (ISI)
 75	article	Matthan: Drone Presence Detection by Identifying Physical Signatures in the Drone's RF Communication	Drones are increasingly flying in sensitive airspace where their presence may cause harm, such as near airports, forest fires, large crowded events, secure buildings, and even jails. This problem is likely to expand given the rapid proliferation of drones for commerce, monitoring, recreation, and other applications. A cost-effective detection system is needed to warn of the presence of drones in such cases. In this paper, we explore the feasibility of inexpensive RF-based detection of the presence of drones. We examine whether physical characteristics of the drone, such as body vibration and body shifting, can be detected in the wireless signal transmitted by drones during communication. We consider whether the received drone signals are uniquely differentiated from other mobile wireless phenomena such as cars equipped with Wi- Fi or humans carrying a mobile phone. The sensitivity of detection at distances of hundreds of meters as well as the accuracy of the overall detection system are evaluated using software defined radio (SDR) implementation.	{""}	f	published	international										0		0				0	{211,224}	2017-06-15				{}	{""}	{""}						{}	f	2021-05-31 11:05:50.033538	2021-05-31 11:05:50.033538	Q1, Q2 (ISI)
-76	article	Capacitive Sensing 3D-printed Wristband for Enriched Hand Gesture Recognition	In this work, we design a wearable-form hand gesture recognition system using capacitive sensing technique. Our proposed system includes a 3D printed wristband, capacitive sensors arrays in a flexible circuit board, a low-cost micro-controller unit and wireless communication module (BLE). In particular, the wristband manipulates the changes in capacitance from multiple capacitive sensors to recognize and detect users' hand gestures. The software stack translates the detected gestures into control command for application layer, together with an user-friendly web interface that supports both data communication and training between the wristband and the host PC. We also release an open API of our designed system for future applications. Lastly, we envision our system open API will be available for developers to customize vast range of hand gesture and integrate the wristband into various applications, from command on remote computer to video game controller.	{""}	f	published	international									https://dl.acm.org/doi/10.1145/3089351.3089359	0		0				0	{11,15}	2017-06-13	submission	https://doi.org/10.1145/3089351.3089359		{}	{""}	{""}						{}	f	2021-05-31 11:09:40.422347	2021-05-31 11:09:40.422347	Scopus
+76	article	Capacitive Sensing 3D-printed Wristband for Enriched Hand Gesture Recognition	In this work, we design a wearable-form hand gesture recognition system using capacitive sensing technique. Our proposed system includes a 3D printed wristband, capacitive sensors arrays in a flexible circuit board, a low-cost micro-controller unit and wireless communication module (BLE). In particular, the wristband manipulates the changes in capacitance from multiple capacitive sensors to recognize and detect users' hand gestures. The software stack translates the detected gestures into control command for application layer, together with an user-friendly web interface that supports both data communication and training between the wristband and the host PC. We also release an open API of our designed system for future applications. Lastly, we envision our system open API will be available for developers to customize vast range of hand gesture and integrate the wristband into various applications, from command on remote computer to video game controller.	{""}	f	published	international									https://dl.acm.org/doi/10.1145/3089351.3089359	0		0				0	{11,15}	2017-06-13	submission	https://doi.org/10.1145/3089351.3089359		{}	{""}	{""}						{}	t	2021-05-31 11:09:40.422347	2021-05-31 11:09:40.422347	Scopus
+77	conference-workshop-item	Building an automobile accident detection and messaging system using Arduino	In Vietnam, the number of traffic vehicles and traffic accidents is increasing. Currently, in the mid-tier model and below, there is no warning and rescue system that is equipped to deal with vehicle crashes, especially when it occurs at night. It is difficult for people in distress and can even lead to death in some emergencies. In this paper, we propose to build a model of automobile accident detection and messaging system using Automatic utilizing Accelerometer sensor, GPS module, and GSM module. The experimental test results show that the system works well, the response time is fast and the price is cheap. It is suitable for installation on vehicles in Vietnam in the future.	{""}	f	published	international	The International Conference on Intelligent Systems & Networks			paper						0		0				0	{0,0}	2021-03-19	publication			{}	{""}	{""}						{"Electronics and Computer Engineering","Engineering Mechanics"}	f	2021-06-01 18:29:49.202412	2021-06-01 18:29:49.202412	English Peer-reviewed Conference Proceedings
 \.
 
 
@@ -516,6 +517,9 @@ COPY public.publication_creator (publication_id, creator_email, author_order, db
 76	phucn@vnu.edu.vn	1	2021-05-31 11:09:40.489157	2021-05-31 11:09:40.489157
 76	anhn@vnu.edu.vn	2	2021-05-31 11:09:40.490312	2021-05-31 11:09:40.490312
 76	hoangta@vnu.edu.vn	0	2021-05-31 11:09:40.491777	2021-05-31 11:09:40.491777
+77	huyld@vnu.edu.vn	1	2021-06-01 18:29:49.258583	2021-06-01 18:29:49.258583
+77	hungnv@vnu.edu.vn	2	2021-06-01 18:29:49.258475	2021-06-01 18:29:49.258475
+77	ninhbt@vnu.edu.vn	0	2021-06-01 18:29:49.25906	2021-06-01 18:29:49.25906
 \.
 
 
@@ -945,6 +949,7 @@ COPY public.publication_division (publication_id, division_name, db_created_on, 
 75	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 11:05:50.072585	2021-05-31 11:05:50.072585
 76	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 11:09:40.45437	2021-05-31 11:09:40.45437
 76	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 11:09:40.455373	2021-05-31 11:09:40.455373
+77	Khoa Điện Tử - Viễn Thông (FET)	2021-06-01 18:29:49.232592	2021-06-01 18:29:49.232592
 \.
 
 
@@ -1006,6 +1011,7 @@ COPY public.publication_editor (publication_id, editor_email, db_created_on, db_
 74		2021-05-31 11:01:32.574636	2021-05-31 11:01:32.574636
 75		2021-05-31 11:05:50.107096	2021-05-31 11:05:50.107096
 76		2021-05-31 11:09:40.486199	2021-05-31 11:09:40.486199
+77		2021-06-01 18:29:49.278082	2021-06-01 18:29:49.278082
 \.
 
 
@@ -1094,6 +1100,7 @@ tamv@vnu.edu.vn	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 11:09:40.503
 huongtn@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 19:04:27.508934	2021-05-09 19:04:27.508934
 phucn@vnu.edu.vn	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 11:09:40.505993	2021-05-31 11:09:40.505993
 hungld@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 04:42:54.782498	2021-05-31 04:42:54.782498
+		2021-06-01 18:29:49.293198	2021-06-01 18:29:49.293198
 hanv@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 05:10:39.835917	2021-05-31 05:10:39.835917
 miaomiao@Zang.com		2021-05-31 05:18:41.32103	2021-05-31 05:18:41.32103
 mmm@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 11:09:50.35177	2021-05-09 11:09:50.35177
@@ -1184,6 +1191,7 @@ trungnq@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 16:17:38.349717
 thuantn@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 18:05:38.396909	2021-05-09 18:05:38.396909
 hieuvd@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 19:00:29.088336	2021-05-09 19:00:29.088336
 hoangta@vnu.edu.vn	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 11:09:40.504421	2021-05-31 11:09:40.504421
+ninhbt@vnu.edu.vn	Khoa Điện Tử - Viễn Thông (FET)	2021-06-01 18:29:49.281627	2021-06-01 18:29:49.281627
 dungdv@vnu.edu.vn	SAE: Bộ môn Điện Tử Và Thông Tin Hàng Không	2021-05-31 02:59:58.358295	2021-05-31 02:59:58.358295
 dungdv@vnu.edu.vn	SAE: Bộ môn Cơ Khí, Động Lực Học Hàng Không	2021-05-31 02:59:58.369964	2021-05-31 02:59:58.369964
 dungdv@vnu.edu.vn	SAE: Bộ môn Khoa Học Dữ Liệu Không Gian	2021-05-31 02:59:58.373491	2021-05-31 02:59:58.373491
@@ -1232,7 +1240,7 @@ hoangnn@vnu.edu.vn	FET: Phòng thí nghiệm Tín hiệu và Hệ thống	2021-0
 hoangnn@vnu.edu.vn	FET: Phòng thực tập Điện tử – Viễn thông	2021-05-02 10:42:03.211178	2021-05-02 10:42:03.211178
 hoangnn@vnu.edu.vn	Khoa Điện Tử - Viễn Thông (FET)	2021-05-02 10:42:03.212082	2021-05-02 10:42:03.212082
 richard@han.com		2021-05-31 11:05:50.120642	2021-05-31 11:05:50.120642
-		2021-05-31 11:09:40.504084	2021-05-31 11:09:40.504084
+huyld@vnu.edu.vn	Khoa Điện Tử - Viễn Thông (FET)	2021-06-01 18:29:49.281216	2021-06-01 18:29:49.281216
 anhnv@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 11:05:27.518269	2021-05-09 11:05:27.518269
 hoangtv@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 19:05:15.020811	2021-05-09 19:05:15.020811
 miaomiao@chang.com		2021-05-31 04:49:32.178576	2021-05-31 04:49:32.178576
@@ -1264,6 +1272,7 @@ khoatv@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-02 11:18:51.945344	
 trungnl@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-02 11:18:51.947024	2021-05-02 11:18:51.947024
 minhld@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-02 11:29:58.933686	2021-05-02 11:29:58.933686
 anhn@vnu.edu.vn	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 11:09:40.505456	2021-05-31 11:09:40.505456
+hungnv@vnu.edu.vn	Khoa Điện Tử - Viễn Thông (FET)	2021-06-01 18:29:49.28993	2021-06-01 18:29:49.28993
 tuyentd@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-02 11:51:15.242831	2021-05-02 11:51:15.242831
 tuanbm@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-02 11:51:15.243052	2021-05-02 11:51:15.243052
 quyenht@vnu.edu.vn	Khoa Công Nghệ Nông Nghiệp (FAT)	2021-05-08 19:41:33.49474	2021-05-08 19:41:33.49474
@@ -1326,6 +1335,7 @@ khainn@vnu.edu.vn	Nguyễn	Ngọc Khải	t	\N	\N	f	\N	\N	\N	f	2021-05-31 08:29:3
 ashwin@ashok.com	Ashok	Ashwin	t	\N	\N	f	\N	\N	\N	f	2021-05-31 11:01:32.561638	2021-05-31 11:01:32.561638	None	None	None
 mahesh@Ravindranathan.com	Ravindranathan	Mahesh	t	\N	\N	f	\N	\N	\N	f	2021-05-31 11:05:50.075419	2021-05-31 11:05:50.075419	None	None	None
 longtq@vnu.edu.vn	Trần 	Quốc Long	t	$2b$10$I5v8rqsaxgf7GfCjsdVHLutFFpi.ELWh2p1UQK4E/i0hp7vsUWh8y		t		2021-05-02 14:58:19.986	\N	t	2021-05-02 07:58:20.070291	2021-05-02 07:58:20.070291	Tiến sĩ	Trưởng bộ môn	Phó Bí thư Đảng Uỷ
+hungnv@vnu.edu.vn	Nguyễn	Viet Hung	t	\N	\N	f	\N	\N	\N	f	2021-06-01 18:29:49.242453	2021-06-01 18:29:49.242453	None	None	None
 hanv@vnu.edu.vn	Nguyễn	Việt Hà	t	$2b$10$tOT12g/UBSyDXm4g74sltOmGRC69V0PgmzFaXV/KwGhOfqmTM0iu.	E3 Building, 144 Xuan Thuy Street, Cau Giay, Hanoi	f	Phó Giáo sư Nguyễn Việt Hà hiện là Hiệu trưởng Trường Đại học Công Nghệ, ĐHQGHN	2021-05-02 14:51:43.534	\N	t	2021-04-21 13:42:51.389733	2021-04-21 13:42:51.389733	Phó Giáo sư	Hiệu trưởng	Bí thư Đảng Uỷ
 anhn@vnu.edu.vn	Nguyễn	Anh	t	\N	\N	f	\N	\N	\N	f	2021-05-31 11:01:32.559821	2021-05-31 11:01:32.559821	None	None	None
 hoangta@vnu.edu.vn	Trương	Anh Hoàng	t	$2b$10$UzNT8Ie1y1yTfsi92BgyJOtAfCxS7WPPChz2TjkHSlQb//i91BnTa	E3 - Trường đại học Công Nghệ	f		2021-05-02 14:49:01.971	\N	t	2021-04-25 07:18:05.268165	2021-04-25 07:18:05.268165	Phó Giáo sư	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
@@ -1407,7 +1417,6 @@ thuantn@vnu.edu.vn	Trương 	Ninh Thuận	t	\N	\N	f	\N	\N	\N	f	2021-05-09 18:05:
 thaitm@vnu.edu.vn	Trịnh	Minh Thái	t	\N	\N	f	\N	\N	\N	f	2021-05-31 09:06:44.757722	2021-05-31 09:06:44.757722	None	None	None
 huen@vnu.edu.vn	Nguyễn	Huế	t	\N	\N	f	\N	\N	\N	f	2021-05-09 10:33:05.9444	2021-05-09 10:33:05.9444	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 cuongbq@vnu.edu.vn	Bùi Quang	Cường	t	\N	\N	f	\N	\N	\N	f	2021-05-09 10:33:05.944518	2021-05-09 10:33:05.944518	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
-			t	\N	\N	f	\N	\N	\N	f	2021-04-21 13:17:45.461383	2021-04-21 13:17:45.461383	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 huongtn@vnu.edu.vn	Tran	Nguyen Huong	t	\N	\N	f	\N	\N	\N	f	2021-05-09 11:56:53.466582	2021-05-09 11:56:53.466582	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 khadm@vnu.edu.vn	Do	Minh Kha	t	\N	\N	f	\N	\N	\N	f	2021-05-09 11:56:53.467322	2021-05-09 11:56:53.467322	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 tungvx@vnu.edu.vn	Vũ	Xuân Tùng	t	\N	\N	f	\N	\N	\N	f	2021-05-31 08:33:21.016673	2021-05-31 08:33:21.016673	None	None	None
@@ -1417,9 +1426,12 @@ binhtt@vnu.edu.vn	Trịnh	Thanh Bình	t	\N	\N	f	\N	\N	\N	f	2021-05-31 05:10:39.8
 trangnt@vnu.edu.vn	Nguyễn Thu	Trang	t	\N	\N	f	\N	\N	\N	f	2021-05-09 10:33:05.944397	2021-05-09 10:33:05.944397	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 Steffen@Martin.com	Martin	Steffen	t	\N	\N	f	\N	\N	\N	f	2021-05-31 09:21:21.768088	2021-05-31 09:21:21.768088	None	None	None
 Zhiming@Liu.com	Liu	Zhiming	t	\N	\N	f	\N	\N	\N	f	2021-05-31 05:18:41.287292	2021-05-31 05:18:41.287292	None	None	None
+ninhbt@vnu.edu.vn	Bùi 	Trung Ninh	t	\N	\N	f	\N	\N	\N	f	2021-06-01 18:29:49.22529	2021-06-01 18:29:49.22529	None	None	None
 gelevdp@math.bas.bg	P. Guelev	Dimitar	t	\N	\N	f	\N	\N	\N	f	2021-05-31 07:48:32.715219	2021-05-31 07:48:32.715219	None	None	None
+huyld@vnu.edu.vn	Lương	Đức Huy	t	\N	\N	f	\N	\N	\N	f	2021-06-01 18:29:49.241769	2021-06-01 18:29:49.241769	None	None	None
 chieudv@vnu.edu.vn	Do	Van Chieu	t	\N	\N	f	\N	\N	\N	f	2021-05-31 08:02:48.524951	2021-05-31 08:02:48.524951	None	None	None
 vuth@vnu.edu.vn	Trần	Huy Vũ	t	\N	\N	f	\N	\N	\N	f	2021-05-31 10:47:06.998562	2021-05-31 10:47:06.998562	None	None	None
+			t	\N	\N	f	\N	\N	\N	f	2021-04-21 13:17:45.461383	2021-04-21 13:17:45.461383	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 hoangt@vnu.edu.vn	Trương	Hoàng	t	\N	\N	f	\N	\N	\N	f	2021-05-31 08:13:32.751785	2021-05-31 08:13:32.751785	None	None	None
 richard@han.com	Han	Richard	t	\N	\N	f	\N	\N	\N	f	2021-05-31 11:05:50.080677	2021-05-31 11:05:50.080677	None	None	None
 \.
@@ -1429,7 +1441,7 @@ richard@han.com	Han	Richard	t	\N	\N	f	\N	\N	\N	f	2021-05-31 11:05:50.080677	2021
 -- Name: publication_id_seq; Type: SEQUENCE SET; Schema: public; Owner: suongsun
 --
 
-SELECT pg_catalog.setval('public.publication_id_seq', 76, true);
+SELECT pg_catalog.setval('public.publication_id_seq', 77, true);
 
 
 --
