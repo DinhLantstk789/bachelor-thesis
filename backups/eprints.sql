@@ -280,12 +280,12 @@ Khoa Công Nghệ Thông Tin (FIT	2021-05-09 18:05:38.37665	2021-05-09 18:05:38.
 COPY public.publication (id, item_type, title, abstract, corporate_creators, is_refereed, status, kind, publication_title, institution, publication_department, presentation_type, monograph_type, thesis_type, issn_isbn, publisher, official_url, volume, place_of_publication, number_of_pages, patent_applicant, media_output, copyright_holder, number, page_range, date, date_type, identification_number, series_name, related_urls, funders, projects, contact_email_address, reference, uncontrolled_keywords, additional_infor, comments_and_suggestions, subjects, is_approved, db_created_on, db_updated_on, ranking) FROM stdin;
 10	article	An assume-guarantee method for modular verification of evolving component-based software	An Assume-Guarantee Method for Modular Verification of Evolving Component-Based Software An Assume-Guarantee Method for Modular Verification of Evolving Component-Based Software Pham Ngoc Hung, Nguyen Truong Thang, and Takuya Katayama Japan Advanced Institute of Science and Technology – JAIST {hungpn, thang, katayama}@jaist.ac.jp Page 2. 2 DSN 2007 – WADS, Edinburgh, UK June 27, 2007 Contents Introduction Background A Framework for Modular Verification of Evolving CBS Assumption Regeneration Method Related Work & Conclusion Page 3. 3 DSN 2007 – WADS, Edinburgh, UK June 27, 2007 Component-Based Software (CBS) Structured from a set of well-defined components ➢ Ideally, components are plug-and-play ➢ Advantages: low development cost and time, flexible for changes, etc. One of key issues of CBS is "component consistency"	{""}	f	published	international	6th WADS in conjunction with the 37th Annual IEEE/IFIP Intenational Conference on Dependable Systems and Networks (DSN)									0		0				0	{160,165}	2007-06-14	publication			{}	{""}	{""}						{"Engineering Mechanics","ISI-indexed journals","Information Technology (IT)","Scopus-indexed journals"}	f	2021-04-21 17:56:32.724028	2021-04-21 17:56:32.724028	Q1, Q2 (ISI)
 20	thesis	Healthkee: a symptom checker and personalized health information service	With improvements in technology and access to the internet, people are increasingly using the Internet to research their health concerns. According to Pew Research Center’s Internet & American Life Project, more than 35% of adults in the United States regularly use the Internet to self diagnose their ailments, using it both for non-urgent symptoms and for urgent symptoms. There are many systems in English can support self-diagnosis as well as provide medical information such as WebMD, Mayo Clinic, NHS Choice, etc. However, there are not many same systems in Vietnam that can provide reliable and easy to understand clinical information. Healthkee aims to become a smart health assistant for Vietnamese that provide personalized health information, which is accurate, fast and easy to understand anywhere, anytime.	{""}	f	published	domestic		University of Engineering and Technology	Information Technology			diploma				0		30				0	{0,0}	2016-04-23	publication			{}	{""}	{""}						{"Aerospace Engineering","Engineering Mechanics","Information Technology (IT)","Transportation Technology"}	t	2021-04-22 22:58:16.510843	2021-04-22 22:58:16.510843	\N
-5	conference-workshop-item	A Stealthier Partitioning Attack against Bitcoin Peer-to-Peer Network	Network adversaries, such as malicious transit autonomous systems (ASes), have been shown to be capable of partitioning the Bitcoin’s peer-to-peer network via routing-level attacks; e.g., a network adversary exploits a BGP vulnerability and performs a prefix hijacking attack (viz. Apostolaki et al. [3]). Due to the nature of BGP operation, such a hijacking is globally observable and thus enables immediate detection of the attack and the identification of the perpetrator. In this paper, we present a stealthier attack, which we call the Erebus attack, that partitions the Bitcoin network without any routing manipulations, which makes the attack undetectable to control-plane and even to data-plane detectors. The novel aspect of Erebus is that it makes the adversary AS a natural man-in-the-middle network of all the peer connections of one or more targeted Bitcoin nodes by patiently influencing the targeted nodes’ peering decision. We show that affecting the peering decision of a Bitcoin node, which is believed to be infeasible after a series of bug patches against the earlier Eclipse attack [29], is possible for the network adversary that can use abundant network address resources (e.g., spoofing millions of IP addresses in many other ASes) reliably for an extended period of time at a negligible cost. The Erebus attack is readily available for large ASes, such as Tier-1 and large Tier-2 ASes, against the vast majority of 10K public Bitcoin nodes with only about 520 bit/s of attack traffic rate per targeted Bitcoin node and a modest (e.g., 5–6 weeks) attack execution period. The Erebus attack can be mounted by nation-state adversaries who would be willing to execute sophisticated attack strategies patiently to compromise cryptocurrencies (e.g., control the consensus, take down a cryptocurrency, censor transactions). As the attack exploits the topological advantage of being a network adversary but not the specific vulnerabilities of Bitcoin core, no quick patches seem to be available. We discuss that some naive solutions (e.g., whitelisting, rate-limiting) are ineffective and third-party proxy solutions may worsen the Bitcoin’s centralization problem. We provide some suggested modifications to the Bitcoin core and show that they effectively make the Erebus attack significantly harder; yet, their non-trivial changes to the Bitcoin’s network operation (e.g., peering dynamics, propagation delays) should be examined thoroughly before their wide deployment.	{""}	f	published	international	IEEE Symposium on Security and Privacy (S&P'20)			paper					https://ieeexplore.ieee.org/abstract/document/9152616/	0		0				0	{0,0}	2020-05-18	publication	10.1109/SP40000.2020.00027		{}	{"National University of Singapore."}	{"CRYSTAL Centre"}						{Communications,"Electronics and Computer Engineering","ISI-indexed journals","Information Technology (IT)","Scopus-indexed journals"}	t	2021-04-21 17:24:01.555111	2021-04-21 17:24:01.555111	ISI/Scopus Conference Proceedings or Reputed Sponsors
 9	article	On optimization of minimized assumption generation method for component-based software verification	The minimized assumption generation has been recognized as an important improvement of the assume-guarantee verification method in order to generate minimal assumptions. The generated minimal assumptions can be used to recheck the whole component-based software at a lower computational cost. The method is not only fitted to component-based software but also has a potential to solve the state space explosion problem in model checking. However, the computational cost for generating the minimal assumption is very high so the method is difficult to be applied in practice. This paper presents an optimization as a continuous work of the minimized assumption generation method in order to reduce the complexity of the method. The key idea of this method is to find a smaller assumption in a sub-tree of the search tree containing the candidate assumptions using the depth-limited search strategy. With this approach, the improved method can generate assumptions with a lower computational cost and consumption memory than the minimized method. The generated assumptions are also effective for rechecking the systems at much lower computational cost in the context of software evolution. An implemented tool supporting the improved method and experimental results are also presented and discussed.\n\n	{""}	f	published	international	IEICE Transactions on Fundamentals of Electronics, Communications and Computer Sciences						1745-1337	The Institute of Electronics, Information and Communication Engineers	https://ieeexplore.ieee.org/document/6169862/	95		0				9	{1451,1460}	2012-09-01		10.1587/transfun.E95.A.1451		{}	{""}	{""}						{Communications,"Electronics and Computer Engineering","ISI-indexed journals","Information Technology (IT)","Scopus-indexed journals"}	t	2021-04-21 17:50:53.307054	2021-04-21 17:50:53.307054	Scopus
 27	book	Giáo trình kiểm thử phần mềm	Giáo trình kiểm thử phần mềm	{""}	f	published	domestic								Nhà xuất bản ĐH Quốc Gia HN		0	Đại học Quốc Gia Hà Nội 	0				0	{0,0}	2014-06-12	publication			{}	{""}	{""}						{"Aerospace Engineering","Engineering Mechanics","ISI-indexed journals","Scopus-indexed journals"}	t	2021-04-25 07:18:05.238375	2021-04-25 07:18:05.238375	Domestic Book
 25	article	Constructing a Bayesian belief network to generate learning path in adaptive hypermedia system	There are many methods and techniques which have been promoted to develop adaptive hypermedia systems [1]. Our model approach [2], generating adaptive courses based on learner’s profile which learner’s includes background, skills, style... etc. One of important steps in our model is to generate learning path adaptive for each learner. In this paper, we promote an algorithm based on shortest path search algorithm to evaluate learning object (LO) based on its attributes [3] and constructed a Bayesian Belief Network (BBN) to generate learning path for each learner.	{""}	f	published	international	Journal of Computer Science and Cybernetics							Vietnam National University		24		0				1	{12,19}	2008-12-11	publication			{}	{""}	{""}						{Communications,"Information Technology (IT)","Civil Engineering"}	f	2021-04-23 01:35:15.828248	2021-04-23 01:35:15.828248	VNU Journals
 18	conference-workshop-item	A method for automated unit testing of C programs	This research proposes an automated test case generation method for C functions. In this method, the source code is transformed into a control flow graph corresponding to the given coverage criterion. After that, a list of feasible test paths are discovered by traversing the control flow graph using backtracking algorithm, symbolic execution, and Z3 solver. We also generate test cases for functions containing one loop or two-nested loop. A tool supporting the proposed method has been developed and applied to test on some C functions. The experimental results show the high coverage with the minimum number of test cases, the ability to improve the total time of the test case generation with a specified coverage criterion, and the increasing precision of checking the feasibility of test paths if comparing with the random technique. The experimental results display the potential usefulness of this tool for automated test case generation in practice.	{""}	f	published	domestic	National Foundation for Science and Technology Development Conference on Information and Computer Science (NICS)			paper					https://eprints.uet.vnu.edu.vn/eprints/id/eprint/2002/1/bare_conf.pdf	0		0				0	{0,0}	2016-09-14	publication			{}	{"Vietnam National University, Hanoi (VNU)"}	{QG.16.31}						{Communications,"Electronics and Computer Engineering","Engineering Physics","Information Technology (IT)"}	t	2021-04-22 09:22:45.005556	2021-04-22 09:22:45.005556	National Conference Proceedings Having ISBN
 3	conference-workshop-item	A method for automated test data generation from sequence diagrams and object constraint language	This paper proposes an automated test data generation method from the information embedded in model elements such as Unified Modeling Language (UML) sequence diagrams, class diagrams, and Object Constraint Language (OCL). The method supports UML 2.0 sequence diagrams including eight kinds of combined fragments describing control flow of systems. Comparing with some approaches by using depth first search (DFS) or breadth first search (BFS) algorithms, the proposed method generates all possible test scenarios with the higher error uncover capability. Test data for testing loop fragment is also generated. Therefore, it helps to detect errors in testing loops and the concurrency errors such as safety and liveness property of the systems.	{""}	f	published	international	Proceedings of the Sixth International Symposium on Information and Communication Technology			paper					https://dl.acm.org/doi/pdf/10.1145/2833258.2833294	0		0				0	{0,0}	2015-12-03	publication	10.1145/2833258.2833294		{}	{""}	{""}						{"Electronics and Computer Engineering","Information Technology (IT)","Scopus-indexed journals"}	t	2021-04-21 13:42:51.372226	2021-04-21 13:42:51.372226	English Peer-reviewed Conference Proceedings
+60	conference-workshop-item	Real-Time Relational Interface Behavior Modeling and Specification	In this paper we propose a formal model for real-time interfaces to support interface specification, composition and refinement with various features. We introduce a practical class of finitely representable interfaces with duration automata as their finite representation. With this sort of representation we can verify component-based systems in a compositional way, and the verification can be started at early stages of the development process for small pieces of the developed systems.	{""}	f	published	domestic				paper					https://ieeexplore.ieee.org/document/6063453	0		0				0	{0,0}	2011-10-17	publication	10.1109/KSE.2011.25		{}	{""}	{""}						{Communications,"Information Technology (IT)"}	f	2021-05-31 07:52:10.771812	2021-05-31 07:52:10.771812	National Conference Proceedings Having ISBN
 24	book-section	A feature-word-topic model for image annotation	Image annotation is to automatically associate semantic labels with images in order to obtain a more convenient way for indexing and searching images on the Web. This paper proposes a novel method for image annotation based on feature-word and word-topic distributions. The introduction of topics enables us to efficiently take word associations, such as {ocean, fish, coral}, into image annotation. Feature-word distributions are utilized to define weights in computation of topic distributions for annotation. By doing so, topic models in text mining can be applied directly in our method. Experiments show that our method is able to obtain promising improvements over the state-of-the-art method-Supervised Multiclass Labeling (SML)	{""}	f	published	international	Proceedings of the 19th ACM international conference on Information and knowledge management							ACM	https://dl.acm.org/doi/pdf/10.1145/1871437.1871652	10	Toronto, Ontario, Canada	0				30	{1481,1484}	2010-10-26		10.1145/1871437.1871652		{}	{""}	{""}						{Communications,"Engineering Physics","Information Technology (IT)","Transportation Technology"}	f	2021-04-23 01:29:27.224735	2021-04-23 01:29:27.224735	Internationally Published Book Chapter
 22	book-section	A test data generation method for C/C++ projects	This research proposes an automated test data generation method for C/C++ projects to generate the lower number of test data while gaining higher code coverage in comparison with KLEE, CAUT, PathCrawler, and CREST. In order to do that, the proposed method contributes an algorithm named loop depth first search by combining both static testing and concolic testing together. Besides, the paper also provides an improvement symbolic execution for avoiding the initial test data problem in the concolic testing. Currently, a tool supporting the proposed method has been developed and applied to test on different C/C++ projects in several software companies. The experimental results show the higher coverage with the lower number of test data compared with the existing methods. The experimental results display the effectiveness and practical usefulness of the proposed method for automated test data generation in practice.	{""}	f	published	international	Proceedings of the Eighth International Symposium on Information and Communication Technology								https://dl.acm.org/doi/abs/10.1145/3155133.3155144	0		0				0	{431,438}	2017-12-07	publication	10.1145/3155133.3155144		{}	{""}	{""}						{Communications,"Engineering Physics","Information Technology (IT)","Scopus-indexed journals"}	t	2021-04-23 00:58:36.23289	2021-04-23 00:58:36.23289	Internationally Published Book Chapter
 19	article	A Method for Generating Models of Black-box Components	The model-based approaches are difficult to be applied in practice due to the lack of formal models describing behaviors of systems. This paper proposes a method for generating accurate models of components in order to solve this issue in the context of the component-based systems. The key idea of this method is to generate minimal deterministic finite automata as the accurate models of the corresponding components. For this purpose, the proposed method first computes a set of traces as a regular language of a given component by executing all possible experiments over the alphabet of the component. This method then constructs a regular expression to represent this set. After that, a minimal deterministic finite automaton as an accurate model of the component is generated by applying the Thompson algorithm and some optimized activities. The generated models are useful for the existing model-based approaches, e.g., model checking and model-based testing in improving quality of component-based software. An implemented tool supporting the method and experimental results are also presented.	{""}	f	published	international	2012 Fourth International Conference on Knowledge and Systems Engineering			paper				IEEE	https://ieeexplore.ieee.org/abstract/document/6299422/	0		0				0	{217,222}	2012-08-17	publication	10.1109/KSE.2012.15		{}	{""}	{""}						{"Aerospace Engineering","Engineering Mechanics","Information Technology (IT)","Transportation Technology"}	t	2021-04-22 09:26:30.243074	2021-04-22 09:26:30.243074	Q3, Q4 (ISI)
@@ -310,6 +310,29 @@ COPY public.publication (id, item_type, title, abstract, corporate_creators, is_
 23	conference-workshop-item	Learning to classify short and sparse text & web with hidden topics from large-scale data collections	This paper presents a general framework for building classifiers that deal with short and sparse text & Web segments by making the most of hidden topics discovered from largescale data collections. The main motivation of this work is that many classification tasks working with short segments of text & Web, such as search snippets, forum & chat messages, blog & news feeds, product reviews, and book & movie summaries, fail to achieve high accuracy due to the data sparseness. We, therefore, come up with an idea of gaining external knowledge to make the data more related as well as expand the coverage of classifiers to handle future data better. The underlying idea of the framework is that for each classification task, we collect a large-scale external data collection called “universal dataset”, and then build a classifier on both a (small) set of labeled training data and a rich set of hidden topics discovered from that data collection. The framework is general enough to be applied to different data domains and genres ranging from Web search results to medical text. We did a careful evaluation on several hundred megabytes of Wikipedia (30M words) and MEDLINE (18M words) with two tasks: “Web search domain disambiguation” and “disease categorization for medical text”, and achieved significant quality enhancement.	{""}	f	published	international	Proceedings of the 17th international conference on World Wide Web			paper					https://dl.acm.org/doi/pdf/10.1145/1367497.1367510	0		0				0	{0,0}	2008-04-25	publication	10.1145/1367497.1367510		{}	{"Japan Society for the Promotion of Science (JSPS)."}	{No.P06366}						{Communications,"ISI-indexed journals","Information Technology (IT)","Scopus-indexed journals"}	t	2021-04-23 01:24:04.852332	2021-04-23 01:24:04.852332	ISI/Scopus Conference Proceedings or Reputed Sponsors
 52	conference-workshop-item	On the Compliance of Access Control Policies in Web Applications	Model-View-Controller (MVC) architecture has commonly used in the implementation of web applications. These systems often incorporate security policies to ensure their reliability. Role-based access control (RBAC) is one of the effective solutions for reducing resources access violations of a system. This paper introduces an approach to check the compliance of a web application under MVC architecture with its RBAC specification. By investigating the system architecture and source code analysis, our approach conducts with extracting a list of resources access permissions, constructing a resources exploitation graph and organizing an access control matrix according to roles of a web application. The approach aims at checking two violation cases of web applications: (i) the presence of unspecified access rules and (ii) the absence of specified access rules. We illustrate the proposed approach by a case study of web based medical records management system.	{""}	f	published	international	International Conference on Nature of Computation and Communication			paper						0		0				0	{0,0}	2018-12-30				{}	{""}	{""}						{"Information Technology (IT)"}	t	2021-05-09 18:05:38.337719	2021-05-09 18:05:38.337719	ISI/Scopus Conference Proceedings or Reputed Sponsors
 43	conference-workshop-item	Generate Test Data from C/C++ Source Code using Weighted CFG and Boundary Values	This paper presents two test data automatic generation methods which are based on weighted control flow graph (named WCFT) and boundary values of input parameters (named BVTG). Firstly, WCFT method generates a CFG from a given unit function, updates weight for it, then generates test data from the greatest weight test paths. In the meantime, WCFT can And dead code that can be used for automatic source code errors fix. Secondly, BVTG method generates test data from boundary values of input parameters of the given unit function. The combination of the two generated test data sets from these two methods will improve the error detection ability while maintaining a high code coverage. An implemented tool (named WCFT4Cpp) and experimental results are also presented to show the effectiveness of the two proposed methods in both time required to generate test data and error detection ability.	{TOSHIBA}	f	published	international	2th International Conference on Knowledge and Systems Engineering (KSE)								https://ieeexplore.ieee.org/document/9287629	0		0				0	{0,0}	2020-11-14	publication	10.1109/KSE50997.2020.9287629		{}	{""}	{""}						{"Engineering Physics","Information Technology (IT)"}	t	2021-05-09 11:56:53.434875	2021-05-09 11:56:53.434875	ISI/Scopus Conference Proceedings or Reputed Sponsors
+53	conference-workshop-item	Timing and Concurrency Specification in Component-based Real-Time Embedded Systems Development	In a development of real-time embedded systems, one needs to consider at very early stages the platform on which the systems are deployed. An explicit specification of system resources enables in fact the specification of non-functional properties. In this paper, as an attempt to define a formal component model for real-time embedded systems, we propose to use resources as the first-class citizen at the contract level of components. We show that this explicit specification of resources enables not only the flexibility of the component contract but also the specification of several non-functional properties of systems. We show a way that the worst case execution time (WCET) and the concurrency of component methods are expressed and validated in terms of resources that are available to the component in question.	{""}	f	published	international	First Joint IEEE/IFIP Symposium on Theoretical Aspects of Software Engineering (TASE '07)			paper					https://ieeexplore.ieee.org/document/4239973	0		0				0	{0,0}	2007-06-08	publication	10.1109/TASE.2007.53		{}	{""}	{""}						{Communications,"Electronics and Computer Engineering","Information Technology (IT)"}	f	2021-05-31 04:42:54.675803	2021-05-31 04:42:54.675803	English Peer-reviewed Conference Proceedings
+54	conference-workshop-item	On Verification of Probabilistic Timed Automata against Probabilistic Duration Properties	In this paper, we introduce an extension of Duration Calculus called Simple Probabilistic Duration Calculus (SPDC) to express dependability requirements for real-time systems, and address the problem to decide if a probabilistic timed automaton satisfies a SPDC formula. We prove that the problem is decidable for a class of SPDC called probabilistic linear duration invariants, and provide a model checking algorithm for solving this problem.	{""}	f	published	international	13th IEEE International Conference on Embedded and Real-Time Computing Systems and Applications (RTCSA 2007)			paper					https://ieeexplore.ieee.org/document/4296849	0		0				0	{0,0}	2007-08-24	publication	10.1109/RTCSA.2007.53		{}	{""}	{""}						{"Information Technology (IT)"}	f	2021-05-31 04:49:32.132054	2021-05-31 04:49:32.132054	English Peer-reviewed Conference Proceedings
+55	book-section	Specifying Various Time Models with Temporal Propositional Variables in Duration Calculus	Many extensions of Duration Calculus (DC) have been proposed for handling different aspects of real-time systems. For each extension several different semantics are defined for different time structures which are suitable for different applications and achieve low complexity for the decidability of some properties. Hence, different proof systems have to be developed for reasoning in different calculi. We demonstrate that with temporal propositional letters, many useful time structures and operators can be completely described in the original DC with continuous time. Hence, we can use the proof system for original DC and the specification of the specific time structure to reason in that time structure without the need of introducing a new calculus.	{""}	f	published	domestic	Formal Methods and Hybrid Real-Time Systems 						978-3-540-75220-2	Springer, Berlin, Heidelberg		4700		0				0	{170,187}	2007-06-30	publication	https://doi.org/10.1007/978-3-540-75221-9_7		{}	{""}	{""}						{"Scopus-indexed journals","Transportation Technology"}	f	2021-05-31 04:55:35.61406	2021-05-31 04:55:35.61406	Internationally Published Book Chapter
+56	book-section	A Theory of Duration Calculus with Application	In this chapter we will present selected central elements in the theory of Duration Calculus and we will give examples of applications. The chapter will cover syntax, semantics and proof system for the basic logic. Furthermore, results on decidability, undecidability and model-checking will be presented. A few extensions of the basic calculus will be described, in particular, Hybrid Duration Calculus and Duration Calculus with iterations. Furthermore, a case study: the bi-phase mark protocol, is presented. We will not attempt to be exhaustive in our coverage of topics; but we will provide references for further study.	{""}	f	published	international	Domain Modeling and the Duration Calculus						978-3-540-74963-9	Springer, Berlin, Heidelberg		4710		0				0	{119,176}	2007-02-28	publication	https://doi.org/10.1007/978-3-540-74964-6_3		{}	{""}	{""}						{Communications,"Information Technology (IT)","Scopus-indexed journals"}	f	2021-05-31 05:01:37.330582	2021-05-31 05:01:37.330582	Internationally Published Book Chapter
+57	conference-workshop-item	Checking Interface Interaction Protocols Using Aspect-Oriented Programming	We propose an approach based on aspect-oriented programming to specify and to verify interaction protocols in the component interfaces of Java programs. First, based on method patterns of AspectJ we introduce a simple protocol specification language that specifies temporal orders of operations of an interface. We then develop an algorithm that takes a protocol specification and produces aspect code that will check for protocol conformance of programs that use the interface at runtime. Finally, we propose several extensions that enable the integration of our approach with static techniques and allow checking protocols over multiple components.	{""}	f	published	international	2008 Sixth IEEE International Conference on Software Engineering and Formal Methods			paper					https://ieeexplore.ieee.org/document/4685826	0		0				0	{0,0}	2008-11-14	publication	10.1109/SEFM.2008.32		{}	{""}	{""}						{Communications,"Information Technology (IT)"}	f	2021-05-31 05:10:39.768825	2021-05-31 05:10:39.768825	ISI/Scopus Conference Proceedings or Reputed Sponsors
+58	book-section	Verification of Linear Duration Invariants by Model Checking CTL Properties	Linear duration invariants (LDI) are important safety properties of real-time systems. They can be easily formulated in terms of a class of chop-free formulas in the Duration Calculus (DC). Compared to other temporal logics, the specification in DC is simpler, neater and more importantly easier to understand. However, directly model checking them is more difficult than model checking properties formulated in the computation tree logic (CTL). In this paper, we present a technique for the verification of the satisfaction of a LDI  D by a timed automaton  A by model checking a CTL property. For this, we construct an untimed automaton G from  A , and prove that  A satisfies  D  iff  D  is is satisfied by the set of all paths of G. To Verify that all paths of G satisfy  D , we construct a CTL formula ψ and simply check if G satisfies ψ. By this, we convert the problem of verification of the LDI to the problem of model checking CTL formula. As a result, the CTL model checking techniques and tools, such as UPPAAL, can be used for verification of LDI specified in the DC.	{""}	f	published	international	Theoretical Aspects of Computing - ICTAC 2008						978-3-540-85762-4			5160		0				0	{395,409}	2008-07-31		https://doi.org/10.1007/978-3-540-85762-4_27		{}	{""}	{""}						{"Information Technology (IT)","Scopus-indexed journals"}	f	2021-05-31 05:18:41.228988	2021-05-31 05:18:41.228988	Internationally Published Book Chapter
+59	article	Reasoning about QoS Contracts in the Probabilistic Duration Calculus.	The notion of contract was introduced to component-based software development in order to facilitate the semantically correct composition of components. We extend the form of this notion which is based on designs to capture probabilistic requirements on execution time. We show how reasoning about such requirements can be done in an infinite-interval-based system of probabilistic duration calculus.	{""}	f	published	international									https://www.sciencedirect.com/science/article/pii/S1571066110000575?via%3Dihub	0		0				0	{41,62}	2010-06-28	publication	https://doi.org/10.1016/j.entcs.2010.06.004		{}	{""}	{""}						{"Information Technology (IT)"}	f	2021-05-31 07:48:32.690102	2021-05-31 07:48:32.690102	Domestic Journals Having ISSN
+61	article	Timed traces and their applications in specification and verification of distributed real-time systems	This paper proposes a method for specification and verification of distributed real-time systems using timed traces. The key idea of the proposed method is to extend distributed transition systems and linear temporal logic over Foata configurations with time. We show that systems are easily specified and verified with this method. The system behaviors are specified by a distributed duration transition system and the system properties are specified by a formula of our proposed timed logic over timed traces. We give an algorithm for solving the verification problem automatically. We also give an example to illustrate how our algorithm work.	{""}	f	published	international	 Proceedings of the Third Symposium on Information and Communication Technology								https://dl.acm.org/doi/10.1145/2350716.2350723	0		0				0	{31,40}	2012-08-31	publication	https://doi.org/10.1145/2350716.2350723		{}	{""}	{""}						{Communications,"Information Technology (IT)"}	f	2021-05-31 08:02:48.486438	2021-05-31 08:02:48.486438	Q3, Q4 (ISI)
+62	book	Automated Technology for Verification and Analysis		{""}	f	published	domestic										0	11th International Symposium, ATVA 2013, Hanoi, Vietnam	0				0	{0,0}	2013-10-18	submission			{}	{""}	{""}						{"Information Technology (IT)"}	f	2021-05-31 08:09:04.910504	2021-05-31 08:09:04.910504	Domestic Textbook
+63	book-section	Modeling and Specification of Real-Time Interfaces with UTP	Interface modeling and specification are central issues of component-based software engineering. How a component will be used is specified in its interface. Real-time interfaces are interfaces with timing constraints relating the time of outputs with the time of inputs. The timing constraint of an interface may depend on the resource availability for the component. In this paper, we propose a general model for real-time interfaces. At a time during execution, an interface behaves according to a contract made with environment about its functionality as well as execution time to fulfill the contract. This contract is specified as a timed design using the UTP notations, and depends on the computation histories of the interface. We model this dependence as a partial function from computation histories of the interface to real-time contracts. How interfaces are composed to form new interfaces, how interfaces are refined, and how to represent interfaces finitely are also considered in this paper. We show that checking the consistency between an environment and an interface and checking the refinement between two interfaces when they are represented by an automaton can be done effectively.	{""}	f	published	international	Theories of Programming and Formal Methods							Springer, Berlin, Heidelberg	https://link.springer.com/chapter/10.1007%2F978-3-642-39698-4_9	0		0				0	{136,150}	2013-07-27	publication	https://doi.org/10.1007/978-3-642-39698-4_9		{}	{""}	{""}						{}	f	2021-05-31 08:13:32.719538	2021-05-31 08:13:32.719538	Internationally Published Book Chapter
+64	book	On Model Finding with Constraint Patterns	Class models are often employed to represent domains. In order for class models to conform to their intended domain semantics, we need to ensure their precision and consistency. Precision can be achieved by augmenting the models with constraints, and consistency can be achieved by avoiding contradictory constraints. Model finding is a technique to maintain this kind of consistency. It automatically checks the satisfiability of models by using example instances. However, this technique is often inefficient when applied to large models due to the huge search space. In this paper, we propose a technique to narrow the search space by using patterns to represent constraints. Constraint patterns allow us to put further restrictions on the search space. Our case study illustrates that using constraint patterns in this way can improve the verification process.	{""}	f	published	international									https://ebooks.iospress.nl/publication/44450	286		0				0	{279,290}	2016-08-31	completion	10.3233/978-1-61499-674-3-279		{}	{""}	{""}						{Communications,"Information Technology (IT)"}	f	2021-05-31 08:19:17.201181	2021-05-31 08:19:17.201181	Internationally Published Textbook
+65	book-section	Calculating Statically Maximum Log Memory Used by Multi-threaded Transactional Programs	During the execution of multi-threaded and transactional programs, when new threads are created or new transactions are started, memory areas called logs are implicitly allocated to store copies of shared variables so that the threads can independently manipulate these variables. It is not easy to manually calculate the peak of memory allocated for logs when programs have arbitrary mixes of nested transactions and new thread creations. We develop a static analysis to compute the amount of memory used by logs in the worst execution scenarios of the programs. We prove the soundness of our analysis and we show a prototype tool to infer the memory bound.	{""}	f	published	international	Theoretical Aspects of Computing – ICTAC 2016						978-3-319-46749-8	Springer, Cham	https://link.springer.com/chapter/10.1007%2F978-3-319-46750-4_6	9965	International Colloquium on Theoretical Aspects of Computing	0				0	{82,99}	2016-09-22	submission	https://doi.org/10.1007/978-3-319-46750-4_6		{}	{""}	{""}						{Communications,"Information Technology (IT)"}	f	2021-05-31 08:29:32.019079	2021-05-31 08:29:32.019079	Internationally Published Book Chapter
+66	book-section	A Type System for Counting Logs of Multi-threaded Nested Transactional Programs	We present a type system to estimate an upper bound for the resource consumption of nested and multi-threaded transactional programs. The resource is abstracted as transaction logs. In comparison to our previous work on type and effect systems for Transactional Featherweight Java, this work exploits the natural composition of thread creation to give types to sub-terms. As a result, our new type system is simpler and more effective than our previous one. More important, it is more precise than our previous type system. We also show a type inference algorithm that we have implemented in a prototype tool.	{""}	f	published	international	Distributed Computing and Internet Technology							Springer, Cham	https://link.springer.com/chapter/10.1007%2F978-3-319-28034-9_21	0	International Conference on Distributed Computing and Internet Technology	0				0	{157,168}	2016-12-25		https://doi.org/10.1007/978-3-319-28034-9_21		{}	{""}	{""}						{}	f	2021-05-31 08:33:20.969153	2021-05-31 08:33:20.969153	Internationally Published Book Chapter
+67	book-section	On Scenario Synchronization	In software development a system is often viewed by various models at different levels of abstraction. It is very difficult to maintain the consistency between them for both structural and behavioral semantics. This paper focuses on a formal foundation for presenting scenarios and reasoning the synchronization between them. We represent such a synchronization using a transition system, where a state is viewed as a triple graph presenting the connection of current scenarios, and a transition is defined as a triple graph transformation rule. As a result, the conformance property can be represented as a Computational Tree Logic (CTL) formula and checked by model checkers. We define the transition system using our extension of UML activity diagrams together with Triple Graph Grammars (TGGs) incorporating Object Constraint Language (OCL). We illustrate the approach with a case study of the relation between a use case model and a design model. The work is realized using the USE tool.	{""}	f	published	international	Automated Technology for Verification and Analysis 							Springer, Berlin, Heidelberg	https://link.springer.com/chapter/10.1007%2F978-3-642-15643-4_9	6252	International Symposium on Automated Technology for Verification and Analysis	0				0	{97,111}	2010-10-31	submission	https://doi.org/10.1007/978-3-642-15643-4_9		{}	{""}	{""}						{}	f	2021-05-31 08:53:06.900925	2021-05-31 08:53:06.900925	Internationally Published Book Chapter
+68	article	Test Case Generation for Adequacy of Floating-point to Fixed-point Conversion	Porting an application written for personal computer to embedded devices requires conversion of floating-point numbers and operations into fixed-point ones. Testing the conversion hence requires the latter be as close as possible to the former. The closeness is orthogonal to code coverage and requires different strategies to generate a test suite that reveals the gap between the two functions. We introduce a new test adequacy criterion and propose several metrics to quantify the closeness of two functions. After that we propose a method to generate a better test suite from a given one for the test adequacy criteria. We also show experimental results on some well-known mathematical functions.	{""}	f	published	international									https://www.sciencedirect.com/science/article/pii/S1571066110001271?via%3Dihub	266		0				0	{49,61}	2010-10-12	submission	https://doi.org/10.1016/j.entcs.2010.08.048		{}	{""}	{""}						{Communications,"Information Technology (IT)"}	f	2021-05-31 08:58:10.378223	2021-05-31 08:58:10.378223	Q3, Q4 (ISI)
+69	book-section	FixBag: A Fixpoint Calculator for Quantified Bag Constraints	Abstract interpretation techniques have played a major role in advancing the state-of-the-art in program analysis. Traditionally, stand-alone tools for these techniques have been developed for the numerical domains which may be sufficient for lower levels of program correctness. To analyze a wider range of programs, we have developed a tool to compute symbolic fixpoints for quantified bag domain. This domain is useful for programs that deal with collections of values. Our tool is able to derive both loop invariants and method pre/post conditions via fixpoint analysis of recursive bag constraints. To support better precision, we have allowed disjunctive formulae to be inferred, where appropriate. As a stand-alone tool, we have tested it on a range of small but challenging examples with acceptable precision and performance.	{""}	f	inPress	international	Computer Aided Verification 							Springer, Berlin, Heidelberg	https://link.springer.com/chapter/10.1007%2F978-3-642-22110-1_53	6806	International Conference on Computer Aided Verification	0				0	{656,662}	2011-06-24	submission	https://doi.org/10.1007/978-3-642-22110-1_53		{}	{""}	{""}						{}	f	2021-05-31 09:06:44.721505	2021-05-31 09:06:44.721505	Internationally Published Book Chapter
+70	article	A type system for finding upper resource bounds of multi-threaded programs with nested transactions	We present a static, compositional analysis based on a type and effect system to estimate an upper bound for the resource consumption of nested and multi-threaded transactional programs. This work extends our previous type system for Transactional Featherweight Java to allow more liberal use of transactions in the semantics. The new types are also more expressive and structurally simpler using a linear representation instead of a tree representation for capturing static approximation of resource consumption. We prove the soundness of our analysis.	{""}	f	published	international	Proceedings of the Third Symposium on Information and Communication Technology								https://dl.acm.org/doi/10.1145/2350716.2350722	0		0				0	{21,30}	2012-08-17	submission	https://doi.org/10.1145/2350716.2350722		{}	{""}	{""}						{"Information Technology (IT)"}	f	2021-05-31 09:21:21.706357	2021-05-31 09:21:21.706357	Q3, Q4 (ISI)
+71	book-section	Compositional Static Analysis for Implicit Join Synchronization in a Transactional Setting	We present an effect-based static analysis to calculate upper bounds on multithreaded and nested transactions as measure for the resource consumption in an execution model supporting implicit join synchronization. The analysis is compositional and takes into account implicit join synchronizations that arise when more than one thread jointly commit a transaction. Central for a compositional and precise analysis is to capture as part of the effects a tree-representation of the future resource consumption and synchronization points (which we call joining commit trees). The analysis is formalized for a concurrent variant of Featherweight Java extended by transactional constructs. We show the soundness of the analysis.	{""}	f	published	international	Software Engineering and Formal Methods 								https://link.springer.com/chapter/10.1007%2F978-3-642-40561-7_15	0		0				0	{212,228}	2013-06-30	submission	https://doi.org/10.1007/978-3-642-40561-7_15		{}	{""}	{""}						{Communications,"Information Technology (IT)"}	f	2021-05-31 10:42:50.134862	2021-05-31 10:42:50.134862	Internationally Published Book Chapter
+72	book-section	Finding Round-Off Error Using Symbolic Execution	Overflow and round-off error has been a research problem for decades. With the explosion of mobile and embedded devices, many software programs written for personal computer are now ported to run on embedded systems. The porting often requires changing floating-point numbers and operations to fixed-point ones and here round-off error between the two versions of the program occurs. We propose a novel approach that uses symbolic computation to produce a precise representation of the round-off error for a program. Then we can use solvers to find a global optimum of the round-off error symbolic expression as well as to generate test data that cause the worst round-off error. We implemented a tool based on the idea and our experimental results are better than recent related work.	{""}	f	inPress	international	Knowledge and Systems Engineering 						978-3-319-02740-1	Springer, Cham	https://link.springer.com/chapter/10.1007%2F978-3-319-02741-8_35	0		0				0	{415,428}	2013-06-30	submission	https://doi.org/10.1007/978-3-319-02741-8_35		{}	{""}	{""}						{"Information Technology (IT)"}	f	2021-05-31 10:47:06.963089	2021-05-31 10:47:06.963089	Internationally Published Book Chapter
+73	article	A Compositional Type Systems for Finding Log Memory Bounds of Transactional Programs	In our previous works, we proposed several type systems that can guarantee log memory bounds of transactional programs. One drawback of these type systems is their restricted compositionality. In this work, we develop a type system that is completely compositional. It allows us to type any sub-terms of the program, instead of bottom-up style in our previous works. In addition, we also extend the language with basic elements that are close to real world languages instead of abstract languages as in our previous works. This increases the implementability of our type systems to real world languages.	{""}	f	published	international	Proceedings of the Eighth International Symposium on Information and Communication Technology								https://dl.acm.org/doi/10.1145/3155133.3155183	0		0				0	{409,416}	2017-12-14	submission	https://doi.org/10.1145/3155133.3155183		{}	{""}	{""}						{Communications,"Information Technology (IT)"}	f	2021-05-31 10:55:10.339638	2021-05-31 10:55:10.339638	Q1, Q2 (ISI)
+74	article	PhO2: Smartphone based Blood Oxygen Level Measurement Systems using Near-IR and RED Wave-guided Light	Accurately measuring and monitoring patient's blood oxygen level plays a critical role in today's clinical diagnosis and healthcare practices. Existing techniques however either require a dedicated hardware or produce inaccurate measurements. To fill in this gap, we propose a phone-based oxygen level estimation system, called PhO2, using camera and flashlight functions that are readily available on today's off-the-shelf smart phones. Since phone's camera and flashlight are not made for this purpose, utilizing them for oxygen level estimation poses many challenges. We introduce a cost-effective add-on together with a set of algorithms for spatial and spectral optical signal modulation to amplify the optical signal of interest while minimizing noise. A light-based pressure detection algorithm and feedback mechanism are also proposed to mitigate the negative impacts of user's behavior during the measurement. We also derive a non-linear referencing model that allows PhO2 to estimate the oxygen level from color intensity ratios produced by smartphone's camera.\n\nAn evaluation using a custom-built optical element on COTS smartphone with 6 subjects shows that PhO2 can estimate the oxygen saturation within 3.5% error rate comparing to FDA-approved gold standard pulse oximetry. A user study to gauge the reception of PhO2 shows that users are comfortable self-operating the device, and willing to carry the device when going out.	{""}	f	published	international									https://dl.acm.org/doi/10.1145/3131672.3131696	0		0				0	{1,14}	2017-11-24	publication	https://doi.org/10.1145/3131672.3131696		{}	{""}	{""}						{}	f	2021-05-31 11:01:32.50496	2021-05-31 11:01:32.50496	Q3, Q4 (ISI)
+75	article	Matthan: Drone Presence Detection by Identifying Physical Signatures in the Drone's RF Communication	Drones are increasingly flying in sensitive airspace where their presence may cause harm, such as near airports, forest fires, large crowded events, secure buildings, and even jails. This problem is likely to expand given the rapid proliferation of drones for commerce, monitoring, recreation, and other applications. A cost-effective detection system is needed to warn of the presence of drones in such cases. In this paper, we explore the feasibility of inexpensive RF-based detection of the presence of drones. We examine whether physical characteristics of the drone, such as body vibration and body shifting, can be detected in the wireless signal transmitted by drones during communication. We consider whether the received drone signals are uniquely differentiated from other mobile wireless phenomena such as cars equipped with Wi- Fi or humans carrying a mobile phone. The sensitivity of detection at distances of hundreds of meters as well as the accuracy of the overall detection system are evaluated using software defined radio (SDR) implementation.	{""}	f	published	international										0		0				0	{211,224}	2017-06-15				{}	{""}	{""}						{}	f	2021-05-31 11:05:50.033538	2021-05-31 11:05:50.033538	Q1, Q2 (ISI)
+76	article	Capacitive Sensing 3D-printed Wristband for Enriched Hand Gesture Recognition	In this work, we design a wearable-form hand gesture recognition system using capacitive sensing technique. Our proposed system includes a 3D printed wristband, capacitive sensors arrays in a flexible circuit board, a low-cost micro-controller unit and wireless communication module (BLE). In particular, the wristband manipulates the changes in capacitance from multiple capacitive sensors to recognize and detect users' hand gestures. The software stack translates the detected gestures into control command for application layer, together with an user-friendly web interface that supports both data communication and training between the wristband and the host PC. We also release an open API of our designed system for future applications. Lastly, we envision our system open API will be available for developers to customize vast range of hand gesture and integrate the wristband into various applications, from command on remote computer to video game controller.	{""}	f	published	international									https://dl.acm.org/doi/10.1145/3089351.3089359	0		0				0	{11,15}	2017-06-13	submission	https://doi.org/10.1145/3089351.3089359		{}	{""}	{""}						{}	f	2021-05-31 11:09:40.422347	2021-05-31 11:09:40.422347	Scopus
 \.
 
 
@@ -318,11 +341,6 @@ COPY public.publication (id, item_type, title, abstract, corporate_creators, is_
 --
 
 COPY public.publication_creator (publication_id, creator_email, author_order, db_created_on, db_updated_on) FROM stdin;
-5	kangms@kaist.ac.uk	4	2021-04-29 19:12:11.587523	2021-04-29 19:12:11.587523
-5	muoitd@comp.nus.edu.sg	0	2021-04-29 19:12:11.587423	2021-04-29 19:12:11.587423
-5	gijun@korea.edu	2	2021-04-29 19:12:11.58765	2021-04-29 19:12:11.58765
-5	inho@yonsei.ac.kr	1	2021-04-29 19:12:11.58778	2021-04-29 19:12:11.58778
-5	anh.vu@cst.cam.ac.uk	3	2021-04-29 19:12:11.588179	2021-04-29 19:12:11.588179
 4	duonghn@vnu.edu.vn	0	2021-04-29 19:12:29.797411	2021-04-29 19:12:29.797411
 4	trinhlk@vnu.edu.vn	1	2021-04-29 19:12:29.797523	2021-04-29 19:12:29.797523
 4	hungpn@vnu.edu.vn	2	2021-04-29 19:12:29.797763	2021-04-29 19:12:29.797763
@@ -423,6 +441,81 @@ COPY public.publication_creator (publication_id, creator_email, author_order, db
 32	hoangtv@vnu.edu.vn	0	2021-05-09 19:05:14.971156	2021-05-09 19:05:14.971156
 32	hungpn@vnu.edu.vn	1	2021-05-09 19:05:14.972671	2021-05-09 19:05:14.972671
 32	hanv@vnu.edu.vn	2	2021-05-09 19:05:15.011639	2021-05-09 19:05:15.011639
+53	hungdv@vnu.edu.vn	1	2021-05-31 04:42:54.75348	2021-05-31 04:42:54.75348
+53	hungld@vnu.edu.vn	0	2021-05-31 04:42:54.759163	2021-05-31 04:42:54.759163
+54	hungdv@vnu.edu.vn	0	2021-05-31 04:49:32.172438	2021-05-31 04:49:32.172438
+54	miaomiao@chang.com	1	2021-05-31 04:49:32.174356	2021-05-31 04:49:32.174356
+55	hungdv@vnu.edu.vn	0	2021-05-31 04:55:35.651749	2021-05-31 04:55:35.651749
+56	MichaelReichhardt@Hansen.com	0	2021-05-31 05:01:37.37496	2021-05-31 05:01:37.37496
+56	hungdv@vnu.edu.vn	1	2021-05-31 05:01:37.375697	2021-05-31 05:01:37.375697
+57	hoangta@vnu.edu.vn	0	2021-05-31 05:10:39.813752	2021-05-31 05:10:39.813752
+57	trangnt@vnu.edu.vn	4	2021-05-31 05:10:39.8144	2021-05-31 05:10:39.8144
+57	binhtt@vnu.edu.vn	1	2021-05-31 05:10:39.813957	2021-05-31 05:10:39.813957
+57	hanv@vnu.edu.vn	3	2021-05-31 05:10:39.814799	2021-05-31 05:10:39.814799
+57	hungdv@vnu.edu.vn	2	2021-05-31 05:10:39.816008	2021-05-31 05:10:39.816008
+57	hungpd@vnu.edu.vn	5	2021-05-31 05:10:39.834436	2021-05-31 05:10:39.834436
+58	Zhiming@Liu.com	2	2021-05-31 05:18:41.297046	2021-05-31 05:18:41.297046
+58	hungdv@vnu.edu.vn	1	2021-05-31 05:18:41.297795	2021-05-31 05:18:41.297795
+58	miaomiao@Zang.com	0	2021-05-31 05:18:41.307125	2021-05-31 05:18:41.307125
+59	gelevdp@math.bas.bg	0	2021-05-31 07:48:32.729837	2021-05-31 07:48:32.729837
+59	hungdv@vnu.edu.vn	1	2021-05-31 07:48:32.730009	2021-05-31 07:48:32.730009
+60	dongnt@vnu.edu.vn	0	2021-05-31 07:52:10.80847	2021-05-31 07:52:10.80847
+60	hoangta@vnu.edu.vn	2	2021-05-31 07:52:10.809463	2021-05-31 07:52:10.809463
+60	hungdv@vnu.edu.vn	1	2021-05-31 07:52:10.809322	2021-05-31 07:52:10.809322
+61	chieudv@vnu.edu.vn	0	2021-05-31 08:02:48.54164	2021-05-31 08:02:48.54164
+61	hungdv@vnu.edu.vn	1	2021-05-31 08:02:48.541649	2021-05-31 08:02:48.541649
+62	hungdv@vnu.edu.vn	0	2021-05-31 08:09:04.954945	2021-05-31 08:09:04.954945
+62	Mizuhito@Ogawa.com	1	2021-05-31 08:09:04.956624	2021-05-31 08:09:04.956624
+63	hungdv@vnu.edu.vn	0	2021-05-31 08:13:32.752823	2021-05-31 08:13:32.752823
+63	hoangt@vnu.edu.vn	1	2021-05-31 08:13:32.754823	2021-05-31 08:13:32.754823
+64	hanhdd@vnu.edu.vn	0	2021-05-31 08:19:17.250856	2021-05-31 08:19:17.250856
+64	hungdv@vnu.edu.vn	2	2021-05-31 08:19:17.251099	2021-05-31 08:19:17.251099
+64	hoangta@vnu.edu.vn	1	2021-05-31 08:19:17.257366	2021-05-31 08:19:17.257366
+65	hungdv@vnu.edu.vn	2	2021-05-31 08:29:32.082904	2021-05-31 08:29:32.082904
+65	hanhdd@vnu.edu.vn	3	2021-05-31 08:29:32.083087	2021-05-31 08:29:32.083087
+65	khainn@vnu.edu.vn	1	2021-05-31 08:29:32.082838	2021-05-31 08:29:32.082838
+65	hoangta@vnu.edu.vn	0	2021-05-31 08:29:32.098201	2021-05-31 08:29:32.098201
+66	hoangta@vnu.edu.vn	0	2021-05-31 08:33:21.024134	2021-05-31 08:33:21.024134
+66	hungdv@vnu.edu.vn	1	2021-05-31 08:33:21.025706	2021-05-31 08:33:21.025706
+66	hanhdd@vnu.edu.vn	2	2021-05-31 08:33:21.02483	2021-05-31 08:33:21.02483
+66	tungvx@vnu.edu.vn	3	2021-05-31 08:33:21.026929	2021-05-31 08:33:21.026929
+67	hanhdd@vnu.edu.vn	0	2021-05-31 08:53:06.962402	2021-05-31 08:53:06.962402
+67	hoangta@vnu.edu.vn	1	2021-05-31 08:53:06.96901	2021-05-31 08:53:06.96901
+67	Martin@Gogolla.com	2	2021-05-31 08:53:06.969007	2021-05-31 08:53:06.969007
+68	wei_ngan@chin.com	2	2021-05-31 08:58:10.429373	2021-05-31 08:58:10.429373
+68	hoangta@vnu.edu.vn	1	2021-05-31 08:58:10.430584	2021-05-31 08:58:10.430584
+68	hungpt@vnu.edu.vn	0	2021-05-31 08:58:10.432701	2021-05-31 08:58:10.432701
+69	thaitm@vnu.edu.vn	1	2021-05-31 09:06:44.762741	2021-05-31 09:06:44.762741
+69	hungpt@vnu.edu.vn	0	2021-05-31 09:06:44.762565	2021-05-31 09:06:44.762565
+69	hoangta@vnu.edu.vn	2	2021-05-31 09:06:44.761917	2021-05-31 09:06:44.761917
+69	WeiNgan@Chin.com	3	2021-05-31 09:06:44.763299	2021-05-31 09:06:44.763299
+70	hoangta@vnu.edu.vn	2	2021-05-31 09:21:21.776104	2021-05-31 09:21:21.776104
+70	Steffen@Martin.com	3	2021-05-31 09:21:21.777278	2021-05-31 09:21:21.777278
+70	tungvx@vnu.edu.vn	0	2021-05-31 09:21:21.77829	2021-05-31 09:21:21.77829
+70	thuongtm@vnu.edu.vn	1	2021-05-31 09:21:21.779688	2021-05-31 09:21:21.779688
+71	thuongtm@vnu.edu.vn	0	2021-05-31 10:42:50.185153	2021-05-31 10:42:50.185153
+71	Steffen@Martin.com	1	2021-05-31 10:42:50.186423	2021-05-31 10:42:50.186423
+71	hoangta@vnu.edu.vn	2	2021-05-31 10:42:50.186171	2021-05-31 10:42:50.186171
+72	hoangta@vnu.edu.vn	0	2021-05-31 10:47:50.851767	2021-05-31 10:47:50.851767
+72	vuth@vnu.edu.vn	1	2021-05-31 10:47:50.852511	2021-05-31 10:47:50.852511
+72	ngocnb@vnu.edu.vn	2	2021-05-31 10:47:50.853547	2021-05-31 10:47:50.853547
+73	hoangta@vnu.edu.vn	1	2021-05-31 10:55:10.404526	2021-05-31 10:55:10.404526
+73	khainn@vnu.edu.vn	0	2021-05-31 10:55:10.404993	2021-05-31 10:55:10.404993
+74	anhn@vnu.edu.vn	1	2021-05-31 11:01:32.568663	2021-05-31 11:01:32.568663
+74	namb@vnu.edu.vn	0	2021-05-31 11:01:32.568602	2021-05-31 11:01:32.568602
+74	phucn@vnu.edu.vn	2	2021-05-31 11:01:32.569392	2021-05-31 11:01:32.569392
+74	ashwin@ashok.com	4	2021-05-31 11:01:32.571641	2021-05-31 11:01:32.571641
+74	hoangta@vnu.edu.vn	3	2021-05-31 11:01:32.571576	2021-05-31 11:01:32.571576
+75	hoangta@vnu.edu.vn	1	2021-05-31 11:05:50.08498	2021-05-31 11:05:50.08498
+75	phucn@vnu.edu.vn	0	2021-05-31 11:05:50.085177	2021-05-31 11:05:50.085177
+75	anhn@vnu.edu.vn	3	2021-05-31 11:05:50.103272	2021-05-31 11:05:50.103272
+75	richard@han.com	4	2021-05-31 11:05:50.104317	2021-05-31 11:05:50.104317
+75	mahesh@Ravindranathan.com	2	2021-05-31 11:05:50.10739	2021-05-31 11:05:50.10739
+76	namb@vnu.edu.vn	3	2021-05-31 11:09:40.486005	2021-05-31 11:09:40.486005
+76	tamv@vnu.edu.vn	4	2021-05-31 11:09:40.48688	2021-05-31 11:09:40.48688
+76	phucn@vnu.edu.vn	1	2021-05-31 11:09:40.489157	2021-05-31 11:09:40.489157
+76	anhn@vnu.edu.vn	2	2021-05-31 11:09:40.490312	2021-05-31 11:09:40.490312
+76	hoangta@vnu.edu.vn	0	2021-05-31 11:09:40.491777	2021-05-31 11:09:40.491777
 \.
 
 
@@ -560,36 +653,16 @@ COPY public.publication_division (publication_id, division_name, db_created_on, 
 24	FIT: Phòng Thí nghiệm mục tiêu Đảm Bảo Chất Lượng Phần Mềm	2021-04-29 19:07:54.79042	2021-04-29 19:07:54.79042
 24	FEPN: Bộ môn Vật Liệu và Linh Kiện Từ Tính Nano	2021-04-29 19:07:54.791739	2021-04-29 19:07:54.791739
 24	SAE: Bộ môn Cơ Khí, Động Lực Học Hàng Không	2021-04-29 19:07:54.793054	2021-04-29 19:07:54.793054
-5	FIT: Bộ môn Công Nghệ Phần Mềm	2021-04-29 19:12:11.579226	2021-04-29 19:12:11.579226
-5	FIT: Phòng Thí nghiệm An Toàn Thông Tin	2021-04-29 19:12:11.581514	2021-04-29 19:12:11.581514
-5	FIT: Phòng Thí nghiệm Hệ Thống Nhúng	2021-04-29 19:12:11.58207	2021-04-29 19:12:11.58207
-5	FIT: Phòng Thí nghiệm mục tiêu Blockchain	2021-04-29 19:12:11.583181	2021-04-29 19:12:11.583181
-5	FIT: Phòng Thí nghiệm mục tiêu Trí Tuệ Nhân Tạo	2021-04-29 19:12:11.583841	2021-04-29 19:12:11.583841
-5	Khoa Công Nghệ Nông Nghiệp (FAT)	2021-04-29 19:12:11.584806	2021-04-29 19:12:11.584806
 20	Khoa Điện Tử - Viễn Thông (FET)	2021-04-29 19:09:08.708889	2021-04-29 19:09:08.708889
 20	FET: Phòng thí nghiệm Tín hiệu và Hệ thống	2021-04-29 19:09:08.71245	2021-04-29 19:09:08.71245
 20	SAE: Bộ môn Khoa Học Dữ Liệu Không Gian	2021-04-29 19:09:08.713489	2021-04-29 19:09:08.713489
-5	Khoa Công Nghệ Thông Tin (FIT)	2021-04-29 19:12:11.578853	2021-04-29 19:12:11.578853
-5	FIT: Bộ môn Mạng và Truyền Thông Máy Tính	2021-04-29 19:12:11.581637	2021-04-29 19:12:11.581637
-5	FIT: Phòng Thí nghiệm mục tiêu Đảm Bảo Chất Lượng Phần Mềm	2021-04-29 19:12:11.583583	2021-04-29 19:12:11.583583
-5	Phòng thí nghiệm trọng điểm Các Hệ Thống Tích Hợp Thông Minh (SISLAB)	2021-04-29 19:12:11.584601	2021-04-29 19:12:11.584601
 20	FET: Bộ môn Hệ thống Viễn thông	2021-04-29 19:09:08.709384	2021-04-29 19:09:08.709384
 20	FET: Bộ môn Vi cơ điện tử và Vi hệ thống	2021-04-29 19:09:08.712078	2021-04-29 19:09:08.712078
 20	Khoa Công Nghệ Nông Nghiệp (FAT)	2021-04-29 19:09:08.713423	2021-04-29 19:09:08.713423
-5	FIT: Bộ môn Các Hệ Thống Thông Tin	2021-04-29 19:12:11.579102	2021-04-29 19:12:11.579102
-5	FIT: Phòng Thí nghiệm Tương Tác Người – Máy	2021-04-29 19:12:11.581799	2021-04-29 19:12:11.581799
-5	FIT: Phòng Thí nghiệm Công Nghệ Tri Thức	2021-04-29 19:12:11.583299	2021-04-29 19:12:11.583299
-5	FIT: Phòng Thí nghiệm mục tiêu Internet of Things	2021-04-29 19:12:11.584018	2021-04-29 19:12:11.584018
 20	FET: Bộ môn Điện tử và Kỹ thuật máy tính	2021-04-29 19:09:08.709178	2021-04-29 19:09:08.709178
 20	FEMA: Phòng Thí nghiệm Vật Liệu và Kết Cấu Tiên Tiến	2021-04-29 19:09:08.71314	2021-04-29 19:09:08.71314
-5	FIT: Bộ môn Khoa Học Máy Tính	2021-04-29 19:12:11.579344	2021-04-29 19:12:11.579344
-5	FIT: Phòng Thí nghiệm mục tiêu Tối Ưu Hóa Các Hệ Thống Lớn	2021-04-29 19:12:11.581961	2021-04-29 19:12:11.581961
-5	FIT: Phòng Thí nghiệm mục tiêu Tin Sinh Y Học	2021-04-29 19:12:11.583452	2021-04-29 19:12:11.583452
-5	FEPN: Bộ môn Vật Liệu và Linh Kiện Bán Dẫn Nano	2021-04-29 19:12:11.58422	2021-04-29 19:12:11.58422
 20	FET: Bộ môn Thông tin Vô tuyến	2021-04-29 19:09:08.709549	2021-04-29 19:09:08.709549
 20	FEMA: Bộ môn Thuỷ Khí Công Nghiệp và Môi Trường	2021-04-29 19:09:08.712996	2021-04-29 19:09:08.712996
-5	FIT: Bộ môn Khoa Học và Kỹ Thuật Tính Toán	2021-04-29 19:12:11.581348	2021-04-29 19:12:11.581348
-5	FEMA: Bộ môn Cơ Điện Tử và Tự Động Hoá	2021-04-29 19:12:11.584383	2021-04-29 19:12:11.584383
 4	FIT: Bộ môn Các Hệ Thống Thông Tin	2021-04-29 19:12:29.788556	2021-04-29 19:12:29.788556
 4	FIT: Bộ môn Mạng và Truyền Thông Máy Tính	2021-04-29 19:12:29.789921	2021-04-29 19:12:29.789921
 4	FIT: Phòng Thí nghiệm Công Nghệ Tri Thức	2021-04-29 19:12:29.79214	2021-04-29 19:12:29.79214
@@ -824,6 +897,54 @@ COPY public.publication_division (publication_id, division_name, db_created_on, 
 43	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 19:04:27.430278	2021-05-09 19:04:27.430278
 32	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 19:05:14.928988	2021-05-09 19:05:14.928988
 32	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-09 19:05:14.933925	2021-05-09 19:05:14.933925
+53	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 04:42:54.735935	2021-05-31 04:42:54.735935
+53	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 04:42:54.737531	2021-05-31 04:42:54.737531
+54	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 04:49:32.162564	2021-05-31 04:49:32.162564
+54	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 04:49:32.162602	2021-05-31 04:49:32.162602
+55	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 04:55:35.637695	2021-05-31 04:55:35.637695
+55	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 04:55:35.639399	2021-05-31 04:55:35.639399
+56	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 05:01:37.359948	2021-05-31 05:01:37.359948
+56	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 05:01:37.365795	2021-05-31 05:01:37.365795
+57	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 05:10:39.800063	2021-05-31 05:10:39.800063
+57	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 05:10:39.800036	2021-05-31 05:10:39.800036
+58	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 05:18:41.272703	2021-05-31 05:18:41.272703
+58	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 05:18:41.272657	2021-05-31 05:18:41.272657
+59	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 07:48:32.714632	2021-05-31 07:48:32.714632
+59	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 07:48:32.714734	2021-05-31 07:48:32.714734
+60	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 07:52:10.801524	2021-05-31 07:52:10.801524
+60	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 07:52:10.802153	2021-05-31 07:52:10.802153
+61	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 08:02:48.520125	2021-05-31 08:02:48.520125
+61	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 08:02:48.524002	2021-05-31 08:02:48.524002
+62	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 08:09:04.936059	2021-05-31 08:09:04.936059
+62	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 08:09:04.93869	2021-05-31 08:09:04.93869
+63	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 08:13:32.7481	2021-05-31 08:13:32.7481
+63	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 08:13:32.746246	2021-05-31 08:13:32.746246
+64	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 08:19:17.236474	2021-05-31 08:19:17.236474
+64	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 08:19:17.236781	2021-05-31 08:19:17.236781
+65	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 08:29:32.048186	2021-05-31 08:29:32.048186
+65	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 08:29:32.049272	2021-05-31 08:29:32.049272
+66	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 08:33:20.998792	2021-05-31 08:33:20.998792
+66	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 08:33:21.004865	2021-05-31 08:33:21.004865
+67	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 08:53:06.93742	2021-05-31 08:53:06.93742
+67	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 08:53:06.944203	2021-05-31 08:53:06.944203
+68	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 08:58:10.413172	2021-05-31 08:58:10.413172
+68	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 08:58:10.41493	2021-05-31 08:58:10.41493
+69	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 09:06:44.754523	2021-05-31 09:06:44.754523
+69	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 09:06:44.756268	2021-05-31 09:06:44.756268
+70	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 09:21:21.74667	2021-05-31 09:21:21.74667
+70	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 09:21:21.751295	2021-05-31 09:21:21.751295
+71	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 10:42:50.165336	2021-05-31 10:42:50.165336
+71	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 10:42:50.167762	2021-05-31 10:42:50.167762
+72	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 10:47:50.834754	2021-05-31 10:47:50.834754
+72	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 10:47:50.836824	2021-05-31 10:47:50.836824
+73	FIT: Bộ môn Các Hệ Thống Thông Tin	2021-05-31 10:55:10.387542	2021-05-31 10:55:10.387542
+73	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 10:55:10.38652	2021-05-31 10:55:10.38652
+74	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 11:01:32.546885	2021-05-31 11:01:32.546885
+74	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 11:01:32.547008	2021-05-31 11:01:32.547008
+75	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 11:05:50.072768	2021-05-31 11:05:50.072768
+75	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 11:05:50.072585	2021-05-31 11:05:50.072585
+76	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 11:09:40.45437	2021-05-31 11:09:40.45437
+76	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 11:09:40.455373	2021-05-31 11:09:40.455373
 \.
 
 
@@ -838,7 +959,6 @@ COPY public.publication_editor (publication_id, editor_email, db_created_on, db_
 18		2021-04-29 19:09:59.785761	2021-04-29 19:09:59.785761
 10		2021-04-29 19:10:24.819018	2021-04-29 19:10:24.819018
 9		2021-04-29 19:10:46.051189	2021-04-29 19:10:46.051189
-5		2021-04-29 19:12:11.588054	2021-04-29 19:12:11.588054
 4		2021-04-29 19:12:29.79764	2021-04-29 19:12:29.79764
 1		2021-04-29 19:13:27.624578	2021-04-29 19:13:27.624578
 23		2021-04-29 19:26:58.834821	2021-04-29 19:26:58.834821
@@ -862,6 +982,30 @@ COPY public.publication_editor (publication_id, editor_email, db_created_on, db_
 33		2021-05-09 19:00:29.061857	2021-05-09 19:00:29.061857
 43		2021-05-09 19:04:27.469814	2021-05-09 19:04:27.469814
 32		2021-05-09 19:05:15.010138	2021-05-09 19:05:15.010138
+53		2021-05-31 04:42:54.757379	2021-05-31 04:42:54.757379
+54		2021-05-31 04:49:32.17616	2021-05-31 04:49:32.17616
+55		2021-05-31 04:55:35.651003	2021-05-31 04:55:35.651003
+56		2021-05-31 05:01:37.376495	2021-05-31 05:01:37.376495
+57		2021-05-31 05:10:39.816744	2021-05-31 05:10:39.816744
+58		2021-05-31 05:18:41.309121	2021-05-31 05:18:41.309121
+59		2021-05-31 07:48:32.731121	2021-05-31 07:48:32.731121
+60		2021-05-31 07:52:10.816231	2021-05-31 07:52:10.816231
+61		2021-05-31 08:02:48.558042	2021-05-31 08:02:48.558042
+62		2021-05-31 08:09:04.957802	2021-05-31 08:09:04.957802
+63		2021-05-31 08:13:32.755608	2021-05-31 08:13:32.755608
+64		2021-05-31 08:19:17.261031	2021-05-31 08:19:17.261031
+65		2021-05-31 08:29:32.08567	2021-05-31 08:29:32.08567
+66		2021-05-31 08:33:21.025646	2021-05-31 08:33:21.025646
+67		2021-05-31 08:53:06.971766	2021-05-31 08:53:06.971766
+68		2021-05-31 08:58:10.432517	2021-05-31 08:58:10.432517
+69		2021-05-31 09:06:44.763298	2021-05-31 09:06:44.763298
+70		2021-05-31 09:21:21.779946	2021-05-31 09:21:21.779946
+71		2021-05-31 10:42:50.186306	2021-05-31 10:42:50.186306
+72		2021-05-31 10:47:50.8526	2021-05-31 10:47:50.8526
+73		2021-05-31 10:55:10.404032	2021-05-31 10:55:10.404032
+74		2021-05-31 11:01:32.574636	2021-05-31 11:01:32.574636
+75		2021-05-31 11:05:50.107096	2021-05-31 11:05:50.107096
+76		2021-05-31 11:09:40.486199	2021-05-31 11:09:40.486199
 \.
 
 
@@ -935,14 +1079,23 @@ admin@eprints.vnu.edu.vn	FET: Bộ môn Điện tử và Kỹ thuật máy tính
 admin@eprints.vnu.edu.vn	FET: Bộ môn Hệ thống Viễn thông	2021-04-29 19:12:47.261181	2021-04-29 19:12:47.261181
 khadm@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 19:04:27.477874	2021-05-09 19:04:27.477874
 admin@eprints.vnu.edu.vn	FET: Bộ môn Kỹ thuật Robot	2021-04-29 19:13:14.296572	2021-04-29 19:13:14.296572
-		2021-05-09 19:05:15.021657	2021-05-09 19:05:15.021657
+trangnt@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 05:10:39.836204	2021-05-31 05:10:39.836204
+Zhiming@Liu.com		2021-05-31 05:18:41.31181	2021-05-31 05:18:41.31181
+Mizuhito@Ogawa.com		2021-05-31 08:09:04.96179	2021-05-31 08:09:04.96179
+hungdv@vnu.edu.vn	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 08:33:21.033684	2021-05-31 08:33:21.033684
 admin@eprints.vnu.edu.vn	FET: Bộ môn Thông tin Vô tuyến	2021-04-29 19:13:14.29788	2021-04-29 19:13:14.29788
 admin@eprints.vnu.edu.vn	Viện tiến tiến về Kỹ thuật và Công nghệ (AVITECH)	2021-04-29 19:17:04.688602	2021-04-29 19:17:04.688602
 admin@eprints.vnu.edu.vn	Trung tâm Nghiên cứu Điện tử - Viễn thông (CETR)	2021-04-29 19:20:15.769427	2021-04-29 19:20:15.769427
 tokuyama@jaist.ac.jp	Tohoku University	2021-04-29 19:07:54.800909	2021-04-29 19:07:54.800909
+mahesh@Ravindranathan.com		2021-05-31 11:05:50.119173	2021-05-31 11:05:50.119173
+namb@vnu.edu.vn	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 11:09:40.494959	2021-05-31 11:09:40.494959
 khanhtv@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 18:05:38.396007	2021-05-09 18:05:38.396007
+tamv@vnu.edu.vn	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 11:09:40.503648	2021-05-31 11:09:40.503648
 huongtn@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 19:04:27.508934	2021-05-09 19:04:27.508934
-hanv@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 19:05:15.023809	2021-05-09 19:05:15.023809
+phucn@vnu.edu.vn	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 11:09:40.505993	2021-05-31 11:09:40.505993
+hungld@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 04:42:54.782498	2021-05-31 04:42:54.782498
+hanv@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 05:10:39.835917	2021-05-31 05:10:39.835917
+miaomiao@Zang.com		2021-05-31 05:18:41.32103	2021-05-31 05:18:41.32103
 mmm@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 11:09:50.35177	2021-05-09 11:09:50.35177
 admin@eprints.vnu.edu.vn	FIT: Bộ môn Các Hệ Thống Thông Tin	2021-05-09 18:26:59.879913	2021-05-09 18:26:59.879913
 admin@eprints.vnu.edu.vn	Bộ môn Vật Liệu và Linh Kiện Bán Dẫn Nano	2021-05-09 18:26:59.885427	2021-05-09 18:26:59.885427
@@ -1026,9 +1179,16 @@ dungnv@vnu.edu.vn	FET: Bộ môn Hệ thống Viễn thông	2021-05-02 10:51:38.
 dungnv@vnu.edu.vn	FET: Bộ môn Kỹ thuật Robot	2021-05-02 10:51:38.70497	2021-05-02 10:51:38.70497
 dungnv@vnu.edu.vn	FET: Bộ môn Thông tin Vô tuyến	2021-05-02 10:51:38.706623	2021-05-02 10:51:38.706623
 dungnv@vnu.edu.vn	FET: Bộ môn Vi cơ điện tử và Vi hệ thống	2021-05-02 10:51:38.707761	2021-05-02 10:51:38.707761
+khainn@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 10:55:10.418062	2021-05-31 10:55:10.418062
 trungnq@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 16:17:38.349717	2021-05-09 16:17:38.349717
 thuantn@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 18:05:38.396909	2021-05-09 18:05:38.396909
 hieuvd@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 19:00:29.088336	2021-05-09 19:00:29.088336
+hoangta@vnu.edu.vn	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 11:09:40.504421	2021-05-31 11:09:40.504421
+dungdv@vnu.edu.vn	SAE: Bộ môn Điện Tử Và Thông Tin Hàng Không	2021-05-31 02:59:58.358295	2021-05-31 02:59:58.358295
+dungdv@vnu.edu.vn	SAE: Bộ môn Cơ Khí, Động Lực Học Hàng Không	2021-05-31 02:59:58.369964	2021-05-31 02:59:58.369964
+dungdv@vnu.edu.vn	SAE: Bộ môn Khoa Học Dữ Liệu Không Gian	2021-05-31 02:59:58.373491	2021-05-31 02:59:58.373491
+dungdv@vnu.edu.vn	Viện Công Nghệ Hàng Không Vũ Trụ (SAE)	2021-05-31 02:59:58.375534	2021-05-31 02:59:58.375534
+MichaelReichhardt@Hansen.com		2021-05-31 05:01:37.383289	2021-05-31 05:01:37.383289
 dungnv@vnu.edu.vn	FET: Phòng thí nghiệm Tín hiệu và Hệ thống	2021-05-02 10:51:38.708793	2021-05-02 10:51:38.708793
 dungnv@vnu.edu.vn	FET: Phòng thực tập Điện tử – Viễn thông	2021-05-02 10:51:38.709836	2021-05-02 10:51:38.709836
 dungnv@vnu.edu.vn	Khoa Điện Tử - Viễn Thông (FET)	2021-05-02 10:51:38.710828	2021-05-02 10:51:38.710828
@@ -1045,6 +1205,9 @@ linhnn@vnu.edu.vn	FEMA: Bộ môn Thuỷ Khí Công Nghiệp và Môi Trường	
 linhnn@vnu.edu.vn	FEMA: Phòng Thí nghiệm Vật Liệu và Kết Cấu Tiên Tiến	2021-05-02 10:57:13.819965	2021-05-02 10:57:13.819965
 linhnn@vnu.edu.vn	Khoa Cơ Học Kỹ Thuật và Tự Động Hoá (FEMA)	2021-05-02 10:57:13.823157	2021-05-02 10:57:13.823157
 khanhnl@vnu.edu.vn	Khoa Công Nghệ Nông Nghiệp (FAT)	2021-05-02 11:02:39.288743	2021-05-02 11:02:39.288743
+chieudv@vnu.edu.vn		2021-05-31 08:02:48.560314	2021-05-31 08:02:48.560314
+WeiNgan@Chin.com		2021-05-31 09:06:44.77391	2021-05-31 09:06:44.77391
+vuth@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 10:47:50.858771	2021-05-31 10:47:50.858771
 thainp@vnu.edu.vn	FIT: Bộ môn Khoa Học Máy Tính	2021-05-02 08:04:06.344215	2021-05-02 08:04:06.344215
 chauttm@vnu.edu.vn	FIT: Bộ môn Khoa Học Máy Tính	2021-05-02 08:07:13.458122	2021-05-02 08:07:13.458122
 nhathn@vnu.edu.vn	FEPN: Bộ môn Vật Liệu và Linh Kiện Bán Dẫn Nano	2021-05-02 08:38:20.250571	2021-05-02 08:38:20.250571
@@ -1068,13 +1231,21 @@ hoangnn@vnu.edu.vn	FET: Bộ môn Vi cơ điện tử và Vi hệ thống	2021-0
 hoangnn@vnu.edu.vn	FET: Phòng thí nghiệm Tín hiệu và Hệ thống	2021-05-02 10:42:03.210207	2021-05-02 10:42:03.210207
 hoangnn@vnu.edu.vn	FET: Phòng thực tập Điện tử – Viễn thông	2021-05-02 10:42:03.211178	2021-05-02 10:42:03.211178
 hoangnn@vnu.edu.vn	Khoa Điện Tử - Viễn Thông (FET)	2021-05-02 10:42:03.212082	2021-05-02 10:42:03.212082
-trangnt@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 19:00:29.090141	2021-05-09 19:00:29.090141
-hoangta@vnu.edu.vn	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-02 07:49:02.060263	2021-05-02 07:49:02.060263
+richard@han.com		2021-05-31 11:05:50.120642	2021-05-31 11:05:50.120642
+		2021-05-31 11:09:40.504084	2021-05-31 11:09:40.504084
 anhnv@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 11:05:27.518269	2021-05-09 11:05:27.518269
 hoangtv@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 19:05:15.020811	2021-05-09 19:05:15.020811
+miaomiao@chang.com		2021-05-31 04:49:32.178576	2021-05-31 04:49:32.178576
 cuonglb@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 11:49:24.471592	2021-05-09 11:49:24.471592
+binhtt@vnu.edu.vn		2021-05-31 05:10:39.839448	2021-05-31 05:10:39.839448
 anhnd@vnu.edu.vn	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-09 15:50:27.968907	2021-05-09 15:50:27.968907
 daovt@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 16:02:19.313147	2021-05-09 16:02:19.313147
+hoangt@vnu.edu.vn		2021-05-31 08:13:32.758751	2021-05-31 08:13:32.758751
+hanhdd@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 08:53:06.979616	2021-05-31 08:53:06.979616
+wei_ngan@chin.com		2021-05-31 08:58:10.43497	2021-05-31 08:58:10.43497
+thaitm@vnu.edu.vn		2021-05-31 09:06:44.765945	2021-05-31 09:06:44.765945
+tungvx@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 09:21:21.786228	2021-05-31 09:21:21.786228
+Steffen@Martin.com		2021-05-31 10:42:50.19606	2021-05-31 10:42:50.19606
 ducnd@vnu.edu.vn	FEMA: Bộ môn Công Nghệ Biển và Môi Trường	2021-05-02 10:53:49.197075	2021-05-02 10:53:49.197075
 ducnd@vnu.edu.vn	FEMA: Bộ môn Cơ Điện Tử và Tự Động Hoá	2021-05-02 10:53:49.198598	2021-05-02 10:53:49.198598
 ducnd@vnu.edu.vn	FEMA: Bộ môn Công Nghệ Hàng Không Vũ Trụ	2021-05-02 10:53:49.199659	2021-05-02 10:53:49.199659
@@ -1088,10 +1259,11 @@ hiepdt@vnu.edu.vn	FEMA: Bộ môn Thuỷ Khí Công Nghiệp và Môi Trường	
 hiepdt@vnu.edu.vn	FEMA: Phòng Thí nghiệm Vật Liệu và Kết Cấu Tiên Tiến	2021-05-02 10:55:53.808706	2021-05-02 10:55:53.808706
 hiepdt@vnu.edu.vn	Khoa Cơ Học Kỹ Thuật và Tự Động Hoá (FEMA)	2021-05-02 10:55:53.813474	2021-05-02 10:55:53.813474
 hamlh@vnu.edu.vn	Khoa Công Nghệ Nông Nghiệp (FAT)	2021-05-02 10:59:30.806901	2021-05-02 10:59:30.806901
+ashwin@ashok.com		2021-05-31 11:01:32.578492	2021-05-31 11:01:32.578492
 khoatv@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-02 11:18:51.945344	2021-05-02 11:18:51.945344
 trungnl@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-02 11:18:51.947024	2021-05-02 11:18:51.947024
 minhld@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-02 11:29:58.933686	2021-05-02 11:29:58.933686
-hanhdd@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-02 11:29:58.93687	2021-05-02 11:29:58.93687
+anhn@vnu.edu.vn	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-31 11:09:40.505456	2021-05-31 11:09:40.505456
 tuyentd@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-02 11:51:15.242831	2021-05-02 11:51:15.242831
 tuanbm@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-02 11:51:15.243052	2021-05-02 11:51:15.243052
 quyenht@vnu.edu.vn	Khoa Công Nghệ Nông Nghiệp (FAT)	2021-05-08 19:41:33.49474	2021-05-08 19:41:33.49474
@@ -1104,14 +1276,16 @@ cuonghm@vnu.edu.vn	SAE: Bộ môn Điện Tử Và Thông Tin Hàng Không	2021-
 cuonghm@vnu.edu.vn	SAE: Bộ môn Cơ Khí, Động Lực Học Hàng Không	2021-05-08 19:48:45.464384	2021-05-08 19:48:45.464384
 cuonghm@vnu.edu.vn	SAE: Bộ môn Khoa Học Dữ Liệu Không Gian	2021-05-08 19:48:45.466059	2021-05-08 19:48:45.466059
 cuonghm@vnu.edu.vn	Viện Công Nghệ Hàng Không Vũ Trụ (SAE)	2021-05-08 19:48:45.467175	2021-05-08 19:48:45.467175
-dungdv@vnu.edu.vn	SAE: Bộ môn Điện Tử Và Thông Tin Hàng Không	2021-05-08 19:49:40.383129	2021-05-08 19:49:40.383129
-dungdv@vnu.edu.vn	SAE: Bộ môn Cơ Khí, Động Lực Học Hàng Không	2021-05-08 19:49:40.388027	2021-05-08 19:49:40.388027
-dungdv@vnu.edu.vn	SAE: Bộ môn Khoa Học Dữ Liệu Không Gian	2021-05-08 19:49:40.395543	2021-05-08 19:49:40.395543
-dungdv@vnu.edu.vn	Viện Công Nghệ Hàng Không Vũ Trụ (SAE)	2021-05-08 19:49:40.410309	2021-05-08 19:49:40.410309
 hungpn@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 19:05:15.021041	2021-05-09 19:05:15.021041
+hungpd@vnu.edu.vn		2021-05-31 05:10:39.841009	2021-05-31 05:10:39.841009
+gelevdp@math.bas.bg		2021-05-31 07:48:32.735572	2021-05-31 07:48:32.735572
+dongnt@vnu.edu.vn		2021-05-31 07:52:10.816651	2021-05-31 07:52:10.816651
+Martin@Gogolla.com		2021-05-31 08:53:06.983297	2021-05-31 08:53:06.983297
+hungpt@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 09:06:44.772516	2021-05-31 09:06:44.772516
 hieupx@vnu.edu.vn	FIT: Phòng Thí nghiệm Công Nghệ Tri Thức	2021-05-09 11:13:15.82676	2021-05-09 11:13:15.82676
+thuongtm@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 10:42:50.196639	2021-05-31 10:42:50.196639
+ngocnb@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-31 10:47:50.863607	2021-05-31 10:47:50.863607
 quangtn@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 15:53:42.693942	2021-05-09 15:53:42.693942
-hungdv@vnu.edu.vn	FIT: Bộ môn Công Nghệ Phần Mềm	2021-05-09 15:56:08.746071	2021-05-09 15:56:08.746071
 sonnv@vnu.edu.vn	Khoa Công Nghệ Thông Tin (FIT)	2021-05-09 16:11:14.096057	2021-05-09 16:11:14.096057
 \.
 
@@ -1136,10 +1310,26 @@ trinhcd@vnu.edu.vn	Chử	Đức Trình	t	$2b$10$.9RTrC3vYfvRtrWmhDNRqOIehGYG.QZQ
 hoangnn@vnu.edu.vn	Nguyễn 	Nam Hoàng	t	$2b$10$BqRA4MDBs40RQSlMwdSrl.fu1RUfMb2nBk1T.0zkBn/5G8KgwgbwS		f		2021-05-02 17:42:03.116	\N	t	2021-05-02 10:42:03.195498	2021-05-02 10:42:03.195498	Phó Giáo sư	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 trungnl@vnu.edu.vn	Nguyễn 	Linh Trung	t	$2b$10$lNWUXAQOa7QP1RfOcI0DhuC41LayvpUgnjCyJBAzCQZJ5GkHbEqrC		f		2021-05-02 17:42:50.735	\N	t	2021-05-02 10:42:50.818096	2021-05-02 10:42:50.818096	Phó Giáo sư	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 tutx@vnu.edu.vn	Trần 	Xuân Tú	t	$2b$10$qZjrVn017Ewgi8vQamLHAuEaLbjq4QB9pxp18Tbc.Z5H4KZ74bgyi		f		2021-05-02 17:48:55.316	\N	t	2021-05-02 10:48:55.401476	2021-05-02 10:48:55.401476	Phó Giáo sư	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
-hungdv@vnu.edu.vn	Đặng	Văn Hưng	t	$2b$10$Gn8fMqEBdmKLTlORI0If4eBsliaU0HKLP9UJ5eCc0hKAy/16YXdbK	E3, 144 Xuan Thuy	f	VNU UET	2021-05-02 14:49:49.982	\N	t	2021-04-25 07:18:05.266737	2021-04-25 07:18:05.266737	Tiến sĩ	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
+hungdv@vnu.edu.vn	Đặng	Văn Hưng	t	$2b$10$JmE8HJ6pui3OWMM2Z5qF5elUJd2HlzB2xWLnokbiCL847Ur4N445G	E3, 144 Xuan Thuy	f	VNU UET	2021-05-31 10:07:58.975	\N	t	2021-04-25 07:18:05.266737	2021-04-25 07:18:05.266737	Tiến sĩ	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
+hungld@vnu.edu.vn	Lê	Đăng Hưng	t	\N	\N	f	\N	\N	\N	f	2021-05-31 04:42:54.751676	2021-05-31 04:42:54.751676	None	None	None
+MichaelReichhardt@Hansen.com	Hansen	Michael Reichhardt	t	\N	\N	f	\N	\N	\N	f	2021-05-31 05:01:37.366285	2021-05-31 05:01:37.366285	None	None	None
+hungpd@vnu.edu.vn	Phạm	Đinh Hung	t	\N	\N	f	\N	\N	\N	f	2021-05-31 05:10:39.80799	2021-05-31 05:10:39.80799	None	None	None
+miaomiao@Zang.com	Zang	Miaomiao	t	\N	\N	f	\N	\N	\N	f	2021-05-31 05:18:41.281587	2021-05-31 05:18:41.281587	None	None	None
+dongnt@vnu.edu.vn	Nguyễn	Trịnh Đông	t	\N	\N	f	\N	\N	\N	f	2021-05-31 07:52:10.803028	2021-05-31 07:52:10.803028	None	None	None
+Mizuhito@Ogawa.com	Ogawa	Mizuhito 	t	\N	\N	f	\N	\N	\N	f	2021-05-31 08:09:04.951717	2021-05-31 08:09:04.951717	None	None	None
+Martin@Gogolla.com	Gogolla	Martin 	t	\N	\N	f	\N	\N	\N	f	2021-05-31 08:53:06.952979	2021-05-31 08:53:06.952979	None	None	None
+hungpt@vnu.edu.vn	Phạm	Tuấn Hưng	t	\N	\N	f	\N	\N	\N	f	2021-05-31 08:58:10.416844	2021-05-31 08:58:10.416844	None	None	None
+WeiNgan@Chin.com	Chin	Wei Ngan	t	\N	\N	f	\N	\N	\N	f	2021-05-31 09:06:44.757728	2021-05-31 09:06:44.757728	None	None	None
+thuongtm@vnu.edu.vn	Trần	Mai Thương	t	\N	\N	f	\N	\N	\N	f	2021-05-31 09:21:21.761084	2021-05-31 09:21:21.761084	None	None	None
+ngocnb@vnu.edu.vn	Nguyễn	Bảo Ngọc	t	\N	\N	f	\N	\N	\N	f	2021-05-31 10:47:07.002271	2021-05-31 10:47:07.002271	None	None	None
+khainn@vnu.edu.vn	Nguyễn	Ngọc Khải	t	\N	\N	f	\N	\N	\N	f	2021-05-31 08:29:32.063263	2021-05-31 08:29:32.063263	None	None	None
+ashwin@ashok.com	Ashok	Ashwin	t	\N	\N	f	\N	\N	\N	f	2021-05-31 11:01:32.561638	2021-05-31 11:01:32.561638	None	None	None
+mahesh@Ravindranathan.com	Ravindranathan	Mahesh	t	\N	\N	f	\N	\N	\N	f	2021-05-31 11:05:50.075419	2021-05-31 11:05:50.075419	None	None	None
 longtq@vnu.edu.vn	Trần 	Quốc Long	t	$2b$10$I5v8rqsaxgf7GfCjsdVHLutFFpi.ELWh2p1UQK4E/i0hp7vsUWh8y		t		2021-05-02 14:58:19.986	\N	t	2021-05-02 07:58:20.070291	2021-05-02 07:58:20.070291	Tiến sĩ	Trưởng bộ môn	Phó Bí thư Đảng Uỷ
 hanv@vnu.edu.vn	Nguyễn	Việt Hà	t	$2b$10$tOT12g/UBSyDXm4g74sltOmGRC69V0PgmzFaXV/KwGhOfqmTM0iu.	E3 Building, 144 Xuan Thuy Street, Cau Giay, Hanoi	f	Phó Giáo sư Nguyễn Việt Hà hiện là Hiệu trưởng Trường Đại học Công Nghệ, ĐHQGHN	2021-05-02 14:51:43.534	\N	t	2021-04-21 13:42:51.389733	2021-04-21 13:42:51.389733	Phó Giáo sư	Hiệu trưởng	Bí thư Đảng Uỷ
+anhn@vnu.edu.vn	Nguyễn	Anh	t	\N	\N	f	\N	\N	\N	f	2021-05-31 11:01:32.559821	2021-05-31 11:01:32.559821	None	None	None
 hoangta@vnu.edu.vn	Trương	Anh Hoàng	t	$2b$10$UzNT8Ie1y1yTfsi92BgyJOtAfCxS7WPPChz2TjkHSlQb//i91BnTa	E3 - Trường đại học Công Nghệ	f		2021-05-02 14:49:01.971	\N	t	2021-04-25 07:18:05.268165	2021-04-25 07:18:05.268165	Phó Giáo sư	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
+tamv@vnu.edu.vn	Vũ	Tâm	t	\N	\N	f	\N	\N	\N	f	2021-05-31 11:09:40.477447	2021-05-31 11:09:40.477447	None	None	None
 cuonglb@vnu.edu.vn	Lê	Bá Cường	t	$2b$10$GsD6fBPBmn0eafZhL/T88O7bnN1GleOUq7SD8WzKl6Vnp04.n8PwG	E3, 144 Xuan Thuy	t	Cuong is a researcher at UET, VNU, Vietnam	2021-05-02 11:21:37.955	\N	f	2021-04-22 09:26:30.260881	2021-04-22 09:26:30.260881	Tiến sĩ	Không có chức vụ quản lý	Phó Chủ tịch Hội sinh viên
 anhnd@vnu.edu.vn	Nguyễn	Đức Anh	t	$2b$10$WmoWyQB.VxUpWdg9hPy9NO5WZbTfHwmdPOCHGEEwLma.0SzW8tk8.	320 E3, 144 Xuan Thuy	f		2021-05-02 14:55:55.999	\N	t	2021-04-22 09:22:45.020613	2021-04-22 09:22:45.020613	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 hieupx@vnu.edu.vn	Phan	Xuân Hiếu	t	$2b$10$BWFUAV1yyg4NIcxBMSr3vuzZJccYT1otAcDaLqKdVBQ0CmKZLDNn2	\N	f	Phó Giáo sư Phan Xuân Hiếu là trưởng phòng thí nghiệm Công Nghệ Tri Thức	2021-05-02 11:21:31.325	\N	f	2021-04-22 22:58:16.546992	2021-04-22 22:58:16.546992	Phó Giáo sư	Trưởng khoa	Chủ tịch Hội sinh viên
@@ -1172,7 +1362,9 @@ tokuyama@jaist.ac.jp	Tokuyama	Takeshi	t	\N	\N	f	\N	\N	\N	f	2021-04-23 01:29:27.2
 alice.hutchings@cst.cam.ac.uk	Alice	Hutchings	t	\N	\N	f	\N	\N	\N	f	2021-04-21 17:36:37.176516	2021-04-21 17:36:37.176516	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 ben.collier@cst.cam.ac.uk	Collier	Ben	t	\N	\N	f	\N	\N	\N	f	2021-04-21 17:36:37.176743	2021-04-21 17:36:37.176743	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 damhs@vnu.edu.vn	Ho	Sy Dam	t	\N	\N	f	\N	\N	\N	f	2021-04-23 01:35:15.854129	2021-04-23 01:35:15.854129	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
+dungdv@vnu.edu.vn	Dương	Việt Dũng	t	$2b$10$wbqAoO4ZzR//rVdKomVvxuvDo.vOHSxwcl.Mz9cO3syODsAuEQvtO		f		2021-05-31 09:59:58.22	\N	t	2021-05-08 19:49:40.369321	2021-05-08 19:49:40.369321	Tiến sĩ	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 giapnv@vnu.edu.vn	Nguyen	Van Giap	t	\N	\N	f	\N	\N	\N	f	2021-04-22 22:58:16.542623	2021-04-22 22:58:16.542623	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
+hanhdd@vnu.edu.vn	Đặng	Đức Hạnh	t	\N	\N	f	\N	\N	\N	f	2021-05-02 11:29:58.92549	2021-05-02 11:29:58.92549	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 hienda@vnu.edu.vn	Dao	Anh Hien	t	\N	\N	f	\N	\N	\N	f	2021-04-25 06:17:03.06111	2021-04-25 06:17:03.06111	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 nguyetna@vnu.edu.vn	Nguyen	Anh Nguyet	t	\N	\N	f	\N	\N	\N	f	2021-04-25 06:17:03.061621	2021-04-25 06:17:03.061621	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 nhathn@vnu.edu.vn	Hoàng	Nam Nhật	t	$2b$10$H3y4vuzBK58bWQPlY8ndsOu0rCYtiqwuHcQqYiLQOQyjMxQgU2ucO		f		2021-05-02 15:38:20.162	\N	t	2021-05-02 08:38:20.244924	2021-05-02 08:38:20.244924	Giáo sư	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
@@ -1184,8 +1376,6 @@ yiting.chua@cst.cam.ac.uk	Chua	Yi Ting	t	\N	\N	f	\N	\N	\N	f	2021-04-21 17:36:37.
 ilia.shumailov@cst.cam.ac.uk	Ilia 	Shumailov	t	\N	\N	f	\N	\N	\N	f	2021-04-21 17:36:37.17422	2021-04-21 17:36:37.17422	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 mizuhito@jaist.ac.jp	Ogawa	Mizuhito	t	\N	\N	f	\N	\N	\N	f	2021-04-21 17:27:36.611288	2021-04-21 17:27:36.611288	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 inho@yonsei.ac.kr	Choi	Inho	t	\N	\N	f	\N	\N	\N	f	2021-04-21 17:24:01.584375	2021-04-21 17:24:01.584375	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
-dungdv@vnu.edu.vn	Dương	Việt Dũng	t	$2b$10$f.TBWzLmFAKo3vhr1A9yeeLKAxKbNd0odDtwiZE1aqFaAnhKlnSnW		f		2021-05-09 02:49:40.276	\N	t	2021-05-08 19:49:40.369321	2021-05-08 19:49:40.369321	Tiến sĩ	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
-hanhdd@vnu.edu.vn	Đặng	Đức Hạnh	t	\N	\N	f	\N	\N	\N	f	2021-05-02 11:29:58.92549	2021-05-02 11:29:58.92549	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 tuyentd@vnu.edu.vn	Tạ	Đức Tuyên	t	\N	\N	f	\N	\N	\N	f	2021-05-02 11:51:14.946831	2021-05-02 11:51:14.946831	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 kaothanthong@tohoku.ac.jp	Kaothanthong	Natsuda	t	\N	\N	f	\N	\N	\N	f	2021-04-23 01:29:27.242358	2021-04-23 01:29:27.242358	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 tuct@vnu.edu.vn	Nguyen	Cam Tu	t	\N	\N	f	\N	\N	\N	f	2021-04-23 01:29:27.241735	2021-04-23 01:29:27.241735	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
@@ -1206,18 +1396,32 @@ duongtd@vnu.edu.vn	Trần Đình	Dương	t	\N	\N	f	\N	\N	\N	f	2021-05-09 15:59:3
 quangtn@vnu.edu.vn	Nguyễn Trung	Quang	t	\N	\N	f	\N	\N	\N	f	2021-05-09 15:53:42.673413	2021-05-09 15:53:42.673413	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 tungnd@vnu.edu.vn	Nguyễn Duy 	Tùng	t	\N	\N	f	\N	\N	\N	f	2021-05-09 15:59:34.651074	2021-05-09 15:59:34.651074	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 sonnv@vnu.edu.vn	Nguyễn Văn	Sơn	t	\N	\N	f	\N	\N	\N	f	2021-05-09 16:11:14.079105	2021-05-09 16:11:14.079105	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
-			t	\N	\N	f	\N	\N	\N	f	2021-04-21 13:17:45.461383	2021-04-21 13:17:45.461383	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
+wei_ngan@chin.com	Chin	Wei Ngan	t	\N	\N	f	\N	\N	\N	f	2021-05-31 08:58:10.417942	2021-05-31 08:58:10.417942	None	None	None
 chill@vnu.edu.vn	Luan Le	Chi	t	\N	\N	f	\N	\N	\N	f	2021-05-09 16:05:30.083005	2021-05-09 16:05:30.083005	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 trungnq@vnu.edu.vn	Nguyễn Quang	Trung	t	\N	\N	f	\N	\N	\N	f	2021-05-09 16:17:05.482765	2021-05-09 16:17:05.482765	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
+namb@vnu.edu.vn	Bùi	Nam	t	\N	\N	f	\N	\N	\N	f	2021-05-31 11:01:32.5595	2021-05-31 11:01:32.5595	None	None	None
+miaomiao@chang.com	Miaomiao	Chang	t	\N	\N	f	\N	\N	\N	f	2021-05-31 04:49:32.169572	2021-05-31 04:49:32.169572	None	None	None
 nhanlt@vnu.edu.vn	Lương Thanh	Nhàn	t	\N	\N	f	\N	\N	\N	f	2021-05-09 18:05:38.36838	2021-05-09 18:05:38.36838	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 khanhtv@vnu.edu.vn	Tô Văn 	Khánh	t	\N	\N	f	\N	\N	\N	f	2021-05-09 18:05:38.373531	2021-05-09 18:05:38.373531	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 thuantn@vnu.edu.vn	Trương 	Ninh Thuận	t	\N	\N	f	\N	\N	\N	f	2021-05-09 18:05:38.373898	2021-05-09 18:05:38.373898	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
-trangnt@vnu.edu.vn	Nguyễn Thu	Trang	t	\N	\N	f	\N	\N	\N	f	2021-05-09 10:33:05.944397	2021-05-09 10:33:05.944397	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
+thaitm@vnu.edu.vn	Trịnh	Minh Thái	t	\N	\N	f	\N	\N	\N	f	2021-05-31 09:06:44.757722	2021-05-31 09:06:44.757722	None	None	None
 huen@vnu.edu.vn	Nguyễn	Huế	t	\N	\N	f	\N	\N	\N	f	2021-05-09 10:33:05.9444	2021-05-09 10:33:05.9444	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 cuongbq@vnu.edu.vn	Bùi Quang	Cường	t	\N	\N	f	\N	\N	\N	f	2021-05-09 10:33:05.944518	2021-05-09 10:33:05.944518	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
+			t	\N	\N	f	\N	\N	\N	f	2021-04-21 13:17:45.461383	2021-04-21 13:17:45.461383	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 huongtn@vnu.edu.vn	Tran	Nguyen Huong	t	\N	\N	f	\N	\N	\N	f	2021-05-09 11:56:53.466582	2021-05-09 11:56:53.466582	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
 khadm@vnu.edu.vn	Do	Minh Kha	t	\N	\N	f	\N	\N	\N	f	2021-05-09 11:56:53.467322	2021-05-09 11:56:53.467322	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
+tungvx@vnu.edu.vn	Vũ	Xuân Tùng	t	\N	\N	f	\N	\N	\N	f	2021-05-31 08:33:21.016673	2021-05-31 08:33:21.016673	None	None	None
 hoangtv@vnu.edu.vn	Trần Việt	Hoàng	t	\N	\N	f	\N	\N	\N	f	2021-05-09 10:26:05.65233	2021-05-09 10:26:05.65233	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
+phucn@vnu.edu.vn	Nguyễn	Phúc	t	\N	\N	f	\N	\N	\N	f	2021-05-31 11:01:32.560339	2021-05-31 11:01:32.560339	None	None	None
+binhtt@vnu.edu.vn	Trịnh	Thanh Bình	t	\N	\N	f	\N	\N	\N	f	2021-05-31 05:10:39.804734	2021-05-31 05:10:39.804734	None	None	None
+trangnt@vnu.edu.vn	Nguyễn Thu	Trang	t	\N	\N	f	\N	\N	\N	f	2021-05-09 10:33:05.944397	2021-05-09 10:33:05.944397	Giảng viên	Không có chức vụ quản lý	Không có chức vụ Đoàn thể
+Steffen@Martin.com	Martin	Steffen	t	\N	\N	f	\N	\N	\N	f	2021-05-31 09:21:21.768088	2021-05-31 09:21:21.768088	None	None	None
+Zhiming@Liu.com	Liu	Zhiming	t	\N	\N	f	\N	\N	\N	f	2021-05-31 05:18:41.287292	2021-05-31 05:18:41.287292	None	None	None
+gelevdp@math.bas.bg	P. Guelev	Dimitar	t	\N	\N	f	\N	\N	\N	f	2021-05-31 07:48:32.715219	2021-05-31 07:48:32.715219	None	None	None
+chieudv@vnu.edu.vn	Do	Van Chieu	t	\N	\N	f	\N	\N	\N	f	2021-05-31 08:02:48.524951	2021-05-31 08:02:48.524951	None	None	None
+vuth@vnu.edu.vn	Trần	Huy Vũ	t	\N	\N	f	\N	\N	\N	f	2021-05-31 10:47:06.998562	2021-05-31 10:47:06.998562	None	None	None
+hoangt@vnu.edu.vn	Trương	Hoàng	t	\N	\N	f	\N	\N	\N	f	2021-05-31 08:13:32.751785	2021-05-31 08:13:32.751785	None	None	None
+richard@han.com	Han	Richard	t	\N	\N	f	\N	\N	\N	f	2021-05-31 11:05:50.080677	2021-05-31 11:05:50.080677	None	None	None
 \.
 
 
@@ -1225,7 +1429,7 @@ hoangtv@vnu.edu.vn	Trần Việt	Hoàng	t	\N	\N	f	\N	\N	\N	f	2021-05-09 10:26:05
 -- Name: publication_id_seq; Type: SEQUENCE SET; Schema: public; Owner: suongsun
 --
 
-SELECT pg_catalog.setval('public.publication_id_seq', 52, true);
+SELECT pg_catalog.setval('public.publication_id_seq', 76, true);
 
 
 --
