@@ -10,7 +10,7 @@ import {academicTitleToRequiredWorkingHours, getResearchHours, managerToExemptio
 import {encodeBase64, saveAs} from "@progress/kendo-file-saver";
 import {CartesianGrid, Line, ResponsiveContainer, Tooltip, XAxis, YAxis, LineChart} from "recharts";
 import {ClipLoader} from "react-spinners";
-import PublicationList from "./publicationList";
+import PublicationList from "../rows/publicationList";
 import YearSelector from "../publication/yearSelector";
 import SortingSelector from "../publication/sortingSelector";
 
@@ -278,45 +278,7 @@ export default function ResearchHours() {
                                     </Col>
                                 </Row>
                             </Col>
-                            {/*<Col md={8}>*/}
-                            {/*    <Row className='float-right'>*/}
-                            {/*<Row className='float-right' style={{marginRight: 5}}>*/}
-                            {/*    <Dropdown open={publicationDetailsFilterYearOpen} toggle={() => setPublicationDetailsFilterYearOpen(!publicationDetailsFilterYearOpen)} className='mr-2'>*/}
-                            {/*        <DropdownToggle theme='light' pill>Year {researchHoursFilterSelectedYear} &nbsp; <i className="fa fa-sort"/></DropdownToggle>*/}
-                            {/*        <DropdownMenu>*/}
-                            {/*            {yearRange.map(s =>*/}
-                            {/*                <DropdownItem onClick={() => {*/}
-                            {/*                    dispatch(saveImpactScoreUserSelectedYear(s));*/}
-                            {/*                    dispatch(saveImpactScoreSearchPublicationContent(s));*/}
-                            {/*                }}>{s}</DropdownItem>*/}
-                            {/*            )}*/}
-                            {/*        </DropdownMenu>*/}
-                            {/*    </Dropdown>*/}
-                            {/*</Row>*/}
-                            {/*<Dropdown open={publicationDetailsSortingOpen} toggle={() => setPublicationDetailsSortingOpen(!publicationDetailsSortingOpen)} className='mr-2'>*/}
-                            {/*<DropdownToggle theme='light' pill>{publicationDetailsSortBy} &nbsp; <i className="fa fa-sort"/></DropdownToggle>*/}
-                            {/*<DropdownMenu>*/}
-                            {/*    {['Recently Added', 'Title Ascending', 'Title Descending', 'Date Ascending', 'Date Descending'].map(s =>*/}
-                            {/*        <DropdownItem onClick={() => dispatch(saveImpactScorePublicationDetailSortBy(s))}>{s}</DropdownItem>)}*/}
-                            {/*</DropdownMenu>*/}
-                            {/*<Button pill theme='light' style={{marginLeft: 10}} onClick={() => {*/}
-                            {/*    if (publicationDetailsSearchOpen) {*/}
-                            {/*        // dispatch(saveSearchPublicationContent(''));*/}
-                            {/*        // dispatch(saveImpactScoreSearchPublicationContent(''));*/}
-                            {/*    }*/}
-                            {/*    setPublicationDetailsSearchOpen(!publicationDetailsSearchOpen);*/}
-                            {/*}}><i className='fa fa-search'/>*/}
-                            {/*</Button>*/}
-                            {/*</Dropdown>*/}
-                            {/*</Row>*/}
-                            {/*</Col>*/}
                         </Row>
-                        {/*{publicationDetailsSearchOpen ? <InputGroup style={{marginBottom: 30}}>*/}
-                        {/*    <InputGroupAddon type="prepend"><InputGroupText><i className="fa fa-search"/></InputGroupText></InputGroupAddon>*/}
-                        {/*    <FormInput value={searchPublicationContent} placeholder="Search publications, authors, and years" onChange={(e) => {*/}
-                        {/*        dispatch(saveImpactScoreSearchPublicationContent(e.target.value));*/}
-                        {/*    }}/>*/}
-                        {/*</InputGroup> : ''}*/}
                         <div style={{overflow: "scroll", height: windowHeight - 618}}>
                             <PublicationList isForImpactScore={true} approvalFilter={true} pendingFilter={false}/>
                         </div>

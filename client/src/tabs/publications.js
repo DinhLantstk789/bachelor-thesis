@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Badge, Button, Card, CardBody, CardHeader, Col, Dropdown, DropdownItem, DropdownMenu, DropdownToggle, FormCheckbox, FormInput, InputGroup, InputGroupAddon, InputGroupText, Row} from "shards-react";
 import NewPublication from "../publication/newPublication";
-import PublicationList from "./publicationList";
+import PublicationList from "../rows/publicationList";
 import {useDispatch, useSelector} from "react-redux";
 import {
     resetArticle, resetBookSection, resetConference,

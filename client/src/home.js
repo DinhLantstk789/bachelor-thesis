@@ -14,11 +14,9 @@ import ResearchHours from "./tabs/researchHours";
 import {CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 
 export default function Home() {
-    const windowHeight = useSelector(store => store.home.windowHeight);
     const [currentTab, setCurrentTab] = useState('publication-main');
     const [isLoggingOut, setIsLoggingOut] = useState(false);
     const [profileDetailsOpen, setProfileDetailsOpen] = useState(false);
-    const [openAccount, setOpenAccount] = useState(false);
     const loggedUser = useSelector(store => store.user.loggedUser);
     const isAddingPublication = useSelector(store => store.publication.isAddingPublication);
     const statisticsByYears = useSelector(store => store.publication.statisticsByYears);
@@ -79,8 +77,8 @@ export default function Home() {
                                 setCurrentTab('statistics');
                                 clearData();
                             }}><i className="fas fa-chart-pie"/> &nbsp; Thống kê</Button>
-                            <Button style={{marginLeft: 7, marginRight: 7}} theme={currentTab === 'impact-score' ? 'primary' : 'light'} pill onClick={() => {
-                                setCurrentTab('impact-score');
+                            <Button style={{marginLeft: 7, marginRight: 7}} theme={currentTab === 'research-hour' ? 'primary' : 'light'} pill onClick={() => {
+                                setCurrentTab('research-hour');
                                 clearData();
                             }}><i className="fas fa-star"/> &nbsp; Giờ nghiên cứu</Button>
                             {loggedUser.isAdmin ?
@@ -109,7 +107,7 @@ export default function Home() {
                     </Col>
                 </Row>
             </Alert>
-            {currentTab === 'user-management' ? <Management/> : currentTab === 'impact-score' ? <ResearchHours/> : currentTab === 'statistics' ? <Statistics/> :
+            {currentTab === 'user-management' ? <Management/> : currentTab === 'research-hour' ? <ResearchHours/> : currentTab === 'statistics' ? <Statistics/> :
                 <Row style={{marginLeft: 20}}>
                     <Col md={8}><Publications/></Col>
                     <Col md={4}>

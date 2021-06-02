@@ -1,7 +1,3 @@
-export const academicTitleToRequiredWorkingHours = {
-    'Giảng viên': 600, 'Giáo sư': 850, 'Phó Giáo sư': 750, 'Tiến sĩ': 700
-}
-
 export const publicationRankingToResearchHours = {
     'article': {
         'Select Ranking': 0, 'Q1, Q2 (ISI)': 1200, 'Q3, Q4 (ISI)': 1100, 'Scopus': 1000, 'VNU Journals': 900, 'Reputed Journals (not included in ISI/Scopus)': 900,
@@ -21,6 +17,10 @@ export const publicationRankingToResearchHours = {
         'Select Ranking': 0, 'International Patent (US, Europe, Northeast Asia)': 3000,
         'Domestic Patent': 1200, 'International/National Awards': 600, 'Accepted Patent Application': 300
     }
+}
+
+export const academicTitleToRequiredWorkingHours = {
+    'Giảng viên': 600, 'Giáo sư': 850, 'Phó Giáo sư': 750, 'Tiến sĩ': 700
 }
 
 export const managerToExemption = {
@@ -89,15 +89,13 @@ export const searchUsers = (users, searchContent) => {
 /* weighing based on the authorship order */
 export const getResearchHours = (impactScoreOpeningUserEmail, score, authors) => {
     if (impactScoreOpeningUserEmail !== null) {
-        const nPart = authors.length + 2
+        const nPart = authors.length + 2;
         for (let i = 0; i < authors.length; i++) {
             if (authors[i].email === impactScoreOpeningUserEmail) {
                 if (i === 0 || i === authors.length - 1) {
-                    // return Math.round(score / (authors.length + 1) * 2);
                     return Math.round(score / nPart * 2);
                 }
                 return Math.round(score / nPart);
-                // return Math.round(score / authors.length);
             }
         }
     }
