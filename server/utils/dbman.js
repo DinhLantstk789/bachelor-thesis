@@ -32,6 +32,10 @@ const publicationRankingToResearchHours = {
         'Select Ranking': 0, 'International Patent (US, Europe, Northeast Asia)': 3000,
         'Domestic Patent': 1200, 'International/National Awards': 600, 'Accepted Patent Application': 300
     },
+    'project-grant': {
+        'Select Ranking': 0, 'National Grants': 1000, 'VNU and Ministers\' Grants': 500,
+        'University\'s Grants': 150
+    }
 }
 
 function getHoursCount(type, ranking) {

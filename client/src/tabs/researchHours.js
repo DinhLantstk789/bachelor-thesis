@@ -129,7 +129,7 @@ export default function ResearchHours() {
                     for (let i = 0; i < p.creators.length; i++) {
                         const c = p.creators[i]
                         if (c.email === openingUserEmail) {
-                            let allAuthors = ''
+                            let allAuthors = '';
                             p.creators.forEach(c => allAuthors += c.givenName + ' ' + c.familyName + ', ');
                             const h = getResearchHours(openingUserEmail, p.impactScore, p.creators);
                             payload += '"' + p.type + '","' + p.title + '","' + allAuthors.substring(0, allAuthors.length - 2) + '",' + h + '\n';

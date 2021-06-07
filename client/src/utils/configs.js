@@ -16,6 +16,10 @@ export const publicationRankingToResearchHours = {
     'patent': {
         'Select Ranking': 0, 'International Patent (US, Europe, Northeast Asia)': 3000,
         'Domestic Patent': 1200, 'International/National Awards': 600, 'Accepted Patent Application': 300
+    },
+    'project-grant': {
+        'Select Ranking': 0, 'National Grants': 1000, 'VNU and Ministers\' Grants': 500,
+        'University\'s Grants': 150
     }
 }
 
@@ -89,7 +93,7 @@ export const searchUsers = (users, searchContent) => {
 /* weighing based on the authorship order */
 export const getResearchHours = (impactScoreOpeningUserEmail, score, authors) => {
     if (impactScoreOpeningUserEmail !== null) {
-        const nPart = authors.length + 2;
+        const nPart = authors.length + (authors.length === 1 ? 1 : 2);
         for (let i = 0; i < authors.length; i++) {
             if (authors[i].email === impactScoreOpeningUserEmail) {
                 if (i === 0 || i === authors.length - 1) {

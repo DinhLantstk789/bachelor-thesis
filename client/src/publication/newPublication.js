@@ -258,7 +258,16 @@ export default function NewPublication() {
         case 'project-grant':
             mainComponent =
                 <div>
-                    <FormInput placeholder="Enter Place of Publication" style={{marginTop: 10}} value={bookSectionPublicationPlace} onChange={(e) => dispatch(saveBookSectionPublicationPlace(e.target.value))}/>
+                    <Row style={{marginTop: 10}}>
+                        <Col style={{marginLeft: 0, marginRight: -10}}>
+                            <FormInput placeholder="Enter Place of Publication" style={{marginTop: 10}} value={bookSectionPublicationPlace} onChange={(e) => dispatch(saveBookSectionPublicationPlace(e.target.value))}/>
+                        </Col>
+                        <Col style={{marginLeft: -10, marginRight: 0}}>
+                            <FormSelect value={ranking} style={{marginTop: 10}} onChange={(e) => dispatch(saveRanking(e.target.value))}>
+                                {Object.keys(publicationRankingToResearchHours['project-grant']).map(d => <option value={d}>{d}</option>)}
+                            </FormSelect>
+                        </Col>
+                    </Row>
                     <FormInput placeholder="Enter Publisher" style={{marginTop: 10}} value={bookSectionPublisher} onChange={(e) => dispatch(saveBookSectionPublisher(e.target.value))}/>
                 </div>
             break;
